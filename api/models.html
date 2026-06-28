@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Data Models: ShyamDuels</title>
+<link rel="stylesheet" href="../assets/style.css"/>
+</head>
+<body>
+<nav class="topnav">
+  <a class="logo-container" href="../index.html">
+    <img src="../shyam.webp" alt="ShyamDuels Logo" class="logo-img"/>
+    <span class="logo-text">ShyamDuels</span>
+  </a>
+  <span class="divider">/</span>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="../user-guide/getting-started.html">User Guide</a>
+    <a href="overview.html" class="active">Developer API</a>
+  </div>
+  <span class="spacer"></span>
+  <a class="discord-btn" href="https://discord.gg/sMdsvZFqnX" target="_blank" rel="noopener">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037 12.9 12.9 0 0 0-.608 1.25 18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+    Discord
+  </a>
+  <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+  </button>
+</nav>
+<div id="overlay"></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">User Guide</span>
+    <a href="../user-guide/getting-started.html">Getting Started</a>
+    <a href="../user-guide/commands.html">Commands Reference</a>
+    <a href="../user-guide/permissions.html">Permissions</a>
+    <a href="../user-guide/arena-setup.html">Arena Setup</a>
+    <a href="../user-guide/gate-setup.html">Gate Setup</a>
+    <a href="../user-guide/kit-setup.html">Kit Setup</a>
+    <a href="../user-guide/party-system.html">Party System</a>
+    <a href="../user-guide/ffa.html">FFA Mode</a>
+    <a href="../user-guide/elo-ranks.html">ELO &amp; Ranks</a>
+    <a href="../user-guide/settings.html">Player Settings</a>
+    <a href="../user-guide/practice-features.html">Practice Features</a>
+    <a href="../user-guide/configuration.html">Configuration Files</a>
+    <a href="../user-guide/migration.html">Migration Guide</a>
+    <a href="../user-guide/placeholders.html">PlaceholderAPI</a>
+    <a href="../user-guide/troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">Developer API</span>
+    <a href="overview.html">Overview &amp; Setup</a>
+    <a href="services.html">Services Reference</a>
+    <a href="events.html">Events Reference</a>
+    <a href="models.html" class="active">Data Models</a>
+    <a href="examples.html">Code Examples</a>
+  </div>
+</aside>
+<main class="content">
+
+<div class="breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="overview.html">Developer API</a><span>›</span>Data Models</div>
+<h1>Data Models</h1>
+<p class="page-lead">Detailed breakdowns of the core entities and data classes retrieved through the API.</p>
+
+<h2>Duel</h2>
+<p>Class: <code>com.shyamstudio.shyamduels.duel.Duel</code><br/>
+Represents an active matchmaking or challenged combat instance between players or teams:</p>
+<ul>
+  <li><code>getDuelId()</code>: Returns the unique <code>UUID</code> of the duel match.</li>
+  <li><code>getMode()</code>: Returns the active <code>QueueMode</code> (e.g. <code>Ranked</code>, <code>Unranked</code>).</li>
+  <li><code>getFightType()</code>: Returns <code>DuelFightType</code> (e.g., <code>ONE_V_ONE</code>, <code>PARTY_SPLIT</code>, <code>PARTY_FFA</code>).</li>
+  <li><code>getArena()</code>: Returns the <a href="#arena">Arena</a> assigned to the match.</li>
+  <li><code>getKit()</code>: Returns the <a href="#kit">Kit</a> layout applied to match players.</li>
+  <li><code>getTeam1()</code> / <code>getTeam2()</code>: Returns a list of player <code>UUID</code>s representing Team 1 and Team 2.</li>
+  <li><code>getAliveTeam1()</code> / <code>getAliveTeam2()</code>: Returns player <code>UUID</code>s still alive in the active round.</li>
+  <li><code>getCurrentRound()</code> / <code>getMaxRounds()</code>: Returns current round index and maximum round capacity.</li>
+</ul>
+
+<h2 id="arena">Arena</h2>
+<p>Class: <code>com.shyamstudio.shyamduels.arena.Arena</code><br/>
+Represents a configured match environment:</p>
+<ul>
+  <li><code>getName()</code>: Returns the case-insensitive name ID of the arena.</li>
+  <li><code>getDisplayName()</code>: Returns the colored string name display used in FFA selector GUIs.</li>
+  <li><code>isBuildEnabled()</code>: Returns true if the arena allows block placing/breaking.</li>
+  <li><code>isFFA()</code>: Returns true if the arena is set to Free For All mode.</li>
+  <li><code>getSpawn1()</code> / <code>getSpawn2()</code>: Spawn locations for players.</li>
+  <li><code>getCenter()</code>: Returns the center coordinate location of the arena boundaries.</li>
+</ul>
+
+<h2 id="kit">Kit</h2>
+<p>Class: <code>com.shyamstudio.shyamduels.kit.Kit</code><br/>
+Represents a saved loadout template:</p>
+<ul>
+  <li><code>getName()</code>: Returns the case-sensitive name ID of the kit.</li>
+  <li><code>getDisplayName()</code>: Returns the GUI display name of the kit.</li>
+  <li><code>getInventoryItems()</code>: Returns the array list of <code>ItemStack</code> contents mapping inventory slots.</li>
+  <li><code>getArmorContents()</code>: Returns the <code>ItemStack</code> array mapping armor layouts.</li>
+  <li><code>getWhitelistedBlocks()</code>: Returns the list of materials whitelisted for block placing/breaking.</li>
+  <li><code>getStartingSaturation()</code>: Saturation amount applied to players on start (0 to 20 scale).</li>
+</ul>
+
+<h2>PlayerStats</h2>
+<p>Class: <code>com.shyamstudio.shyamduels.stats.PlayerStats</code><br/>
+Represents cached player statistics:</p>
+<ul>
+  <li><code>getUuid()</code>: Returns the player's <code>UUID</code>.</li>
+  <li><code>getElo()</code>: Returns current ELO ranking values.</li>
+  <li><code>getKills()</code> / <code>getDeaths()</code>: Kills and deaths counts.</li>
+  <li><code>getWins()</code> / <code>getLosses()</code>: Wins and losses counts.</li>
+  <li><code>getKillstreak()</code> / <code>getBestKillstreak()</code>: Current streak and highest historical record.</li>
+  <li><code>getWinstreak()</code> / <code>getBestWinstreak()</code>: Current consecutive matchmaking victories and highest record.</li>
+</ul>
+
+<h2>PlayerSettings</h2>
+<p>Class: <code>com.shyamstudio.shyamduels.settings.PlayerSettings</code><br/>
+Represents personal preference configuration options:</p>
+<ul>
+  <li><code>isScoreboard()</code> / <code>isTabList()</code> / <code>isNametags()</code>: Visibility preference settings (returns boolean).</li>
+  <td><code>isFriendRequests()</code> / <code>isDuelRequests()</code>: Toggles indicating if the player is open to requests.</td>
+  <li><code>getWeatherPreference()</code>: Personal weather overrides (Clear, Rain, Storm).</li>
+  <li><code>getTimePreference()</code>: Personal client-view time overrides (Day, Night).</li>
+</ul>
+
+<div class="page-navigation">
+  <a class="page-nav-link prev" href="events.html">
+    <span class="page-nav-label">Previous Page</span>
+    <span class="page-nav-title">Events Reference</span>
+  </a>
+  <a class="page-nav-link next" href="examples.html">
+    <span class="page-nav-label">Next Page</span>
+    <span class="page-nav-title">Integration Code Examples</span>
+  </a>
+</div>
+
+</main>
+</div>
+<script src="../assets/nav.js"></script>
+</body>
+</html>

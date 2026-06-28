@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Getting Started: ShyamDuels</title>
+<link rel="stylesheet" href="../assets/style.css"/>
+</head>
+<body>
+<nav class="topnav">
+  <a class="logo-container" href="../index.html">
+    <img src="../shyam.webp" alt="ShyamDuels Logo" class="logo-img"/>
+    <span class="logo-text">ShyamDuels</span>
+  </a>
+  <span class="divider">/</span>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="getting-started.html" class="active">User Guide</a>
+    <a href="../api/overview.html">Developer API</a>
+  </div>
+  <span class="spacer"></span>
+  <a class="discord-btn" href="https://discord.gg/sMdsvZFqnX" target="_blank" rel="noopener">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037 12.9 12.9 0 0 0-.608 1.25 18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+    Discord
+  </a>
+  <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+  </button>
+</nav>
+<div id="overlay"></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">User Guide</span>
+    <a href="getting-started.html" class="active">Getting Started</a>
+    <a href="commands.html">Commands Reference</a>
+    <a href="permissions.html">Permissions</a>
+    <a href="arena-setup.html">Arena Setup</a>
+    <a href="gate-setup.html">Gate Setup</a>
+    <a href="kit-setup.html">Kit Setup</a>
+    <a href="party-system.html">Party System</a>
+    <a href="ffa.html">FFA Mode</a>
+    <a href="elo-ranks.html">ELO &amp; Ranks</a>
+    <a href="settings.html">Player Settings</a>
+    <a href="practice-features.html">Practice Features</a>
+    <a href="configuration.html">Configuration Files</a>
+    <a href="migration.html">Migration Guide</a>
+    <a href="placeholders.html">PlaceholderAPI</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">Developer API</span>
+    <a href="../api/overview.html">Overview &amp; Setup</a>
+    <a href="../api/services.html">Services Reference</a>
+    <a href="../api/events.html">Events Reference</a>
+    <a href="../api/models.html">Data Models</a>
+    <a href="../api/examples.html">Code Examples</a>
+  </div>
+</aside>
+<main class="content">
+
+<div class="breadcrumb"><a href="../index.html">Home</a><span>›</span>User Guide<span>›</span>Getting Started</div>
+<h1>Getting Started</h1>
+<p class="page-lead">Install ShyamDuels, set up your lobby, create your first kit and arena, and run your first match in about 10 minutes.</p>
+
+<h2>Core Requirements</h2>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Dependency</th>
+      <th>Minimum Version</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Paper / Spigot</strong></td>
+      <td>1.21+</td>
+      <td>Paper recommended. Requires Minecraft 1.21 or newer.</td>
+    </tr>
+    <tr>
+      <td><strong>Java</strong></td>
+      <td>21+</td>
+      <td>Java 21 or newer. Older JVM versions will refuse to load the plugin.</td>
+    </tr>
+    <tr>
+      <td><strong>FastAsyncWorldEdit (FAWE)</strong></td>
+      <td>2.x</td>
+      <td>Required. Saves arena schematics and restores blocks after each match.</td>
+    </tr>
+    <tr>
+      <td><strong>LuckPerms</strong></td>
+      <td>5.x</td>
+      <td>Required. Manages permissions for VIP tiers, limits, and admin bypasses.</td>
+    </tr>
+    <tr>
+      <td><strong>PlaceholderAPI</strong></td>
+      <td>2.11+</td>
+      <td>Required. Powers scoreboard fields and dynamic chat placeholders.</td>
+    </tr>
+    <tr>
+      <td><strong>packetevents</strong></td>
+      <td>2.x</td>
+      <td>Required. Handles custom nametags, tab list, and scoreboard packets.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="alert alert-danger">
+  <div class="alert-title">Strict Boot Dependencies</div>
+  All six requirements are listed under the hard dependency section in plugin.yml. If any of these are missing, the server will refuse to enable ShyamDuels.
+</div>
+
+<h2>Installation Steps</h2>
+<ol class="steps">
+  <li>Download and install <strong>FastAsyncWorldEdit</strong>, <strong>LuckPerms</strong>, <strong>PlaceholderAPI</strong>, and <strong>packetevents</strong> into your server's <code>plugins/</code> folder.</li>
+  <li>Place <strong>ShyamDuels.jar</strong> inside the <code>plugins/</code> folder.</li>
+  <li>Perform a <strong>full server restart</strong> (do not use <code>/reload</code>, as reloads can cause conflict hooks with FAWE packet wrappers).</li>
+  <li>The plugin generates the <code>plugins/ShyamDuels/</code> data directory with all default configurations on initial load.</li>
+</ol>
+
+<h2>Generated Folder Structure</h2>
+<pre><code>plugins/ShyamDuels/
+├── config.yml              ← Main settings (modules, lobby, duels, party, practice)
+├── database.yml            ← SQLite or MySQL connection
+├── ranks.yml               ← ELO gains/losses and rank tiers
+├── sounds.yml              ← Event sounds
+├── lang/
+│   └── messages.yml        ← Chat strings and GUI messages
+├── tab/
+│   ├── display.yml         ← Tab list headers, footers, sort ranks
+│   ├── scoreboard.yml      ← Lobby and match scoreboards
+│   └── animations.yml      ← Scrolling tab animations
+├── menus/                  ← GUI layouts (duel, queue, FFA, party, kit editor, custom kits, …)
+├── items/                  ← Lobby, party, and queue hotbar items
+├── data/
+│   ├── order.yml           ← Kit/FFA GUI order and display names
+│   ├── arenas.db           ← Arena data (SQLite)
+│   ├── kits.db             ← Kit data (SQLite)
+│   ├── stats.db            ← Player stats (SQLite)
+│   ├── customkits/         ← Saved player custom kit profiles
+│   └── playerdata/         ← Per-player custom kit slot data
+├── data/complex-door-data/ ← Per-arena gate definitions
+├── categories.json         ← Custom kit category definitions
+└── schematics/
+    └── &lt;ArenaName&gt;.schem  ← FAWE arena snapshots</code></pre>
+
+<h2>Step 1: Set the Lobby Spawn</h2>
+<p>Stand at the exact coordinates and facing direction where you want players to land, and execute:</p>
+<pre><code>/shyamduels setlobby</code></pre>
+<p>This writes your location to the <code>config.yml</code> file. All players return here when running <code>/leavefight</code>, spectating, or after a duel concludes.</p>
+
+<div class="alert alert-note">
+  <div class="alert-title">Lobby Configuration is Crucial</div>
+  If the lobby location is not configured, the plugin defaults back to the spawn location of the primary world, which may not correspond to your server lobby spawn.
+</div>
+
+<h2>Step 2: Create a Kit</h2>
+<p>A <strong>kit</strong> is a snapshot of your inventory items, hotbar layout, armor pieces, offhand slot, and active potion effects. Fill your inventory with the desired items, wear the appropriate armor, and run:</p>
+<pre><code>/kit create NoDebuff</code></pre>
+<p>Hold the item you want to represent the kit in GUIs, and run:</p>
+<pre><code>/kit seticon NoDebuff</code></pre>
+<p>You can update existing kits at any time:</p>
+<pre><code>/kit setinv NoDebuff     # Updates the items to match your current inventory contents
+/kit seticon NoDebuff   # Replaces the GUI display item with the item in your hand</code></pre>
+
+<h2>Step 3: Create an Arena</h2>
+<p>An <strong>arena</strong> is a registered region of blocks that is saved as a schematic and restored back after every match. You must select two opposite corners to outline the boundaries.</p>
+<pre><code>/arena create Arena1</code></pre>
+<p>Stand at the first corner and run:</p>
+<pre><code>/arena corner1 Arena1</code></pre>
+<p>Walk diagonally to the opposite corner, stand at that boundary, and run:</p>
+<pre><code>/arena corner2 Arena1</code></pre>
+<div class="alert alert-warning">
+  <div class="alert-title">FAWE Schematic Auto-Save</div>
+  When both corners are set, the plugin immediately requests FAWE to save the region as a schematic file. If you make structural edits to the arena, you must execute the corner commands again to update the saved schematic file.
+</div>
+<p>Set player spawn points (stand facing the desired match direction for each player):</p>
+<pre><code>/arena spawn1 Arena1
+/arena spawn2 Arena1</code></pre>
+<p>Add a kit link to specify that this arena is compatible with the kit:</p>
+<pre><code>/arena addkit Arena1 NoDebuff</code></pre>
+<p>Arenas are only selectable for matchmaking if the queued kit has been linked to that specific arena.</p>
+
+<h2>Step 4: Test Matchmaking</h2>
+<p>Have two players execute the <code>/queue</code> command, select the <strong>NoDebuff</strong> kit, and wait. Once both players enter the queue, they are matched, shown a startup animation, and teleported to Arena1 with a brief countdown before the fight begins.</p>
+
+<div class="page-navigation">
+  <div class="spacer"></div>
+  <a class="page-nav-link next" href="commands.html">
+    <span class="page-nav-label">Next Page</span>
+    <span class="page-nav-title">Commands Reference</span>
+  </a>
+</div>
+
+</main>
+</div>
+<script src="../assets/nav.js"></script>
+</body>
+</html>

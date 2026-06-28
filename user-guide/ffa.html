@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>FFA Mode: ShyamDuels</title>
+<link rel="stylesheet" href="../assets/style.css"/>
+</head>
+<body>
+<nav class="topnav">
+  <a class="logo-container" href="../index.html">
+    <img src="../shyam.webp" alt="ShyamDuels Logo" class="logo-img"/>
+    <span class="logo-text">ShyamDuels</span>
+  </a>
+  <span class="divider">/</span>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="getting-started.html" class="active">User Guide</a>
+    <a href="../api/overview.html">Developer API</a>
+  </div>
+  <span class="spacer"></span>
+  <a class="discord-btn" href="https://discord.gg/sMdsvZFqnX" target="_blank" rel="noopener">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037 12.9 12.9 0 0 0-.608 1.25 18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+    Discord
+  </a>
+  <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+  </button>
+</nav>
+<div id="overlay"></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">User Guide</span>
+    <a href="getting-started.html">Getting Started</a>
+    <a href="commands.html">Commands Reference</a>
+    <a href="permissions.html">Permissions</a>
+    <a href="arena-setup.html">Arena Setup</a>
+    <a href="gate-setup.html">Gate Setup</a>
+    <a href="kit-setup.html">Kit Setup</a>
+    <a href="party-system.html">Party System</a>
+    <a href="ffa.html" class="active">FFA Mode</a>
+    <a href="elo-ranks.html">ELO &amp; Ranks</a>
+    <a href="settings.html">Player Settings</a>
+    <a href="practice-features.html">Practice Features</a>
+    <a href="configuration.html">Configuration Files</a>
+    <a href="migration.html">Migration Guide</a>
+    <a href="placeholders.html">PlaceholderAPI</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">Developer API</span>
+    <a href="../api/overview.html">Overview &amp; Setup</a>
+    <a href="../api/services.html">Services Reference</a>
+    <a href="../api/events.html">Events Reference</a>
+    <a href="../api/models.html">Data Models</a>
+    <a href="../api/examples.html">Code Examples</a>
+  </div>
+</aside>
+<main class="content">
+
+<div class="breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="getting-started.html">User Guide</a><span>›</span>FFA Mode</div>
+<h1>FFA Mode</h1>
+<p class="page-lead">Non-stop Free-For-All PvP arenas where any number of players fight simultaneously and maps automatically reset on active timers.</p>
+
+<h2>Setup Steps</h2>
+<ol class="steps">
+  <li>Register a normal arena, outline its boundaries, specify spawn points, and link a kit template (see <a href="arena-setup.html">Arena Setup</a>
+    <a href="gate-setup.html">Gate Setup</a>).</li>
+  <li>Toggle FFA mode: <code>/arena ffa MyFFA true</code>.</li>
+  <li>Set the GUI display attributes:
+    <pre><code>/arena setdisplayname MyFFA &lt;yellow&gt;NoDebuff FFA Arena&lt;/yellow&gt;
+/arena seticon MyFFA # Hold the icon item in your hand first</code></pre>
+  </li>
+</ol>
+<p>The arena now displays in the <code>/ffa</code> GUI and will auto-reset at the configured interval.</p>
+
+<h2>Player Walk-Through</h2>
+<ol class="steps">
+  <li>Player executes the <code>/ffa</code> command, opening a list of active arenas showing real-time player counts.</li>
+  <li>Clicking an arena selects a spawn location (randomly selects from defined spawns, falling back to spawn1/2).</li>
+  <li>The player is teleported to the arena.</li>
+  <li>A countdown (configured as <code>ffa.countdown-seconds</code> in <code>config.yml</code>) runs, restricting movement and damage.</li>
+  <li>The countdown concludes, applying the kit items and enabling combat.</li>
+  <li>On death: the player returns to the lobby and can rejoin the FFA using <code>/ffa</code>.</li>
+  <li>To leave voluntarily: execute <code>/leavefight</code>.</li>
+</ol>
+
+<h2>FFA Player States</h2>
+<p>Internally, players in the FFA manager transition through these state flows:</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>State Value</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>NONE</code></td>
+      <td>The player is not in an FFA arena (free to queue or join duels).</td>
+    </tr>
+    <tr>
+      <td><code>FFA_STARTING</code></td>
+      <td>The player is teleported into the arena, waiting for the countdown timer to finish.</td>
+    </tr>
+    <tr>
+      <td><code>IN_FFA</code></td>
+      <td>Active state: the player can receive damage and fight.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Auto-Reset System</h2>
+<p>To clear building debris, water/lava placements, and restore chests, FFA arenas run an auto-reset cycle. When the reset timer fires:</p>
+<ol>
+  <li>All players in the arena receive a warning broadcast.</li>
+  <li>Players are temporarily teleported to safe positions and their kits are refreshed.</li>
+  <li>FAWE pastes the schematic back to restore the arena.</li>
+  <li>The reset timer is restarted.</li>
+</ol>
+<p>Customize the reset cycle inside <code>config.yml</code>:</p>
+<pre><span class="lang-badge">yaml</span><code>ffa:
+  reset-interval-seconds: 1800  # 30 Minutes (default)</code></pre>
+<p>Admins can trigger a manual reset at any time using:</p>
+<pre><code>/arena reset MyFFA</code></pre>
+
+<h2>Running Multiple Arenas</h2>
+<p>You can run multiple FFA arenas concurrently, each with independent player counts, map schemas, and kits. Players pick their arena from the <code>/ffa</code> GUI.</p>
+
+<div class="alert alert-warning">
+  <div class="alert-title">Performance Recommendation</div>
+  Schematic resets use FAWE, which can be resource-heavy for extremely large regions. Keep FFA arena regions moderately sized. 2 to 3 active FFA arenas are recommended.
+</div>
+
+<h2>FFA and ELO</h2>
+<p>FFA actions increase <code>kills</code> and <code>deaths</code> stats in the database, but they <strong>do not affect ELO rankings</strong>. ELO modifications are restricted to ranked duels and team matchmaking.</p>
+
+<h2>Exhaustive FFA Command Reference</h2>
+<p>Below is a complete command list relating to FFA mode setup and gameplay:</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Syntax / Parameters</th>
+      <th>Permissions</th>
+      <th>Functional Behavior</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/ffa</code></td>
+      <td>-</td>
+      <td><code>shyamduels.use</code></td>
+      <td>Opens the GUI layout of active FFA arenas with real-time player counts.</td>
+    </tr>
+    <tr>
+      <td><code>/leavefight</code></td>
+      <td>-</td>
+      <td><code>shyamduels.use</code></td>
+      <td>Leaves the current active FFA match and returns you to the lobby spawn. Alias: <code>/leave</code>, <code>/spawn</code>.</td>
+    </tr>
+    <tr>
+      <td><code>/arena ffa</code></td>
+      <td><code>/arena ffa &lt;name&gt; &lt;true/false&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Toggles FFA mode on the specified arena configuration profile.</td>
+    </tr>
+    <tr>
+      <td><code>/arena addffaspawn</code></td>
+      <td><code>/arena addffaspawn &lt;name&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Adds your current location as a random FFA spawn point in the arena.</td>
+    </tr>
+    <tr>
+      <td><code>/arena clearffaspawns</code></td>
+      <td><code>/arena clearffaspawns &lt;name&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Clears all registered custom FFA spawn coordinates.</td>
+    </tr>
+    <tr>
+      <td><code>/arena reset</code></td>
+      <td><code>/arena reset &lt;name&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Forces an immediate schematic restoration of the FFA arena.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="page-navigation">
+  <a class="page-nav-link prev" href="party-system.html">
+    <span class="page-nav-label">Previous Page</span>
+    <span class="page-nav-title">Party System Guide</span>
+  </a>
+  <a class="page-nav-link next" href="elo-ranks.html">
+    <span class="page-nav-label">Next Page</span>
+    <span class="page-nav-title">ELO &amp; Ranks Guide</span>
+  </a>
+</div>
+
+</main>
+</div>
+<script src="../assets/nav.js"></script>
+</body>
+</html>

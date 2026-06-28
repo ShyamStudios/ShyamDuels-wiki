@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Permissions: ShyamDuels</title>
+<link rel="stylesheet" href="../assets/style.css"/>
+</head>
+<body>
+<nav class="topnav">
+  <a class="logo-container" href="../index.html">
+    <img src="../shyam.webp" alt="ShyamDuels Logo" class="logo-img"/>
+    <span class="logo-text">ShyamDuels</span>
+  </a>
+  <span class="divider">/</span>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="getting-started.html" class="active">User Guide</a>
+    <a href="../api/overview.html">Developer API</a>
+  </div>
+  <span class="spacer"></span>
+  <a class="discord-btn" href="https://discord.gg/sMdsvZFqnX" target="_blank" rel="noopener">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037 12.9 12.9 0 0 0-.608 1.25 18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+    Discord
+  </a>
+  <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+  </button>
+</nav>
+<div id="overlay"></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">User Guide</span>
+    <a href="getting-started.html">Getting Started</a>
+    <a href="commands.html">Commands Reference</a>
+    <a href="permissions.html" class="active">Permissions</a>
+    <a href="arena-setup.html">Arena Setup</a>
+    <a href="gate-setup.html">Gate Setup</a>
+    <a href="kit-setup.html">Kit Setup</a>
+    <a href="party-system.html">Party System</a>
+    <a href="ffa.html">FFA Mode</a>
+    <a href="elo-ranks.html">ELO &amp; Ranks</a>
+    <a href="settings.html">Player Settings</a>
+    <a href="practice-features.html">Practice Features</a>
+    <a href="configuration.html">Configuration Files</a>
+    <a href="migration.html">Migration Guide</a>
+    <a href="placeholders.html">PlaceholderAPI</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">Developer API</span>
+    <a href="../api/overview.html">Overview &amp; Setup</a>
+    <a href="../api/services.html">Services Reference</a>
+    <a href="../api/events.html">Events Reference</a>
+    <a href="../api/models.html">Data Models</a>
+    <a href="../api/examples.html">Code Examples</a>
+  </div>
+</aside>
+<main class="content">
+
+<div class="breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="getting-started.html">User Guide</a><span>›</span>Permissions</div>
+<h1>Permissions</h1>
+<p class="page-lead">All permissions registered by ShyamDuels, categorized by administrative, base, VIP, and party configurations.</p>
+
+<h3>LuckPerms Command Examples</h3>
+<pre><code>/lp user Steve permission set shyamduels.vip true
+/lp group vip permission set shyamduels.vip true
+/lp group admin permission set shyamduels.admin true</code></pre>
+
+<h2>Admin Permissions</h2>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Permission Node</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>shyamduels.admin</code></td>
+      <td><span class="badge badge-yellow">op</span></td>
+      <td>Grants full access to all kit and arena configuration commands, along with system controls.</td>
+    </tr>
+    <tr>
+      <td><code>shyamduels.admin.bypass</code></td>
+      <td><span class="badge badge-yellow">op</span></td>
+      <td>Bypasses block building restrictions inside match arenas (allows placing/breaking blocks).</td>
+    </tr>
+    <tr>
+      <td><code>shyamduels.admin.forceleavefight</code></td>
+      <td><span class="badge badge-yellow">op</span></td>
+      <td>Bypasses combat leavefight timers and cooldown checks.</td>
+    </tr>
+    <tr>
+      <td><code>shyamduels.admin.testcolor</code></td>
+      <td><span class="badge badge-yellow">op</span></td>
+      <td>Access to the <code>/testcolor</code> debug command.</td>
+    </tr>
+    <tr>
+      <td><code>shyamduels.tab.admin</code></td>
+      <td><span class="badge badge-yellow">op</span></td>
+      <td>Allows reloading the tab list system configuration via <code>/tab reload</code>.</td>
+    </tr>
+    <tr>
+      <td><code>customkits.admin</code></td>
+      <td><span class="badge badge-yellow">op</span></td>
+      <td>Allows customizing the items and categories inside the custom kits builder GUI via <code>/shyamduels customkits</code>.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Player Permissions</h2>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Permission Node</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>shyamduels.use</code></td>
+      <td><span class="badge badge-green">true</span></td>
+      <td>Grants base permission to join queues, use duels, join FFA, spectate, and customize preferences.</td>
+    </tr>
+    <tr>
+      <td><code>shyamduels.kit.list</code></td>
+      <td><span class="badge badge-green">true</span></td>
+      <td>Allows viewing kit lists and checking details via <code>/kit list</code> and <code>/kit info</code>.</td>
+    </tr>
+    <tr>
+      <td><code>shyamduels.practice.duel</code></td>
+      <td><span class="badge badge-green">true</span></td>
+      <td>Allows round-based practice duels via <code>/practiceduel</code> and <code>/shyamduels practiceduel</code> (not ranked <code>/duel</code>).</td>
+    </tr>
+    <tr>
+      <td><code>shyamduels.practice.totempractice</code></td>
+      <td><span class="badge badge-green">true</span></td>
+      <td>Grants entry into the Totem Reaction practice game.</td>
+    </tr>
+    <tr>
+      <td><code>customkits.unlock.all</code></td>
+      <td><span class="badge badge-red">false</span></td>
+      <td>Unlocks all slots inside the Custom Kit builder, disregarding default slot restrictions.</td>
+    </tr>
+    <tr>
+      <td><code>customkits.unlock.&lt;kitId&gt;</code></td>
+      <td><span class="badge badge-red">false</span></td>
+      <td>Unlocks a specific custom kit slot by ID (configured in custom kits module configs).</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>VIP Perks Permissions</h2>
+<p>Granting <code>shyamduels.vip</code> automatically inherits all child permissions listed under it (e.g. trimmer, shield, and shulker customizations).</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Permission Node</th>
+      <th>Default</th>
+      <th>Perks Unlocked</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>shyamduels.vip</code></td>
+      <td><span class="badge badge-red">false</span></td>
+      <td>VIP Tier: Unlocks 16-player maximum capacity parties and all four sub-practice modules.</td>
+    </tr>
+    <tr>
+      <td><code>shyamduels.vipplus</code></td>
+      <td><span class="badge badge-red">false</span></td>
+      <td>VIP+ Tier: Inherits all VIP perks and increases maximum party capacity limits to 32.</td>
+    </tr>
+    <tr>
+      <td><code>shyamduels.practice.armortrimmer.use</code></td>
+      <td><span class="badge badge-yellow">op</span></td>
+      <td>Use the Armor Trimmer GUI in the Kit Editor / Kit Room (Requires VIP).</td>
+    </tr>
+    <tr>
+      <td><code>shyamduels.practice.shieldcustomizer.use</code></td>
+      <td><span class="badge badge-yellow">op</span></td>
+      <td>Use the Shield Customizer pattern editor in the Kit Editor / Kit Room (Requires VIP).</td>
+    </tr>
+    <tr>
+      <td><code>shyamduels.practice.shulkereditor.use</code></td>
+      <td><span class="badge badge-yellow">op</span></td>
+      <td>Opens the Shulker Box Editor GUI workspace in the Kit Room (Requires VIP).</td>
+    </tr>
+    <tr>
+      <td><code>shyamduels.practice.enchanttable.use</code></td>
+      <td><span class="badge badge-yellow">op</span></td>
+      <td>Access the virtual Enchant Table panel inside the Kit Room (Requires VIP).</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Party Capacity Restrictions</h2>
+<p>The maximum size constraints of a party are decided by the highest permission node active on the party leader at party creation.</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Permission Node</th>
+      <th>Default</th>
+      <th>Max Party Members</th>
+      <th>Scope</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>shyamduels.party.size.8</code></td>
+      <td><span class="badge badge-green">true</span></td>
+      <td>8 Members</td>
+      <td>Standard base cap for all players.</td>
+    </tr>
+    <tr>
+      <td><code>shyamduels.party.size.16</code></td>
+      <td><span class="badge badge-red">false</span></td>
+      <td>16 Members</td>
+      <td>VIP tier party size constraint limit.</td>
+    </tr>
+    <tr>
+      <td><code>shyamduels.party.size.32</code></td>
+      <td><span class="badge badge-red">false</span></td>
+      <td>32 Members</td>
+      <td>VIP+ tier party size constraint limit.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Additional Utility Permissions</h2>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Permission Node</th>
+      <th>Default</th>
+      <th>Module Scope</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>shyamduels.practice.goldenhead</code></td>
+      <td><span class="badge badge-yellow">op</span></td>
+      <td>Allows generating and giving custom Golden Head items to players.</td>
+    </tr>
+    <tr>
+      <td><code>shyamduels.practice.gate.setup</code></td>
+      <td><span class="badge badge-yellow">op</span></td>
+      <td>Allows configuring start block doors (Complex Gates) in arenas.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Tab Sort Rank Permissions</h2>
+<p>Configured in <code>tab/display.yml</code> under <code>sort-ranks:</code>. These are not registered in <code>plugin.yml</code> but control tab list prefix priority when assigned via LuckPerms:</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Permission Node</th>
+      <th>Tab Prefix</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code>group.owner</code></td><td>Owner rank prefix (dark red)</td></tr>
+    <tr><td><code>shyamtab.admin</code></td><td>Admin rank prefix (red)</td></tr>
+    <tr><td><code>shyamtab.staff</code></td><td>Staff rank prefix (blue)</td></tr>
+    <tr><td><code>shyamtab.vip</code></td><td>VIP rank prefix (gold)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Custom Kit Slot Permissions</h2>
+<p>Per-slot unlock permissions follow the pattern <code>customkits.unlock.&lt;kitId&gt;</code> where <code>&lt;kitId&gt;</code> matches the slot ID in custom kit configs. Grant all slots with <code>customkits.unlock.all</code>.</p>
+
+<div class="page-navigation">
+  <a class="page-nav-link prev" href="commands.html">
+    <span class="page-nav-label">Previous Page</span>
+    <span class="page-nav-title">Commands Reference</span>
+  </a>
+  <a class="page-nav-link next" href="arena-setup.html">
+    <span class="page-nav-label">Next Page</span>
+    <span class="page-nav-title">Arena Setup Guide</span>
+  </a>
+</div>
+
+</main>
+</div>
+<script src="../assets/nav.js"></script>
+</body>
+</html>

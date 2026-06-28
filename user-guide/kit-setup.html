@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Kit Setup: ShyamDuels</title>
+<link rel="stylesheet" href="../assets/style.css"/>
+</head>
+<body>
+<nav class="topnav">
+  <a class="logo-container" href="../index.html">
+    <img src="../shyam.webp" alt="ShyamDuels Logo" class="logo-img"/>
+    <span class="logo-text">ShyamDuels</span>
+  </a>
+  <span class="divider">/</span>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="getting-started.html" class="active">User Guide</a>
+    <a href="../api/overview.html">Developer API</a>
+  </div>
+  <span class="spacer"></span>
+  <a class="discord-btn" href="https://discord.gg/sMdsvZFqnX" target="_blank" rel="noopener">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037 12.9 12.9 0 0 0-.608 1.25 18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+    Discord
+  </a>
+  <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+  </button>
+</nav>
+<div id="overlay"></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">User Guide</span>
+    <a href="getting-started.html">Getting Started</a>
+    <a href="commands.html">Commands Reference</a>
+    <a href="permissions.html">Permissions</a>
+    <a href="arena-setup.html">Arena Setup</a>
+    <a href="gate-setup.html">Gate Setup</a>
+    <a href="kit-setup.html" class="active">Kit Setup</a>
+    <a href="party-system.html">Party System</a>
+    <a href="ffa.html">FFA Mode</a>
+    <a href="elo-ranks.html">ELO &amp; Ranks</a>
+    <a href="settings.html">Player Settings</a>
+    <a href="practice-features.html">Practice Features</a>
+    <a href="configuration.html">Configuration Files</a>
+    <a href="migration.html">Migration Guide</a>
+    <a href="placeholders.html">PlaceholderAPI</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">Developer API</span>
+    <a href="../api/overview.html">Overview &amp; Setup</a>
+    <a href="../api/services.html">Services Reference</a>
+    <a href="../api/events.html">Events Reference</a>
+    <a href="../api/models.html">Data Models</a>
+    <a href="../api/examples.html">Code Examples</a>
+  </div>
+</aside>
+<main class="content">
+
+<div class="breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="getting-started.html">User Guide</a><span>›</span>Kit Setup</div>
+<h1>Kit Setup</h1>
+<p class="page-lead">How to create, update, and manage kits that players use during matches.</p>
+
+<h2>Creating a Kit</h2>
+<ol class="steps">
+  <li>Equip your full layout: place the items in your inventory and hotbar, wear your armor, and assign offhand items.</li>
+  <li>Run the command: <code>/kit create KitName</code> to save your current inventory configuration.</li>
+  <li>(Optional) Hold the item you want to represent the kit in selection GUIs and run: <code>/kit seticon KitName</code></li>
+</ol>
+
+<div class="alert alert-note">
+  <div class="alert-title">Kit Names are Case-Sensitive</div>
+  Note that <code>NoDebuff</code> and <code>nodebuff</code> are handled as two distinct kit profiles.
+</div>
+
+<h2>Updating an Existing Kit</h2>
+<p>To overwrite a kit's item slots, arrange the new layout in your inventory and execute:</p>
+<pre><code>/kit setinv KitName</code></pre>
+<p>To modify only the GUI icon representation:</p>
+<pre><code># Hold the new icon item in your main hand, then:
+/kit seticon KitName</code></pre>
+
+<h2 id="build-mode">Build Mode (Kit and Arena Must Match)</h2>
+<p>Build mode marks whether a kit is used for block-building matches. Set it with:</p>
+<pre><code>/kit build &lt;name&gt; &lt;true|false&gt;</code></pre>
+<p>This must match the linked arena's build mode (<code>/arena build</code>). If they differ, matchmaking ignores the arena and players may see <strong>No arenas available for this kit</strong>.</p>
+
+<div class="alert alert-warning">
+  <div class="alert-title">Keep arena and kit build mode in sync</div>
+  <ul>
+    <li><strong>Build kit + build arena:</strong> <code>/kit build Bridge true</code> and <code>/arena build BridgeArena true</code></li>
+    <li><strong>Non-build kit + non-build arena:</strong> <code>/kit build NoDebuff false</code> and <code>/arena build Arena1 false</code></li>
+  </ul>
+  Use <code>/kit info &lt;name&gt;</code> to check the kit's build mode. Setting <code>/kit build &lt;name&gt; false</code> also clears the block whitelist.
+</div>
+
+<h2>Build-Compatible Kits (Block Whitelist)</h2>
+<p>For build kits, you can optionally restrict which block types players may place and break:</p>
+<pre><code>/kit build Bridge true
+# Hold the whitelist block (e.g. sandstone, glass) and run:
+/kit allowblock Bridge
+# Repeat for each block type you wish to whitelist</code></pre>
+<p><code>/kit allowblock</code> also enables build mode automatically. If the whitelist is empty, any block can be placed in a build-enabled arena. If blocks are whitelisted, only those types are allowed during combat.</p>
+
+<h2>Kit Editor GUI (For Players)</h2>
+<p>Players can customize and rearrange item placements within their personal copy of a kit layout. This does not alter the base kit template generated by the administrator. Open the layout editor using:</p>
+<pre><code>/kiteditor          # Opens the kit selector GUI
+/kiteditor NoDebuff # Directly launches the editor workspace for NoDebuff</code></pre>
+<p>This editor provides a drag-and-drop workspace where players can save custom layouts for matchmaking queues.</p>
+
+<h3>VIP Preferences inside the Kit Editor</h3>
+<ul>
+  <li><strong>Armor Trimmer</strong>: Customizes patterns on armor pieces (Requires <code>shyamduels.practice.armortrimmer.use</code>).</li>
+  <li><strong>Shield Customizer</strong>: Applies layers and banner pattern options to shields (Requires <code>shyamduels.practice.shieldcustomizer.use</code>).</li>
+  <li><strong>Shulker Box Editor</strong>: Edits the items inside shulker boxes (Requires <code>shyamduels.practice.shulkereditor.use</code>).</li>
+  <li><strong>Virtual Enchanting</strong>: Applies enchants to gear (Requires <code>shyamduels.practice.enchanttable.use</code>).</li>
+</ul>
+<p>All virtual practice features can be inherited by granting the parent permission node <code>shyamduels.vip</code>.</p>
+
+<h2>Custom Kits Builder</h2>
+<p>The Custom Kits builder system enables players to assemble personalized kits from category selections. It matches players using base configs defined in the configuration files.</p>
+<ul>
+  <li>Players build customized configurations via <code>/kitcreator</code>.</li>
+  <li>Players choose or modify their custom profiles using <code>/customkits</code>.</li>
+  <li>Admins configure GUI categories and items via <code>/shyamduels customkits edit-category</code>.</li>
+</ul>
+
+<h2>Exhaustive Kit Setup Command Reference</h2>
+<p>Below is a complete reference guide of commands for registering, editing, and deleting kit configurations (requires <code>shyamduels.admin</code>):</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Syntax / Parameters</th>
+      <th>Functional Behavior</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/kit create</code></td>
+      <td><code>/kit create &lt;name&gt;</code></td>
+      <td>Saves your current inventory, armor slots, offhand, and active effects as a new kit profile.</td>
+    </tr>
+    <tr>
+      <td><code>/kit delete</code></td>
+      <td><code>/kit delete &lt;name&gt;</code></td>
+      <td>Deletes the kit profile, clears linked arenas, and removes player customized layouts.</td>
+    </tr>
+    <tr>
+      <td><code>/kit setinv</code></td>
+      <td><code>/kit setinv &lt;name&gt;</code></td>
+      <td>Overwrites the kit's inventory items and armor layout to match your current inventory contents.</td>
+    </tr>
+    <tr>
+      <td><code>/kit seticon</code></td>
+      <td><code>/kit seticon &lt;name&gt;</code></td>
+      <td>Configures the GUI selection icon to your held item.</td>
+    </tr>
+    <tr>
+      <td><code>/kit allowblock</code></td>
+      <td><code>/kit allowblock &lt;name&gt;</code></td>
+      <td>Whitelists your held block material and enables build mode for the kit.</td>
+    </tr>
+    <tr>
+      <td><code>/kit removeblock</code></td>
+      <td><code>/kit removeblock &lt;name&gt;</code></td>
+      <td>Removes your held block material from the build whitelist. Disables build mode when the list is empty.</td>
+    </tr>
+    <tr>
+      <td><code>/kit build</code></td>
+      <td><code>/kit build &lt;name&gt; &lt;true/false&gt;</code></td>
+      <td>Enables or disables build mode for the kit. Must match the linked arena (<code>/arena build</code>). <code>false</code> clears the block whitelist.</td>
+    </tr>
+    <tr>
+      <td><code>/kit setdisplayname</code></td>
+      <td><code>/kit setdisplayname &lt;name&gt; &lt;displayname&gt;</code></td>
+      <td>Configures the GUI display name of the kit (supports Kyori MiniMessage formatting).</td>
+    </tr>
+    <tr>
+      <td><code>/kit setdescription</code></td>
+      <td><code>/kit setdescription &lt;name&gt; &lt;description&gt;</code></td>
+      <td>Sets the description lines displayed when hovering over the kit in selector GUIs.</td>
+    </tr>
+    <tr>
+      <td><code>/kit list</code></td>
+      <td><code>/kit list</code></td>
+      <td>Lists all registered kit configurations.</td>
+    </tr>
+    <tr>
+      <td><code>/kit info</code></td>
+      <td><code>/kit info &lt;name&gt;</code></td>
+      <td>Displays details about the kit, including inventory slots and whitelisted block list.</td>
+    </tr>
+    <tr>
+      <td><code>/kit matchstartpots</code></td>
+      <td><code>enable|disable|scan|list &lt;name&gt;</code></td>
+      <td>Controls match-start potion scanning for a kit. Removes blocked debuffs at round start (see <code>match-start-potions</code> in config.yml).</td>
+    </tr>
+    <tr>
+      <td><code>/kit queuerounds</code></td>
+      <td><code>/kit queuerounds &lt;name&gt; &lt;rounds&gt;</code></td>
+      <td>Sets default round count when this kit is queued.</td>
+    </tr>
+    <tr>
+      <td><code>/kit kitroom</code></td>
+      <td><code>/kit kitroom &lt;name&gt;</code></td>
+      <td>Opens the kit room editor for practice loadout testing.</td>
+    </tr>
+    <tr>
+      <td><code>/kit give</code></td>
+      <td><code>/kit give &lt;player&gt; &lt;name&gt;</code></td>
+      <td>Applies a kit to a player's inventory.</td>
+    </tr>
+    <tr>
+      <td><code>/kit load</code></td>
+      <td><code>/kit load &lt;name&gt;</code></td>
+      <td>Loads the kit into your inventory for editing.</td>
+    </tr>
+    <tr>
+      <td><code>/kit deleteeditedkits</code></td>
+      <td><code>/kit deleteeditedkits &lt;name&gt;</code></td>
+      <td>Clears all player-edited layouts saved for this kit.</td>
+    </tr>
+    <tr>
+      <td><code>/kit setsaturation</code></td>
+      <td><code>/kit setsaturation &lt;name&gt; &lt;value&gt;</code></td>
+      <td>Sets food saturation applied when the kit is given.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="alert alert-danger">
+  <div class="alert-title">Kit Deletion Warning</div>
+  Deleting a kit clears all customized player files associated with it from the database and removes all linked arena entries.
+</div>
+
+<div class="page-navigation">
+  <a class="page-nav-link prev" href="gate-setup.html">
+    <span class="page-nav-label">Previous Page</span>
+    <span class="page-nav-title">Gate Setup Guide</span>
+  </a>
+  <a class="page-nav-link next" href="party-system.html">
+    <span class="page-nav-label">Next Page</span>
+    <span class="page-nav-title">Party System Guide</span>
+  </a>
+</div>
+
+</main>
+</div>
+<script src="../assets/nav.js"></script>
+</body>
+</html>

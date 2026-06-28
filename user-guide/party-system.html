@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Party System: ShyamDuels</title>
+<link rel="stylesheet" href="../assets/style.css"/>
+</head>
+<body>
+<nav class="topnav">
+  <a class="logo-container" href="../index.html">
+    <img src="../shyam.webp" alt="ShyamDuels Logo" class="logo-img"/>
+    <span class="logo-text">ShyamDuels</span>
+  </a>
+  <span class="divider">/</span>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="getting-started.html" class="active">User Guide</a>
+    <a href="../api/overview.html">Developer API</a>
+  </div>
+  <span class="spacer"></span>
+  <a class="discord-btn" href="https://discord.gg/sMdsvZFqnX" target="_blank" rel="noopener">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037 12.9 12.9 0 0 0-.608 1.25 18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+    Discord
+  </a>
+  <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+  </button>
+</nav>
+<div id="overlay"></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">User Guide</span>
+    <a href="getting-started.html">Getting Started</a>
+    <a href="commands.html">Commands Reference</a>
+    <a href="permissions.html">Permissions</a>
+    <a href="arena-setup.html">Arena Setup</a>
+    <a href="gate-setup.html">Gate Setup</a>
+    <a href="kit-setup.html">Kit Setup</a>
+    <a href="party-system.html" class="active">Party System</a>
+    <a href="ffa.html">FFA Mode</a>
+    <a href="elo-ranks.html">ELO &amp; Ranks</a>
+    <a href="settings.html">Player Settings</a>
+    <a href="practice-features.html">Practice Features</a>
+    <a href="configuration.html">Configuration Files</a>
+    <a href="migration.html">Migration Guide</a>
+    <a href="placeholders.html">PlaceholderAPI</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">Developer API</span>
+    <a href="../api/overview.html">Overview &amp; Setup</a>
+    <a href="../api/services.html">Services Reference</a>
+    <a href="../api/events.html">Events Reference</a>
+    <a href="../api/models.html">Data Models</a>
+    <a href="../api/examples.html">Code Examples</a>
+  </div>
+</aside>
+<main class="content">
+
+<div class="breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="getting-started.html">User Guide</a><span>›</span>Party System</div>
+<h1>Party System</h1>
+<p class="page-lead">How to establish parties, coordinate teammates, and use the four match modes: Queue, vs Party, Split, and FFA.</p>
+
+<h2>Creating a Party</h2>
+<pre><code>/party create</code></pre>
+<p>This command designates you as the party leader, updates your hotbar inventory with quick party hotkeys, and configures the privacy setting to <strong>PRIVATE</strong> (invite-only) by default.</p>
+
+<h2>Inviting Players</h2>
+<pre><code>/party invite Steve</code></pre>
+<p>Invited players receive a chat prompt with click-to-accept choices. Party invites remain active for <code>party.invite-expiration</code> seconds (default 60s) before timing out. Only the active leader can dispatch invites.</p>
+
+<h2>Joining a Party</h2>
+<p><strong>Joining via invitation:</strong> Execute <code>/party accept</code> or click the accepting chat button prompt.</p>
+<p><strong>Joining open parties:</strong> If a party is set to PUBLIC or FRIENDS_ONLY, qualified players can join immediately using:</p>
+<pre><code>/party join &lt;leaderName&gt;</code></pre>
+
+<h2>Party Privacy Modes</h2>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Privacy Level</th>
+      <th>Setting Command</th>
+      <th>Join Behavior Rules</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>PRIVATE</code></td>
+      <td><code>/party private</code></td>
+      <td>Default. Players must be manually invited by the leader.</td>
+    </tr>
+    <tr>
+      <td><code>PUBLIC</code></td>
+      <td><code>/party public</code></td>
+      <td>Allows any server player to join immediately. Broadcasts a join notification link in chat.</td>
+    </tr>
+    <tr>
+      <td><code>FRIENDS_ONLY</code></td>
+      <td><code>/party friends</code></td>
+      <td>Only players present on the leader's friend list are authorized to join directly.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Party Member Sizes</h2>
+<p>The maximum capacity limits of a party are restricted by the LuckPerms permissions of the party leader:</p>
+<ul>
+  <li>Default Base Limit: up to 8 members (Requires <code>shyamduels.party.size.8</code>).</li>
+  <li>VIP Limit Upgrade: up to 16 members (Requires <code>shyamduels.party.size.16</code>).</li>
+  <li>VIP+ Limit Upgrade: up to 32 members (Requires <code>shyamduels.party.size.32</code>).</li>
+</ul>
+<p>Leaders can impose a custom member capacity limit using <code>/party limit</code> (launches sign text input) or return to max limits using <code>/party resetlimit</code>.</p>
+
+<h2>Play Modes</h2>
+<p>Leaders configure the active mode via <code>/party mode &lt;mode&gt;</code>. These modes dictate matchmaking behaviors:</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Mode Style</th>
+      <th>Command Options</th>
+      <th>Matchmaking &amp; Spawn Rules</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Matchmaking Queue</strong></td>
+      <td><code>queue</code>, <code>q</code></td>
+      <td>Queue the party into ranked/unranked team matchmaking. Party member counts must align with the target queue size.</td>
+    </tr>
+    <tr>
+      <td><strong>vs Party Duels</strong></td>
+      <td><code>duel</code>, <code>vparty</code>, <code>vs</code></td>
+      <td>Directly challenge another active party to a team duel. Challenged leaders accept via <code>/party duel accept</code>.</td>
+    </tr>
+    <tr>
+      <td><strong>Team Splitting</strong></td>
+      <td><code>split</code>, <code>team</code></td>
+      <td>Splits the party randomly into two equal teams. Requires at least 2 members.</td>
+    </tr>
+    <tr>
+      <td><strong>Free For All (FFA)</strong></td>
+      <td><code>ffa</code>, <code>freeforall</code></td>
+      <td>Launches a chaotic match where all party members fight each other. Spawns members in a circle pattern.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Party Chat Channels</h2>
+<p>Activate party-only chat redirects using:</p>
+<pre><code>/partychat
+# or:
+/party chat</code></pre>
+<p>While toggled on, your message inputs are only displayed to party members. Leaders can mute and unmute specific members from the chat channel:</p>
+<pre><code>/party mute Steve
+/party unmute Steve</code></pre>
+
+<h2>Leadership Promotions</h2>
+<p>Leaders can hand over ownership permissions to another member using <code>/party promote &lt;player&gt;</code>. If the leader disconnects while <code>party.transfer-ownership-on-leave</code> is enabled, leadership is automatically passed to the next eligible member.</p>
+
+<h2>Disbanding Parties</h2>
+<pre><code>/party disband</code></pre>
+<p>Disbanding kicks all members and returns them to the lobby spawn. Parties also auto-disband if all players disconnect.</p>
+
+<h2>Exhaustive Party System Command Reference</h2>
+<p>Below is a complete command reference list for the party system:</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Syntax / Parameters</th>
+      <th>Functional Behavior</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/party create</code></td>
+      <td>-</td>
+      <td>Creates a new private party with you as the leader.</td>
+    </tr>
+    <tr>
+      <td><code>/party invite</code></td>
+      <td><code>/party invite &lt;player&gt;</code></td>
+      <td>Dispatches a party invitation challenge to the target player.</td>
+    </tr>
+    <tr>
+      <td><code>/party accept</code></td>
+      <td>-</td>
+      <td>Accepts a pending party invitation.</td>
+    </tr>
+    <tr>
+      <td><code>/party deny</code></td>
+      <td>-</td>
+      <td>Declines a pending party invitation.</td>
+    </tr>
+    <tr>
+      <td><code>/party join</code></td>
+      <td><code>/party join &lt;leader&gt;</code></td>
+      <td>Joins an active public or friends-only party directly.</td>
+    </tr>
+    <tr>
+      <td><code>/party leave</code></td>
+      <td>-</td>
+      <td>Leaves your current party. If you are the leader, triggers leadership transfer.</td>
+    </tr>
+    <tr>
+      <td><code>/party disband</code></td>
+      <td>-</td>
+      <td>Disbands the party, returning all members to the lobby (requires leader confirmation).</td>
+    </tr>
+    <tr>
+      <td><code>/party mode</code></td>
+      <td><code>/party mode &lt;queue/duel/split/ffa&gt;</code></td>
+      <td>Sets the matchmaking mode style for the party matches.</td>
+    </tr>
+    <tr>
+      <td><code>/party limit</code></td>
+      <td><code>/party limit</code></td>
+      <td>Sets a custom maximum capacity limit for the party members.</td>
+    </tr>
+    <tr>
+      <td><code>/party resetlimit</code></td>
+      <td>-</td>
+      <td>Resets custom party limits back to your default permissions maximum.</td>
+    </tr>
+    <tr>
+      <td><code>/party promote</code></td>
+      <td><code>/party promote &lt;player&gt;</code></td>
+      <td>Promotes a party member to be the new party leader.</td>
+    </tr>
+    <tr>
+      <td><code>/party mute</code></td>
+      <td><code>/party mute &lt;player&gt;</code></td>
+      <td>Mutes a party member, blocking them from sending messages to the party channel.</td>
+    </tr>
+    <tr>
+      <td><code>/party unmute</code></td>
+      <td><code>/party unmute &lt;player&gt;</code></td>
+      <td>Unmutes a previously muted party member.</td>
+    </tr>
+    <tr>
+      <td><code>/party private</code></td>
+      <td>-</td>
+      <td>Sets party privacy mode to private (invite-only).</td>
+    </tr>
+    <tr>
+      <td><code>/party public</code></td>
+      <td>-</td>
+      <td>Sets party privacy mode to public (open to all).</td>
+    </tr>
+    <tr>
+      <td><code>/party friends</code></td>
+      <td>-</td>
+      <td>Sets party privacy mode to friends-only.</td>
+    </tr>
+    <tr>
+      <td><code>/partychat</code></td>
+      <td>-</td>
+      <td>Toggles your default chat output to party channel only. Alias: <code>/party chat</code>.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Admin Override Commands</h2>
+<pre><code>/party forceowner          # Overrides party leadership, making you the owner.
+/party forcejoin Steve Jim # Forces Steve into Jim's party, ignoring permissions.</code></pre>
+<p>Both commands require admin permissions (<code>shyamduels.admin</code>).</p>
+
+<div class="page-navigation">
+  <a class="page-nav-link prev" href="kit-setup.html">
+    <span class="page-nav-label">Previous Page</span>
+    <span class="page-nav-title">Kit Setup Guide</span>
+  </a>
+  <a class="page-nav-link next" href="ffa.html">
+    <span class="page-nav-label">Next Page</span>
+    <span class="page-nav-title">FFA Mode Guide</span>
+  </a>
+</div>
+
+</main>
+</div>
+<script src="../assets/nav.js"></script>
+</body>
+</html>

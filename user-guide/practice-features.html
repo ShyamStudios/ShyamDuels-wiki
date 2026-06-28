@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Practice Features: ShyamDuels</title>
+<link rel="stylesheet" href="../assets/style.css"/>
+</head>
+<body>
+<nav class="topnav">
+  <a class="logo-container" href="../index.html">
+    <img src="../shyam.webp" alt="ShyamDuels Logo" class="logo-img"/>
+    <span class="logo-text">ShyamDuels</span>
+  </a>
+  <span class="divider">/</span>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="getting-started.html" class="active">User Guide</a>
+    <a href="../api/overview.html">Developer API</a>
+  </div>
+  <span class="spacer"></span>
+  <a class="discord-btn" href="https://discord.gg/sMdsvZFqnX" target="_blank" rel="noopener">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037 12.9 12.9 0 0 0-.608 1.25 18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+    Discord
+  </a>
+  <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+  </button>
+</nav>
+<div id="overlay"></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">User Guide</span>
+    <a href="getting-started.html">Getting Started</a>
+    <a href="commands.html">Commands Reference</a>
+    <a href="permissions.html">Permissions</a>
+    <a href="arena-setup.html">Arena Setup</a>
+    <a href="gate-setup.html">Gate Setup</a>
+    <a href="kit-setup.html">Kit Setup</a>
+    <a href="party-system.html">Party System</a>
+    <a href="ffa.html">FFA Mode</a>
+    <a href="elo-ranks.html">ELO &amp; Ranks</a>
+    <a href="settings.html">Player Settings</a>
+    <a href="practice-features.html" class="active">Practice Features</a>
+    <a href="configuration.html">Configuration Files</a>
+    <a href="migration.html">Migration Guide</a>
+    <a href="placeholders.html">PlaceholderAPI</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">Developer API</span>
+    <a href="../api/overview.html">Overview &amp; Setup</a>
+    <a href="../api/services.html">Services Reference</a>
+    <a href="../api/events.html">Events Reference</a>
+    <a href="../api/models.html">Data Models</a>
+    <a href="../api/examples.html">Code Examples</a>
+  </div>
+</aside>
+<main class="content">
+
+<div class="breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="getting-started.html">User Guide</a><span>›</span>Practice Features</div>
+<h1>Practice Features</h1>
+<p class="page-lead">Optional practice modules: round-based practice duels, totem reaction training, golden heads, death messages, VIP kit editor tools, and complex door gates.</p>
+
+<div class="alert alert-note">
+  <div class="alert-title">Prefer <code>/shyamduels</code></div>
+  Admin practice commands live under <code>/shyamduels</code>. The legacy root <code>/practice</code> alias (and <code>/shyamduelspractice</code>) still works but is deprecated. Player commands like <code>/practiceduel</code> and <code>/totempractice</code> are registered separately when their modules are enabled.
+</div>
+
+<h2>Module Toggles</h2>
+<p>Enable or disable each feature in <code>config.yml</code> under <code>modules:</code></p>
+<pre><code>modules:
+  practice-duel-command: true
+  practice-right-click-duel: true
+  practice-death-messages: true
+  practice-golden-head: true
+  practice-totem-practice: true
+  practice-kit-editor: true
+  armor-trimmer: true
+  shield-customizer: true
+  enchant-table: true
+  kit-room-shulker-editor: true</code></pre>
+<p>See <a href="configuration.html">Configuration Files</a> for the full module list.</p>
+
+<h2>Practice Duel</h2>
+<p>Round-based sparring outside ranked queue. Uses the practice duel system, not the ranked <code>/duel</code> invite flow.</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Command</th><th>Aliases</th><th>Permission</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>/practiceduel [player]</code></td><td><code>/pduel</code>, <code>/roundsduel</code></td><td><code>shyamduels.practice.duel</code></td><td>Challenge a player to a practice duel, or open the challenge GUI if no player is given.</td></tr>
+    <tr><td><code>/practiceduel accept &lt;player&gt;</code></td><td>-</td><td><code>shyamduels.practice.duel</code></td><td>Accept a pending practice duel request.</td></tr>
+    <tr><td><code>/shyamduels practiceduel [player]</code></td><td><code>/sd</code>, <code>/duels</code></td><td><code>shyamduels.practice.duel</code></td><td>Same as above via the main admin command tree.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Totem Practice</h2>
+<p>Reaction minigame: pop the correct totem as fast as possible. Opens a GUI with difficulty options.</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Command</th><th>Aliases</th><th>Permission</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>/totempractice</code></td><td><code>/totem</code></td><td><code>shyamduels.practice.totempractice</code></td><td>Opens the Totem Practice GUI.</td></tr>
+    <tr><td><code>/shyamduels totem-practice</code></td><td><code>/sd</code>, <code>/duels</code></td><td><code>shyamduels.practice.totempractice</code></td><td>Same feature via main command.</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Configure scoring and GUI layout in <code>config.yml</code> under <code>totem-practice:</code>.</p>
+
+<h2>Death Messages</h2>
+<p>Toggle custom kill/death chat messages per player. Separate from the ranked duel system.</p>
+<pre><code>/deathmessages</code></pre>
+<p>Permission: <code>shyamduels.use</code>. Requires <code>modules.practice-death-messages: true</code>.</p>
+<p>Customize message templates and rank-based kill commands in <code>config.yml</code> under <code>death-messages:</code>.</p>
+
+<h2>Golden Head</h2>
+<p>Consumable healing item used in UHC-style kits. Admins configure the item in <code>config.yml</code> under <code>golden-head:</code>.</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Command</th><th>Permission</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>/shyamduels golden-head</code></td><td><code>shyamduels.practice.goldenhead</code></td><td>Shows golden head admin help.</td></tr>
+    <tr><td><code>/shyamduels golden-head give &lt;player&gt; [amount]</code></td><td><code>shyamduels.practice.goldenhead</code></td><td>Gives golden head items to a player.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Complex Door Gates</h2>
+<p>Animated start gates for duel arenas. Full setup guide: <a href="gate-setup.html">Gate Setup</a>.</p>
+
+<h2>VIP Kit Editor Tools</h2>
+<p>Available in the Kit Room / Kit Editor when the player has the matching permission (included in <code>shyamduels.vip</code>):</p>
+<ul>
+  <li><strong>Armor Trimmer:</strong> <code>/shyamduels armor-trimmer</code> (<code>shyamduels.practice.armortrimmer.use</code>)</li>
+  <li><strong>Shield Customizer:</strong> <code>/shyamduels shield-customizer</code> (<code>shyamduels.practice.shieldcustomizer.use</code>)</li>
+  <li><strong>Shulker Editor:</strong> in Kit Room (<code>shyamduels.practice.shulkereditor.use</code>)</li>
+  <li><strong>Virtual Enchant Table:</strong> in Kit Room (<code>shyamduels.practice.enchanttable.use</code>)</li>
+</ul>
+<p>See <a href="kit-setup.html">Kit Setup</a> for kit room configuration.</p>
+
+<h2>Killstreaks and Auto-GG</h2>
+<ul>
+  <li><strong>Killstreaks:</strong> broadcast milestones at configured tiers (<code>killstreaks:</code> in <code>config.yml</code>, toggle <code>modules.killstreaks</code>).</li>
+  <li><strong>Auto-GG:</strong> players can toggle automatic post-match GG messages in <code>/settings</code> (<code>auto-gg:</code> in config).</li>
+</ul>
+
+<h2>Right-Click Duel</h2>
+<p>When <code>modules.practice-right-click-duel: true</code>, players can right-click another player in configured worlds (<code>enabled-worlds.right-click-duel</code>) to send a duel invite. This uses the standard <code>/duel</code> flow, not practice duel rounds.</p>
+
+<h2>Match-Start Potions</h2>
+<p>Scans player potion effects at match start and removes blocked debuffs. Configure globally in <code>config.yml</code> under <code>match-start-potions:</code>, then per kit:</p>
+<pre><code>/kit matchstartpots enable &lt;kit&gt;
+/kit matchstartpots disable &lt;kit&gt;
+/kit matchstartpots scan &lt;kit&gt;
+/kit matchstartpots list</code></pre>
+<p>Requires <code>shyamduels.admin</code>. See <a href="kit-setup.html">Kit Setup</a> for details.</p>
+
+<h2>Custom Kits (Player-Built)</h2>
+<p>Players create kits via <code>/kitcreator</code> and queue them with <code>/customkits</code> or <code>/customkits play</code>. Admins manage categories with <code>/shyamduels customkits edit-category</code> and reload with <code>/shyamduels customkits reload</code>.</p>
+<ul>
+  <li>Unlock slots with permission <code>customkits.unlock.&lt;kitId&gt;</code> or grant all with <code>customkits.unlock.all</code></li>
+  <li>GUI configs: <code>menus/customkits-*.yml</code> and runtime <code>categories.json</code></li>
+</ul>
+
+<div class="page-navigation">
+  <a class="page-nav-link prev" href="settings.html">
+    <span class="page-nav-label">Previous Page</span>
+    <span class="page-nav-title">Player Settings</span>
+  </a>
+  <a class="page-nav-link next" href="configuration.html">
+    <span class="page-nav-label">Next Page</span>
+    <span class="page-nav-title">Configuration Files</span>
+  </a>
+</div>
+
+</main>
+</div>
+<script src="../assets/nav.js"></script>
+</body>
+</html>

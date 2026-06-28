@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Player Settings: ShyamDuels</title>
+<link rel="stylesheet" href="../assets/style.css"/>
+</head>
+<body>
+<nav class="topnav">
+  <a class="logo-container" href="../index.html">
+    <img src="../shyam.webp" alt="ShyamDuels Logo" class="logo-img"/>
+    <span class="logo-text">ShyamDuels</span>
+  </a>
+  <span class="divider">/</span>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="getting-started.html" class="active">User Guide</a>
+    <a href="../api/overview.html">Developer API</a>
+  </div>
+  <span class="spacer"></span>
+  <a class="discord-btn" href="https://discord.gg/sMdsvZFqnX" target="_blank" rel="noopener">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037 12.9 12.9 0 0 0-.608 1.25 18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+    Discord
+  </a>
+  <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+  </button>
+</nav>
+<div id="overlay"></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">User Guide</span>
+    <a href="getting-started.html">Getting Started</a>
+    <a href="commands.html">Commands Reference</a>
+    <a href="permissions.html">Permissions</a>
+    <a href="arena-setup.html">Arena Setup</a>
+    <a href="gate-setup.html">Gate Setup</a>
+    <a href="kit-setup.html">Kit Setup</a>
+    <a href="party-system.html">Party System</a>
+    <a href="ffa.html">FFA Mode</a>
+    <a href="elo-ranks.html">ELO &amp; Ranks</a>
+    <a href="settings.html" class="active">Player Settings</a>
+    <a href="practice-features.html">Practice Features</a>
+    <a href="configuration.html">Configuration Files</a>
+    <a href="migration.html">Migration Guide</a>
+    <a href="placeholders.html">PlaceholderAPI</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">Developer API</span>
+    <a href="../api/overview.html">Overview &amp; Setup</a>
+    <a href="../api/services.html">Services Reference</a>
+    <a href="../api/events.html">Events Reference</a>
+    <a href="../api/models.html">Data Models</a>
+    <a href="../api/examples.html">Code Examples</a>
+  </div>
+</aside>
+<main class="content">
+
+<div class="breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="getting-started.html">User Guide</a><span>›</span>Player Settings</div>
+<h1>Player Settings</h1>
+<p class="page-lead">Per-player preferences stored in the database. Players open and toggle their options using <code>/settings</code>.</p>
+
+<h2>Opening Player Settings</h2>
+<pre><code>/settings
+# Aliases:
+/preferences
+/prefs</code></pre>
+<p>This command opens a GUI menu where players can click to toggle settings. Changes apply immediately and are persisted in the database.</p>
+
+<h2>Toggleable Settings Reference</h2>
+<p>The options below are configured per player profile:</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Setting Key</th>
+      <th>Default Value</th>
+      <th>Functional Behavior</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>AUTO_GG</code></td>
+      <td>ON</td>
+      <td>Sends an automated "GG" message after a match concludes. Chooses from options inside <code>messages.yml</code>.</td>
+    </tr>
+    <tr>
+      <td><code>DEATH_MESSAGES</code></td>
+      <td>ON</td>
+      <td>Toggles whether death notifications are visible to the player during active duels.</td>
+    </tr>
+    <tr>
+      <td><code>KILLSTREAK_MESSAGES</code></td>
+      <td>ON</td>
+      <td>Toggles whether consecutive kill streak milestones display in chat.</td>
+    </tr>
+    <tr>
+      <td><code>MATCH_START_SOUNDS</code></td>
+      <td>ON</td>
+      <td>Toggles countdown and combat start sound effects.</td>
+    </tr>
+    <tr>
+      <td><code>DUEL_REQUESTS</code></td>
+      <td>ON</td>
+      <td>Configures whether the player is open to receives challenges from others. If toggled off, challengers receive a notification.</td>
+    </tr>
+    <tr>
+      <td><code>PARTY_INVITES</code></td>
+      <td>ON</td>
+      <td>Toggles whether the player is receptive to party invites.</td>
+    </tr>
+    <tr>
+      <td><code>FRIEND_REQUESTS</code></td>
+      <td>ON</td>
+      <td>Toggles whether other players can add them to their friends list.</td>
+    </tr>
+    <tr>
+      <td><code>SCOREBOARD</code></td>
+      <td>ON</td>
+      <td>Shows or hides the sidebar match/lobby scoreboard.</td>
+    </tr>
+    <tr>
+      <td><code>TAB_LIST</code></td>
+      <td>ON</td>
+      <td>Shows or hides the custom headers and footers in the player list.</td>
+    </tr>
+    <tr>
+      <td><code>NAMETAGS</code></td>
+      <td>ON</td>
+      <td>Enables or disables custom formatting tags displayed above heads.</td>
+    </tr>
+    <tr>
+      <td><code>ACTION_BAR</code></td>
+      <td>ON</td>
+      <td>Toggles queue status and waiting duration messages on the action bar.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Personal Time Overrides</h2>
+<p>Players can configure a custom time layout. This changes daylight visibility only for their client view:</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Setting Option</th>
+      <th>Visual Effect</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>DEFAULT</code></td>
+      <td>Syncs with server time.</td>
+    </tr>
+    <tr>
+      <td><code>DAY</code></td>
+      <td>Forces local daylight (Daytime).</td>
+    </tr>
+    <tr>
+      <td><code>NIGHT</code></td>
+      <td>Forces local nighttime.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Personal Weather Overrides</h2>
+<p>Same concept as time overrides, allowing players to customize weather visual cues:</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Setting Option</th>
+      <th>Visual Effect</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>DEFAULT</code></td>
+      <td>Syncs with active server weather.</td>
+    </tr>
+    <tr>
+      <td><code>CLEAR</code></td>
+      <td>Forces clear weather locally.</td>
+    </tr>
+    <tr>
+      <td><code>RAIN</code></td>
+      <td>Forces raining weather locally.</td>
+    </tr>
+    <tr>
+      <td><code>STORM</code></td>
+      <td>Forces thunderstorms locally.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Lobby Tab List View</h2>
+<p>Determines what is rendered in the tab list panel when the player is inside the lobby:</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Setting Option</th>
+      <th>Tab View Rendered</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>LOBBY</code></td>
+      <td>Standard lobby layout (player stats, server name, etc.).</td>
+    </tr>
+    <tr>
+      <td><code>FRIENDS</code></td>
+      <td>Lists online friends and online status indexes.</td>
+    </tr>
+  </tbody>
+</table>
+<div class="page-navigation">
+  <a class="page-nav-link prev" href="elo-ranks.html">
+    <span class="page-nav-label">Previous Page</span>
+    <span class="page-nav-title">ELO &amp; Ranks Guide</span>
+  </a>
+  <a class="page-nav-link next" href="practice-features.html">
+    <span class="page-nav-label">Next Page</span>
+    <span class="page-nav-title">Practice Features</span>
+  </a>
+</div>
+
+</main>
+</div>
+<script src="../assets/nav.js"></script>
+</body>
+</html>

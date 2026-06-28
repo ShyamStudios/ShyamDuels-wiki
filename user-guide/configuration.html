@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Configuration Files: ShyamDuels</title>
+<link rel="stylesheet" href="../assets/style.css"/>
+</head>
+<body>
+<nav class="topnav">
+  <a class="logo-container" href="../index.html">
+    <img src="../shyam.webp" alt="ShyamDuels Logo" class="logo-img"/>
+    <span class="logo-text">ShyamDuels</span>
+  </a>
+  <span class="divider">/</span>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="getting-started.html" class="active">User Guide</a>
+    <a href="../api/overview.html">Developer API</a>
+  </div>
+  <span class="spacer"></span>
+  <a class="discord-btn" href="https://discord.gg/sMdsvZFqnX" target="_blank" rel="noopener">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037 12.9 12.9 0 0 0-.608 1.25 18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+    Discord
+  </a>
+  <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+  </button>
+</nav>
+<div id="overlay"></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">User Guide</span>
+    <a href="getting-started.html">Getting Started</a>
+    <a href="commands.html">Commands Reference</a>
+    <a href="permissions.html">Permissions</a>
+    <a href="arena-setup.html">Arena Setup</a>
+    <a href="gate-setup.html">Gate Setup</a>
+    <a href="kit-setup.html">Kit Setup</a>
+    <a href="party-system.html">Party System</a>
+    <a href="ffa.html">FFA Mode</a>
+    <a href="elo-ranks.html">ELO &amp; Ranks</a>
+    <a href="settings.html">Player Settings</a>
+    <a href="practice-features.html">Practice Features</a>
+    <a href="configuration.html" class="active">Configuration Files</a>
+    <a href="migration.html">Migration Guide</a>
+    <a href="placeholders.html">PlaceholderAPI</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">Developer API</span>
+    <a href="../api/overview.html">Overview &amp; Setup</a>
+    <a href="../api/services.html">Services Reference</a>
+    <a href="../api/events.html">Events Reference</a>
+    <a href="../api/models.html">Data Models</a>
+    <a href="../api/examples.html">Code Examples</a>
+  </div>
+</aside>
+<main class="content">
+
+<div class="breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="getting-started.html">User Guide</a><span>›</span>Configuration Files</div>
+<h1>Configuration Files</h1>
+<p class="page-lead">Detailed specifications of variables and settings inside the plugin configuration files.</p>
+
+<h2>Main Configuration File (config.yml)</h2>
+<p>Located at <code>plugins/ShyamDuels/config.yml</code>. This file manages module toggles, world structures, command limitations, and party and duel matchmaking metrics.</p>
+
+<h3>Module Toggles</h3>
+<p>Disable specific sub-modules server-wide:</p>
+<pre><span class="lang-badge">yaml</span><code>modules:
+  queue: true
+  ffa: true
+  party: true
+  spectate: true
+  friends: true
+  duels: true
+  custom-kits: true
+  killstreaks: true
+  auto-gg: true
+  action-bar: false
+  tab-list: true
+  scoreboard: true
+  practice-kit-editor: true
+  practice-duel-command: true
+  practice-right-click-duel: true
+  practice-death-messages: true
+  practice-golden-head: true
+  practice-totem-practice: true
+  armor-trimmer: true
+  shield-customizer: true
+  enchant-table: true
+  kit-editor-armor-trimmer: true
+  kit-room-shulker-editor: true</code></pre>
+<p>See <a href="practice-features.html">Practice Features</a> for practice module details.</p>
+
+<h3>World and Arena Configurations</h3>
+<pre><span class="lang-badge">yaml</span><code>arenas:
+  world: Arenas               # Base void world; clone worlds become Arenas1, Arenas2, …
+  cloning: 0                  # Extra world copies for duel capacity (0 = off)
+  sanitize-clone-worlds: true # Strip entity data from copied world folders
+  reset-queue:
+    max-concurrent: 3         # Max simultaneous FAWE arena restorations
+    ffa-one-at-a-time: true   # Only one FFA reset at a time (duel resets unaffected)
+  clear-entities-on-startup: true
+  sanitize-clone-worlds: true # Strip entity data from copied world folders</code></pre>
+<p>See the <a href="arena-setup.html#arena-cloning">Arena Setup: Arena Cloning</a> guide for how cloning works. <strong>Build template arenas only in the base <code>Arenas</code> world</strong>, not in <code>Arenas1</code>, <code>Arenas2</code>, or other auto-generated clone worlds.</p>
+
+<h3>Command Restrictions</h3>
+<p>Configure command rules inside matches to block cheating or bypass attempts:</p>
+<pre><span class="lang-badge">yaml</span><code>command-restrictions:
+  allowed:                    # Always permitted (plus admin bypass)
+    - leave
+    - leavefight
+    - spawn
+    - spectate
+  in-party:                   # Blocked while in a party lobby
+    - kiteditor
+    - duel
+    - ffa
+    - spectate
+  in-match-global:            # Blocked during any active match
+    - kiteditor
+  in-duel:
+    mode: block-all
+  in-ffa:
+    mode: block-all
+  in-spectate:
+    mode: block-all</code></pre>
+
+<h3>Queue and Duels</h3>
+<pre><span class="lang-badge">yaml</span><code>queue:
+  multiple-kits: true         # Allow queuing multiple kits at once
+  random-queue-enabled: true  # Random kit queue option
+  modes:                      # Disable individual queue sizes
+    1v1: true
+    2v2: true
+    3v3: true
+    4v4: true
+
+duels:
+  invite-expiration: 60       # Seconds before duel invites expire
+  start-countdown: 5          # Countdown before round starts
+  max-rounds: 20
+
+leavefight:
+  cooldown: 3                 # Seconds before /leavefight can be used again
+  delay: 3                      # Teleport delay after command</code></pre>
+
+<h3>Party, FFA, and Match Start</h3>
+<pre><span class="lang-badge">yaml</span><code>party:
+  default-max-size: 8
+  size-permissions:
+    shyamduels.vip: 16
+    shyamduels.vipplus: 32
+  invite-expiration: 60
+
+party-chat:
+  format: "&b[Party] &f{player}: &7{message}"
+
+party-ffa:
+  spawn-circle-radius: 4.0
+
+ffa:
+  reset-interval-seconds: 1800
+  use-match-start-options: true
+  skip-countdown: false
+  countdown-seconds: [5, 4, 3, 2, 1]
+
+match-start:
+  countdown-seconds: [5, 4, 3, 2, 1]
+
+match-start-potions:
+  enabled: true
+  delay_seconds: 1
+  blocked-effects: [poison, slowness, weakness, ...]</code></pre>
+<p>Configure match-start potion scanning per kit with <code>/kit matchstartpots</code>. See <a href="kit-setup.html">Kit Setup</a>.</p>
+
+<h3>Killstreaks, Messages, and Practice Items</h3>
+<pre><span class="lang-badge">yaml</span><code>killstreaks:
+  enabled: true
+  broadcast: true
+  tiers:
+    - kills: 5
+      name: "Killing Spree"
+    - kills: 10
+      name: "Rampage"
+
+death-messages:
+  enabled: true
+  customizable: true
+
+auto-gg:
+  enabled: true
+  delay-seconds: 2
+
+golden-head:
+  cooldown: 3
+  item: { ... }               # Texture, name, lore, effects
+
+totem-practice:
+  command: "totempractice"
+  gui: { title, size }
+  practice: { score_reset_duration, max_misses }
+
+door-animation:
+  enabled: true               # Complex door gates (see Gate Setup guide)
+
+custom-kits:
+  enabled: true
+  base-kit-name: custom
+  default-unlocked-kits: 3
+  hide-from-public-menus: true
+
+right-click:
+  enabled: true
+  commands:
+    - "duel %clicked_player%"
+
+item-drops:
+  enabled: false
+  looting-delay: 5</code></pre>
+<p>Golden head, totem practice, and door animation are toggled via <code>modules.*</code>, not separate <code>enabled</code> keys on those sections.</p>
+
+<h3>Tab List and Scoreboard</h3>
+<p>Tab headers/footers and scoreboard layouts are configured in separate files:</p>
+<ul>
+  <li><code>plugins/ShyamDuels/tab/display.yml</code> - tab list header, footer, and name formats</li>
+  <li><code>plugins/ShyamDuels/tab/scoreboard.yml</code> - in-match and lobby scoreboards</li>
+  <li><code>plugins/ShyamDuels/tab/animations.yml</code> - scrolling tab animations</li>
+</ul>
+<p>Reload tab config with <code>/tab reload</code>. Players toggle tab/scoreboard visibility in <code>/settings</code>.</p>
+<p><strong>Tab sort ranks</strong> in <code>tab/display.yml</code> use optional LuckPerms permissions for prefix priority: <code>group.owner</code>, <code>shyamtab.admin</code>, <code>shyamtab.staff</code>, <code>shyamtab.vip</code>.</p>
+
+<h3>GUI Menus and Item Configs</h3>
+<p>All player-facing menus live under <code>plugins/ShyamDuels/menus/</code>:</p>
+<ul>
+  <li><code>duel.yml</code>, <code>queue.yml</code>, <code>queue-kit.yml</code>, <code>ffa.yml</code>, <code>spectate.yml</code></li>
+  <li><code>kiteditor.yml</code>, <code>kitroom.yml</code>, <code>kitroom_items.yml</code></li>
+  <li><code>party-gui.yml</code>, <code>party-manage.yml</code>, <code>party-settings.yml</code>, <code>party-signgui.yml</code></li>
+  <li><code>player-settings.yml</code>, <code>loot.yml</code></li>
+  <li><code>armor_trimmer.yml</code>, <code>shield_customizer.yml</code>, <code>shulker_editor.yml</code>, <code>enchant_table.yml</code></li>
+  <li><code>customkits-*.yml</code> (selector, editor, category, settings, armor selection, enchantment, signgui)</li>
+</ul>
+<p>Lobby hotbar items and the post-duel rematch button: <code>items/spawn-items.yml</code>. Party and queue hotbar items: <code>items/party-items.yml</code>, <code>items/queue-items.yml</code>.</p>
+<pre><span class="lang-badge">yaml</span><code># items/spawn-items.yml
+rematch:
+  enabled: true               # Allow rematch after duels
+  duration-seconds: 5         # How long the rematch item stays in hotbar
+  slot: 5                     # Hotbar slot (0-8)
+  material: EMERALD
+  name: "&a&lREMATCH"
+  lore:
+    - " &fQuick rematch vs &e{opponent}"
+    - " &7Kit: &b{kit}"
+
+items:
+  queue:
+    slot: 0
+    material: DIAMOND_SWORD
+    name: "&b&lRANKED QUEUE"
+    commands: ["player:queue"]</code></pre>
+<p>Rematch lore supports <code>{opponent}</code> and <code>{kit}</code> placeholders. Reload with <code>/shyamduels reload</code>.</p>
+<p>Kit and FFA GUI order/icons: <code>data/order.yml</code>. Custom kit categories: <code>categories.json</code> (runtime).</p>
+
+<h3>Runtime Data Files</h3>
+<ul>
+  <li><code>data/arenas.db</code>, <code>data/kits.db</code>, <code>data/stats.db</code> - SQLite databases (paths configurable in <code>database.yml</code>)</li>
+  <li><code>data/complex-door-data/&lt;arena&gt;.yml</code> - Gate definitions per arena</li>
+  <li><code>data/customkits/</code> - Saved player custom kit profiles</li>
+  <li><code>data/playerdata/</code> - Per-player custom kit slot unlock data</li>
+  <li><code>schematics/&lt;ArenaName&gt;.schem</code> - FAWE arena snapshots</li>
+</ul>
+
+<h3>Messages (lang/messages.yml)</h3>
+<p>All in-game chat strings, GUI titles, duel titles, party messages, and help text live in <code>plugins/ShyamDuels/lang/messages.yml</code>. Reload with <code>/shyamduels reload</code>.</p>
+
+<h2>Database Connection Settings (database.yml)</h2>
+<p>Manages backend data connections for matchmaking stats, arena registers, and kit loads:</p>
+<pre><span class="lang-badge">yaml</span><code>type: SQLITE                  # Connection type: SQLITE or MYSQL
+
+sqlite:
+  directory: data
+  arenas-file: arenas.db      # Local SQLite database files
+  kits-file: kits.db
+  stats-file: stats.db
+
+mysql:
+  host: localhost
+  port: 3306
+  database: shyamduels
+  username: root
+  password: ""
+  use-ssl: false</code></pre>
+
+<h2>ELO and Ranks Database (ranks.yml)</h2>
+<p>Manages matchmaking ranges and calculations:</p>
+<pre><span class="lang-badge">yaml</span><code>elo:
+  rank-system: true           # Enable rank progressions
+  starting-elo: 1000          # Base ELO rating for new players
+  base-gain: 25               # Base ELO added on win
+  base-loss: 20               # Base ELO deducted on loss
+  kill-gain: 5                # Bonus ELO added per kill
+
+  anti-farm:
+    enabled: true             # Block ELO farming exploits
+    cooldown-hours: 3         # Cooldown before the same opponent yields ELO again
+    max-wins-per-opponent: 2  # Max wins against the same player in cooldown period
+    block-same-ip: true       # Block ELO gains between matching IP addresses</code></pre>
+
+<p>Import from StrikePractice: see the <a href="migration.html">Migration Guide</a>.</p>
+
+<h2>Sound Effects Library (sounds.yml)</h2>
+<p>Maps custom sounds to match events. Supports standard Minecraft sound keys (e.g. <code>BLOCK_NOTE_BLOCK_PLING</code>):</p>
+<pre><span class="lang-badge">yaml</span><code>sounds:
+  match-found:
+    sound: ENTITY_PLAYER_LEVELUP
+    volume: 1.0
+    pitch: 1.0
+  countdown:
+    sound: BLOCK_NOTE_BLOCK_PLING
+    volume: 1.0
+    pitch: 1.0
+  fight-start:
+    sound: ENTITY_WITHER_SPAWN
+    volume: 0.5
+    pitch: 1.0</code></pre>
+
+<div class="page-navigation">
+  <a class="page-nav-link prev" href="practice-features.html">
+    <span class="page-nav-label">Previous Page</span>
+    <span class="page-nav-title">Practice Features</span>
+  </a>
+  <a class="page-nav-link next" href="migration.html">
+    <span class="page-nav-label">Next Page</span>
+    <span class="page-nav-title">Migration Guide</span>
+  </a>
+</div>
+
+</main>
+</div>
+<script src="../assets/nav.js"></script>
+</body>
+</html>

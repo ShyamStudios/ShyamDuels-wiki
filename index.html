@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>ShyamDuels Docs: Home</title>
+<link rel="stylesheet" href="assets/style.css"/>
+</head>
+<body>
+<nav class="topnav">
+  <a class="logo-container" href="index.html">
+    <img src="shyam.webp" alt="ShyamDuels Logo" class="logo-img"/>
+    <span class="logo-text">ShyamDuels</span>
+  </a>
+  <span class="divider">/</span>
+  <div class="nav-links">
+    <a href="index.html" class="active">Home</a>
+    <a href="user-guide/getting-started.html">User Guide</a>
+    <a href="api/overview.html">Developer API</a>
+  </div>
+  <span class="spacer"></span>
+  <a class="discord-btn" href="https://discord.gg/sMdsvZFqnX" target="_blank" rel="noopener">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037 12.9 12.9 0 0 0-.608 1.25 18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+    Discord
+  </a>
+  <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+  </button>
+</nav>
+<div id="overlay"></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">User Guide</span>
+    <a href="user-guide/getting-started.html">Getting Started</a>
+    <a href="user-guide/commands.html">Commands Reference</a>
+    <a href="user-guide/permissions.html">Permissions</a>
+    <a href="user-guide/arena-setup.html">Arena Setup</a>
+    <a href="user-guide/gate-setup.html">Gate Setup</a>
+    <a href="user-guide/kit-setup.html">Kit Setup</a>
+    <a href="user-guide/party-system.html">Party System</a>
+    <a href="user-guide/ffa.html">FFA Mode</a>
+    <a href="user-guide/elo-ranks.html">ELO &amp; Ranks</a>
+    <a href="user-guide/settings.html">Player Settings</a>
+    <a href="user-guide/practice-features.html">Practice Features</a>
+    <a href="user-guide/configuration.html">Configuration Files</a>
+    <a href="user-guide/migration.html">Migration Guide</a>
+    <a href="user-guide/placeholders.html">PlaceholderAPI</a>
+    <a href="user-guide/troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">Developer API</span>
+    <a href="api/overview.html">Overview &amp; Setup</a>
+    <a href="api/services.html">Services Reference</a>
+    <a href="api/events.html">Events Reference</a>
+    <a href="api/models.html">Data Models</a>
+    <a href="api/examples.html">Code Examples</a>
+  </div>
+</aside>
+<main class="content">
+
+<div class="hero">
+  <div class="hero-title">⚔ ShyamDuels <span class="badge badge-green">v2.0</span></div>
+  <p style="font-size:1rem;color:var(--text-muted);max-width:650px;">High-performance 1v1 and team dueling plugin built for modern Paper servers. Features ELO ranked matchmaking, custom kit creation, a robust party system, FFA modes, and an extensive Java developer API.</p>
+  <div class="hero-badges">
+    <span class="badge badge-blue">Paper 1.21+</span>
+    <span class="badge badge-gray">Java 21+</span>
+    <span class="badge badge-purple">MiniMessage Support</span>
+    <span class="badge badge-yellow">SQLite &amp; MySQL</span>
+    <span class="badge badge-red">FAWE Integration</span>
+  </div>
+  <div class="hero-btns">
+    <a class="btn btn-primary" href="user-guide/getting-started.html">Get Started</a>
+    <a class="btn btn-outline" href="api/overview.html">Developer API</a>
+  </div>
+</div>
+
+<h2>Documentation Sections</h2>
+<div class="feature-grid">
+  <a class="feature-card" href="user-guide/getting-started.html">
+    <div class="fc-icon">🚀</div>
+    <div class="fc-title">Getting Started</div>
+    <div class="fc-desc">Learn how to install, set up lobby spawns, and configure your first duel kit and arena in under 10 minutes.</div>
+  </a>
+  <a class="feature-card" href="user-guide/commands.html">
+    <div class="fc-icon">💻</div>
+    <div class="fc-title">Commands Reference</div>
+    <div class="fc-desc">Exhaustive subcommands list for administrative configuration, party setups, and queue matchmaking control.</div>
+  </a>
+  <a class="feature-card" href="user-guide/permissions.html">
+    <div class="fc-icon">🔑</div>
+    <div class="fc-title">Permissions</div>
+    <div class="fc-desc">A complete reference of permission nodes including admin, player, VIP, and party capacity scopes.</div>
+  </a>
+  <a class="feature-card" href="user-guide/arena-setup.html">
+    <div class="fc-icon">🏟</div>
+    <div class="fc-title">Arena Setup</div>
+    <div class="fc-desc">Step-by-step guides to create regular duel arenas, block-building arenas, and FFA arenas.</div>
+  </a>
+  <a class="feature-card" href="user-guide/gate-setup.html">
+    <div class="fc-icon">🚪</div>
+    <div class="fc-title">Gate Setup</div>
+    <div class="fc-desc">Configure Complex Door start gates with the video tutorial and full <code>/shyamduels gate</code> command reference.</div>
+  </a>
+  <a class="feature-card" href="user-guide/kit-setup.html">
+    <div class="fc-icon">🎒</div>
+    <div class="fc-title">Kit Configuration</div>
+    <div class="fc-desc">Snapshot inventory layouts, allow blocks for building, scan match-start splash potions, and configure kit rooms.</div>
+  </a>
+  <a class="feature-card" href="user-guide/party-system.html">
+    <div class="fc-icon">👥</div>
+    <div class="fc-title">Party System</div>
+    <div class="fc-desc">Configure party size limits, team splitting, party vs party matches, and party Free-For-All queues.</div>
+  </a>
+  <a class="feature-card" href="user-guide/elo-ranks.html">
+    <div class="fc-icon">📊</div>
+    <div class="fc-title">ELO &amp; Ranks</div>
+    <div class="fc-desc">Explore the 34-tier rank progression system, formulas for matchmaking ELO, and rank multipliers.</div>
+  </a>
+  <a class="feature-card" href="user-guide/practice-features.html">
+    <div class="fc-icon">🎯</div>
+    <div class="fc-title">Practice Features</div>
+    <div class="fc-desc">Practice duels, totem training, golden heads, death messages, VIP kit tools, and legacy command aliases.</div>
+  </a>
+  <a class="feature-card" href="user-guide/migration.html">
+    <div class="fc-icon">📦</div>
+    <div class="fc-title">Migration Guide</div>
+    <div class="fc-desc">Import arenas, kits, gates, and schematics from StrikePractice with <code>/shyamduels migrate strikepractice</code>.</div>
+  </a>
+  <a class="feature-card" href="user-guide/configuration.html">
+    <div class="fc-icon">⚙️</div>
+    <div class="fc-title">Configuration Files</div>
+    <div class="fc-desc">Detailed breakdowns of config.yml, database.yml, ranks.yml, tab configs, menus, and runtime data files.</div>
+  </a>
+  <a class="feature-card" href="user-guide/placeholders.html">
+    <div class="fc-icon">🏷</div>
+    <div class="fc-title">PlaceholderAPI</div>
+    <div class="fc-desc">Every %shyamduels_% variable: stats, queue, party, practice toggles, relational nametag colors, and tab tokens.</div>
+  </a>
+  <a class="feature-card" href="api/overview.html">
+    <div class="fc-icon">🔌</div>
+    <div class="fc-title">Developer API</div>
+    <div class="fc-desc">Access duel services, custom events, entity models, and code examples for integration.</div>
+  </a>
+</div>
+
+<h2>Core Requirements</h2>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Dependency</th>
+      <th>Minimum Version</th>
+      <th>Role in Plugin</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Paper / Spigot</strong></td>
+      <td>1.21+</td>
+      <td>Server core. Paper is recommended for async performance features.</td>
+    </tr>
+    <tr>
+      <td><strong>Java</strong></td>
+      <td>21+</td>
+      <td>Java 21 or newer. The plugin will not load on older JVM versions.</td>
+    </tr>
+    <tr>
+      <td><strong>FastAsyncWorldEdit (FAWE)</strong></td>
+      <td>2.x</td>
+      <td>Required. Saves arena schematics and handles instant block-rollback after duels.</td>
+    </tr>
+    <tr>
+      <td><strong>LuckPerms</strong></td>
+      <td>5.x</td>
+      <td>Required. Handles permissions for VIP tiers, limits, and admin overrides.</td>
+    </tr>
+    <tr>
+      <td><strong>PlaceholderAPI</strong></td>
+      <td>2.11+</td>
+      <td>Required. Exports match stats, ranks, and player states for scoreboards and chat.</td>
+    </tr>
+    <tr>
+      <td><strong>packetevents</strong></td>
+      <td>2.x</td>
+      <td>Required. Manages network packets for scoreboards, tab lists, and nametags.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="alert alert-note">
+  <div class="alert-title">Dependency Boot Constraints</div>
+  All dependencies mentioned above are required at startup. The server will fail to load the plugin if any of them are missing.
+</div>
+
+</main>
+</div>
+<script src="assets/nav.js"></script>
+</body>
+</html>

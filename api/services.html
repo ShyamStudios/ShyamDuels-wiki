@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Services Reference: ShyamDuels</title>
+<link rel="stylesheet" href="../assets/style.css"/>
+</head>
+<body>
+<nav class="topnav">
+  <a class="logo-container" href="../index.html">
+    <img src="../shyam.webp" alt="ShyamDuels Logo" class="logo-img"/>
+    <span class="logo-text">ShyamDuels</span>
+  </a>
+  <span class="divider">/</span>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="../user-guide/getting-started.html">User Guide</a>
+    <a href="overview.html" class="active">Developer API</a>
+  </div>
+  <span class="spacer"></span>
+  <a class="discord-btn" href="https://discord.gg/sMdsvZFqnX" target="_blank" rel="noopener">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037 12.9 12.9 0 0 0-.608 1.25 18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+    Discord
+  </a>
+  <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+  </button>
+</nav>
+<div id="overlay"></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">User Guide</span>
+    <a href="../user-guide/getting-started.html">Getting Started</a>
+    <a href="../user-guide/commands.html">Commands Reference</a>
+    <a href="../user-guide/permissions.html">Permissions</a>
+    <a href="../user-guide/arena-setup.html">Arena Setup</a>
+    <a href="../user-guide/gate-setup.html">Gate Setup</a>
+    <a href="../user-guide/kit-setup.html">Kit Setup</a>
+    <a href="../user-guide/party-system.html">Party System</a>
+    <a href="../user-guide/ffa.html">FFA Mode</a>
+    <a href="../user-guide/elo-ranks.html">ELO &amp; Ranks</a>
+    <a href="../user-guide/settings.html">Player Settings</a>
+    <a href="../user-guide/practice-features.html">Practice Features</a>
+    <a href="../user-guide/configuration.html">Configuration Files</a>
+    <a href="../user-guide/migration.html">Migration Guide</a>
+    <a href="../user-guide/placeholders.html">PlaceholderAPI</a>
+    <a href="../user-guide/troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">Developer API</span>
+    <a href="overview.html">Overview &amp; Setup</a>
+    <a href="services.html" class="active">Services Reference</a>
+    <a href="events.html">Events Reference</a>
+    <a href="models.html">Data Models</a>
+    <a href="examples.html">Code Examples</a>
+  </div>
+</aside>
+<main class="content">
+
+<div class="breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="overview.html">Developer API</a><span>›</span>Services Reference</div>
+<h1>Services Reference</h1>
+<p class="page-lead">Comprehensive guide detailing the individual service interfaces exposed by <code>ShyamDuelsAPI</code>.</p>
+
+<h2>Overview of Services</h2>
+<p>Each service interface manages a specific aspect of the plugin (matchmaking, players, statistics, structures). Resolve a service instance from your resolved API entry point:</p>
+<pre><span class="lang-badge">java</span><code>ShyamDuelsAPI api = ShyamDuelsProvider.require();
+DuelService duelService = api.duels();
+StatsService statsService = api.stats();</code></pre>
+
+<h2>DuelService</h2>
+<p>Interface: <code>com.shyamstudio.shyamduels.api.duel.DuelService</code><br/>
+Manages active duel instances, invitations, and match structures:</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Method Signature</th>
+      <th>Returns</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>isInDuel(Player player)</code></td>
+      <td>boolean</td>
+      <td>Returns true if the player is currently inside a duel.</td>
+    </tr>
+    <tr>
+      <td><code>getDuel(Player player)</code></td>
+      <td>Duel</td>
+      <td>Retrieves the player's current active Duel model, or null.</td>
+    </tr>
+    <tr>
+      <td><code>getOpponent(Player player)</code></td>
+      <td>Player</td>
+      <td>Gets the player's active opponent (1v1 duels), or null.</td>
+    </tr>
+    <tr>
+      <td><code>startDuel(Player p1, Player p2, Kit kit, int rounds)</code></td>
+      <td>void</td>
+      <td>Immediately starts a duel between two players in a claimed arena.</td>
+    </tr>
+    <tr>
+      <td><code>forceEnd(Duel duel)</code></td>
+      <td>void</td>
+      <td>Immediately terminates the duel instance and teleports players back to lobby.</td>
+    </tr>
+    <tr>
+      <td><code>sendInvite(Player sender, Player target, Kit kit, int rounds)</code></td>
+      <td>void</td>
+      <td>Sends a duel invite challenge from sender to target.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>StatsService</h2>
+<p>Interface: <code>com.shyamstudio.shyamduels.api.stats.StatsService</code><br/>
+Fetches and updates player ELO ratings, kills, deaths, winstreaks, and ranks:</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Method Signature</th>
+      <th>Returns</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>getStats(Player player)</code></td>
+      <td>PlayerStats</td>
+      <td>Gets the player's cached statistics.</td>
+    </tr>
+    <tr>
+      <td><code>getStats(UUID uuid)</code></td>
+      <td>CompletableFuture&lt;PlayerStats&gt;</td>
+      <td>Asynchronously queries player statistics from the database pool (supports offline players).</td>
+    </tr>
+    <tr>
+      <td><code>saveStats(PlayerStats stats)</code></td>
+      <td>CompletableFuture&lt;Void&gt;</td>
+      <td>Saves modifications back to the SQLite or MySQL database pools.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>ArenaService</h2>
+<p>Interface: <code>com.shyamstudio.shyamduels.api.arena.ArenaService</code><br/>
+Coordinates FAWE reset states and lists active arena environments:</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Method Signature</th>
+      <th>Returns</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>getArena(String name)</code></td>
+      <td>Arena</td>
+      <td>Resolves an Arena model by its case-insensitive name.</td>
+    </tr>
+    <tr>
+      <td><code>getArenas()</code></td>
+      <td>Collection&lt;Arena&gt;</td>
+      <td>Returns a list of all registered arenas.</td>
+    </tr>
+    <tr>
+      <td><code>resetArena(Arena arena)</code></td>
+      <td>void</td>
+      <td>Force-queues an immediate schematic reset paste on the arena.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>KitService</h2>
+<p>Interface: <code>com.shyamstudio.shyamduels.api.kit.KitService</code><br/>
+Manages kit configurations and whitelist setups:</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Method Signature</th>
+      <th>Returns</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>getKit(String name)</code></td>
+      <td>Kit</td>
+      <td>Resolves a kit configuration template by name.</td>
+    </tr>
+    <tr>
+      <td><code>getKits()</code></td>
+      <td>Collection&lt;Kit&gt;</td>
+      <td>Returns all registered kit templates.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>PartyService</h2>
+<p>Interface: <code>com.shyamstudio.shyamduels.api.party.PartyService</code><br/>
+Tracks active parties, member indices, and team divisions:</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Method Signature</th>
+      <th>Returns</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>getParty(Player player)</code></td>
+      <td>Party</td>
+      <td>Retrieves the player's active Party, or null.</td>
+    </tr>
+    <tr>
+      <td><code>isInParty(Player player)</code></td>
+      <td>boolean</td>
+      <td>Returns true if the player is currently inside a party structure.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>FriendsService</h2>
+<p>Interface: <code>com.shyamstudio.shyamduels.api.friend.FriendsService</code><br/>
+Manages friend requests and friend list states:</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Method Signature</th>
+      <th>Returns</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>getFriends(Player player)</code></td>
+      <td>List&lt;UUID&gt;</td>
+      <td>Gets a list of player UUIDs on the target player's friends list.</td>
+    </tr>
+    <tr>
+      <td><code>isFriend(Player p1, Player p2)</code></td>
+      <td>boolean</td>
+      <td>Returns true if the players are friends.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>QueueService</h2>
+<p>Interface: <code>com.shyamstudio.shyamduels.api.queue.QueueService</code><br/>
+Manages ranked/unranked matchmaking queues for solo players and parties:</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Key Methods</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>addPlayer(player, kit, mode)</code></td><td>Adds a player to a kit queue.</td></tr>
+    <tr><td><code>removePlayer(player)</code></td><td>Removes a player from all queues.</td></tr>
+    <tr><td><code>isQueued(player)</code></td><td>Returns whether the player is in any queue.</td></tr>
+    <tr><td><code>getQueueSize(kitName, mode)</code></td><td>Players waiting in a specific queue.</td></tr>
+    <tr><td><code>addParty(party, kit, mode)</code></td><td>Queues an entire party together.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>FFAService</h2>
+<p>Interface: <code>com.shyamstudio.shyamduels.api.ffa.FFAService</code><br/>
+Controls FFA join/leave, arena state, and resets:</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Key Methods</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>joinFFA(player, arena)</code></td><td>Teleports a player into an FFA arena.</td></tr>
+    <tr><td><code>leaveFFA(player)</code></td><td>Removes a player from FFA.</td></tr>
+    <tr><td><code>getPlayerArena(player)</code></td><td>Returns the arena the player is in, or null.</td></tr>
+    <tr><td><code>resetArena(arena)</code></td><td>Triggers an FFA map reset.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>SpectatorService</h2>
+<p>Interface: <code>com.shyamstudio.shyamduels.api.spectate.SpectatorService</code></p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Key Methods</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>joinSpectate(spectator, target)</code></td><td>Starts spectating a player's duel.</td></tr>
+    <tr><td><code>leaveSpectate(spectator)</code></td><td>Stops spectating.</td></tr>
+    <tr><td><code>getActiveDuels()</code></td><td>Lists all duels that can be spectated.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>SettingsService, PlaceholderService, CommandService</h2>
+<p>Additional core services on <code>ShyamDuelsAPI</code>:</p>
+<ul>
+  <li><code>settings()</code> - read/update per-player toggles (scoreboard, tab, auto-GG, etc.)</li>
+  <li><code>placeholders()</code> - resolve ShyamDuels placeholders programmatically</li>
+  <li><code>commands()</code> - inspect command restriction state for players</li>
+</ul>
+
+<h2>Optional Services</h2>
+<p>Available when the corresponding module is enabled:</p>
+<ul>
+  <li><code>practice()</code> - <code>PracticeService</code> for golden heads, totem practice, death messages</li>
+  <li><code>customKits()</code> - <code>CustomKitsService</code> for player-built custom kit profiles</li>
+</ul>
+
+<div class="page-navigation">
+  <a class="page-nav-link prev" href="overview.html">
+    <span class="page-nav-label">Previous Page</span>
+    <span class="page-nav-title">Developer API Overview</span>
+  </a>
+  <a class="page-nav-link next" href="events.html">
+    <span class="page-nav-label">Next Page</span>
+    <span class="page-nav-title">Events Reference</span>
+  </a>
+</div>
+
+</main>
+</div>
+<script src="../assets/nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>PlaceholderAPI: ShyamDuels</title>
+<link rel="stylesheet" href="../assets/style.css"/>
+</head>
+<body>
+<nav class="topnav">
+  <a class="logo-container" href="../index.html">
+    <img src="../shyam.webp" alt="ShyamDuels Logo" class="logo-img"/>
+    <span class="logo-text">ShyamDuels</span>
+  </a>
+  <span class="divider">/</span>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="getting-started.html" class="active">User Guide</a>
+    <a href="../api/overview.html">Developer API</a>
+  </div>
+  <span class="spacer"></span>
+  <a class="discord-btn" href="https://discord.gg/sMdsvZFqnX" target="_blank" rel="noopener">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037 12.9 12.9 0 0 0-.608 1.25 18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+    Discord
+  </a>
+  <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+  </button>
+</nav>
+<div id="overlay"></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">User Guide</span>
+    <a href="getting-started.html">Getting Started</a>
+    <a href="commands.html">Commands Reference</a>
+    <a href="permissions.html">Permissions</a>
+    <a href="arena-setup.html">Arena Setup</a>
+    <a href="gate-setup.html">Gate Setup</a>
+    <a href="kit-setup.html">Kit Setup</a>
+    <a href="party-system.html">Party System</a>
+    <a href="ffa.html">FFA Mode</a>
+    <a href="elo-ranks.html">ELO &amp; Ranks</a>
+    <a href="settings.html">Player Settings</a>
+    <a href="practice-features.html">Practice Features</a>
+    <a href="configuration.html">Configuration Files</a>
+    <a href="migration.html">Migration Guide</a>
+    <a href="placeholders.html" class="active">PlaceholderAPI</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">Developer API</span>
+    <a href="../api/overview.html">Overview &amp; Setup</a>
+    <a href="../api/services.html">Services Reference</a>
+    <a href="../api/events.html">Events Reference</a>
+    <a href="../api/models.html">Data Models</a>
+    <a href="../api/examples.html">Code Examples</a>
+  </div>
+</aside>
+<main class="content">
+
+<div class="breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="getting-started.html">User Guide</a><span>›</span>PlaceholderAPI</div>
+<h1>PlaceholderAPI Placeholders</h1>
+<p class="page-lead">All PlaceholderAPI variables registered under the <code>%shyamduels_%</code> identifier, plus <code>&lt;tag&gt;</code> scoreboard/tab tokens (such as <code>&lt;ffa_players&gt;</code>) used in <code>tab/scoreboard.yml</code>.</p>
+
+<h2>Player Statistics Placeholders</h2>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Placeholder Variable</th>
+      <th>Output Format</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code>%shyamduels_kills%</code></td><td>Integer</td><td>Total kills recorded.</td></tr>
+    <tr><td><code>%shyamduels_deaths%</code></td><td>Integer</td><td>Total deaths recorded.</td></tr>
+    <tr><td><code>%shyamduels_kd%</code> / <code>%shyamduels_kdr%</code></td><td>Decimal</td><td>Kills divided by deaths, formatted to two decimal slots.</td></tr>
+    <tr><td><code>%shyamduels_wins%</code></td><td>Integer</td><td>Total ranked match victories.</td></tr>
+    <tr><td><code>%shyamduels_losses%</code></td><td>Integer</td><td>Total ranked match defeats.</td></tr>
+    <tr><td><code>%shyamduels_wl%</code></td><td>Decimal</td><td>Wins divided by losses, formatted to two decimal slots.</td></tr>
+    <tr><td><code>%shyamduels_killstreak%</code></td><td>Integer</td><td>Current consecutive kills (resets on death).</td></tr>
+    <tr><td><code>%shyamduels_best_killstreak%</code></td><td>Integer</td><td>All-time highest consecutive kill record.</td></tr>
+    <tr><td><code>%shyamduels_winstreak%</code></td><td>Integer</td><td>Current consecutive matchmaking victories.</td></tr>
+    <tr><td><code>%shyamduels_best_winstreak%</code></td><td>Integer</td><td>All-time highest consecutive matchmaking win record.</td></tr>
+    <tr><td><code>%shyamduels_elo%</code></td><td>Integer</td><td>Current matchmaking rating.</td></tr>
+    <tr><td><code>%shyamduels_rank%</code> / <code>%shyamduels_rank_colored%</code> / <code>%shyamduels_rank_color%</code></td><td>MiniMessage Format</td><td>Displays rank name formatting (e.g., <code>&lt;gold&gt;[Gold V]&lt;/gold&gt;</code>). Returns <code>&lt;gray&gt;[Unranked]&lt;/gray&gt;</code> if no rank applies.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Active Match States</h2>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Placeholder Variable</th>
+      <th>Output Format</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code>%shyamduels_in_duel%</code></td><td>boolean</td><td>Returns true if the player is currently inside a duel.</td></tr>
+    <tr><td><code>%shyamduels_in_fight%</code></td><td>boolean</td><td>Returns true if the player is inside an active fight.</td></tr>
+    <tr><td><code>%shyamduels_kit%</code></td><td>String</td><td>Displays the active kit display name for the current match.</td></tr>
+    <tr><td><code>%shyamduels_opponent%</code></td><td>String</td><td>Displays the opponent player's name, or "None".</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Queue and Matchmaking Placeholders</h2>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Placeholder Variable</th>
+      <th>Output Format</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code>%shyamduels_in_queue%</code></td><td>boolean</td><td>Returns true if the player is in queue.</td></tr>
+    <tr><td><code>%shyamduels_queue_kit%</code></td><td>String</td><td>Displays the display name of the queued kit.</td></tr>
+    <tr><td><code>%shyamduels_queue_mode%</code></td><td>String</td><td>Displays the active queue matchmaking mode (e.g. Ranked).</td></tr>
+    <tr><td><code>%shyamduels_wait_time%</code> / <code>%shyamduels_queue_wait_time%</code></td><td>String</td><td>Formatted duration elapsed in queue (e.g., <code>01:24</code>).</td></tr>
+    <tr><td><code>%shyamduels_queue_count%</code></td><td>Integer</td><td>Number of kits the player is currently queued for (multi-queue).</td></tr>
+    <tr><td><code>%shyamduels_queue_players%</code></td><td>Integer</td><td>Total players currently queued inside your active kit queue.</td></tr>
+    <tr><td><code>%shyamduels_queue_playing%</code></td><td>Integer</td><td>Total players currently in active matches inside your active kit queue.</td></tr>
+    <tr><td><code>%shyamduels_players%</code></td><td>Integer</td><td>Total online players on the server.</td></tr>
+    <tr><td><code>%shyamduels_queue_elapsed%</code></td><td>Integer</td><td>Seconds the player has been in queue.</td></tr>
+    <tr><td><code>%shyamduels_queue_kits%</code></td><td>String</td><td>Comma-separated list of kits the player is queued for.</td></tr>
+    <tr><td><code>%shyamduels_is_queued%</code></td><td>boolean</td><td>Alias for whether the player is queued.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Player Preference Toggles</h2>
+<p>Returns status settings (e.g., <code>ON</code> or <code>OFF</code>):</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Placeholder Variable</th>
+      <th>Returns</th>
+      <th>Preference Monitored</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code>%shyamduels_setting_scoreboard%</code></td><td>ON / OFF</td><td>Sidebar scoreboard state.</td></tr>
+    <tr><td><code>%shyamduels_setting_tab%</code></td><td>ON / OFF</td><td>Custom list tabs formatting state.</td></tr>
+    <tr><td><code>%shyamduels_setting_nametags%</code></td><td>ON / OFF</td><td>Nametag state.</td></tr>
+    <tr><td><code>%shyamduels_setting_actionbar%</code></td><td>ON / OFF</td><td>Queue time action bar state.</td></tr>
+    <tr><td><code>%shyamduels_setting_friends%</code></td><td>ON / OFF</td><td>Friend request receipt state.</td></tr>
+    <tr><td><code>%shyamduels_tab_view%</code> / <code>%shyamduels_setting_tab_view%</code></td><td>Lobby / Friends</td><td>Active lobby tab list page setting.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Party Status Placeholders</h2>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Placeholder Variable</th>
+      <th>Returns</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code>%shyamduels_in_party%</code></td><td>boolean</td><td>Returns true if the player is inside a party.</td></tr>
+    <tr><td><code>%shyamduels_party_members%</code></td><td>Integer</td><td>Current count of online party members.</td></tr>
+    <tr><td><code>%shyamduels_party_mode%</code></td><td>String</td><td>Returns the active party mode (e.g., FFA).</td></tr>
+    <tr><td><code>%shyamduels_party_play_mode%</code></td><td>String</td><td>Returns the party play mode (Queue, Split, FFA, or Vs Party).</td></tr>
+    <tr><td><code>%shyamduels_party_chat%</code></td><td>ON / OFF</td><td>Returns whether party chat is active for the player.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Practice Placeholders</h2>
+<p>Registered by the practice module under the same <code>shyamduels</code> identifier:</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Placeholder Variable</th>
+      <th>Returns</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code>%shyamduels_autogg%</code></td><td>Enabled / Disabled</td><td>Whether the player has auto-GG enabled.</td></tr>
+    <tr><td><code>%shyamduels_deathmessages%</code></td><td>Enabled / Disabled</td><td>Whether custom death messages are enabled for the player.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Scoreboard and Tab Tokens</h2>
+<p>These tokens use <code>&lt;tag&gt;</code> syntax in <code>tab/scoreboard.yml</code> and tab list lines. ShyamDuels resolves them when rendering scoreboards and tab lists; PlaceholderAPI placeholders on the same line are processed afterward. Many tags mirror the <code>%shyamduels_*%</code> variables above.</p>
+<p>Example from <code>tab/scoreboard.yml</code>:</p>
+<pre><span class="lang-badge">yaml</span><code>- '  &lt;gray&gt;Players:&lt;/gray&gt; &lt;white&gt;&lt;ffa_players&gt;[display=&lt;is_ffa&gt;]&lt;/white&gt;'</code></pre>
+<p>The <code>[display=&lt;condition&gt;]</code> suffix hides the whole line when the condition is false (see Config Tokens below).</p>
+
+<h3>Match and Activity State</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Token</th><th>Output</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>&lt;is_ffa&gt;</code></td><td>boolean</td><td>True when the player is in an FFA arena.</td></tr>
+    <tr><td><code>&lt;is_in_fight&gt;</code> / <code>&lt;in_fight&gt;</code></td><td>boolean</td><td>True during a duel or FFA match.</td></tr>
+    <tr><td><code>&lt;is_editing_kit&gt;</code></td><td>boolean</td><td>True while the player is in kit editor.</td></tr>
+    <tr><td><code>&lt;is_in_party&gt;</code></td><td>boolean</td><td>True when the player is in a party.</td></tr>
+    <tr><td><code>&lt;is_queued&gt;</code></td><td>boolean</td><td>True when the player is waiting in queue.</td></tr>
+    <tr><td><code>&lt;in_queue&gt;</code></td><td>Integer</td><td>Players waiting in the viewer's active kit queue (0 if not queued).</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>FFA</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Token</th><th>Output</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>&lt;ffa_players&gt;</code></td><td>Integer</td><td>Players currently in the same FFA arena as the viewer.</td></tr>
+    <tr><td><code>&lt;ffa_rollback&gt;</code></td><td>N/A</td><td>Reserved legacy tag.</td></tr>
+    <tr><td><code>&lt;kit&gt;</code></td><td>String</td><td>Active kit display name (duel, FFA, or queue context).</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Duel and Round Info</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Token</th><th>Output</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>&lt;self&gt;</code></td><td>String</td><td>Viewer's username.</td></tr>
+    <tr><td><code>&lt;self_ping&gt;</code></td><td>Integer</td><td>Viewer's ping (ms).</td></tr>
+    <tr><td><code>&lt;opponent&gt;</code></td><td>String</td><td>Opponent name, or <code>None</code>.</td></tr>
+    <tr><td><code>&lt;opponent_ping&gt;</code></td><td>Integer</td><td>Opponent ping during a duel (0 if none).</td></tr>
+    <tr><td><code>&lt;round&gt;</code></td><td>Integer</td><td>Current round number in a multi-round duel.</td></tr>
+    <tr><td><code>&lt;max_rounds&gt;</code> / <code>&lt;total_rounds&gt;</code></td><td>Integer</td><td>Maximum rounds configured for the duel.</td></tr>
+    <tr><td><code>&lt;own_wins&gt;</code></td><td>Integer</td><td>Viewer's round wins in the current duel.</td></tr>
+    <tr><td><code>&lt;opponent_wins&gt;</code></td><td>Integer</td><td>Opponent's round wins in the current duel.</td></tr>
+    <tr><td><code>&lt;duration&gt;</code></td><td>String</td><td>Elapsed match time (e.g. <code>01:24</code>).</td></tr>
+    <tr><td><code>&lt;hits&gt;</code> / <code>&lt;hits_opponent&gt;</code></td><td>0</td><td>Legacy compatibility tags.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Queue</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Token</th><th>Output</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>&lt;queue_kit&gt;</code></td><td>String</td><td>Display name of the primary queued kit.</td></tr>
+    <tr><td><code>&lt;queue_primary_kit&gt;</code></td><td>String</td><td>Same as <code>&lt;queue_kit&gt;</code>.</td></tr>
+    <tr><td><code>&lt;queue_mode&gt;</code></td><td>String</td><td>Active queue mode (e.g. Ranked).</td></tr>
+    <tr><td><code>&lt;queue_count&gt;</code></td><td>Integer</td><td>Number of kits the player is queued for (multi-queue).</td></tr>
+    <tr><td><code>&lt;queue_extra&gt;</code></td><td>Integer</td><td>Extra queued kits beyond the primary (<code>queue_count - 1</code>).</td></tr>
+    <tr><td><code>&lt;queue_kits&gt;</code></td><td>String</td><td>Comma-separated list of queued kit names.</td></tr>
+    <tr><td><code>&lt;queue_players&gt;</code></td><td>Integer</td><td>Players waiting in the viewer's active kit queue.</td></tr>
+    <tr><td><code>&lt;queue_playing&gt;</code></td><td>Integer</td><td>Players in active matches for the viewer's queued kit.</td></tr>
+    <tr><td><code>&lt;queue_elapsed&gt;</code></td><td>Integer</td><td>Seconds spent in queue.</td></tr>
+    <tr><td><code>&lt;wait_time&gt;</code></td><td>String</td><td>Formatted queue wait time (e.g. <code>1:24</code>).</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Party and Teams</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Token</th><th>Output</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>&lt;party_owner&gt;</code></td><td>String</td><td>Party leader name.</td></tr>
+    <tr><td><code>&lt;party_members&gt;</code></td><td>Integer</td><td>Online party member count.</td></tr>
+    <tr><td><code>&lt;party_mode&gt;</code></td><td>String</td><td>Active party mode (e.g. FFA).</td></tr>
+    <tr><td><code>&lt;party_play_mode&gt;</code></td><td>String</td><td>Party play mode (Queue, Split, FFA, Vs Party).</td></tr>
+    <tr><td><code>&lt;party_chat&gt;</code></td><td>ON / OFF</td><td>Whether party chat is enabled for the viewer.</td></tr>
+    <tr><td><code>&lt;enemy_team_owner&gt;</code></td><td>String</td><td>Enemy team leader in party vs party.</td></tr>
+    <tr><td><code>&lt;own_team_left&gt;</code></td><td>Integer</td><td>Alive players on the viewer's team.</td></tr>
+    <tr><td><code>&lt;own_team_members&gt;</code></td><td>Integer</td><td>Total players on the viewer's team.</td></tr>
+    <tr><td><code>&lt;enemy_team_left&gt;</code></td><td>Integer</td><td>Alive players on the enemy team.</td></tr>
+    <tr><td><code>&lt;enemy_team_members&gt;</code></td><td>Integer</td><td>Total players on the enemy team.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Player Stats</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Token</th><th>Output</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>&lt;kills&gt;</code></td><td>Integer</td><td>Total kills.</td></tr>
+    <tr><td><code>&lt;deaths&gt;</code></td><td>Integer</td><td>Total deaths.</td></tr>
+    <tr><td><code>&lt;kd&gt;</code> / <code>&lt;kdr&gt;</code></td><td>Decimal</td><td>K/D ratio.</td></tr>
+    <tr><td><code>&lt;wins&gt;</code></td><td>Integer</td><td>Ranked wins.</td></tr>
+    <tr><td><code>&lt;losses&gt;</code></td><td>Integer</td><td>Ranked losses.</td></tr>
+    <tr><td><code>&lt;elo&gt;</code></td><td>Integer</td><td>Current ELO rating.</td></tr>
+    <tr><td><code>&lt;rank&gt;</code></td><td>String</td><td>Rank display name, or <code>Unranked</code>.</td></tr>
+    <tr><td><code>&lt;rank_colored&gt;</code></td><td>MiniMessage</td><td>Colored rank name with formatting codes.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Server and Settings</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Token</th><th>Output</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>&lt;players&gt;</code></td><td>Integer</td><td>Online player count.</td></tr>
+    <tr><td><code>&lt;max_players&gt;</code></td><td>Integer</td><td>Server max players.</td></tr>
+    <tr><td><code>&lt;online_staff&gt;</code></td><td>Integer</td><td>Online staff count.</td></tr>
+    <tr><td><code>&lt;free_arenas&gt;</code></td><td>Integer</td><td>Available duel arenas.</td></tr>
+    <tr><td><code>&lt;arenas&gt;</code></td><td>Integer</td><td>Total registered arenas.</td></tr>
+    <tr><td><code>&lt;ping&gt;</code></td><td>Integer</td><td>Viewer ping (ms).</td></tr>
+    <tr><td><code>&lt;setting_tab&gt;</code></td><td>ON / OFF</td><td>Custom tab list toggle.</td></tr>
+    <tr><td><code>&lt;setting_nametags&gt;</code></td><td>ON / OFF</td><td>Nametag toggle.</td></tr>
+    <tr><td><code>&lt;setting_scoreboard&gt;</code></td><td>ON / OFF</td><td>Scoreboard toggle.</td></tr>
+    <tr><td><code>&lt;setting_actionbar&gt;</code></td><td>ON / OFF</td><td>Queue action bar toggle.</td></tr>
+    <tr><td><code>&lt;setting_friends&gt;</code></td><td>ON / OFF</td><td>Friend request toggle.</td></tr>
+    <tr><td><code>&lt;setting_tab_view&gt;</code></td><td>Lobby / Friends</td><td>Active lobby tab page preference.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Player Head Components</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Token / Placeholder</th><th>Output</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>%shyamduels_head_self%</code></td><td><code>&lt;head:self&gt;</code></td><td>Player head component for scoreboards/tab.</td></tr>
+    <tr><td><code>%shyamduels_head_enemy%</code></td><td><code>&lt;head:enemy&gt;</code></td><td>Opponent head component during duels.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Tab Config Tokens</h2>
+<p>Additional tokens used only in ShyamDuels tab/scoreboard configs:</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Token</th>
+      <th>Output</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code>%shyamtab_display_mode%</code></td><td>String</td><td>Current lobby tab display mode (Lobby or Friends). Shown in <code>tab/display.yml</code> footers.</td></tr>
+    <tr><td><code>%animation:&lt;name&gt;%</code></td><td>String</td><td>Scrolling animation frame from <code>tab/animations.yml</code>. Resolved before PlaceholderAPI.</td></tr>
+    <tr><td><code>[display=true]</code> / <code>[display=false]</code></td><td>Conditional</td><td>Hide or show a tab/scoreboard line based on a boolean condition (often another <code>&lt;tag&gt;</code>).</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Relational Placeholders</h2>
+<p>Relational placeholders are evaluated relative to two players. The identifier is prefixed by <code>%rel_shyamduels_%</code>:</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Placeholder Variable</th>
+      <th>Returns</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>%rel_shyamduels_relation%</code></td>
+      <td>Color Codes</td>
+      <td>Returns relationship color coding (e.g. green for teammates, red for enemies). Used for nametags.</td>
+    </tr>
+    <tr>
+      <td><code>%rel_shyamduels_team%</code></td>
+      <td>Color Codes</td>
+      <td>Evaluates matches and assigns relationship color highlights.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="page-navigation">
+  <a class="page-nav-link prev" href="migration.html">
+    <span class="page-nav-label">Previous Page</span>
+    <span class="page-nav-title">Migration Guide</span>
+  </a>
+  <a class="page-nav-link next" href="troubleshooting.html">
+    <span class="page-nav-label">Next Page</span>
+    <span class="page-nav-title">Troubleshooting</span>
+  </a>
+</div>
+
+</main>
+</div>
+<script src="../assets/nav.js"></script>
+</body>
+</html>

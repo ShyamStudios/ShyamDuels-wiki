@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="referrer" content="strict-origin-when-cross-origin"/>
+<title>Gate Setup: ShyamDuels</title>
+<link rel="stylesheet" href="../assets/style.css"/>
+</head>
+<body>
+<nav class="topnav">
+  <a class="logo-container" href="../index.html">
+    <img src="../shyam.webp" alt="ShyamDuels Logo" class="logo-img"/>
+    <span class="logo-text">ShyamDuels</span>
+  </a>
+  <span class="divider">/</span>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="getting-started.html" class="active">User Guide</a>
+    <a href="../api/overview.html">Developer API</a>
+  </div>
+  <span class="spacer"></span>
+  <a class="discord-btn" href="https://discord.gg/sMdsvZFqnX" target="_blank" rel="noopener">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037 12.9 12.9 0 0 0-.608 1.25 18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+    Discord
+  </a>
+  <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+  </button>
+</nav>
+<div id="overlay"></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">User Guide</span>
+    <a href="getting-started.html">Getting Started</a>
+    <a href="commands.html">Commands Reference</a>
+    <a href="permissions.html">Permissions</a>
+    <a href="arena-setup.html">Arena Setup</a>
+    <a href="gate-setup.html" class="active">Gate Setup</a>
+    <a href="kit-setup.html">Kit Setup</a>
+    <a href="party-system.html">Party System</a>
+    <a href="ffa.html">FFA Mode</a>
+    <a href="elo-ranks.html">ELO &amp; Ranks</a>
+    <a href="settings.html">Player Settings</a>
+    <a href="practice-features.html">Practice Features</a>
+    <a href="configuration.html">Configuration Files</a>
+    <a href="migration.html">Migration Guide</a>
+    <a href="placeholders.html">PlaceholderAPI</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">Developer API</span>
+    <a href="../api/overview.html">Overview &amp; Setup</a>
+    <a href="../api/services.html">Services Reference</a>
+    <a href="../api/events.html">Events Reference</a>
+    <a href="../api/models.html">Data Models</a>
+    <a href="../api/examples.html">Code Examples</a>
+  </div>
+</aside>
+<main class="content">
+
+<div class="breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="getting-started.html">User Guide</a><span>›</span>Gate Setup</div>
+<h1>Complex Door Gate Setup</h1>
+<p class="page-lead">Configure animated start gates (Complex Door) on duel arenas. Players spawn behind fence barriers, ready up by hitting the gate, then the doors open when the match begins.</p>
+
+<h2>Video Tutorial</h2>
+<p>The walkthrough below follows the same setup flow as this video. The physical build steps (where to click corners, where to stand, how gates behave in a match) are identical in ShyamDuels. Only the command prefix differs: use <code>/shyamduels gate</code> instead of the commands shown in the video.</p>
+
+<div class="video-embed" id="gate-video">
+  <a class="video-facade" id="gate-video-facade" href="https://youtu.be/hbiK_g0YsgA" target="_blank" rel="noopener noreferrer">
+    <img src="https://img.youtube.com/vi/hbiK_g0YsgA/hqdefault.jpg" alt="Gate setup tutorial thumbnail" width="480" height="360" loading="lazy"/>
+    <span class="video-facade-play" aria-hidden="true">
+      <svg width="68" height="48" viewBox="0 0 68 48" aria-hidden="true"><path d="M66.52 7.74a8.4 8.4 0 0 0-5.91-5.94C55.83 1 34 1 34 1S12.17 1 7.39 1.8a8.4 8.4 0 0 0-5.91 5.94A88.3 88.3 0 0 0 0 24a88.3 88.3 0 0 0 1.48 16.26 8.4 8.4 0 0 0 5.91 5.94C12.17 47 34 47 34 47s21.83 0 26.61-.8a8.4 8.4 0 0 0 5.91-5.94A88.3 88.3 0 0 0 68 24a88.3 88.3 0 0 0-1.48-16.26z" fill="#f00"/><path d="M45 24 27 14v20" fill="#fff"/></svg>
+    </span>
+    <span class="video-facade-label">Play gate setup tutorial</span>
+  </a>
+</div>
+<p><a href="https://youtu.be/hbiK_g0YsgA?si=IoXhGqThMMqeM_lS" target="_blank" rel="noopener noreferrer">Open on YouTube</a> if the player does not load.</p>
+
+<div class="alert alert-note">
+  <div class="alert-title">ShyamDuels command prefix</div>
+  All gate commands run under <code>/shyamduels gate</code> (not <code>/practice gate</code> or other prefixes from older plugins). You also need permission <code>shyamduels.practice.gate.setup</code> or <code>shyamduels.admin</code>.
+</div>
+
+<h2>Prerequisites</h2>
+<ol class="steps">
+  <li>The arena is already created and linked to a kit (<a href="arena-setup.html">Arena Setup</a>).</li>
+  <li>Door animation is enabled in <code>config.yml</code>:
+<pre><code>door-animation:
+  enabled: true</code></pre>
+  </li>
+  <li>You are standing inside the arena world at the gate you want to configure.</li>
+</ol>
+
+<h2>Quick Setup (Follow the Video)</h2>
+<ol class="steps">
+  <li>Get the gate selection wand:
+<pre><code>/shyamduels gate wand</code></pre>
+  </li>
+  <li>With the wand in hand, <strong>left-click</strong> the bottom corner of the doorway opening (Corner 1).</li>
+  <li><strong>Right-click</strong> the opposite top corner of the doorway opening (Corner 2). Both corners must form a flat wall (same X or same Z), not a diagonal selection.</li>
+  <li>Walk to the <strong>arena floor side</strong> of the gate (where players stand before the match). Your position here becomes the eject point if a player ends up on the wrong side when the gate closes.</li>
+  <li>Save the gate to your arena:
+<pre><code>/shyamduels gate addgate &lt;arenaName&gt;</code></pre>
+  </li>
+  <li>Repeat steps 1-5 for each additional gate on the same arena (for example one gate per spawn side in a team map).</li>
+  <li>Verify gates are registered:
+<pre><code>/shyamduels gate list</code></pre>
+  </li>
+  <li>Start a test duel. Players should see a ready-up prompt, hit the gate barrier to ready, and the doors open when all players are ready or when the countdown finishes.</li>
+</ol>
+
+<h2>Gate Commands Reference</h2>
+<p>All commands are subcommands of <code>/shyamduels gate</code>. Permission: <code>shyamduels.practice.gate.setup</code>.</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Syntax</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/shyamduels gate</code></td>
+      <td><code>/shyamduels gate</code></td>
+      <td>Displays the full gate command help list in chat.</td>
+    </tr>
+    <tr>
+      <td><code>/shyamduels gate wand</code></td>
+      <td><code>/shyamduels gate wand</code></td>
+      <td>Gives you the Gate Selection Wand (Blaze Rod). Left-click sets Corner 1, right-click sets Corner 2.</td>
+    </tr>
+    <tr>
+      <td><code>/shyamduels gate addgate</code></td>
+      <td><code>/shyamduels gate addgate &lt;arena&gt;</code></td>
+      <td>Saves the wand selection as a gate on the specified arena. Must be run while standing on the arena floor side. Sets the eject point to your current location.</td>
+    </tr>
+    <tr>
+      <td><code>/shyamduels gate delete</code></td>
+      <td><code>/shyamduels gate delete &lt;arena&gt;</code></td>
+      <td>Deletes <strong>all</strong> gates linked to the arena and removes spawned gate entities.</td>
+    </tr>
+    <tr>
+      <td><code>/shyamduels gate list</code></td>
+      <td><code>/shyamduels gate list</code></td>
+      <td>Lists every arena that has gates and how many gates each arena has.</td>
+    </tr>
+    <tr>
+      <td><code>/shyamduels gate reload</code></td>
+      <td><code>/shyamduels gate reload</code></td>
+      <td>Reloads gate data from disk (<code>plugins/ShyamDuels/data/complex-door-data/</code>) without restarting the server.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>How Gates Work in Matches</h2>
+<ul>
+  <li>When a duel starts, fence barriers spawn inside your selected region and block the doorway.</li>
+  <li>If <code>door-animation.gate.ready_up.enabled</code> is <code>true</code>, players are prompted to hit the gate to ready up. When every fighter is ready, gates open early (before the countdown ends).</li>
+  <li>Otherwise, gates open automatically when the fight countdown completes.</li>
+  <li>After opening, gates close again after a short delay. Players caught on the wrong side are teleported to the eject point you set when running <code>addgate</code>.</li>
+  <li>Gate definitions are stored per arena under <code>plugins/ShyamDuels/data/complex-door-data/&lt;arena&gt;.yml</code>.</li>
+</ul>
+
+<h2>Configuration Options</h2>
+<p>Gate timing and ready-up messages are controlled in <code>config.yml</code> under <code>door-animation</code>:</p>
+<pre><code>door-animation:
+  enabled: true
+  animation_ticks: 20
+  fence_material: "OAK_FENCE"
+  gate:
+    close_delay_seconds: 3
+    eject_check_radius: 10
+    open_speed_ticks: 20
+    close_speed_ticks: 20
+    ready_up:
+      enabled: true
+      prompt: "&#FFAA00&l⚡ &eHit the gate to ready up!"
+      player_ready: "&#08FB52✔ &a{player} is ready!"
+      all_ready: "&#00FFFF&l⚡ &bAll players ready! Opening gates!"</code></pre>
+<p>See <a href="configuration.html">Configuration Files</a> for other plugin settings.</p>
+
+<h2>Tips and Common Mistakes</h2>
+<ul>
+  <li><strong>Flat wall only:</strong> Corner 1 and Corner 2 must share the same X coordinate or the same Z coordinate. Diagonal selections are rejected.</li>
+  <li><strong>Stand on the correct side:</strong> Run <code>addgate</code> from the arena floor where players should stand. The plugin uses your position to determine which side is "outside" and where to eject players.</li>
+  <li><strong>Multiple gates:</strong> Run <code>wand</code> → select corners → <code>addgate</code> again for each separate doorway on the same arena.</li>
+  <li><strong>Arena name must match:</strong> Use the exact arena name from <code>/arena list</code>, including clone suffixes like <code>Arena1_1</code> if configuring gates on a cloned world copy.</li>
+  <li><strong>Copypaste copies gates:</strong> <code>/arena copypaste</code> offsets gate regions to the new location automatically (<a href="arena-setup.html">Arena Setup</a>).</li>
+  <li><strong>Feature disabled:</strong> If commands say door animation is disabled, set <code>door-animation.enabled: true</code> in <code>config.yml</code> and restart.</li>
+</ul>
+
+<div class="page-navigation">
+  <a class="page-nav-link prev" href="arena-setup.html">
+    <span class="page-nav-label">Previous Page</span>
+    <span class="page-nav-title">Arena Setup Guide</span>
+  </a>
+  <a class="page-nav-link next" href="kit-setup.html">
+    <span class="page-nav-label">Next Page</span>
+    <span class="page-nav-title">Kit Setup Guide</span>
+  </a>
+</div>
+
+</main>
+</div>
+<script src="../assets/nav.js"></script>
+<script>
+(function () {
+  var container = document.getElementById('gate-video');
+  var facade = document.getElementById('gate-video-facade');
+  if (!container || !facade) return;
+
+  var videoId = 'hbiK_g0YsgA';
+
+  function mountPlayer(autoplay) {
+    facade.remove();
+    var iframe = document.createElement('iframe');
+    iframe.src = 'https://www.youtube-nocookie.com/embed/' + videoId + (autoplay ? '?autoplay=1&rel=0' : '?rel=0');
+    iframe.title = 'ShyamDuels Complex Door Gate Setup Tutorial';
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+    iframe.allowFullscreen = true;
+    iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+    iframe.loading = 'lazy';
+    container.appendChild(iframe);
+  }
+
+  if (location.protocol === 'file:') {
+    return;
+  }
+
+  mountPlayer(false);
+})();
+</script>
+</body>
+</html>

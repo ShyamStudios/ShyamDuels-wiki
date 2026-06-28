@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>ELO &amp; Ranks: ShyamDuels</title>
+<link rel="stylesheet" href="../assets/style.css"/>
+</head>
+<body>
+<nav class="topnav">
+  <a class="logo-container" href="../index.html">
+    <img src="../shyam.webp" alt="ShyamDuels Logo" class="logo-img"/>
+    <span class="logo-text">ShyamDuels</span>
+  </a>
+  <span class="divider">/</span>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="getting-started.html" class="active">User Guide</a>
+    <a href="../api/overview.html">Developer API</a>
+  </div>
+  <span class="spacer"></span>
+  <a class="discord-btn" href="https://discord.gg/sMdsvZFqnX" target="_blank" rel="noopener">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037 12.9 12.9 0 0 0-.608 1.25 18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+    Discord
+  </a>
+  <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+  </button>
+</nav>
+<div id="overlay"></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">User Guide</span>
+    <a href="getting-started.html">Getting Started</a>
+    <a href="commands.html">Commands Reference</a>
+    <a href="permissions.html">Permissions</a>
+    <a href="arena-setup.html">Arena Setup</a>
+    <a href="gate-setup.html">Gate Setup</a>
+    <a href="kit-setup.html">Kit Setup</a>
+    <a href="party-system.html">Party System</a>
+    <a href="ffa.html">FFA Mode</a>
+    <a href="elo-ranks.html" class="active">ELO &amp; Ranks</a>
+    <a href="settings.html">Player Settings</a>
+    <a href="practice-features.html">Practice Features</a>
+    <a href="configuration.html">Configuration Files</a>
+    <a href="migration.html">Migration Guide</a>
+    <a href="placeholders.html">PlaceholderAPI</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">Developer API</span>
+    <a href="../api/overview.html">Overview &amp; Setup</a>
+    <a href="../api/services.html">Services Reference</a>
+    <a href="../api/events.html">Events Reference</a>
+    <a href="../api/models.html">Data Models</a>
+    <a href="../api/examples.html">Code Examples</a>
+  </div>
+</aside>
+<main class="content">
+
+<div class="breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="getting-started.html">User Guide</a><span>›</span>ELO &amp; Ranks</div>
+<h1>ELO &amp; Ranks</h1>
+<p class="page-lead">How ELO calculations function, details on the 34-tier rank progression tree, and rank customization guides.</p>
+
+<h2>How ELO Matchmaking Works</h2>
+<p>The ELO system measures a player's relative skill level. All players start at <strong>1000 ELO</strong>. Following a matchmaking duel:</p>
+<ul>
+  <li><strong>Winner</strong>: Receives ELO based on a base gain formula and bonus points for kills.</li>
+  <li><strong>Loser</strong>: Loses ELO based on a base loss formula, adjusted by the <em>loss multiplier</em> of their current rank.</li>
+</ul>
+<p>ELO cannot drop below 0. FFA kills/deaths do not affect ELO ratings.</p>
+
+<div class="alert alert-note">
+  <div class="alert-title">ELO Variables in config.yml</div>
+  Options: <code>elo.enabled</code>, <code>elo.base-gain</code>, <code>elo.base-loss</code>, <code>elo.kill-bonus</code>, <code>elo.minimum</code>.
+</div>
+
+<h2>Default Ranks Database</h2>
+<p>If not customized inside the configuration files, the plugin loads these 34 default ranks defined in the source code:</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Rank Tier</th>
+      <th>ELO Range</th>
+      <th>Loss Multiplier</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Bronze V</td><td>0 - 199</td><td>0.40x</td></tr>
+    <tr><td>Bronze IV</td><td>200 - 399</td><td>0.45x</td></tr>
+    <tr><td>Bronze III</td><td>400 - 599</td><td>0.50x</td></tr>
+    <tr><td>Bronze II</td><td>600 - 799</td><td>0.55x</td></tr>
+    <tr><td>Bronze I</td><td>800 - 999</td><td>0.60x</td></tr>
+    <tr><td>Silver V</td><td>1000 - 1099</td><td>0.70x</td></tr>
+    <tr><td>Silver IV</td><td>1100 - 1199</td><td>0.75x</td></tr>
+    <tr><td>Silver III</td><td>1200 - 1299</td><td>0.80x</td></tr>
+    <tr><td>Silver II</td><td>1300 - 1399</td><td>0.85x</td></tr>
+    <tr><td>Silver I</td><td>1400 - 1499</td><td>0.90x</td></tr>
+    <tr><td>Gold V</td><td>1500 - 1599</td><td>1.00x</td></tr>
+    <tr><td>Gold IV</td><td>1600 - 1699</td><td>1.05x</td></tr>
+    <tr><td>Gold III</td><td>1700 - 1799</td><td>1.10x</td></tr>
+    <tr><td>Gold II</td><td>1800 - 1899</td><td>1.15x</td></tr>
+    <tr><td>Gold I</td><td>1900 - 1999</td><td>1.20x</td></tr>
+    <tr><td>Platinum V</td><td>2000 - 2099</td><td>1.25x</td></tr>
+    <tr><td>Platinum IV</td><td>2100 - 2199</td><td>1.30x</td></tr>
+    <tr><td>Platinum III</td><td>2200 - 2299</td><td>1.35x</td></tr>
+    <tr><td>Platinum II</td><td>2300 - 2399</td><td>1.40x</td></tr>
+    <tr><td>Platinum I</td><td>2400 - 2499</td><td>1.45x</td></tr>
+    <tr><td>Diamond V</td><td>2500 - 2599</td><td>1.50x</td></tr>
+    <tr><td>Diamond IV</td><td>2600 - 2699</td><td>1.55x</td></tr>
+    <tr><td>Diamond III</td><td>2700 - 2799</td><td>1.60x</td></tr>
+    <tr><td>Diamond II</td><td>2800 - 2899</td><td>1.65x</td></tr>
+    <tr><td>Diamond I</td><td>2900 - 2999</td><td>1.70x</td></tr>
+    <tr><td>Crown V</td><td>3000 - 3099</td><td>1.75x</td></tr>
+    <tr><td>Crown IV</td><td>3100 - 3199</td><td>1.80x</td></tr>
+    <tr><td>Crown III</td><td>3200 - 3299</td><td>1.85x</td></tr>
+    <tr><td>Crown II</td><td>3300 - 3399</td><td>1.90x</td></tr>
+    <tr><td>Crown I</td><td>3400 - 3499</td><td>1.95x</td></tr>
+    <tr><td>Ace</td><td>3500 - 3999</td><td>2.00x</td></tr>
+    <tr><td>Ace Master</td><td>4000 - 4499</td><td>2.25x</td></tr>
+    <tr><td>Ace Dominator</td><td>4500 - 4999</td><td>2.50x</td></tr>
+    <tr><td><strong>Conqueror</strong></td><td>5000+</td><td>3.00x</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Customizing Ranks</h2>
+<p>Define custom ranks inside <code>config.yml</code> under the <code>elo.ranks</code> section. The plugin orders ranks based on their minimum ELO thresholds:</p>
+<pre><span class="lang-badge">yaml</span><code>elo:
+  enabled: true
+  base-gain: 25
+  base-loss: 20
+  kill-bonus: 5
+  minimum: 0
+
+  ranks:
+    iron:
+      name: "Iron"
+      colored: "&7[Iron]"
+      min-elo: 0
+      max-elo: 499
+      loss-multiplier: 0.5
+    gold:
+      name: "Gold"
+      colored: "&6[Gold]"
+      min-elo: 500
+      max-elo: 999
+      loss-multiplier: 1.0
+    diamond:
+      name: "Diamond"
+      colored: "&b[Diamond]"
+      min-elo: 1000
+      max-elo: 9999
+      loss-multiplier: 1.5</code></pre>
+<p>The <code>colored</code> property supports Kyori MiniMessage components.</p>
+
+<h2>Tracked Player Statistics</h2>
+<p>The plugin tracks various player stats, accessible via <code>/stats</code> or PlaceholderAPI:</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Stat Key</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Kills</td><td>Total player kills across duels and FFA modes.</td></tr>
+    <tr><td>Deaths</td><td>Total player deaths.</td></tr>
+    <tr><td>K/D Ratio</td><td>Kills divided by deaths, formatted to two decimal positions.</td></tr>
+    <tr><td>Wins</td><td>Total match wins inside matchmaking duels.</td></tr>
+    <tr><td>Losses</td><td>Total match losses.</td></tr>
+    <tr><td>W/L Ratio</td><td>Wins divided by losses, formatted to two decimal positions.</td></tr>
+    <tr><td>Killstreak</td><td>Current consecutive kills (resets to 0 upon death).</td></tr>
+    <tr><td>Best Killstreak</td><td>All-time highest consecutive kill record.</td></tr>
+    <tr><td>Winstreak</td><td>Current consecutive matchmaking duel wins (resets to 0 upon loss).</td></tr>
+    <tr><td>Best Winstreak</td><td>All-time highest consecutive matchmaking win record.</td></tr>
+    <tr><td>ELO</td><td>Current matchmaking rating (defaults to 1000).</td></tr>
+    <tr><td>Playtime</td><td>Total time spent online on the server, formatted as Xh Xm Xs.</td></tr>
+  </tbody>
+</table>
+<div class="page-navigation">
+  <a class="page-nav-link prev" href="ffa.html">
+    <span class="page-nav-label">Previous Page</span>
+    <span class="page-nav-title">FFA Mode Guide</span>
+  </a>
+  <a class="page-nav-link next" href="settings.html">
+    <span class="page-nav-label">Next Page</span>
+    <span class="page-nav-title">Player Settings Guide</span>
+  </a>
+</div>
+
+</main>
+</div>
+<script src="../assets/nav.js"></script>
+</body>
+</html>

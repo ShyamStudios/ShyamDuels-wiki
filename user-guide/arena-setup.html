@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Arena Setup: ShyamDuels</title>
+<link rel="stylesheet" href="../assets/style.css"/>
+</head>
+<body>
+<nav class="topnav">
+  <a class="logo-container" href="../index.html">
+    <img src="../shyam.webp" alt="ShyamDuels Logo" class="logo-img"/>
+    <span class="logo-text">ShyamDuels</span>
+  </a>
+  <span class="divider">/</span>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="getting-started.html" class="active">User Guide</a>
+    <a href="../api/overview.html">Developer API</a>
+  </div>
+  <span class="spacer"></span>
+  <a class="discord-btn" href="https://discord.gg/sMdsvZFqnX" target="_blank" rel="noopener">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037 12.9 12.9 0 0 0-.608 1.25 18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+    Discord
+  </a>
+  <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+  </button>
+</nav>
+<div id="overlay"></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">User Guide</span>
+    <a href="getting-started.html">Getting Started</a>
+    <a href="commands.html">Commands Reference</a>
+    <a href="permissions.html">Permissions</a>
+    <a href="arena-setup.html" class="active">Arena Setup</a>
+    <a href="gate-setup.html">Gate Setup</a>
+    <a href="kit-setup.html">Kit Setup</a>
+    <a href="party-system.html">Party System</a>
+    <a href="ffa.html">FFA Mode</a>
+    <a href="elo-ranks.html">ELO &amp; Ranks</a>
+    <a href="settings.html">Player Settings</a>
+    <a href="practice-features.html">Practice Features</a>
+    <a href="configuration.html">Configuration Files</a>
+    <a href="migration.html">Migration Guide</a>
+    <a href="placeholders.html">PlaceholderAPI</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">Developer API</span>
+    <a href="../api/overview.html">Overview &amp; Setup</a>
+    <a href="../api/services.html">Services Reference</a>
+    <a href="../api/events.html">Events Reference</a>
+    <a href="../api/models.html">Data Models</a>
+    <a href="../api/examples.html">Code Examples</a>
+  </div>
+</aside>
+<main class="content">
+
+<div class="breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="getting-started.html">User Guide</a><span>›</span>Arena Setup</div>
+<h1>Arena Setup</h1>
+<p class="page-lead">How ShyamDuels arenas manage block structures, and how to create regular duel arenas, block-building arenas, and Free For All (FFA) arenas.</p>
+
+<h2>How Arenas Work</h2>
+<p>When you define both diagonal corners of an arena, ShyamDuels prompts FastAsyncWorldEdit (FAWE) to <strong>serialize and save a schematic</strong> of that designated block region. Once a duel or match concludes, FAWE pastes the schematic back, reverting all blocks to their original pre-match layout. This ensures:</p>
+<ul>
+  <li>Arenas restore automatically after every match without manual intervention.</li>
+  <li>If you edit the block layout of the physical arena later on, you must re-execute the <code>corner1</code> and <code>corner2</code> commands to refresh the schematic layout.</li>
+  <li>Schematic blueprints are stored under <code>plugins/ShyamDuels/schematics/&lt;ArenaName&gt;.schem</code>.</li>
+</ul>
+
+<h2>Arena World</h2>
+<p>ShyamDuels creates or loads a dedicated void world for match arenas, configured in <code>config.yml</code>:</p>
+<pre><code>arenas:
+  world: Arenas</code></pre>
+<p>On first startup the plugin generates this as an empty void world if it does not exist. <strong>Always build template arenas here.</strong> Do not run <code>/arena create</code>, place corners, or paste builds in clone worlds such as <code>Arenas1</code>, <code>Arenas2</code>, and so on. Those worlds are auto-generated copies for extra match capacity; the plugin mirrors your <code>Arenas</code> templates into them when <code>arenas.cloning</code> is enabled.</p>
+<p>When you run <code>/arena create</code>, the arena record stores whichever world you are standing in. You <em>can</em> register arenas in other custom worlds if cloning is off, but cloning only duplicates the configured base world folder. See <a href="#when-not-to-clone">When Not to Use Cloning</a>.</p>
+
+<div class="alert alert-warning">
+  <div class="alert-title">Never build in Arenas1, Arenas2, or other clone worlds</div>
+  Clone worlds (<code>Arenas1</code>, <code>Arenas2</code>, …) are read-only copies created from the base <code>Arenas</code> folder on startup. If you build or run <code>/arena create</code> there, those changes are lost on restart, duplicated incorrectly, or conflict with auto-registered clone arenas (names like <code>Arena1_1</code>). <strong>Create and edit arenas only in the base <code>Arenas</code> world.</strong>
+</div>
+
+<h2 id="arena-cloning">Arena Cloning</h2>
+<p>Arena cloning multiplies duel capacity without rebuilding every arena at new coordinates. Instead of pasting 30 separate schematics in one world, you build each arena once in the base world and let the plugin copy the entire world.</p>
+
+<h3>How It Works</h3>
+<ol class="steps">
+  <li>Set <code>arenas.cloning</code> in <code>config.yml</code> to the number of extra world copies you want (for example <code>2</code>).</li>
+  <li>On startup, ShyamDuels copies the on-disk folder of <code>arenas.world</code> (default <code>Arenas</code>) into sibling worlds named <code>Arenas1</code>, <code>Arenas2</code>, … <code>ArenasN</code>.</li>
+  <li>Every registered <strong>duel</strong> arena that is not already a clone becomes a template. For each clone world, the plugin registers a copy named <code>TemplateName_1</code>, <code>TemplateName_2</code>, and so on.</li>
+  <li>Each copy uses the <strong>same X/Y/Z coordinates and facing</strong> as the template, but in the matching clone world. Kit links, build flags, and gate data are copied too.</li>
+  <li>FAWE still resets each copy using the template arena's schematic file: you do not need separate schematics per clone.</li>
+</ol>
+
+<div class="alert alert-note">
+  <div class="alert-title">Example</div>
+  You build 30 duel arenas in the <code>Arenas</code> world and set <code>cloning: 2</code>. On startup you get:
+  <ul>
+    <li>30 arenas in <code>Arenas</code> (original templates)</li>
+    <li>30 arenas in <code>Arenas1</code> (names suffixed <code>_1</code>)</li>
+    <li>30 arenas in <code>Arenas2</code> (names suffixed <code>_2</code>)</li>
+  </ul>
+  Total: <strong>90 concurrent duel slots</strong> at identical layouts.
+</div>
+
+<h3>Configuration</h3>
+<pre><code>arenas:
+  world: Arenas
+  cloning: 2                    # 0 = disabled (default)
+  sanitize-clone-worlds: true   # Strips entity/POI data from copied worlds (recommended)</code></pre>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Option</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>arenas.world</code></td>
+      <td>Base void world where templates are built. Clone worlds are named <code>{world}1</code>, <code>{world}2</code>, etc.</td>
+    </tr>
+    <tr>
+      <td><code>arenas.cloning</code></td>
+      <td>Number of extra world copies. <code>0</code> disables cloning entirely.</td>
+    </tr>
+    <tr>
+      <td><code>arenas.sanitize-clone-worlds</code></td>
+      <td>Removes entity and POI chunk data from copied world folders before load, preventing stale entity errors on clone worlds.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3>What Gets Cloned</h3>
+<ul>
+  <li><strong>Included:</strong> duel arenas (corners, spawns, center, linked kits, build flag, door gates).</li>
+  <li><strong>Excluded:</strong> FFA arenas, disabled arenas, and arenas that are already clones (<code>TemplateName_N</code>).</li>
+</ul>
+<p>Run <code>/arena list</code> to see clone counts. Cloned entries appear with names like <code>Arena1_1</code> and report under world clones in the list footer.</p>
+
+<h3 id="when-not-to-clone">When Not to Use Cloning</h3>
+<p>Leave <code>arenas.cloning: 0</code> and create arenas manually when any of the following apply:</p>
+
+<div class="alert alert-warning">
+  <div class="alert-title">Arenas in different worlds</div>
+  Cloning copies only the configured <code>arenas.world</code> folder. If your duel arenas live in multiple worlds: for example <code>Arena1</code> in <code>Arenas</code>, <code>Arena2</code> in <code>BuildWorld</code>, and <code>Arena3</code> in <code>spawn</code>: enabling cloning will still register copies named <code>Arena2_1</code> inside <code>Arenas1</code> at <code>Arena2</code>'s coordinates. Those coordinates point at void or unrelated terrain, not your real build in <code>BuildWorld</code>. <strong>Do not enable cloning when templates are spread across worlds.</strong> Instead, register each arena where it was built using normal <code>/arena</code> commands.
+</div>
+
+<ul>
+  <li><strong>Unique layouts per instance:</strong> cloning duplicates the same schematic at the same coordinates. If each arena should look different or sit in a different region, build separate template arenas instead.</li>
+  <li><strong>FFA maps:</strong> FFA arenas are never cloned. Give each FFA map its own arena entry and schematic.</li>
+  <li><strong>Low player count:</strong> a handful of templates in one world is often enough; cloning adds disk use (one full world folder per clone).</li>
+  <li><strong>Editing clone worlds directly:</strong> clone world folders are regenerated from the base world on first copy. Long-term edits should happen in the template world, then remove clone folders and restart (or set <code>cloning: 0</code>, delete <code>Arenas1</code>… folders, re-enable, restart).</li>
+</ul>
+
+<h3>Multi-World Setup Without Cloning</h3>
+<p>If you intentionally host arenas in different worlds (lobby world, themed build world, etc.):</p>
+<ol class="steps">
+  <li>Keep <code>arenas.cloning: 0</code>.</li>
+  <li>Stand inside the target world when running <code>/arena create</code>, corner commands, and spawn setup: the arena stores that world name.</li>
+  <li>Create one arena record per physical map, even if layouts repeat. Matchmaking treats each as an independent slot.</li>
+  <li>Use <code>/arena list</code> and <code>/arena info &lt;name&gt;</code> to verify each arena's world matches where you built it.</li>
+</ol>
+
+<h2>Arena Lifecycle Status</h2>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Status State</th>
+      <th>Functional Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>AVAILABLE</code></td>
+      <td>The arena is idle and waiting to receive queued players.</td>
+    </tr>
+    <tr>
+      <td><code>IN_USE</code></td>
+      <td>An active duel match is currently ongoing inside the arena.</td>
+    </tr>
+    <tr>
+      <td><code>REGENERATING</code></td>
+      <td>FAWE is pasting the schematic back to restore the blocks. The state returns to AVAILABLE once the paste finishes.</td>
+    </tr>
+    <tr>
+      <td><code>UNAVAILABLE</code></td>
+      <td>FAWE failed to restore blocks after multiple attempts. The arena shuts down and administrators are notified. Requires a server reboot.</td>
+    </tr>
+    <tr>
+      <td><code>DISABLED</code></td>
+      <td>Manually blocked from matchmaking.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Creating a Standard Duel Arena</h2>
+<ol class="steps">
+  <li>Register the arena record: <code>/arena create Arena1</code></li>
+  <li>Stand at <strong>one corner</strong> of the boundary you wish to protect and execute: <code>/arena corner1 Arena1</code></li>
+  <li>Walk diagonally to the <strong>opposite corner</strong> (other side, floor/ceiling boundary) and execute: <code>/arena corner2 Arena1</code>. You should see a confirmation notification if the schematic saved successfully.</li>
+  <li>Stand at the spawn point for <strong>Player 1</strong> facing the arena center and execute: <code>/arena spawn1 Arena1</code></li>
+  <li>Stand at the spawn point for <strong>Player 2</strong> facing the opponent spawn and execute: <code>/arena spawn2 Arena1</code></li>
+  <li>(Optional) Stand at the arena center and run: <code>/arena center Arena1</code>. This coordinates spectators and team spawn boundaries.</li>
+  <li>Link a kit configuration: <code>/arena addkit Arena1 NoDebuff</code></li>
+</ol>
+
+<div class="alert alert-warning">
+  <div class="alert-title">Boundary Selection Warning</div>
+  Always select boundary corners that encompass the entire arena, including potential build limits. Blocks modified outside the selection region will not be restored when the match concludes.
+</div>
+
+<h3>Linking Multiple Kits</h3>
+<pre><code>/arena addkit Arena1 NoDebuff
+/arena addkit Arena1 Sword
+/arena addkit Arena1 Axe</code></pre>
+<p>All three kits will share Arena1. The matchmaking manager grabs any available arena that supports the kit currently requested by the matched players.</p>
+
+<h3>Cloning an Arena Build (<code>/arena copypaste</code>)</h3>
+<p>Use this when you want multiple copies of the same map at <strong>different coordinates</strong> in the base <code>Arenas</code> world (or another world if cloning is disabled), without rebuilding by hand. This is separate from <a href="#arena-cloning">world cloning</a> in <code>config.yml</code>, which duplicates entire worlds on startup. Do not use <code>/arena copypaste</code> inside <code>Arenas1</code> or <code>Arenas2</code>; those clone worlds are managed automatically.</p>
+<ol class="steps">
+  <li>Fully set up the source arena: both corners (so the schematic is saved), spawns, center, and linked kits.</li>
+  <li>Fly to where the <strong>minimum corner</strong> of the new copy should go (the same relative anchor point you used for the source arena's <code>corner1</code> / <code>corner2</code> selection).</li>
+  <li>Run: <code>/arena copypaste &lt;sourceArena&gt; &lt;newName&gt;</code></li>
+</ol>
+<p>The plugin pastes the source schematic, creates a new arena record, and copies these settings (offset to the new location where applicable):</p>
+<ul>
+  <li><strong>Kit links</strong>: all kits linked via <code>/arena addkit</code></li>
+  <li><strong>Build mode</strong>: enabled/disabled state from <code>/arena build</code></li>
+  <li><strong>Arena type</strong>: DUEL or FFA from <code>/arena ffa</code></li>
+  <li><strong>Spawn points</strong>: spawn1, spawn2, and center</li>
+  <li><strong>FFA spawns</strong>: all custom points from <code>/arena addffaspawn</code></li>
+  <li><strong>FFA GUI</strong>: display name, icon, and kit override from <code>/arena setdisplayname</code> and <code>/arena seticon</code></li>
+  <li><strong>Door gates</strong>: gate regions and eject points (if configured with <code>/shyamduels gate</code>). See the <a href="gate-setup.html">Gate Setup</a> guide.</li>
+</ul>
+<p>A fresh schematic is saved for the new arena so FAWE resets work independently.</p>
+<div class="alert alert-warning">
+  <div class="alert-title">Cannot be undone</div>
+  <code>/arena copypaste</code> places real blocks in the world. If the paste fails partway through, the command rolls back the new arena entry. To remove a completed copy, use <code>/arena delete &lt;newName&gt;</code> and manually clear any leftover blocks if needed.
+</div>
+
+<h2>Creating an FFA Arena</h2>
+<ol class="steps">
+  <li>Create and set up the arena boundaries, spawns, and kit links identically to a duel arena.</li>
+  <li>Toggle FFA mode on: <code>/arena ffa MyFFA true</code>. This switches the match logic from DUEL to FFA.</li>
+  <li>(Optional) Add extra random spawn points: stand at each location and run <code>/arena addffaspawn MyFFA</code>. Repeat for as many spawns as you want.</li>
+  <li>The FFA timer will automatically begin managing chest restock schedules and map resets.</li>
+</ol>
+<p>When no custom FFA spawns are registered, players spawn at <code>spawn1</code> (via <code>/arena spawn1</code>). Use <code>/arena clearffaspawns &lt;name&gt;</code> to remove all custom spawns and fall back to the default spawn points.</p>
+<p>Players join using the <code>/ffa</code> interface. Check the <a href="ffa.html">FFA Mode</a> guide for details.</p>
+
+<h3>FFA GUI Suffixes and Icons</h3>
+<pre><code>/arena setdisplayname MyFFA &lt;red&gt;NoDebuff FFA Arena&lt;/red&gt;
+/arena seticon MyFFA    # Sets the GUI picker icon to your held item</code></pre>
+
+<h2 id="build-mode">Build Mode (Arena and Kit Must Match)</h2>
+<p>Build mode controls whether players can place and break blocks during a match. It is set separately on the <strong>arena</strong> and the <strong>kit</strong>, and both must agree or matchmaking will skip the arena.</p>
+
+<div class="alert alert-warning">
+  <div class="alert-title">Arena and kit build mode must match</div>
+  Matchmaking only pairs a kit with arenas that have the <strong>same</strong> build setting. If the arena has build mode <code>true</code> but the kit has build mode <code>false</code> (or the other way around), the arena is ignored and players may see <strong>No arenas available for this kit</strong> even when free arenas exist. Always set both to the same value:
+  <ul>
+    <li><strong>Build match:</strong> <code>/arena build &lt;arena&gt; true</code> and <code>/kit build &lt;kit&gt; true</code></li>
+    <li><strong>Non-build match:</strong> <code>/arena build &lt;arena&gt; false</code> and <code>/kit build &lt;kit&gt; false</code></li>
+  </ul>
+</div>
+
+<h3>Creating a Build Arena</h3>
+<ol class="steps">
+  <li>Set up the arena (corners, spawn locations, kit link) normally.</li>
+  <li>Enable arena build mode: <code>/arena build BuildArena true</code></li>
+  <li>Enable kit build mode: <code>/kit build BridgeKit true</code></li>
+  <li>(Optional) Restrict which blocks can be placed: hold each block and run <code>/kit allowblock BridgeKit</code></li>
+</ol>
+<p>When the kit has no block whitelist, players can place and break any block in a build-enabled arena. When a whitelist exists, only those block types are allowed. All block changes are restored by FAWE when the match finishes.</p>
+
+<h3>Creating a Non-Build Arena</h3>
+<ol class="steps">
+  <li>Set up the arena and link the kit as usual.</li>
+  <li>Leave build mode off (default): <code>/arena build Arena1 false</code></li>
+  <li>Ensure the kit is also non-build: <code>/kit build NoDebuff false</code></li>
+</ol>
+<p>Non-build is the default for new arenas and kits. Use <code>/arena info &lt;name&gt;</code> and <code>/kit info &lt;name&gt;</code> to verify build mode before opening queues.</p>
+
+<h2>Updating Arenas</h2>
+<p>If you renovate or change blocks in the arena build later, standing at the same selection corners and executing the corner commands will overwrite the existing schematic:</p>
+<pre><code>/arena corner1 Arena1
+/arena corner2 Arena1</code></pre>
+
+<h2>Manual Regenerations</h2>
+<p>If a match glitches or leaves blocks behind, force a layout reset manually:</p>
+<pre><code>/arena reset Arena1</code></pre>
+<p>This triggers a rollback paste, changing the state to REGENERATING and back to AVAILABLE.</p>
+
+<h2>Exhaustive Arena Setup Command Reference</h2>
+<p>Below is a complete command reference table for managing arena environments (requires <code>shyamduels.admin</code>):</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Syntax / Parameters</th>
+      <th>Functional Behavior</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/arena create</code></td>
+      <td><code>/arena create &lt;name&gt;</code></td>
+      <td>Registers a new empty arena configuration profile in the database.</td>
+    </tr>
+    <tr>
+      <td><code>/arena delete</code></td>
+      <td><code>/arena delete &lt;name&gt;</code></td>
+      <td>Deletes the arena configuration, schematics, and unlinks kits.</td>
+    </tr>
+    <tr>
+      <td><code>/arena corner1</code></td>
+      <td><code>/arena corner1 &lt;name&gt;</code></td>
+      <td>Sets the first corner coordinates of the physical arena boundary region.</td>
+    </tr>
+    <tr>
+      <td><code>/arena corner2</code></td>
+      <td><code>/arena corner2 &lt;name&gt;</code></td>
+      <td>Sets the second corner coordinates. Triggers FAWE to save the captured block region to schematic.</td>
+    </tr>
+    <tr>
+      <td><code>/arena spawn1</code></td>
+      <td><code>/arena spawn1 &lt;name&gt;</code></td>
+      <td>Sets the spawn location for Player 1 / Team 1.</td>
+    </tr>
+    <tr>
+      <td><code>/arena spawn2</code></td>
+      <td><code>/arena spawn2 &lt;name&gt;</code></td>
+      <td>Sets the spawn location for Player 2 / Team 2.</td>
+    </tr>
+    <tr>
+      <td><code>/arena center</code></td>
+      <td><code>/arena center &lt;name&gt;</code></td>
+      <td>Sets the center coordinate of the arena (for spectator placement and team boundaries).</td>
+    </tr>
+    <tr>
+      <td><code>/arena teleport</code></td>
+      <td><code>/arena teleport &lt;name&gt;</code></td>
+      <td>Teleports you to the center of the specified arena. Aliases: <code>tp</code>, <code>gotoworkspace</code>.</td>
+    </tr>
+    <tr>
+      <td><code>/arena addkit</code></td>
+      <td><code>/arena addkit &lt;name&gt; &lt;kit&gt;</code></td>
+      <td>Links a kit template to the arena, making it available for matches using that kit.</td>
+    </tr>
+    <tr>
+      <td><code>/arena removekit</code></td>
+      <td><code>/arena removekit &lt;name&gt; &lt;kit&gt;</code></td>
+      <td>Unlinks a kit template from the arena.</td>
+    </tr>
+    <tr>
+      <td><code>/arena copypaste</code></td>
+      <td><code>/arena copypaste &lt;source&gt; &lt;newName&gt;</code></td>
+      <td>Clones the source arena's schematic and metadata to your current position under a new name. Source must have both corners set.</td>
+    </tr>
+    <tr>
+      <td><code>/arena build</code></td>
+      <td><code>/arena build &lt;name&gt; &lt;true/false&gt;</code></td>
+      <td>Enables or disables block placing/breaking during matches. Must match the linked kit's build mode (<code>/kit build</code>).</td>
+    </tr>
+    <tr>
+      <td><code>/arena ffa</code></td>
+      <td><code>/arena ffa &lt;name&gt; &lt;true/false&gt;</code></td>
+      <td>Enables or disables Free For All match mechanics inside the arena.</td>
+    </tr>
+    <tr>
+      <td><code>/arena addffaspawn</code></td>
+      <td><code>/arena addffaspawn &lt;name&gt;</code></td>
+      <td>Registers your current position as an additional random spawn point for FFA mode.</td>
+    </tr>
+    <tr>
+      <td><code>/arena clearffaspawns</code></td>
+      <td><code>/arena clearffaspawns &lt;name&gt;</code></td>
+      <td>Clears all registered additional FFA spawn points, falling back to spawn1 and spawn2.</td>
+    </tr>
+    <tr>
+      <td><code>/arena disable</code></td>
+      <td><code>/arena disable &lt;name&gt;</code></td>
+      <td>Disables the arena, blocking matchmaking queues from choosing it.</td>
+    </tr>
+    <tr>
+      <td><code>/arena enable</code></td>
+      <td><code>/arena enable &lt;name&gt;</code></td>
+      <td>Enables the arena for active matchmaking queues.</td>
+    </tr>
+    <tr>
+      <td><code>/arena reset</code></td>
+      <td><code>/arena reset &lt;name&gt;</code></td>
+      <td>Forces an immediate FAWE schematic rollback and restores blocks.</td>
+    </tr>
+    <tr>
+      <td><code>/arena list</code></td>
+      <td><code>/arena list</code></td>
+      <td>Lists all registered arenas, showing their active statuses and linked kits.</td>
+    </tr>
+    <tr>
+      <td><code>/arena info</code></td>
+      <td><code>/arena info &lt;name&gt;</code></td>
+      <td>Displays detailed config values, coordinates, and statistics for the arena.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Matchmaking Arena Claim Checks</h2>
+<p>When matchmaking pairs two players, it requests an arena using <code>ArenaManager.claimArena("KitName")</code>. The manager selects an arena that:</p>
+<ul>
+  <li>Is currently in the <code>AVAILABLE</code> state.</li>
+  <li>Is categorized as a <code>DUEL</code> type.</li>
+  <li>Has the requested kit linked.</li>
+  <li>Has the <strong>same build mode</strong> as the kit: both build (<code>true</code>) or both non-build (<code>false</code>). Checked via <code>/arena build</code> and <code>/kit build</code>.</li>
+</ul>
+<p>If no matching arenas are available, players see <strong>No arenas available for this kit</strong> and are returned to the lobby. A common cause is a build-mode mismatch: for example an arena with <code>/arena build Arena true</code> linked to a kit still on <code>/kit build Kit false</code>. Fix by setting both to the same value, then verify with <code>/arena list</code> and <code>/kit info</code>.</p>
+<p>Configuring multiple arenas for popular kits helps handle high player counts: either by building more templates in the base world, enabling <a href="#arena-cloning">arena cloning</a>, or registering separate arenas in other worlds with cloning turned off.</p>
+
+<div class="page-navigation">
+  <a class="page-nav-link prev" href="permissions.html">
+    <span class="page-nav-label">Previous Page</span>
+    <span class="page-nav-title">Permissions Reference</span>
+  </a>
+  <a class="page-nav-link next" href="gate-setup.html">
+    <span class="page-nav-label">Next Page</span>
+    <span class="page-nav-title">Gate Setup Guide</span>
+  </a>
+</div>
+
+</main>
+</div>
+<script src="../assets/nav.js"></script>
+</body>
+</html>

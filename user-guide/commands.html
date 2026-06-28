@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Commands: ShyamDuels</title>
+<link rel="stylesheet" href="../assets/style.css"/>
+</head>
+<body>
+<nav class="topnav">
+  <a class="logo-container" href="../index.html">
+    <img src="../shyam.webp" alt="ShyamDuels Logo" class="logo-img"/>
+    <span class="logo-text">ShyamDuels</span>
+  </a>
+  <span class="divider">/</span>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="getting-started.html" class="active">User Guide</a>
+    <a href="../api/overview.html">Developer API</a>
+  </div>
+  <span class="spacer"></span>
+  <a class="discord-btn" href="https://discord.gg/sMdsvZFqnX" target="_blank" rel="noopener">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037 12.9 12.9 0 0 0-.608 1.25 18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+    Discord
+  </a>
+  <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+  </button>
+</nav>
+<div id="overlay"></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">User Guide</span>
+    <a href="getting-started.html">Getting Started</a>
+    <a href="commands.html" class="active">Commands Reference</a>
+    <a href="permissions.html">Permissions</a>
+    <a href="arena-setup.html">Arena Setup</a>
+    <a href="gate-setup.html">Gate Setup</a>
+    <a href="kit-setup.html">Kit Setup</a>
+    <a href="party-system.html">Party System</a>
+    <a href="ffa.html">FFA Mode</a>
+    <a href="elo-ranks.html">ELO &amp; Ranks</a>
+    <a href="settings.html">Player Settings</a>
+    <a href="practice-features.html">Practice Features</a>
+    <a href="configuration.html">Configuration Files</a>
+    <a href="migration.html">Migration Guide</a>
+    <a href="placeholders.html">PlaceholderAPI</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">Developer API</span>
+    <a href="../api/overview.html">Overview &amp; Setup</a>
+    <a href="../api/services.html">Services Reference</a>
+    <a href="../api/events.html">Events Reference</a>
+    <a href="../api/models.html">Data Models</a>
+    <a href="../api/examples.html">Code Examples</a>
+  </div>
+</aside>
+<main class="content">
+
+<div class="breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="getting-started.html">User Guide</a><span>›</span>Commands</div>
+<h1>Commands Reference</h1>
+<p class="page-lead">Comprehensive guide listing every player, party, arena, kit, and practice command in ShyamDuels, including arguments and permissions.</p>
+
+<div class="alert alert-note">
+  <div class="alert-title">Command Tab Completion</div>
+  Commands feature automatic tab-completion for player names, kit configurations, and arena names.
+</div>
+
+<h2>Player Commands</h2>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Aliases</th>
+      <th>Permissions</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/duel &lt;player&gt;</code></td>
+      <td><code>/1v1</code></td>
+      <td><code>shyamduels.use</code></td>
+      <td>Challenges a player to a duel. Opens a kit selection GUI. The invite is blocked if the target player has duel invitations toggled off.</td>
+    </tr>
+    <tr>
+      <td><code>/duel accept &lt;player&gt;</code></td>
+      <td>-</td>
+      <td><code>shyamduels.use</code></td>
+      <td>Accepts a pending duel invitation.</td>
+    </tr>
+    <tr>
+      <td><code>/duel deny &lt;player&gt;</code></td>
+      <td>-</td>
+      <td><code>shyamduels.use</code></td>
+      <td>Rejects a pending duel invitation.</td>
+    </tr>
+    <tr>
+      <td><code>/duel spectate &lt;player&gt;</code></td>
+      <td>-</td>
+      <td><code>shyamduels.use</code></td>
+      <td>Spectates the specified player if they are currently inside a match.</td>
+    </tr>
+    <tr>
+      <td><code>/ffa</code></td>
+      <td><code>/freeforall</code></td>
+      <td><code>shyamduels.use</code></td>
+      <td>Opens the Free For All (FFA) arena selection selector menu.</td>
+    </tr>
+    <tr>
+      <td><code>/ffa join &lt;arena&gt;</code></td>
+      <td>-</td>
+      <td><code>shyamduels.use</code></td>
+      <td>Bypasses the GUI and immediately joins the specified FFA arena.</td>
+    </tr>
+    <tr>
+      <td><code>/ffa leave</code></td>
+      <td>-</td>
+      <td><code>shyamduels.use</code></td>
+      <td>Leaves your current FFA match and teleports you back to the lobby spawn.</td>
+    </tr>
+    <tr>
+      <td><code>/queue</code></td>
+      <td><code>/play</code>, <code>/ranked</code></td>
+      <td><code>shyamduels.use</code></td>
+      <td>Opens the primary ranked and unranked matchmaking queue selection GUI.</td>
+    </tr>
+    <tr>
+      <td><code>/queue [kit]</code></td>
+      <td>-</td>
+      <td><code>shyamduels.use</code></td>
+      <td>Queues you immediately for a ranked match using the specified kit.</td>
+    </tr>
+    <tr>
+      <td><code>/queue leave</code></td>
+      <td>-</td>
+      <td><code>shyamduels.use</code></td>
+      <td>Removes you from the matchmaking queues.</td>
+    </tr>
+    <tr>
+      <td><code>/kiteditor</code></td>
+      <td><code>/editkit</code>, <code>/kitedit</code></td>
+      <td><code>shyamduels.use</code></td>
+      <td>Opens a GUI to select which kit layout you would like to customize.</td>
+    </tr>
+    <tr>
+      <td><code>/kiteditor [kit]</code></td>
+      <td>-</td>
+      <td><code>shyamduels.use</code></td>
+      <td>Bypasses the selector and directly opens the editor layout for the specified kit.</td>
+    </tr>
+    <tr>
+      <td><code>/kitcreator</code></td>
+      <td><code>/customkit</code>, <code>/ckit</code></td>
+      <td><code>shyamduels.use</code></td>
+      <td>Opens the custom kit builder GUI, allowing players to build custom kit configurations.</td>
+    </tr>
+    <tr>
+      <td><code>/customkits</code></td>
+      <td><code>/ckits</code>, <code>/mykits</code></td>
+      <td><code>shyamduels.use</code></td>
+      <td>Opens the custom kits management GUI to play or edit saved layouts.</td>
+    </tr>
+    <tr>
+      <td><code>/customkits play</code></td>
+      <td><code>/ckits play</code></td>
+      <td><code>shyamduels.use</code></td>
+      <td>Opens the custom kits play selector directly.</td>
+    </tr>
+    <tr>
+      <td><code>/customkits edit</code></td>
+      <td><code>/ckits edit</code></td>
+      <td><code>shyamduels.use</code></td>
+      <td>Opens the custom kits editor directly.</td>
+    </tr>
+    <tr>
+      <td><code>/deathmessages</code></td>
+      <td>-</td>
+      <td><code>shyamduels.use</code></td>
+      <td>Toggles custom practice death messages on or off. Requires <code>modules.practice-death-messages</code>.</td>
+    </tr>
+    <tr>
+      <td><code>/practiceduel [player]</code></td>
+      <td><code>/pduel</code>, <code>/roundsduel</code></td>
+      <td><code>shyamduels.practice.duel</code></td>
+      <td>Challenges a player to a round-based practice duel. See <a href="practice-features.html">Practice Features</a>.</td>
+    </tr>
+    <tr>
+      <td><code>/practiceduel accept &lt;player&gt;</code></td>
+      <td>-</td>
+      <td><code>shyamduels.practice.duel</code></td>
+      <td>Accepts a pending practice duel request.</td>
+    </tr>
+    <tr>
+      <td><code>/totempractice</code></td>
+      <td><code>/totem</code></td>
+      <td><code>shyamduels.practice.totempractice</code></td>
+      <td>Opens the Totem Reaction practice minigame GUI.</td>
+    </tr>
+    <tr>
+      <td><code>/leavefight</code></td>
+      <td><code>/leave</code>, <code>/spawn</code>, <code>/lobby</code></td>
+      <td><code>shyamduels.use</code></td>
+      <td>Leaves a duel or FFA arena. Bypasses active combat timers if the player has bypass permissions.</td>
+    </tr>
+    <tr>
+      <td><code>/spectate</code></td>
+      <td><code>/spec</code>, <code>/watch</code></td>
+      <td><code>shyamduels.use</code></td>
+      <td>Opens a GUI listing all ongoing duels and matchmaking instances.</td>
+    </tr>
+    <tr>
+      <td><code>/spectate &lt;player&gt;</code></td>
+      <td>-</td>
+      <td><code>shyamduels.use</code></td>
+      <td>Teleports you as a spectator to watch the match of the specified player.</td>
+    </tr>
+    <tr>
+      <td><code>/spectate leave</code></td>
+      <td>-</td>
+      <td><code>shyamduels.use</code></td>
+      <td>Exits spectator mode and returns you to the lobby.</td>
+    </tr>
+    <tr>
+      <td><code>/settings</code></td>
+      <td><code>/preferences</code>, <code>/prefs</code></td>
+      <td><code>shyamduels.use</code></td>
+      <td>Opens the personal configuration menu to toggle visibility, auto-GG, sounds, scoreboard, time, and weather.</td>
+    </tr>
+    <tr>
+      <td><code>/stats</code></td>
+      <td><code>/stat</code></td>
+      <td><code>shyamduels.use</code></td>
+      <td>Prints your current wins, losses, ELO, and rank metrics in the chat.</td>
+    </tr>
+    <tr>
+      <td><code>/stats view &lt;player&gt;</code></td>
+      <td>-</td>
+      <td><code>shyamduels.use</code></td>
+      <td>Displays match statistics for the specified player (supports offline targets).</td>
+    </tr>
+    <tr>
+      <td><code>/friend</code></td>
+      <td><code>/f</code>, <code>/friends</code></td>
+      <td><code>shyamduels.use</code></td>
+      <td>Displays list of subcommands for the friends module.</td>
+    </tr>
+    <tr>
+      <td><code>/friend add &lt;player&gt;</code></td>
+      <td>-</td>
+      <td><code>shyamduels.use</code></td>
+      <td>Dispatches a friend request to an online player.</td>
+    </tr>
+    <tr>
+      <td><code>/friend accept &lt;player&gt;</code></td>
+      <td>-</td>
+      <td><code>shyamduels.use</code></td>
+      <td>Accepts a pending friend request.</td>
+    </tr>
+    <tr>
+      <td><code>/friend deny &lt;player&gt;</code></td>
+      <td>-</td>
+      <td><code>shyamduels.use</code></td>
+      <td>Declines a pending friend request.</td>
+    </tr>
+    <tr>
+      <td><code>/friend remove &lt;player&gt;</code></td>
+      <td>-</td>
+      <td><code>shyamduels.use</code></td>
+      <td>Removes a player from your friend list.</td>
+    </tr>
+    <tr>
+      <td><code>/friend list</code></td>
+      <td>-</td>
+      <td><code>shyamduels.use</code></td>
+      <td>Lists all your friends, indicating who is online or offline.</td>
+    </tr>
+    <tr>
+      <td><code>/partychat</code></td>
+      <td><code>/pc</code>, <code>/pchat</code></td>
+      <td><code>shyamduels.use</code></td>
+      <td>Toggles party-only chat. While active, your public chat messages are redirected to your party members.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Party Subcommands</h2>
+<p>All party commands are invoked as subcommands under the primary command <code>/party &lt;subcommand&gt;</code> (aliases: <code>/p</code>, <code>/team</code>).</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Subcommand</th>
+      <th>Arguments</th>
+      <th>Leader Only?</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>create</code></td>
+      <td>-</td>
+      <td>No</td>
+      <td>Creates a party, designating you as the leader.</td>
+    </tr>
+    <tr>
+      <td><code>invite</code></td>
+      <td><code>&lt;player&gt;</code></td>
+      <td>Yes</td>
+      <td>Sends a party invitation to the specified player.</td>
+    </tr>
+    <tr>
+      <td><code>accept</code></td>
+      <td>-</td>
+      <td>No</td>
+      <td>Accepts an incoming party invite.</td>
+    </tr>
+    <tr>
+      <td><code>deny</code></td>
+      <td>-</td>
+      <td>No</td>
+      <td>Declines an incoming party invite.</td>
+    </tr>
+    <tr>
+      <td><code>join</code></td>
+      <td><code>&lt;leader&gt;</code></td>
+      <td>No</td>
+      <td>Joins an open public or friend-restricted party by specifying the leader's name.</td>
+    </tr>
+    <tr>
+      <td><code>leave</code></td>
+      <td>-</td>
+      <td>No</td>
+      <td>Leaves your current party. Opens a confirmation UI before leaving.</td>
+    </tr>
+    <tr>
+      <td><code>kick</code></td>
+      <td><code>&lt;player&gt;</code></td>
+      <td>Yes</td>
+      <td>Kicks the specified player from the party.</td>
+    </tr>
+    <tr>
+      <td><code>disband</code></td>
+      <td>-</td>
+      <td>Yes</td>
+      <td>Disbands the party. Opens a confirmation UI.</td>
+    </tr>
+    <tr>
+      <td><code>promote</code></td>
+      <td><code>&lt;player&gt;</code></td>
+      <td>Yes</td>
+      <td>Transfers party leadership to another party member.</td>
+    </tr>
+    <tr>
+      <td><code>public</code></td>
+      <td>-</td>
+      <td>Yes</td>
+      <td>Sets the party join accessibility status to PUBLIC.</td>
+    </tr>
+    <tr>
+      <td><code>private</code></td>
+      <td>-</td>
+      <td>Yes</td>
+      <td>Sets the party join accessibility status to PRIVATE (Invite-only).</td>
+    </tr>
+    <tr>
+      <td><code>friends</code></td>
+      <td>-</td>
+      <td>Yes</td>
+      <td>Restricts party joining to players on your friend list.</td>
+    </tr>
+    <tr>
+      <td><code>mode</code></td>
+      <td><code>&lt;queue|split|ffa|duel&gt;</code></td>
+      <td>Yes</td>
+      <td>Configures the party behavior when matchmaking actions are performed.</td>
+    </tr>
+    <tr>
+      <td><code>announce</code></td>
+      <td><code>&lt;text&gt;</code></td>
+      <td>Yes</td>
+      <td>Sends a formatted broadcast notification to all party members.</td>
+    </tr>
+    <tr>
+      <td><code>list</code></td>
+      <td>-</td>
+      <td>No</td>
+      <td>Lists all current party members in chat.</td>
+    </tr>
+    <tr>
+      <td><code>info</code></td>
+      <td>-</td>
+      <td>No</td>
+      <td>Displays party state, current size constraints, leadership details, and active mode.</td>
+    </tr>
+    <tr>
+      <td><code>chat</code></td>
+      <td>-</td>
+      <td>No</td>
+      <td>Toggles party-only chat. Same functionality as <code>/partychat</code>.</td>
+    </tr>
+    <tr>
+      <td><code>mute</code></td>
+      <td><code>&lt;player&gt;</code></td>
+      <td>Yes</td>
+      <td>Mutes the specified member from using the party chat channels.</td>
+    </tr>
+    <tr>
+      <td><code>unmute</code></td>
+      <td><code>&lt;player&gt;</code></td>
+      <td>Yes</td>
+      <td>Unmutes the specified member in party chat.</td>
+    </tr>
+    <tr>
+      <td><code>uninvite</code></td>
+      <td><code>&lt;player&gt;</code></td>
+      <td>Yes</td>
+      <td>Revokes a pending invitation before the target player accepts it.</td>
+    </tr>
+    <tr>
+      <td><code>limit</code></td>
+      <td>-</td>
+      <td>Yes</td>
+      <td>Opens a sign interface to configure a custom maximum capacity for the party.</td>
+    </tr>
+    <tr>
+      <td><code>resetlimit</code></td>
+      <td>-</td>
+      <td>Yes</td>
+      <td>Removes custom capacity limits, returning to default capacity sizes.</td>
+    </tr>
+    <tr>
+      <td><code>refresh</code></td>
+      <td>-</td>
+      <td>Yes</td>
+      <td>Refreshes party items for all members (hotbar queue items).</td>
+    </tr>
+    <tr>
+      <td><code>inviteall</code></td>
+      <td>-</td>
+      <td>Yes</td>
+      <td>Bulk invites all of your online friends to join the party.</td>
+    </tr>
+    <tr>
+      <td><code>ffa</code></td>
+      <td>-</td>
+      <td>Yes</td>
+      <td>Opens the party Free-For-All arena selection GUI, allowing members to fight each other.</td>
+    </tr>
+    <tr>
+      <td><code>split</code></td>
+      <td>-</td>
+      <td>Yes</td>
+      <td>Opens the team battle splitting GUI to partition members into two teams for internal duels.</td>
+    </tr>
+    <tr>
+      <td><code>duel</code></td>
+      <td>-</td>
+      <td>Yes</td>
+      <td>Opens a vs-party challenge selector GUI, allowing the leader to challenge another party.</td>
+    </tr>
+    <tr>
+      <td><code>duel accept</code></td>
+      <td>-</td>
+      <td>Yes</td>
+      <td>Accepts a pending vs-party challenge from another party.</td>
+    </tr>
+    <tr>
+      <td><code>member</code> / <code>play</code></td>
+      <td>-</td>
+      <td>No</td>
+      <td>Opens the party play menu.</td>
+    </tr>
+    <tr>
+      <td><code>manage</code></td>
+      <td>-</td>
+      <td>No</td>
+      <td>Opens the party member management dashboard GUI.</td>
+    </tr>
+    <tr>
+      <td><code>settings</code></td>
+      <td>-</td>
+      <td>Yes</td>
+      <td>Opens the party options GUI.</td>
+    </tr>
+    <tr>
+      <td><code>forceowner</code></td>
+      <td>-</td>
+      <td>No</td>
+      <td>Bypasses ownership and assigns you as the party leader. Requires <code>shyamduels.admin</code>.</td>
+    </tr>
+    <tr>
+      <td><code>forcejoin</code></td>
+      <td><code>&lt;player&gt; &lt;leader&gt;</code></td>
+      <td>No</td>
+      <td>Forces a player directly into another leader's party. Requires <code>shyamduels.admin</code>.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Arena Admin Commands</h2>
+<p>Admin commands are accessed under <code>/arena &lt;subcommand&gt;</code> (aliases: <code>/arenas</code>, <code>/shyamarenas</code>) and require <code>shyamduels.admin</code>.</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Subcommand</th>
+      <th>Arguments</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>help</code></td>
+      <td>-</td>
+      <td>Lists all arena setup commands.</td>
+    </tr>
+    <tr>
+      <td><code>create</code></td>
+      <td><code>&lt;name&gt;</code></td>
+      <td>Registers a new arena. Sets corner 1 coordinates to your current position.</td>
+    </tr>
+    <tr>
+      <td><code>delete</code></td>
+      <td><code>&lt;name&gt;</code></td>
+      <td>Deletes the specified arena data and deletes the associated schematic file.</td>
+    </tr>
+    <tr>
+      <td><code>list</code></td>
+      <td>-</td>
+      <td>Lists all registered arenas, including setup checks, types, and linked kits.</td>
+    </tr>
+    <tr>
+      <td><code>corner1</code></td>
+      <td><code>&lt;name&gt;</code></td>
+      <td>Sets selection corner 1 to your position. Automatically saves the schematic if corner 2 is already set. Alias: <code>pos1</code>.</td>
+    </tr>
+    <tr>
+      <td><code>corner2</code></td>
+      <td><code>&lt;name&gt;</code></td>
+      <td>Sets selection corner 2 to your position. Automatically saves the schematic if corner 1 is already set. Alias: <code>pos2</code>.</td>
+    </tr>
+    <tr>
+      <td><code>spawn1</code></td>
+      <td><code>&lt;name&gt;</code></td>
+      <td>Sets spawn point 1 coordinates and player facing yaw/pitch to your location. Alias: <code>p1</code>.</td>
+    </tr>
+    <tr>
+      <td><code>spawn2</code></td>
+      <td><code>&lt;name&gt;</code></td>
+      <td>Sets spawn point 2 coordinates and player facing yaw/pitch to your location. Alias: <code>p2</code>.</td>
+    </tr>
+    <tr>
+      <td><code>center</code></td>
+      <td><code>&lt;name&gt;</code></td>
+      <td>Sets the arena center location used for spectator boundaries and team battle layouts.</td>
+    </tr>
+    <tr>
+      <td><code>teleport</code></td>
+      <td><code>&lt;name&gt;</code></td>
+      <td>Teleports your player directly to the center of the arena. Alias: <code>tp</code>.</td>
+    </tr>
+    <tr>
+      <td><code>build</code></td>
+      <td><code>&lt;name&gt; &lt;true|false&gt;</code></td>
+      <td>Enables or disables block placing/breaking during matches in this arena. Must match the linked kit's build mode (see <a href="kit-setup.html#build-mode">Kit Build Mode</a>).</td>
+    </tr>
+    <tr>
+      <td><code>ffa</code></td>
+      <td><code>&lt;name&gt; &lt;true|false&gt;</code></td>
+      <td>Sets the arena type to FFA, making it accessible through <code>/ffa</code>.</td>
+    </tr>
+    <tr>
+      <td><code>addffaspawn</code></td>
+      <td><code>&lt;name&gt;</code></td>
+      <td>Registers your current position as an additional random FFA spawn point.</td>
+    </tr>
+    <tr>
+      <td><code>clearffaspawns</code></td>
+      <td><code>&lt;name&gt;</code></td>
+      <td>Clears all custom FFA spawn points; players fall back to <code>spawn1</code> / <code>spawn2</code>.</td>
+    </tr>
+    <tr>
+      <td><code>copypaste</code></td>
+      <td><code>&lt;source&gt; &lt;newName&gt;</code></td>
+      <td>Pastes the source arena schematic at your location and registers a new arena. Copies kit links, build mode, DUEL/FFA type, spawns, center, FFA spawn points, FFA GUI settings, and door gates.</td>
+    </tr>
+    <tr>
+      <td><code>addkit</code></td>
+      <td><code>&lt;name&gt; &lt;kit&gt;</code></td>
+      <td>Links a kit to the arena so matchmaking and queues can use it.</td>
+    </tr>
+    <tr>
+      <td><code>removekit</code></td>
+      <td><code>&lt;name&gt; &lt;kit&gt;</code></td>
+      <td>Unlinks a kit from the arena.</td>
+    </tr>
+    <tr>
+      <td><code>reset</code></td>
+      <td><code>&lt;name&gt;</code></td>
+      <td>Forces FAWE to immediately paste and reset the arena back to its saved schematic layout.</td>
+    </tr>
+    <tr>
+      <td><code>setdisplayname</code></td>
+      <td><code>&lt;name&gt; &lt;display&gt;</code></td>
+      <td>Sets a custom display name used for this arena in the FFA menu. Alias: <code>setname</code>.</td>
+    </tr>
+    <tr>
+      <td><code>seticon</code></td>
+      <td><code>&lt;name&gt;</code></td>
+      <td>Sets the FFA selector GUI icon to the item in your hand.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Kit Admin Commands</h2>
+<p>Kit commands are accessed under <code>/kit &lt;subcommand&gt;</code> (aliases: <code>/kits</code>, <code>/shyamkits</code>). Modifying commands require <code>shyamduels.admin</code>.</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Subcommand</th>
+      <th>Arguments</th>
+      <th>Permissions</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>help</code></td>
+      <td>-</td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Lists all kit commands.</td>
+    </tr>
+    <tr>
+      <td><code>create</code></td>
+      <td><code>&lt;name&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Saves your inventory, armor layout, offhand item, and active potion status as a new kit.</td>
+    </tr>
+    <tr>
+      <td><code>delete</code></td>
+      <td><code>&lt;name&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Deletes the specified kit and clears its saved data.</td>
+    </tr>
+    <tr>
+      <td><code>list</code></td>
+      <td>-</td>
+      <td><code>shyamduels.kit.list</code></td>
+      <td>Lists all registered kits.</td>
+    </tr>
+    <tr>
+      <td><code>info</code></td>
+      <td><code>&lt;name&gt;</code></td>
+      <td><code>shyamduels.kit.list</code></td>
+      <td>Shows details about a kit, including item counts, effects, saturation values, and whitelists.</td>
+    </tr>
+    <tr>
+      <td><code>setinv</code></td>
+      <td><code>&lt;name&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Overwrites the items of a kit to match your current inventory contents.</td>
+    </tr>
+    <tr>
+      <td><code>seticon</code></td>
+      <td><code>&lt;name&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Sets the display icon of the kit in GUIs to the item in your main hand.</td>
+    </tr>
+    <tr>
+      <td><code>setitem</code></td>
+      <td><code>&lt;name&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Sets the GUI icon to your held item and applies its name as the kit's display name.</td>
+    </tr>
+    <tr>
+      <td><code>setdisplayname</code></td>
+      <td><code>&lt;name&gt; &lt;display&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Sets a custom display name. Use <code>clear</code> or <code>reset</code> to remove custom names. Alias: <code>setname</code>.</td>
+    </tr>
+    <tr>
+      <td><code>load</code></td>
+      <td><code>&lt;name&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Loads the kit items directly into your inventory.</td>
+    </tr>
+    <tr>
+      <td><code>give</code></td>
+      <td><code>&lt;kit&gt; &lt;player&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Gives the kit items to the specified player.</td>
+    </tr>
+    <tr>
+      <td><code>allowblock</code></td>
+      <td><code>&lt;name&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Adds the block in your hand to the build whitelist and enables build mode for this kit. Also sets build mode to <code>true</code>.</td>
+    </tr>
+    <tr>
+      <td><code>removeblock</code></td>
+      <td><code>&lt;name&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Removes the block in your hand from the build whitelist. Clears build mode when the whitelist becomes empty.</td>
+    </tr>
+    <tr>
+      <td><code>build</code></td>
+      <td><code>&lt;name&gt; &lt;true|false&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Enables or disables build mode for the kit. Must match the linked arena's build mode (see <a href="arena-setup.html#build-mode">Arena Build Mode</a>). Setting <code>false</code> also clears the block whitelist.</td>
+    </tr>
+    <tr>
+      <td><code>kitroom</code></td>
+      <td><code>&lt;name&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Toggles whether the Kit Room editor feature is active for this kit.</td>
+    </tr>
+    <tr>
+      <td><code>deleteeditedkits</code></td>
+      <td><code>&lt;name&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Clears all player-customized layouts for this kit, resetting everyone to the base configuration.</td>
+    </tr>
+    <tr>
+      <td><code>queuerounds</code></td>
+      <td><code>&lt;kit&gt; &lt;amount&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Configures the default match round count (e.g. Best of 3) for matchmaking queues.</td>
+    </tr>
+    <tr>
+      <td><code>setsaturation</code></td>
+      <td><code>&lt;kit&gt; &lt;0-20&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Sets the starting saturation level applied to players when entering matches with this kit.</td>
+    </tr>
+    <tr>
+      <td><code>matchstartpots</code></td>
+      <td><code>&lt;kit&gt; &lt;enable|disable|scan&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Manages start potion scanning. <code>scan</code> registers all splash potions. <code>enable</code> scans and auto-fires them on start. Alias: <code>matchstartpotions</code>.</td>
+    </tr>
+    <tr>
+      <td><code>matchstartpots list</code></td>
+      <td>-</td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Lists all kits that have automatic match-start potions active.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Plugin &amp; Practice Admin Commands</h2>
+<p>These core subcommands are run under the main command <code>/shyamduels &lt;subcommand&gt;</code> (aliases: <code>/sd</code>, <code>/duels</code>). In addition to system configurations, they cover practice utilities and feature set-ups.</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Subcommand</th>
+      <th>Arguments</th>
+      <th>Permissions</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>help</code></td>
+      <td><code>[page]</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Displays in-game help logs (3 pages).</td>
+    </tr>
+    <tr>
+      <td><code>guide</code></td>
+      <td><code>[arena|kit|gate]</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Prints setup instructions in the chat.</td>
+    </tr>
+    <tr>
+      <td><code>setlobby</code></td>
+      <td>-</td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Configures the lobby location and yaw/pitch to your current position.</td>
+    </tr>
+    <tr>
+      <td><code>edit-kitroom</code></td>
+      <td>-</td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Opens the Kit Room editor GUI workspace.</td>
+    </tr>
+    <tr>
+      <td><code>reload</code></td>
+      <td>-</td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Reloads configs, layouts, tab formatting, scores, database pools, and sub-modules.</td>
+    </tr>
+    <tr>
+      <td><code>migrate strikepractice</code></td>
+      <td>-</td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Migrates kits, arenas, animations, and historical databases from StrikePractice/ShyamStrikeCore files.</td>
+    </tr>
+    <tr>
+      <td><code>practiceduel</code></td>
+      <td><code>[player]</code></td>
+      <td><code>shyamduels.practice.duel</code></td>
+      <td>Invites a player to a practice duel. Opens kit selection.</td>
+    </tr>
+    <tr>
+      <td><code>practiceduel accept</code></td>
+      <td><code>&lt;player&gt;</code></td>
+      <td><code>shyamduels.practice.duel</code></td>
+      <td>Accepts a pending practice duel invitation.</td>
+    </tr>
+    <tr>
+      <td><code>totem-practice</code></td>
+      <td>-</td>
+      <td><code>shyamduels.practice.totempractice</code></td>
+      <td>Opens the Totem Reaction practice game GUI. Alias: <code>totempractice</code>.</td>
+    </tr>
+    <tr>
+      <td><code>totem-practice help</code></td>
+      <td>-</td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Displays setup details for Totem Practice.</td>
+    </tr>
+    <tr>
+      <td><code>armor-trimmer</code></td>
+      <td>-</td>
+      <td><code>shyamduels.practice.armortrimmer.use</code></td>
+      <td>Opens the Armor Trimmer GUI to customize patterns for the armor piece in your hand. Alias: <code>armortrimmer</code>.</td>
+    </tr>
+    <tr>
+      <td><code>armor-trimmer help</code></td>
+      <td>-</td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Displays help for the Armor Trimmer module.</td>
+    </tr>
+    <tr>
+      <td><code>shield-customizer</code></td>
+      <td>-</td>
+      <td><code>shyamduels.practice.shieldcustomizer.use</code></td>
+      <td>Opens the Shield Customizer GUI to apply pattern layers to the shield in your hand. Alias: <code>shieldcustomizer</code>.</td>
+    </tr>
+    <tr>
+      <td><code>shield-customizer help</code></td>
+      <td>-</td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Displays help for the Shield Customizer.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Complex Door Gates (<code>/shyamduels gate</code>)</h2>
+<p>Configure animated start gates on duel arenas. Full setup steps, video tutorial, and command reference: <a href="gate-setup.html">Gate Setup Guide</a>.</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Subcommand</th>
+      <th>Arguments</th>
+      <th>Permissions</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>gate</code></td>
+      <td>-</td>
+      <td><code>shyamduels.practice.gate.setup</code></td>
+      <td>Displays gate command help.</td>
+    </tr>
+    <tr>
+      <td><code>gate wand</code></td>
+      <td>-</td>
+      <td><code>shyamduels.practice.gate.setup</code></td>
+      <td>Gives the Gate Selection Wand. Left-click = Corner 1, right-click = Corner 2.</td>
+    </tr>
+    <tr>
+      <td><code>gate addgate</code></td>
+      <td><code>&lt;arena&gt;</code></td>
+      <td><code>shyamduels.practice.gate.setup</code></td>
+      <td>Saves wand selection as a gate on the arena. Stand on the arena floor side when running this.</td>
+    </tr>
+    <tr>
+      <td><code>gate delete</code></td>
+      <td><code>&lt;arena&gt;</code></td>
+      <td><code>shyamduels.practice.gate.setup</code></td>
+      <td>Deletes all gates for the arena.</td>
+    </tr>
+    <tr>
+      <td><code>gate list</code></td>
+      <td>-</td>
+      <td><code>shyamduels.practice.gate.setup</code></td>
+      <td>Lists all arenas with gates and gate counts.</td>
+    </tr>
+    <tr>
+      <td><code>gate reload</code></td>
+      <td>-</td>
+      <td><code>shyamduels.practice.gate.setup</code></td>
+      <td>Reloads gate YAML files from <code>data/complex-door-data/</code>.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Golden Head &amp; Custom Kits Commands</h2>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Subcommand</th>
+      <th>Arguments</th>
+      <th>Permissions</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>golden-head</code></td>
+      <td>-</td>
+      <td><code>shyamduels.practice.goldenhead</code></td>
+      <td>Displays golden-head commands help.</td>
+    </tr>
+    <tr>
+      <td><code>golden-head give</code></td>
+      <td><code>&lt;player&gt; [amount]</code></td>
+      <td><code>shyamduels.practice.goldenhead</code></td>
+      <td>Gives the specified amount of Golden Heads to a player.</td>
+    </tr>
+    <tr>
+      <td><code>customkits</code></td>
+      <td>-</td>
+      <td><code>customkits.admin</code></td>
+      <td>Displays custom kits admin command help.</td>
+    </tr>
+    <tr>
+      <td><code>customkits edit-category</code></td>
+      <td>-</td>
+      <td><code>customkits.admin</code></td>
+      <td>Opens the Custom Kits GUI Editor to set item categories.</td>
+    </tr>
+    <tr>
+      <td><code>customkits reload</code></td>
+      <td>-</td>
+      <td><code>customkits.admin</code></td>
+      <td>Reloads custom kits configuration files.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>StrikePractice Migration</h2>
+<p>Run <code>/shyamduels migrate strikepractice</code> to import kits, arenas, gates, and schematics. Full steps: <a href="migration.html">Migration Guide</a>.</p>
+
+<h2>Miscellaneous Admin Commands</h2>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Aliases</th>
+      <th>Permissions</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/tab reload</code></td>
+      <td><code>/tablist</code></td>
+      <td><code>shyamduels.tab.admin</code></td>
+      <td>Reloads tab list YAML files and refreshes headers/footers for online players.</td>
+    </tr>
+    <tr>
+      <td><code>/tab update</code></td>
+      <td>-</td>
+      <td><code>shyamduels.tab.admin</code></td>
+      <td>Forces a tab list refresh for yourself (player-only).</td>
+    </tr>
+    <tr>
+      <td><code>/tab test &lt;message&gt;</code></td>
+      <td>-</td>
+      <td><code>shyamduels.tab.admin</code></td>
+      <td>Preview MiniMessage formatting in chat (useful when editing <code>tab/display.yml</code>).</td>
+    </tr>
+    <tr>
+      <td><code>/testcolor &lt;message&gt;</code></td>
+      <td><code>/colortest</code>, <code>/testcolors</code></td>
+      <td><code>shyamduels.admin.testcolor</code></td>
+      <td>Parses color placeholders and outputs the formatted text in chat (useful for testing MiniMessage tags).</td>
+    </tr>
+    <tr>
+      <td><code>/practice …</code></td>
+      <td><code>/shyamduelspractice</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Legacy alias tree for admin practice commands. Use <code>/shyamduels</code> instead. See <a href="practice-features.html">Practice Features</a>.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="page-navigation">
+  <a class="page-nav-link prev" href="getting-started.html">
+    <span class="page-nav-label">Previous Page</span>
+    <span class="page-nav-title">Getting Started</span>
+  </a>
+  <a class="page-nav-link next" href="permissions.html">
+    <span class="page-nav-label">Next Page</span>
+    <span class="page-nav-title">Permissions Reference</span>
+  </a>
+</div>
+
+</main>
+</div>
+<script src="../assets/nav.js"></script>
+</body>
+</html>
