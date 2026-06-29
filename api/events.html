@@ -162,6 +162,66 @@ Fired immediately after a round concludes (a player or team dies), before player
 </table>
 </div>
 
+<h2>Full Example: Tracking Match Results</h2>
+<p>A complete listener that registers in <code>onEnable</code> and reacts to several ShyamDuels events. It records a kill via the API on each fight death and announces the winner when a duel ends:</p>
+<pre><span class="lang-badge">java</span><code>import com.shyamstudio.shyamduels.api.ShyamDuelsAPI;
+import com.shyamstudio.shyamduels.api.ShyamDuelsProvider;
+import com.shyamstudio.shyamduels.duel.Duel;
+import com.shyamstudio.shyamduels.duel.event.DuelEndEvent;
+import com.shyamstudio.shyamduels.duel.event.DuelStartEvent;
+import com.shyamstudio.shyamduels.duel.event.FightDeathEvent;
+import com.shyamstudio.shyamduels.duel.event.RoundStartEvent;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.java.JavaPlugin;
+
+public class MatchTracker implements Listener {
+
+    private final JavaPlugin plugin;
+
+    public MatchTracker(JavaPlugin plugin) {
+        this.plugin = plugin;
+        Bukkit.getPluginManager().registerEvents(this, plugin);
+    }
+
+    @EventHandler
+    public void onDuelStart(DuelStartEvent event) {
+        Duel duel = event.getDuel();
+        plugin.getLogger().info("Duel started on arena " + duel.getArena().getName());
+    }
+
+    @EventHandler
+    public void onRoundStart(RoundStartEvent event) {
+        plugin.getLogger().info("New round started.");
+    }
+
+    @EventHandler
+    public void onFightDeath(FightDeathEvent event) {
+        Player victim = event.getPlayer();
+        Player killer = event.getKiller();
+        if (killer != null) {
+            ShyamDuelsAPI api = ShyamDuelsProvider.get();
+            if (api != null) {
+                api.stats().recordKill(killer, victim);
+                killer.sendMessage("§aYou eliminated " + victim.getName()
+                        + " §7(kills: " + api.stats().getKills(killer.getUniqueId()) + ")");
+            }
+        }
+        if (event.isFinalRound()) {
+            victim.sendMessage("§cYou lost the match.");
+        }
+    }
+
+    @EventHandler
+    public void onDuelEnd(DuelEndEvent event) {
+        Duel duel = event.getDuel();
+        plugin.getLogger().info("Duel ended (kit: "
+                + (duel.getKit() != null ? duel.getKit().getName() : "unknown") + ").");
+    }
+}</code></pre>
+
 <div class="page-navigation">
   <a class="page-nav-link prev" href="services.html">
     <span class="page-nav-label">Previous Page</span>

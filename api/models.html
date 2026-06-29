@@ -111,6 +111,11 @@ Represents cached player statistics:</p>
   <li><code>getWins()</code> / <code>getLosses()</code>: Wins and losses counts.</li>
   <li><code>getKillstreak()</code> / <code>getBestKillstreak()</code>: Current streak and highest historical record.</li>
   <li><code>getWinstreak()</code> / <code>getBestWinstreak()</code>: Current consecutive matchmaking victories and highest record.</li>
+  <li><code>getKD()</code>: Returns the kill/death ratio (returns kills when deaths is zero).</li>
+  <li><code>getWL()</code>: Returns the win/loss ratio (returns wins when losses is zero).</li>
+  <li><code>getPlaytime()</code>: Returns total tracked playtime in seconds.</li>
+  <li><code>getPlaytimeHours()</code>: Returns total tracked playtime rounded down to whole hours.</li>
+  <li><code>getFormattedPlaytime()</code>: Returns a human-readable playtime string (e.g. <code>3h 24m</code>).</li>
 </ul>
 
 <h2>PlayerSettings</h2>
@@ -118,9 +123,57 @@ Represents cached player statistics:</p>
 Represents personal preference configuration options:</p>
 <ul>
   <li><code>isScoreboard()</code> / <code>isTabList()</code> / <code>isNametags()</code>: Visibility preference settings (returns boolean).</li>
-  <td><code>isFriendRequests()</code> / <code>isDuelRequests()</code>: Toggles indicating if the player is open to requests.</td>
+  <li><code>isFriendRequests()</code> / <code>isDuelRequests()</code>: Toggles indicating if the player is open to requests.</li>
   <li><code>getWeatherPreference()</code>: Personal weather overrides (Clear, Rain, Storm).</li>
   <li><code>getTimePreference()</code>: Personal client-view time overrides (Day, Night).</li>
+</ul>
+
+<h2 id="rank">Rank</h2>
+<p>Class: <code>com.shyamstudio.shyamduels.stats.Rank</code><br/>
+Represents an ELO-based competitive rank tier:</p>
+<ul>
+  <li><code>getDisplayName()</code>: Returns the colored display name of the rank.</li>
+  <li><code>getMinElo()</code> / <code>getMaxElo()</code>: The inclusive ELO boundaries of the rank tier.</li>
+  <li><code>getOrder()</code>: Returns the sort order index (lower is a lower tier).</li>
+</ul>
+
+<h2 id="queuemode">QueueMode</h2>
+<p>Class: <code>com.shyamstudio.shyamduels.queue.QueueMode</code><br/>
+Represents a matchmaking team-size mode (e.g. 1v1, 2v2):</p>
+<ul>
+  <li><code>getTeamSize()</code>: Returns the number of players per team.</li>
+  <li><code>getTotalPlayers()</code>: Returns the total players in a match (team size &times; 2).</li>
+  <li><code>getDisplay()</code>: Returns the display label (e.g. <code>1v1</code>, <code>2v2</code>).</li>
+</ul>
+
+<h2 id="queuekey">QueueKey</h2>
+<p>Class: <code>com.shyamstudio.shyamduels.queue.QueueKey</code><br/>
+A composite key identifying a single matchmaking queue (kit + mode):</p>
+<ul>
+  <li><code>getKitName()</code>: Returns the kit name for this queue.</li>
+  <li><code>getMode()</code>: Returns the associated <a href="#queuemode">QueueMode</a>.</li>
+</ul>
+
+<h2 id="party">Party</h2>
+<p>Class: <code>com.shyamstudio.shyamduels.party.Party</code><br/>
+Represents a group of players queued and playing together:</p>
+<ul>
+  <li><code>getPartyId()</code>: Returns the unique <code>UUID</code> of the party.</li>
+  <li><code>getOwner()</code>: Returns the party leader's <code>UUID</code>.</li>
+  <li><code>getMembers()</code>: Returns an unmodifiable <code>Set&lt;UUID&gt;</code> of all party members.</li>
+  <li><code>getSize()</code>: Returns the current member count.</li>
+  <li><code>getState()</code>: Returns the current <code>PartyState</code> (e.g. <code>IDLE</code>, <code>IN_DUEL</code>).</li>
+  <li><code>isInDuel()</code>: Returns true when the party is currently in a duel.</li>
+</ul>
+
+<h2 id="customkit">CustomKit</h2>
+<p>Class: <code>com.shyamstudio.shyamduels.customkits.data.CustomKit</code><br/>
+Represents a player-built custom kit profile (available via <code>customKits()</code>):</p>
+<ul>
+  <li><code>getId()</code>: Returns the kit's slot ID.</li>
+  <li><code>getName()</code>: Returns the player-assigned kit name.</li>
+  <li><code>getHelmet()</code>: Returns the helmet <code>ItemStack</code> used as the kit icon.</li>
+  <li><code>getSettings()</code>: Returns the <code>KitSettings</code> applied to the kit.</li>
 </ul>
 
 <div class="page-navigation">

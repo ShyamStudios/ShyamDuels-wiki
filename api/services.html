@@ -136,13 +136,98 @@ Fetches and updates player ELO ratings, kills, deaths, winstreaks, and ranks:</p
     </tr>
     <tr>
       <td><code>getStats(UUID uuid)</code></td>
+      <td>PlayerStats</td>
+      <td>Gets cached statistics for a UUID.</td>
+    </tr>
+    <tr>
+      <td><code>loadPlayer(Player player)</code></td>
       <td>CompletableFuture&lt;PlayerStats&gt;</td>
-      <td>Asynchronously queries player statistics from the database pool (supports offline players).</td>
+      <td>Asynchronously loads and caches a player's statistics from the database.</td>
+    </tr>
+    <tr>
+      <td><code>savePlayer(Player player)</code></td>
+      <td>void</td>
+      <td>Persists a player's cached statistics to the database.</td>
+    </tr>
+    <tr>
+      <td><code>unloadPlayer(Player player)</code></td>
+      <td>void</td>
+      <td>Flushes and evicts a player's cached statistics.</td>
+    </tr>
+    <tr>
+      <td><code>recordKill(Player killer, Player victim)</code></td>
+      <td>void</td>
+      <td>Records a kill for the killer (increments kills and killstreak).</td>
+    </tr>
+    <tr>
+      <td><code>recordDeath(Player victim, Player killer)</code></td>
+      <td>void</td>
+      <td>Records a death for the victim (increments deaths, resets killstreak).</td>
+    </tr>
+    <tr>
+      <td><code>recordWin(Player winner)</code></td>
+      <td>void</td>
+      <td>Records a win for the player.</td>
+    </tr>
+    <tr>
+      <td><code>recordWin(Player winner, Collection&lt;UUID&gt; opponents)</code></td>
+      <td>void</td>
+      <td>Records a win and applies ELO changes against the given opponents.</td>
+    </tr>
+    <tr>
+      <td><code>recordLoss(Player loser)</code></td>
+      <td>void</td>
+      <td>Records a loss for the player.</td>
+    </tr>
+    <tr>
+      <td><code>recordLoss(Player loser, Collection&lt;UUID&gt; opponents)</code></td>
+      <td>void</td>
+      <td>Records a loss and applies ELO changes against the given opponents.</td>
+    </tr>
+    <tr>
+      <td><code>getKills(UUID uuid)</code></td>
+      <td>int</td>
+      <td>Convenience getter for a player's total kills.</td>
+    </tr>
+    <tr>
+      <td><code>getDeaths(UUID uuid)</code></td>
+      <td>int</td>
+      <td>Convenience getter for a player's total deaths.</td>
+    </tr>
+    <tr>
+      <td><code>getWins(UUID uuid)</code></td>
+      <td>int</td>
+      <td>Convenience getter for a player's total wins.</td>
+    </tr>
+    <tr>
+      <td><code>getLosses(UUID uuid)</code></td>
+      <td>int</td>
+      <td>Convenience getter for a player's total losses.</td>
+    </tr>
+    <tr>
+      <td><code>getElo(UUID uuid)</code></td>
+      <td>int</td>
+      <td>Convenience getter for a player's current ELO rating.</td>
+    </tr>
+    <tr>
+      <td><code>getRank(Player player)</code></td>
+      <td>Rank</td>
+      <td>Resolves the player's current rank from their ELO.</td>
+    </tr>
+    <tr>
+      <td><code>isEloEnabled()</code></td>
+      <td>boolean</td>
+      <td>Whether the ELO system is enabled.</td>
     </tr>
     <tr>
       <td><code>saveStats(PlayerStats stats)</code></td>
       <td>CompletableFuture&lt;Void&gt;</td>
       <td>Saves modifications back to the SQLite or MySQL database pools.</td>
+    </tr>
+    <tr>
+      <td><code>getTopPlayers(String stat, int limit)</code></td>
+      <td>CompletableFuture&lt;List&lt;PlayerStats&gt;&gt;</td>
+      <td>Asynchronously fetches a leaderboard ordered by a stat (e.g. "elo", "kills", "wins").</td>
     </tr>
   </tbody>
 </table>
@@ -305,6 +390,94 @@ Controls FFA join/leave, arena state, and resets:</p>
 </table>
 </div>
 
+<h2>RematchService</h2>
+<p>Interface: <code>com.shyamstudio.shyamduels.api.rematch.RematchService</code><br/>
+Manages the post-duel rematch offer between two 1v1 opponents:</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Key Methods</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>offerRematch(duel)</code></td><td>Offers a rematch to both players of a finished 1v1 duel.</td></tr>
+    <tr><td><code>handleRematchClick(player)</code></td><td>Processes a player accepting the rematch offer.</td></tr>
+    <tr><td><code>handlePlayerDisconnect(player)</code></td><td>Cancels a pending rematch when a player disconnects.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>TabService</h2>
+<p>Interface: <code>com.shyamstudio.shyamduels.api.tab.TabService</code><br/>
+Controls the tab list, nametags, scoreboard visibility, and the match-found animation:</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Key Methods</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>isTabEnabled()</code></td><td>Whether the tab-list module is active.</td></tr>
+    <tr><td><code>refreshTab(player)</code></td><td>Rebuilds and resends a player's tab list.</td></tr>
+    <tr><td><code>updateHeaderFooter(player)</code></td><td>Updates only the tab header and footer.</td></tr>
+    <tr><td><code>applyTabViewPreference(player)</code></td><td>Applies the player's saved tab view preference.</td></tr>
+    <tr><td><code>isNameTagsEnabled()</code></td><td>Whether the nametag module is active.</td></tr>
+    <tr><td><code>refreshNameTags(viewer)</code></td><td>Resends nametag teams to a viewer.</td></tr>
+    <tr><td><code>refreshAllNameTags()</code></td><td>Resends nametag teams to all online players.</td></tr>
+    <tr><td><code>isScoreboardEnabled()</code></td><td>Whether the scoreboard module is active.</td></tr>
+    <tr><td><code>showScoreboard(player)</code></td><td>Creates the sidebar scoreboard for a player.</td></tr>
+    <tr><td><code>hideScoreboard(player)</code></td><td>Removes the sidebar scoreboard for a player.</td></tr>
+    <tr><td><code>refreshScoreboard(player)</code></td><td>Forces an immediate scoreboard refresh.</td></tr>
+    <tr><td><code>playMatchFoundAnimation(player, kitItem)</code></td><td>Closes the player's GUI and plays the totem match-found animation showing the kit item.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>ScoreboardService</h2>
+<p>Interface: <code>com.shyamstudio.shyamduels.api.scoreboard.ScoreboardService</code><br/>
+Controls the sidebar scoreboard per player:</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Key Methods</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>isEnabled()</code></td><td>Whether the scoreboard module is active.</td></tr>
+    <tr><td><code>isDisabled(player)</code></td><td>Whether the scoreboard is hidden for a player.</td></tr>
+    <tr><td><code>setDisabled(player, disabled)</code></td><td>Hides or shows the scoreboard for a player.</td></tr>
+    <tr><td><code>show(player)</code></td><td>Creates the sidebar scoreboard for a player.</td></tr>
+    <tr><td><code>hide(player)</code></td><td>Removes the sidebar scoreboard for a player.</td></tr>
+    <tr><td><code>refresh(player)</code></td><td>Forces an immediate scoreboard refresh.</td></tr>
+    <tr><td><code>reload()</code></td><td>Rebuilds all scoreboards from config.</td></tr>
+    <tr><td><code>getUpdateTime()</code></td><td>In-match scoreboard update interval (ticks).</td></tr>
+    <tr><td><code>getLobbyUpdateTime()</code></td><td>Lobby scoreboard update interval (ticks).</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>NameTagService</h2>
+<p>Interface: <code>com.shyamstudio.shyamduels.api.nametag.NameTagService</code><br/>
+Controls the above-head nametag teams:</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Key Methods</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>isEnabled()</code></td><td>Whether the nametag module is active.</td></tr>
+    <tr><td><code>refresh(viewer)</code></td><td>Resends nametag teams to a single viewer.</td></tr>
+    <tr><td><code>refreshAll()</code></td><td>Resends nametag teams to all online players.</td></tr>
+    <tr><td><code>bootstrapAll()</code></td><td>Rebuilds and sends all nametag teams.</td></tr>
+    <tr><td><code>getTabFormat(target)</code></td><td>Returns [tabprefix, tabsuffix, customtabname] for a player.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>AnimationService</h2>
+<p>Interface: <code>com.shyamstudio.shyamduels.api.animation.AnimationService</code><br/>
+Plays configurable title animations from <code>messages.yml</code>:</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Key Methods</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>has(name)</code></td><td>Whether a title animation with that name exists.</td></tr>
+    <tr><td><code>play(player, name)</code></td><td>Plays a title animation for a player.</td></tr>
+    <tr><td><code>play(player, name, placeholders)</code></td><td>Plays a title animation with placeholder replacements.</td></tr>
+    <tr><td><code>playAll(players, name, placeholders)</code></td><td>Plays a title animation for multiple players.</td></tr>
+  </tbody>
+</table>
+</div>
+
 <h2>SettingsService, PlaceholderService, CommandService</h2>
 <p>Additional core services on <code>ShyamDuelsAPI</code>:</p>
 <ul>
@@ -318,7 +491,62 @@ Controls FFA join/leave, arena state, and resets:</p>
 <ul>
   <li><code>practice()</code> - <code>PracticeService</code> for golden heads, totem practice, death messages</li>
   <li><code>customKits()</code> - <code>CustomKitsService</code> for player-built custom kit profiles</li>
+  <li><code>kitEditor()</code> - <code>KitEditorService</code> for the practice kit editor</li>
 </ul>
+
+<h2>CustomKitsService</h2>
+<p>Interface: <code>com.shyamstudio.shyamduels.api.customkits.CustomKitsService</code><br/>
+Manages player-built custom kit profiles (optional, available via <code>customKits()</code>):</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Key Methods</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>isEnabled()</code></td><td>Whether the custom-kits module is active.</td></tr>
+    <tr><td><code>getBaseKitName()</code></td><td>The configured base kit name.</td></tr>
+    <tr><td><code>getBaseKit()</code></td><td>The internal base kit, or null.</td></tr>
+    <tr><td><code>canQueueCustomKits()</code></td><td>Whether an arena exists for custom-kit queueing.</td></tr>
+    <tr><td><code>getPlayerKits(uuid)</code></td><td>All saved custom kits for a player (slot to kit).</td></tr>
+    <tr><td><code>getPlayerKit(uuid, kitId)</code></td><td>A single saved custom kit, or null.</td></tr>
+    <tr><td><code>savePlayerKit(uuid, kit)</code></td><td>Saves/updates a player's custom kit.</td></tr>
+    <tr><td><code>preloadPlayerKits(uuid)</code></td><td>Warms a player's kit cache asynchronously.</td></tr>
+    <tr><td><code>unloadPlayer(uuid)</code></td><td>Flushes and evicts a player's cached kits.</td></tr>
+    <tr><td><code>reload()</code></td><td>Reloads the custom-kits configuration.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>KitEditorService</h2>
+<p>Interface: <code>com.shyamstudio.shyamduels.api.kiteditor.KitEditorService</code><br/>
+Controls the practice kit editor (optional, available via <code>kitEditor()</code>):</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Key Methods</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>isEnabled()</code></td><td>Whether the kit editor module is active.</td></tr>
+    <tr><td><code>hasActiveSession(player)</code></td><td>Whether the player has an open editor session.</td></tr>
+    <tr><td><code>openEditor(player)</code></td><td>Opens the kit picker / editor for a player.</td></tr>
+    <tr><td><code>reopenEditor(player)</code></td><td>Reopens the editor after a sub-menu.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>PracticeService</h2>
+<p>Interface: <code>com.shyamstudio.shyamduels.api.practice.PracticeService</code><br/>
+Practice-mode feature toggles and actions (optional, available via <code>practice()</code>):</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Key Methods</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>isKitEditorEnabled()</code></td><td>Whether the kit editor feature is on.</td></tr>
+    <tr><td><code>isGoldenHeadEnabled()</code></td><td>Whether golden heads are on.</td></tr>
+    <tr><td><code>isTotemPracticeEnabled()</code></td><td>Whether totem practice is on.</td></tr>
+    <tr><td><code>openKitRoom(player)</code></td><td>Opens the kit room for a player.</td></tr>
+    <tr><td><code>giveGoldenHead(player, amount)</code></td><td>Gives a player golden heads.</td></tr>
+    <tr><td><code>startTotemPractice(player)</code></td><td>Starts a totem-practice session for a player.</td></tr>
+    <tr><td><code>reload()</code></td><td>Reloads the practice configuration.</td></tr>
+  </tbody>
+</table>
+</div>
 
 <div class="page-navigation">
   <a class="page-nav-link prev" href="overview.html">

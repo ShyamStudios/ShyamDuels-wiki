@@ -138,6 +138,176 @@ public void challengePlayer(Player challenger, Player target, String kitName, in
     challenger.sendMessage("§aDuel challenge sent to " + target.getName());
 }</code></pre>
 
+<h2>Example 4: Queueing a Player and Reading Queue State</h2>
+<p>Add a player to a kit queue programmatically and inspect how many players are waiting:</p>
+<pre><span class="lang-badge">java</span><code>import com.shyamstudio.shyamduels.api.ShyamDuelsAPI;
+import com.shyamstudio.shyamduels.api.ShyamDuelsProvider;
+import com.shyamstudio.shyamduels.kit.Kit;
+import com.shyamstudio.shyamduels.queue.QueueMode;
+import org.bukkit.entity.Player;
+
+public void quickQueue(Player player, String kitName) {
+    ShyamDuelsAPI api = ShyamDuelsProvider.get();
+    if (api == null) return;
+
+    Kit kit = api.kits().getKit(kitName);
+    if (kit == null) return;
+
+    if (api.queue().isQueued(player)) {
+        api.queue().removePlayer(player);
+        player.sendMessage("§eLeft the queue.");
+        return;
+    }
+
+    api.queue().addPlayer(player, kit, QueueMode.ONE_V_ONE);
+    int waiting = api.queue().getQueueSize(kitName, QueueMode.ONE_V_ONE);
+    player.sendMessage("§aQueued for " + kitName + " §7(" + waiting + " waiting)");
+}</code></pre>
+
+<h2>Example 5: Refreshing Display Elements and Playing the Match-Found Animation</h2>
+<p>Use the tab, scoreboard, nametag, and animation services to refresh a player's HUD and play the totem match-found pop:</p>
+<pre><span class="lang-badge">java</span><code>import com.shyamstudio.shyamduels.api.ShyamDuelsAPI;
+import com.shyamstudio.shyamduels.api.ShyamDuelsProvider;
+import com.shyamstudio.shyamduels.kit.Kit;
+import org.bukkit.entity.Player;
+
+public void refreshDisplays(Player player, String kitName) {
+    ShyamDuelsAPI api = ShyamDuelsProvider.get();
+    if (api == null) return;
+
+    // Tab list, scoreboard, and nametags
+    api.tab().refreshTab(player);
+    api.scoreboard().refresh(player);
+    api.nameTags().refresh(player);
+
+    // Play a configured title animation by name
+    if (api.animations().has("queue-found-animation")) {
+        api.animations().play(player, "queue-found-animation");
+    }
+
+    // Play the on-screen totem match-found pop showing the kit item
+    Kit kit = api.kits().getKit(kitName);
+    api.tab().playMatchFoundAnimation(player, kit != null ? kit.getIcon() : null);
+}</code></pre>
+
+<h2>Example 6: Working With Optional Modules (Custom Kits and Kit Editor)</h2>
+<p>Optional services are only present when their module is enabled, so resolve them through <code>Optional</code>:</p>
+<pre><span class="lang-badge">java</span><code>import com.shyamstudio.shyamduels.api.ShyamDuelsAPI;
+import com.shyamstudio.shyamduels.api.ShyamDuelsProvider;
+import org.bukkit.entity.Player;
+
+public void openCustomKitEditor(Player player) {
+    ShyamDuelsAPI api = ShyamDuelsProvider.get();
+    if (api == null) return;
+
+    // Warm the player's custom kit cache, then open the practice kit editor
+    api.customKits().ifPresent(service -> service.preloadPlayerKits(player.getUniqueId()));
+    api.kitEditor().ifPresent(service -> service.openEditor(player));
+
+    // Practice features (golden head, totem practice, kit room)
+    api.practice().ifPresent(service -> {
+        service.giveGoldenHead(player, 1);
+        service.openKitRoom(player);
+    });
+}</code></pre>
+
+<h2>Example 7: Offering a Rematch After a Duel</h2>
+<p>Hook into your own duel-end logic and offer both opponents a rematch via the API:</p>
+<pre><span class="lang-badge">java</span><code>import com.shyamstudio.shyamduels.api.ShyamDuelsAPI;
+import com.shyamstudio.shyamduels.api.ShyamDuelsProvider;
+import com.shyamstudio.shyamduels.duel.Duel;
+import org.bukkit.entity.Player;
+
+public void offerRematch(Duel finishedDuel) {
+    ShyamDuelsAPI api = ShyamDuelsProvider.get();
+    if (api == null) return;
+
+    // Only 1v1 duels are eligible; the service guards this internally
+    api.rematch().offerRematch(finishedDuel);
+}
+
+public void onRematchButtonClicked(Player player) {
+    ShyamDuelsAPI api = ShyamDuelsProvider.get();
+    if (api == null) return;
+    api.rematch().handleRematchClick(player);
+}</code></pre>
+
+<h2>Example 8: Building an ELO Leaderboard</h2>
+<p>Fetch the top players by a stat asynchronously and display them without blocking the main thread:</p>
+<pre><span class="lang-badge">java</span><code>import com.shyamstudio.shyamduels.api.ShyamDuelsAPI;
+import com.shyamstudio.shyamduels.api.ShyamDuelsProvider;
+import com.shyamstudio.shyamduels.stats.PlayerStats;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+
+public void showLeaderboard(Player viewer) {
+    ShyamDuelsAPI api = ShyamDuelsProvider.get();
+    if (api == null) return;
+
+    api.stats().getTopPlayers("elo", 10).thenAccept(top -> {
+        // Hop back to the main thread before touching Bukkit
+        Bukkit.getScheduler().runTask(api.getPlugin(), () -> {
+            viewer.sendMessage("§6Top 10 by ELO:");
+            int rank = 1;
+            for (PlayerStats stats : top) {
+                viewer.sendMessage("§e#" + (rank++) + " §7" + stats.getUuid() + " §f- " + stats.getElo());
+            }
+        });
+    });
+}</code></pre>
+
+<h2>Example 9: Reading Kills, Deaths, and ELO by UUID</h2>
+<p>The convenience getters on <code>StatsService</code> let you read individual stats for any cached player without touching the <code>PlayerStats</code> object directly. This is handy for PlaceholderAPI bridges, custom GUIs, or reward checks:</p>
+<pre><span class="lang-badge">java</span><code>import com.shyamstudio.shyamduels.api.ShyamDuelsAPI;
+import com.shyamstudio.shyamduels.api.ShyamDuelsProvider;
+import org.bukkit.entity.Player;
+
+import java.util.UUID;
+
+public void showCombatSummary(Player viewer, UUID target) {
+    ShyamDuelsAPI api = ShyamDuelsProvider.get();
+    if (api == null) return;
+
+    int kills = api.stats().getKills(target);
+    int deaths = api.stats().getDeaths(target);
+    int wins = api.stats().getWins(target);
+    int losses = api.stats().getLosses(target);
+    int elo = api.stats().getElo(target);
+
+    double kd = deaths == 0 ? kills : (double) kills / deaths;
+
+    viewer.sendMessage("§6Combat Summary:");
+    viewer.sendMessage("§eKills: §f" + kills + " §7| §eDeaths: §f" + deaths);
+    viewer.sendMessage("§eWins: §f" + wins + " §7| §eLosses: §f" + losses);
+    viewer.sendMessage(String.format("§eK/D: §f%.2f §7| §eELO: §f%d", kd, elo));
+}</code></pre>
+
+<h2>Example 10: Tracking Live Kills With FightDeathEvent</h2>
+<p>Combine the custom events with the stats getters to react to in-duel kills as they happen:</p>
+<pre><span class="lang-badge">java</span><code>import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import com.shyamstudio.shyamduels.api.ShyamDuelsAPI;
+import com.shyamstudio.shyamduels.api.ShyamDuelsProvider;
+import com.shyamstudio.shyamduels.duel.event.FightDeathEvent;
+
+public class KillRewardListener implements Listener {
+
+    @EventHandler
+    public void onFightDeath(FightDeathEvent event) {
+        Player killer = event.getKiller();
+        if (killer == null) return;
+
+        ShyamDuelsAPI api = ShyamDuelsProvider.get();
+        if (api == null) return;
+
+        int totalKills = api.stats().getKills(killer.getUniqueId());
+        if (totalKills % 100 == 0) {
+            killer.sendMessage("§6Milestone! §fYou have reached " + totalKills + " total kills.");
+        }
+    }
+}</code></pre>
+
 <div class="page-navigation">
   <a class="page-nav-link prev" href="models.html">
     <span class="page-nav-label">Previous Page</span>
