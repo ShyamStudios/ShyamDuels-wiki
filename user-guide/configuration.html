@@ -137,6 +137,13 @@
     2v2: true
     3v3: true
     4v4: true
+  match-found-animation:
+    enabled: true
+    totem-pop: false          # Client totem-pop on match start (bundles item overlay + particles + sound)
+    sound: ""                 # Optional extra sound key; empty = no sound
+    sound-volume: 1.0
+    sound-pitch: 1.2
+    fallback-item: DIAMOND_SWORD  # Item model shown in the pop when a kit has no icon (totem-pop only)
 
 duels:
   invite-expiration: 60       # Seconds before duel invites expire
@@ -226,6 +233,7 @@ right-click:
   <li><code>plugins/ShyamDuels/tab/animations.yml</code> - scrolling tab animations</li>
 </ul>
 <p>Reload tab config with <code>/tab reload</code>. Players toggle tab/scoreboard visibility in <code>/settings</code>.</p>
+<p>In <code>tab/scoreboard.yml</code>, <code>scoreboard.async-placeholders: true</code> (default) resolves PlaceholderAPI off the main thread for performance. Set it to <code>false</code> only if a PlaceholderAPI expansion you use is not thread-safe and errors on the scoreboard.</p>
 <p><strong>Tab sort ranks</strong> in <code>tab/display.yml</code> use optional LuckPerms permissions for prefix priority: <code>group.owner</code>, <code>shyamtab.admin</code>, <code>shyamtab.staff</code>, <code>shyamtab.vip</code>.</p>
 
 <h3>GUI Menus and Item Configs</h3>
@@ -287,7 +295,24 @@ mysql:
   database: shyamduels
   username: root
   password: ""
-  use-ssl: false</code></pre>
+  use-ssl: false
+  pool-size: 10               # Pooled MySQL connections (10+ recommended for 300+ players)
+
+# Performance settings — tuned for big servers (300+ players)
+performance:
+  io-threads: 4               # Background threads for DB + file work. SQLite: 4 is plenty.
+                              # MySQL: raise to 8-16 so more queries run at once.
+  autosave-minutes: 5         # Batch-save all online players' stats every N minutes (0 = off).
+                              # Saves everyone in one go and limits crash loss to a few minutes.</code></pre>
+
+<div class="alert alert-note">
+  <div class="alert-title">Scaling to 300+ players</div>
+  For high player counts, use <strong>MySQL</strong> (SQLite serializes all writes through a single
+  connection by design). Raise <code>pool-size</code> and <code>performance.io-threads</code> together
+  so concurrent queries have both connections and worker threads available. The
+  <code>performance</code> block lives in <code>database.yml</code> and is read under the
+  <code>database.</code> prefix internally.
+</div>
 
 <h2>ELO and Ranks Database (ranks.yml)</h2>
 <p>Manages matchmaking ranges and calculations:</p>
