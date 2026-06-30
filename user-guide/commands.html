@@ -38,6 +38,7 @@
     <a href="arena-setup.html">Arena Setup</a>
     <a href="gate-setup.html">Gate Setup</a>
     <a href="kit-setup.html">Kit Setup</a>
+    <a href="kit-sharing.html">Kit Sharing &amp; Profiles</a>
     <a href="party-system.html">Party System</a>
     <a href="ffa.html">FFA Mode</a>
     <a href="elo-ranks.html">ELO &amp; Ranks</a>
@@ -659,7 +660,7 @@
     <tr>
       <td><code>info</code></td>
       <td><code>&lt;name&gt;</code></td>
-      <td><code>shyamduels.kit.list</code></td>
+      <td><code>shyamduels.admin</code></td>
       <td>Shows details about a kit, including item counts, effects, saturation values, and whitelists.</td>
     </tr>
     <tr>
@@ -690,7 +691,7 @@
       <td><code>load</code></td>
       <td><code>&lt;name&gt;</code></td>
       <td><code>shyamduels.admin</code></td>
-      <td>Loads the kit items directly into your inventory.</td>
+      <td>Loads the kit items directly into your inventory. Players may also run <code>/kit load &lt;ShareCode&gt;</code> to import a shared kit (see <a href="kit-sharing.html">Kit Sharing</a>).</td>
     </tr>
     <tr>
       <td><code>give</code></td>
@@ -751,6 +752,36 @@
       <td>-</td>
       <td><code>shyamduels.admin</code></td>
       <td>Lists all kits that have automatic match-start potions active.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Kit Sharing Commands (Players)</h2>
+<p>These <code>/kit</code> subcommands are available to regular players for the
+<a href="kit-sharing.html">kit sharing</a> system. They operate on the player's own edited kits.</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Subcommand</th>
+      <th>Arguments</th>
+      <th>Permissions</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>load</code></td>
+      <td><code>&lt;ShareCode&gt;</code></td>
+      <td>-</td>
+      <td>Imports a shared edited kit by its code. The owner must be online with sharing enabled.</td>
+    </tr>
+    <tr>
+      <td><code>regencode</code></td>
+      <td><code>&lt;kit&gt;</code></td>
+      <td>-</td>
+      <td>Regenerates the share code for one of your edited kits. Tab-completes your edited kit names.</td>
     </tr>
   </tbody>
 </table>

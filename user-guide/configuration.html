@@ -38,6 +38,7 @@
     <a href="arena-setup.html">Arena Setup</a>
     <a href="gate-setup.html">Gate Setup</a>
     <a href="kit-setup.html">Kit Setup</a>
+    <a href="kit-sharing.html">Kit Sharing &amp; Profiles</a>
     <a href="party-system.html">Party System</a>
     <a href="ffa.html">FFA Mode</a>
     <a href="elo-ranks.html">ELO &amp; Ranks</a>
@@ -105,6 +106,28 @@
   clear-entities-on-startup: true
   sanitize-clone-worlds: true # Strip entity data from copied world folders</code></pre>
 <p>See the <a href="arena-setup.html#arena-cloning">Arena Setup: Arena Cloning</a> guide for how cloning works. <strong>Build template arenas only in the base <code>Arenas</code> world</strong>, not in <code>Arenas1</code>, <code>Arenas2</code>, or other auto-generated clone worlds.</p>
+
+<h3>Lobby World Protection</h3>
+<p>The lobby location and optional world protection are configured under <code>lobby:</code>. When
+<code>protect-world</code> is enabled, the plugin disables PvP, mob spawning, mob griefing, and
+freezes time/weather in the lobby world via gamerules &mdash; applied on startup and whenever the
+lobby world loads. <code>adventure-mode</code> puts players into Adventure mode whenever they are
+sent to spawn (admins with <code>shyamduels.admin.bypass</code> and Creative/Spectator players are
+left untouched).</p>
+<pre><span class="lang-badge">yaml</span><code>lobby:
+  world: spawn
+  x: 0.0
+  # ... y, z, yaw, pitch ...
+  adventure-mode: true        # Force Adventure mode in the lobby
+  protect-world: true         # Apply the protective gamerules below to the lobby world
+  gamerules:                  # Each value is optional and falls back to the shown default
+    mob-spawning: false       # doMobSpawning (passive)
+    monster-spawning: false   # hostile monsters
+    mob-griefing: false       # mobGriefing
+    daylight-cycle: false     # freeze the time of day
+    weather-cycle: false      # freeze the weather
+    show-death-messages: false
+    random-tick-speed: 0      # stop block/crop ticking</code></pre>
 
 <h3>Command Restrictions</h3>
 <p>Configure command rules inside matches to block cheating or bypass attempts:</p>
@@ -221,8 +244,23 @@ custom-kits:
 
 right-click:
   enabled: true
+  # What right-clicking another player does:
+  #   profile  -> open the player profile GUI (stats, public kits, send duel)  [default]
+  #   command  -> run the commands listed below (legacy behaviour)
+  action: profile
   commands:
-    - "duel %clicked_player%"</code></pre>
+    - "duel %clicked_player%"
+
+# Kit sharing &amp; player profiles
+kit-sharing:
+  # Default value of each player's "Share Edited Kits" setting before they change it
+  default-enabled: false
+  # Strip rank-gated cosmetics (trims, banners) from imported kits when the importer lacks the
+  # cosmetics.strip-without-permission.permission, so sharing can't hand out paid cosmetics
+  strip-cosmetics-on-import: true</code></pre>
+<p>When <code>action: profile</code>, right-clicking opens the configurable Player Profile GUI
+(<code>menus/profile.yml</code>) instead of running a command. See
+<a href="kit-sharing.html">Kit Sharing &amp; Profiles</a> for the full system.</p>
 <p>Golden head, totem practice, and door animation are toggled via <code>modules.*</code>, not separate <code>enabled</code> keys on those sections.</p>
 
 <h3>Tab List and Scoreboard</h3>
@@ -240,6 +278,7 @@ right-click:
 <p>All player-facing menus live under <code>plugins/ShyamDuels/menus/</code>:</p>
 <ul>
   <li><code>duel.yml</code>, <code>queue.yml</code>, <code>queue-kit.yml</code>, <code>ffa.yml</code>, <code>spectate.yml</code></li>
+  <li><code>profile.yml</code>, <code>profile-stats.yml</code>, <code>public-kits.yml</code>, <code>kit-preview.yml</code> (player profile &amp; kit sharing)</li>
   <li><code>kiteditor.yml</code>, <code>kitroom.yml</code>, <code>kitroom_items.yml</code></li>
   <li><code>party-gui.yml</code>, <code>party-manage.yml</code>, <code>party-settings.yml</code>, <code>party-signgui.yml</code></li>
   <li><code>player-settings.yml</code></li>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Kit Sharing &amp; Profiles: ShyamDuels</title>
+<link rel="stylesheet" href="../assets/style.css"/>
+</head>
+<body>
+<nav class="topnav">
+  <a class="logo-container" href="../index.html">
+    <img src="../shyam.webp" alt="ShyamDuels Logo" class="logo-img"/>
+    <span class="logo-text">ShyamDuels</span>
+  </a>
+  <span class="divider">/</span>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="getting-started.html" class="active">User Guide</a>
+    <a href="../api/overview.html">Developer API</a>
+  </div>
+  <span class="spacer"></span>
+  <a class="discord-btn" href="https://discord.gg/sMdsvZFqnX" target="_blank" rel="noopener">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037 12.9 12.9 0 0 0-.608 1.25 18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+    Discord
+  </a>
+  <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+  </button>
+</nav>
+<div id="overlay"></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">User Guide</span>
+    <a href="getting-started.html">Getting Started</a>
+    <a href="commands.html">Commands Reference</a>
+    <a href="permissions.html">Permissions</a>
+    <a href="arena-setup.html">Arena Setup</a>
+    <a href="gate-setup.html">Gate Setup</a>
+    <a href="kit-setup.html">Kit Setup</a>
+    <a href="kit-sharing.html" class="active">Kit Sharing &amp; Profiles</a>
+    <a href="party-system.html">Party System</a>
+    <a href="ffa.html">FFA Mode</a>
+    <a href="elo-ranks.html">ELO &amp; Ranks</a>
+    <a href="settings.html">Player Settings</a>
+    <a href="practice-features.html">Practice Features</a>
+    <a href="configuration.html">Configuration Files</a>
+    <a href="migration.html">Migration Guide</a>
+    <a href="placeholders.html">PlaceholderAPI</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">Developer API</span>
+    <a href="../api/overview.html">Overview &amp; Setup</a>
+    <a href="../api/services.html">Services Reference</a>
+    <a href="../api/events.html">Events Reference</a>
+    <a href="../api/models.html">Data Models</a>
+    <a href="../api/examples.html">Code Examples</a>
+  </div>
+</aside>
+<main class="content">
+
+<div class="breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="getting-started.html">User Guide</a><span>›</span>Kit Sharing &amp; Profiles</div>
+<h1>Kit Sharing &amp; Profiles</h1>
+<p class="page-lead">Right-click any player to open their profile, browse their public edited kits, preview the exact layout, and import it with a single click or a share code.</p>
+
+<h2>Player Profile</h2>
+<p>Right-clicking another player opens the <strong>Player Profile</strong> GUI instead of opening the duel menu directly. The profile is the new hub for inspecting players and starting matches.</p>
+<ul>
+  <li><strong>Player Statistics</strong> &mdash; full PvP, match, and kit stats.</li>
+  <li><strong>Public Edited Kits</strong> &mdash; browse and import the player's shared kits.</li>
+  <li><strong>Send Duel</strong> &mdash; opens the existing duel menu (no duel behaviour changed).</li>
+  <li><strong>Close</strong>.</li>
+</ul>
+<p>The profile, statistics, public-kits and preview menus are all fully configurable from
+<code>menus/profile.yml</code>, <code>menus/profile-stats.yml</code>, <code>menus/public-kits.yml</code> and
+<code>menus/kit-preview.yml</code>. The right-click behaviour can be switched in config:</p>
+<pre><code>right-click:
+  action: profile   # profile | command
+  command: "duel %player%"   # used when action: command</code></pre>
+
+<h2>Enabling Kit Sharing</h2>
+<p>Kit sharing is an opt-in player setting. It is <strong>OFF</strong> by default.</p>
+<pre><code>/settings  ->  Share Edited Kits  ->  ON / OFF</code></pre>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>State</th><th>Behaviour</th></tr></thead>
+  <tbody>
+    <tr><td><code>ON</code></td><td>All of the player's edited kits become visible and importable by others. Each edited kit gets a unique share code.</td></tr>
+    <tr><td><code>OFF</code></td><td>Nobody can view or import the player's kits. Existing share codes immediately stop resolving.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Share Codes</h2>
+<p>Every edited kit (and every player-built custom kit) carries its own unique, hard-to-guess
+8-character code &mdash; not one code per player. Example: <code>38RBJQ7P</code>.</p>
+<ul>
+  <li>Generated automatically when kits load or are saved.</li>
+  <li>Persisted with the kit, so they remain stable between sessions.</li>
+  <li>Can be regenerated on demand:</li>
+</ul>
+<pre><code>/kit regencode &lt;kit&gt;</code></pre>
+<p><code>/kit regencode</code> offers tab-completion of your own edited kit names. If you have not
+edited the named kit yet, the command reports that there is no edited kit to share.</p>
+
+<h2>Importing a Kit</h2>
+<p>Players can import a shared kit in two ways:</p>
+<pre><code># From the Public Edited Kits menu:
+Shift-Click a kit to import it
+
+# Or directly by code:
+/kit load &lt;ShareCode&gt;</code></pre>
+<p>A kit can only be imported when <strong>all</strong> of the following are true:</p>
+<ul>
+  <li>The share code exists.</li>
+  <li>The owner is currently <strong>online</strong> (codes resolve against online owners only).</li>
+  <li>The owner has kit sharing enabled.</li>
+  <li>The edited kit still exists.</li>
+  <li>You are not importing your own kit.</li>
+</ul>
+<p>On success the full layout &mdash; inventory, hotbar, armor and offhand &mdash; is copied and saved as
+your own edited kit under the original kit name, and the owner's import counter increases.</p>
+
+<div class="callout">
+<strong>Cosmetic protection.</strong> If <code>kit-sharing.strip-cosmetics-on-import: true</code>, any
+trims, banners or other rank-gated cosmetic items are stripped from imported kits when the importer
+lacks the <code>cosmetics.strip-without-permission.permission</code> permission. This stops
+unranked players from inheriting paid cosmetics through a shared kit.
+</div>
+
+<h2>Import Messages</h2>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Situation</th><th>Message key (<code>messages.yml</code>)</th></tr></thead>
+  <tbody>
+    <tr><td>Success</td><td><code>kit-sharing.import-success</code></td></tr>
+    <tr><td>Unknown / invalid code</td><td><code>kit-sharing.import-invalid-code</code></td></tr>
+    <tr><td>Owner offline</td><td><code>kit-sharing.import-owner-offline</code></td></tr>
+    <tr><td>Sharing disabled</td><td><code>kit-sharing.import-sharing-disabled</code></td></tr>
+    <tr><td>Kit no longer exists</td><td><code>kit-sharing.import-kit-removed</code></td></tr>
+    <tr><td>Importing your own kit</td><td><code>kit-sharing.import-self</code></td></tr>
+    <tr><td>No edited kit to share (regencode)</td><td><code>kit-sharing.no-edited-kit</code></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Performance &amp; Caching</h2>
+<p>Every expensive operation runs off the main thread. Statistics, edited kits, previews and share
+codes load asynchronously, and the inventory only updates once the data is ready. Share codes
+resolve through an in-memory registry of online owners, so importing never hits the database on the
+hot path. Caches are invalidated automatically when a player edits, deletes or imports a kit,
+changes their sharing setting, or disconnects.</p>
+
+<div class="page-navigation">
+  <a class="page-nav-link prev" href="kit-setup.html">
+    <span class="page-nav-label">Previous Page</span>
+    <span class="page-nav-title">Kit Setup Guide</span>
+  </a>
+  <a class="page-nav-link next" href="party-system.html">
+    <span class="page-nav-label">Next Page</span>
+    <span class="page-nav-title">Party System</span>
+  </a>
+</div>
+
+</main>
+</div>
+<script src="../assets/nav.js"></script>
+</body>
+</html>

@@ -38,6 +38,7 @@
     <a href="../user-guide/arena-setup.html">Arena Setup</a>
     <a href="../user-guide/gate-setup.html">Gate Setup</a>
     <a href="../user-guide/kit-setup.html">Kit Setup</a>
+    <a href="../user-guide/kit-sharing.html">Kit Sharing &amp; Profiles</a>
     <a href="../user-guide/party-system.html">Party System</a>
     <a href="../user-guide/ffa.html">FFA Mode</a>
     <a href="../user-guide/elo-ranks.html">ELO &amp; Ranks</a>
@@ -305,6 +306,48 @@ public class KillRewardListener implements Listener {
         if (totalKills % 100 == 0) {
             killer.sendMessage("§6Milestone! §fYou have reached " + totalKills + " total kills.");
         }
+    }
+}</code></pre>
+
+<h2>Example 11: Reading Share Codes and Importing a Shared Kit</h2>
+<p>Use <code>KitShareService</code> to read an online owner's share code, then import that kit for
+another player. Resolution and imports operate on online owners only, so call them on the main
+thread; the resulting saves run asynchronously inside the managers:</p>
+<pre><span class="lang-badge">java</span><code>import com.shyamstudio.shyamduels.api.ShyamDuelsAPI;
+import com.shyamstudio.shyamduels.api.ShyamDuelsProvider;
+import com.shyamstudio.shyamduels.api.kitshare.KitShareService;
+import com.shyamstudio.shyamduels.kit.KitShareManager;
+import org.bukkit.entity.Player;
+
+public class KitShareExample {
+
+    public void shareInfo(Player owner, String kitName) {
+        ShyamDuelsAPI api = ShyamDuelsProvider.require();
+        KitShareService share = api.kitShare();
+
+        if (!share.isSharing(owner.getUniqueId())) {
+            owner.sendMessage("§cYou have kit sharing disabled. Enable it in /settings.");
+            return;
+        }
+
+        String code = share.getShareCode(owner.getUniqueId(), kitName);
+        int imports = share.getImportCount(owner.getUniqueId(), kitName);
+        owner.sendMessage("§aCode: §f" + code + " §7(" + imports + " imports)");
+    }
+
+    public void importFromCode(Player importer, String code) {
+        ShyamDuelsAPI api = ShyamDuelsProvider.require();
+        KitShareService share = api.kitShare();
+
+        // Inspect the reference first (optional)
+        KitShareManager.ShareRef ref = share.resolve(code);
+        if (ref == null) {
+            importer.sendMessage("§cUnknown share code, or the owner is offline.");
+            return;
+        }
+
+        // Performs all checks and messages the importer on success/failure
+        share.importKit(importer, code);
     }
 }</code></pre>
 

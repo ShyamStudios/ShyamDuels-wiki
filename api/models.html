@@ -38,6 +38,7 @@
     <a href="../user-guide/arena-setup.html">Arena Setup</a>
     <a href="../user-guide/gate-setup.html">Gate Setup</a>
     <a href="../user-guide/kit-setup.html">Kit Setup</a>
+    <a href="../user-guide/kit-sharing.html">Kit Sharing &amp; Profiles</a>
     <a href="../user-guide/party-system.html">Party System</a>
     <a href="../user-guide/ffa.html">FFA Mode</a>
     <a href="../user-guide/elo-ranks.html">ELO &amp; Ranks</a>
@@ -101,6 +102,18 @@ Represents a saved loadout template:</p>
   <li><code>getStartingSaturation()</code>: Saturation amount applied to players on start (0 to 20 scale).</li>
 </ul>
 
+<h2 id="playerkit">PlayerKit</h2>
+<p>Class: <code>com.shyamstudio.shyamduels.kit.PlayerKit</code><br/>
+Represents a player's edited (customized) version of a base kit, with its share metadata:</p>
+<ul>
+  <li><code>getPlayerUuid()</code>: Owner's <code>UUID</code>.</li>
+  <li><code>getKitName()</code>: Name of the base kit this edit belongs to.</li>
+  <li><code>getInventory()</code> / <code>getArmor()</code> / <code>getOffhand()</code>: The saved layout.</li>
+  <li><code>getShareCode()</code>: The unique share code for this edited kit, or null.</li>
+  <li><code>getImportCount()</code>: How many times other players have imported this kit.</li>
+  <li><code>getCreatedAt()</code> / <code>getLastEdited()</code>: Creation and last-edit timestamps (epoch millis).</li>
+</ul>
+
 <h2>PlayerStats</h2>
 <p>Class: <code>com.shyamstudio.shyamduels.stats.PlayerStats</code><br/>
 Represents cached player statistics:</p>
@@ -124,6 +137,7 @@ Represents personal preference configuration options:</p>
 <ul>
   <li><code>isScoreboard()</code> / <code>isTabList()</code> / <code>isNametags()</code>: Visibility preference settings (returns boolean).</li>
   <li><code>isFriendRequests()</code> / <code>isDuelRequests()</code>: Toggles indicating if the player is open to requests.</li>
+  <li><code>isShareKits()</code>: Whether the player has enabled "Share Edited Kits" (kit sharing).</li>
   <li><code>getWeatherPreference()</code>: Personal weather overrides (Clear, Rain, Storm).</li>
   <li><code>getTimePreference()</code>: Personal client-view time overrides (Day, Night).</li>
 </ul>
@@ -174,6 +188,16 @@ Represents a player-built custom kit profile (available via <code>customKits()</
   <li><code>getName()</code>: Returns the player-assigned kit name.</li>
   <li><code>getHelmet()</code>: Returns the helmet <code>ItemStack</code> used as the kit icon.</li>
   <li><code>getSettings()</code>: Returns the <code>KitSettings</code> applied to the kit.</li>
+</ul>
+
+<h2 id="shareref">KitShareManager.ShareRef</h2>
+<p>Record: <code>com.shyamstudio.shyamduels.kit.KitShareManager.ShareRef</code><br/>
+A resolved reference to a shared kit, returned by <code>KitShareService.resolve(code)</code>:</p>
+<ul>
+  <li><code>ownerId()</code>: The owning player's <code>UUID</code>.</li>
+  <li><code>type()</code>: The <code>KitShareManager.KitType</code> &mdash; <code>EDITED</code> (base-kit edit) or <code>CUSTOM</code> (player-built kit).</li>
+  <li><code>kitName()</code>: Kit name (used for <code>EDITED</code> kits).</li>
+  <li><code>kitId()</code>: Kit slot ID (used for <code>CUSTOM</code> kits; <code>-1</code> for edited kits).</li>
 </ul>
 
 <div class="page-navigation">

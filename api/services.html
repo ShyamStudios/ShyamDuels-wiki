@@ -38,6 +38,7 @@
     <a href="../user-guide/arena-setup.html">Arena Setup</a>
     <a href="../user-guide/gate-setup.html">Gate Setup</a>
     <a href="../user-guide/kit-setup.html">Kit Setup</a>
+    <a href="../user-guide/kit-sharing.html">Kit Sharing &amp; Profiles</a>
     <a href="../user-guide/party-system.html">Party System</a>
     <a href="../user-guide/ffa.html">FFA Mode</a>
     <a href="../user-guide/elo-ranks.html">ELO &amp; Ranks</a>
@@ -267,7 +268,7 @@ Coordinates FAWE reset states and lists active arena environments:</p>
 
 <h2>KitService</h2>
 <p>Interface: <code>com.shyamstudio.shyamduels.api.kit.KitService</code><br/>
-Manages kit configurations and whitelist setups:</p>
+Manages kit configuration templates, per-player edited kits, and their share metadata:</p>
 <div class="table-wrap">
 <table>
   <thead>
@@ -287,6 +288,102 @@ Manages kit configurations and whitelist setups:</p>
       <td><code>getKits()</code></td>
       <td>Collection&lt;Kit&gt;</td>
       <td>Returns all registered kit templates.</td>
+    </tr>
+    <tr>
+      <td><code>getPublicKits()</code></td>
+      <td>List&lt;Kit&gt;</td>
+      <td>Returns the kits flagged as publicly selectable.</td>
+    </tr>
+    <tr>
+      <td><code>applyKitToPlayer(Player, Kit)</code></td>
+      <td>void</td>
+      <td>Applies a base kit's contents to the player's inventory.</td>
+    </tr>
+    <tr>
+      <td><code>getPlayerKit(UUID, String kitName)</code></td>
+      <td>PlayerKit</td>
+      <td>Gets a player's saved edited version of a kit, or null.</td>
+    </tr>
+    <tr>
+      <td><code>savePlayerKit(PlayerKit)</code></td>
+      <td>void</td>
+      <td>Persists a player's edited kit asynchronously.</td>
+    </tr>
+    <tr>
+      <td><code>resetPlayerKit(UUID, String kitName)</code></td>
+      <td>void</td>
+      <td>Deletes a player's edited kit, reverting to the base layout.</td>
+    </tr>
+    <tr>
+      <td><code>loadPlayerKits(Player)</code></td>
+      <td>CompletableFuture&lt;Void&gt;</td>
+      <td>Asynchronously loads and caches a player's edited kits.</td>
+    </tr>
+    <tr>
+      <td><code>getShareCode(PlayerKit)</code></td>
+      <td>String</td>
+      <td>The share code assigned to an edited kit, or null.</td>
+    </tr>
+    <tr>
+      <td><code>getImportCount(PlayerKit)</code></td>
+      <td>int</td>
+      <td>How many times the edited kit has been imported by others.</td>
+    </tr>
+    <tr>
+      <td><code>getCreatedAt(PlayerKit)</code></td>
+      <td>long</td>
+      <td>Epoch millis when the edited kit was first created.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>KitShareService</h2>
+<p>Interface: <code>com.shyamstudio.shyamduels.api.kitshare.KitShareService</code><br/>
+Drives the per-kit share-code system for both edited base kits and player-built custom kits.
+Resolve via <code>api.kitShare()</code>. Codes resolve against an in-memory registry of <strong>online</strong>
+owners only &mdash; imports require the owner online and sharing enabled. Call
+<code>importKit(...)</code> on the main server thread; the resulting database/file writes run
+asynchronously inside the managers.</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Method Signature</th>
+      <th>Returns</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>resolve(String code)</code></td>
+      <td>KitShareManager.ShareRef</td>
+      <td>Resolves a share code to its owning kit reference, or null if unknown/owner offline.</td>
+    </tr>
+    <tr>
+      <td><code>importKit(Player importer, String code)</code></td>
+      <td>void</td>
+      <td>Imports the referenced kit into the importer's kits. Failures (invalid code, owner offline, sharing disabled, kit removed, self-import) are messaged to the importer.</td>
+    </tr>
+    <tr>
+      <td><code>isSharing(UUID ownerId)</code></td>
+      <td>boolean</td>
+      <td>Whether the player currently has the "Share Edited Kits" setting enabled.</td>
+    </tr>
+    <tr>
+      <td><code>getShareCode(UUID ownerId, String kitName)</code></td>
+      <td>String</td>
+      <td>The current share code for an owner's edited kit, or null.</td>
+    </tr>
+    <tr>
+      <td><code>getImportCount(UUID ownerId, String kitName)</code></td>
+      <td>int</td>
+      <td>How many times an owner's edited kit has been imported.</td>
+    </tr>
+    <tr>
+      <td><code>regenerateCode(UUID ownerId, String kitName)</code></td>
+      <td>String</td>
+      <td>Regenerates and returns a new share code for an owner's edited kit, or null.</td>
     </tr>
   </tbody>
 </table>
