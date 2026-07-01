@@ -79,7 +79,7 @@
   custom-kits: true
   killstreaks: true
   auto-gg: true
-  action-bar: false
+  action-bar: true
   tab-list: true
   scoreboard: true
   practice-kit-editor: true
@@ -89,8 +89,8 @@
   practice-golden-head: true
   practice-totem-practice: true
   armor-trimmer: true
-  shield-customizer: true
   enchant-table: true
+  shield-customizer: true
   kit-editor-armor-trimmer: true
   kit-room-shulker-editor: true</code></pre>
 <p>See <a href="practice-features.html">Practice Features</a> for practice module details.</p>
@@ -98,19 +98,35 @@
 <h3>World and Arena Configurations</h3>
 <pre><span class="lang-badge">yaml</span><code>arenas:
   world: Arenas               # Base void world; clone worlds become Arenas1, Arenas2, …
-  cloning: 0                  # Extra world copies for duel capacity (0 = off)
-  sanitize-clone-worlds: true # Strip entity data from copied world folders
+  cloning: 0                  # Extra world copies for duel capacity (0 = off; FFA never cloned)
   reset-queue:
     max-concurrent: 3         # Max simultaneous FAWE arena restorations
     ffa-one-at-a-time: true   # Only one FFA reset at a time (duel resets unaffected)
-  clear-entities-on-startup: true
-  sanitize-clone-worlds: true # Strip entity data from copied world folders</code></pre>
+  clear-entities-on-startup: true # Remove dropped items/non-player entities in loaded worlds
+  sanitize-clone-worlds: true # Strip entity data from copied world folders
+  gamerules:                  # Applied to base + clone worlds on startup/load (all optional)
+    daylight-cycle: false     # freeze the time of day
+    weather-cycle: false      # freeze the weather
+    mob-spawning: false       # doMobSpawning (passive)
+    monster-spawning: false   # hostile monsters
+    mob-griefing: false       # mobGriefing
+    show-advancement-messages: false
+    locator-bar: false        # player locator HUD
+    show-death-messages: false
+    natural-regeneration: true
+    spawn-phantoms: false
+    spawn-patrols: false
+    spawn-wandering-traders: false
+    spawn-wardens: false
+    raids: false              # false = raids disabled
+    random-tick-speed: 0      # stop block/crop ticking
+    fire-spread: 0            # no fire spread</code></pre>
 <p>See the <a href="arena-setup.html#arena-cloning">Arena Setup: Arena Cloning</a> guide for how cloning works. <strong>Build template arenas only in the base <code>Arenas</code> world</strong>, not in <code>Arenas1</code>, <code>Arenas2</code>, or other auto-generated clone worlds.</p>
 
 <h3>Lobby World Protection</h3>
 <p>The lobby location and optional world protection are configured under <code>lobby:</code>. When
 <code>protect-world</code> is enabled, the plugin disables PvP, mob spawning, mob griefing, and
-freezes time/weather in the lobby world via gamerules &mdash; applied on startup and whenever the
+freezes time/weather in the lobby world via gamerules, applied on startup and whenever the
 lobby world loads. <code>adventure-mode</code> puts players into Adventure mode whenever they are
 sent to spawn (admins with <code>shyamduels.admin.bypass</code> and Creative/Spectator players are
 left untouched).</p>
@@ -144,6 +160,11 @@ left untouched).</p>
     - spectate
   in-match-global:            # Blocked during any active match
     - kiteditor
+    - duel
+    - queue
+    - play
+    - ffa
+    - party
   in-duel:
     mode: block-all
   in-ffa:
@@ -154,7 +175,9 @@ left untouched).</p>
 <h3>Queue and Duels</h3>
 <pre><span class="lang-badge">yaml</span><code>queue:
   multiple-kits: true         # Allow queuing multiple kits at once
+  max-multiple-kits: 3        # Max kits queued at once (0 = unlimited; needs multiple-kits)
   random-queue-enabled: true  # Random kit queue option
+  override-conflicting-commands: true # Reroute /queue to ShyamDuels over other plugins
   modes:                      # Disable individual queue sizes
     1v1: true
     2v2: true
@@ -177,6 +200,25 @@ leavefight:
   cooldown: 3                 # Seconds before /leavefight can be used again
   delay: 3                      # Teleport delay after command</code></pre>
 
+<h3>Arena World Borders</h3>
+<p>Per-player, client-side red borders drawn around arenas during duels, FFA, and spectating. They
+are sent as packets and never modify the real server world border. See
+<a href="arena-setup.html#fake-world-borders">Arena Setup: Fake World Borders</a> for the full
+explanation.</p>
+<pre><span class="lang-badge">yaml</span><code>world-border:
+  enabled: true               # Master switch; false sends no arena borders at all
+  padding: 0.0                # Extra blocks on every side (0.0 hugs the corner blocks exactly)
+  warning-blocks: 0           # Red "approaching border" overlay distance in blocks (0 = off)
+  warning-time: 0             # Red warning overlay duration in seconds (0 = off)</code></pre>
+
+<h3>Friends</h3>
+<pre><span class="lang-badge">yaml</span><code>friends:
+  # How long a pending friend request stays valid before it is auto-removed, in seconds.
+  # Set to 0 (or negative) to disable expiry and keep requests forever.
+  request-expiry-seconds: 300</code></pre>
+<p>Expired requests are cleaned up by a background task and also pruned whenever a player's
+requests are read, so a request disappears once <code>request-expiry-seconds</code> has passed.</p>
+
 <h3>Party, FFA, and Match Start</h3>
 <pre><span class="lang-badge">yaml</span><code>party:
   default-max-size: 8
@@ -186,7 +228,7 @@ leavefight:
   invite-expiration: 60
 
 party-chat:
-  format: "&b[Party] &f{player}: &7{message}"
+  format: "&#55FFFF[Party] &#FFFFFF{player}: &#AAAAAA{message}"
 
 party-ffa:
   spawn-circle-radius: 4.0
@@ -223,6 +265,7 @@ death-messages:
 auto-gg:
   enabled: true
   delay-seconds: 2
+  default-enabled: true       # Default Auto GG state before a player changes it
 
 golden-head:
   cooldown: 3
@@ -241,6 +284,10 @@ custom-kits:
   base-kit-name: custom
   default-unlocked-kits: 3
   hide-from-public-menus: true
+  play-others-gui:
+    enabled: true
+    show-when-hosted-at-least: 1
+    auto-join-when-single: false
 
 right-click:
   enabled: true
@@ -257,7 +304,9 @@ kit-sharing:
   default-enabled: false
   # Strip rank-gated cosmetics (trims, banners) from imported kits when the importer lacks the
   # cosmetics.strip-without-permission.permission, so sharing can't hand out paid cosmetics
-  strip-cosmetics-on-import: true</code></pre>
+  strip-cosmetics-on-import: true
+  # Cooldown (seconds) between successful kit imports per player (0 = off; anti shift-click spam)
+  import-cooldown-seconds: 30</code></pre>
 <p>When <code>action: profile</code>, right-clicking opens the configurable Player Profile GUI
 (<code>menus/profile.yml</code>) instead of running a command. See
 <a href="kit-sharing.html">Kit Sharing &amp; Profiles</a> for the full system.</p>
@@ -305,6 +354,47 @@ items:
     commands: ["player:queue"]</code></pre>
 <p>Rematch lore supports <code>{opponent}</code> and <code>{kit}</code> placeholders. Reload with <code>/shyamduels reload</code>.</p>
 <p>Kit and FFA GUI order/icons: <code>data/order.yml</code>. Custom kit categories: <code>categories.json</code> (runtime).</p>
+
+<h3>Custom Item Icons (Custom Model Data &amp; Nexo)</h3>
+<p>Every item entry in a menu or item config supports two optional fields for swapping the vanilla
+icon for a resource-pack model or a Nexo custom item. Both sit alongside the normal
+<code>material</code>, <code>name</code> and <code>lore</code> keys:</p>
+<pre><span class="lang-badge">yaml</span><code>some-item:
+  slot: 11
+  material: DIAMOND_SWORD
+  # Optional custom icon (pick one):
+  custom-model-data: 1001     # Applies a CustomModelData value to the vanilla material
+  # nexo: my_custom_icon      # OR pull the icon (and its model) from a Nexo item id
+  name: "&b&lRANKED QUEUE"
+  lore:
+    - "&7Click to queue"</code></pre>
+
+<h4>Custom Model Data</h4>
+<p><code>custom-model-data: &lt;int&gt;</code> stamps a CustomModelData value onto the configured
+<code>material</code>, so a resource pack can render a custom texture/model for that slot. It is only
+applied when the value is greater than <code>0</code>; leave it out (or set <code>0</code>) to keep
+the default look. The material must still be a valid Minecraft item.</p>
+
+<h4>Nexo Items</h4>
+<p><a href="https://docs.nexomc.com/" target="_blank" rel="noopener">Nexo</a> is an optional
+soft-dependency. When it is installed, you can render any Nexo custom item as a menu icon using
+either form:</p>
+<pre><span class="lang-badge">yaml</span><code># Explicit field:
+nexo: my_custom_icon
+
+# Or as a material shorthand:
+material: "nexo:my_custom_icon"</code></pre>
+<p>The Nexo item id (with its own model) takes priority. If Nexo is <strong>not</strong> installed, or
+the id does not exist, ShyamDuels falls back to the vanilla <code>material</code> plus any
+<code>custom-model-data</code>, so menus never break on servers without Nexo. On startup the console
+logs <code>Nexo hook: enabled</code> when the integration is active.</p>
+<div class="alert alert-note">
+  <div class="alert-title">Precedence</div>
+  A Nexo id (from the <code>nexo:</code> field or a <code>nexo:</code> material) is resolved first.
+  Only when no Nexo item is found does the vanilla <code>material</code> + <code>custom-model-data</code>
+  apply. You don't need Nexo installed to use <code>custom-model-data</code>.
+</div>
+
 
 <h3>Runtime Data Files</h3>
 <ul>
@@ -357,34 +447,62 @@ performance:
 <p>Manages matchmaking ranges and calculations:</p>
 <pre><span class="lang-badge">yaml</span><code>elo:
   rank-system: true           # Enable rank progressions
+  enabled: true
   starting-elo: 1000          # Base ELO rating for new players
-  base-gain: 25               # Base ELO added on win
-  base-loss: 20               # Base ELO deducted on loss
+  min-elo: 0                  # Floor a player's ELO can drop to
+  base-gain: 20               # ELO added on an even-matchup win (set equal to base-loss)
+  base-loss: 20               # ELO deducted on an even-matchup loss
   kill-gain: 5                # Bonus ELO added per kill
+
+  # Opponent-relative (true Elo) scaling. Beating a much weaker opponent gives almost nothing;
+  # beating a stronger one gives more. Set false for flat base-gain / base-loss.
+  opponent-based: true
+  min-gain: 1                 # Floor for a win (token amount vs far-weaker players)
+  max-gain: 40                # Cap for a win (vs far-stronger players)
+  min-loss: 1                 # Floor for a loss
 
   anti-farm:
     enabled: true             # Block ELO farming exploits
     cooldown-hours: 3         # Cooldown before the same opponent yields ELO again
     max-wins-per-opponent: 2  # Max wins against the same player in cooldown period
     block-same-ip: true       # Block ELO gains between matching IP addresses</code></pre>
+<p>Each rank under <code>elo.ranks.*</code> defines <code>name</code>, a <code>colored</code> display
+tag, an ELO range (<code>min-elo</code>/<code>max-elo</code>) and a <code>loss-multiplier</code>.
+See <a href="elo-ranks.html">ELO &amp; Ranks</a> for the full ladder.</p>
 
 <p>Import from StrikePractice: see the <a href="migration.html">Migration Guide</a>.</p>
 
 <h2>Sound Effects Library (sounds.yml)</h2>
-<p>Maps custom sounds to match events. Supports standard Minecraft sound keys (e.g. <code>BLOCK_NOTE_BLOCK_PLING</code>):</p>
-<pre><span class="lang-badge">yaml</span><code>sounds:
-  match-found:
-    sound: ENTITY_PLAYER_LEVELUP
-    volume: 1.0
-    pitch: 1.0
+<p>Maps custom sounds to events, grouped by category (e.g. <code>match-start</code>, <code>duel</code>,
+<code>queue</code>, <code>party</code>, <code>gui</code>, <code>kiteditor</code>, <code>custom-kits</code>).
+Each entry has an <code>enabled</code> toggle plus a <code>sound</code>, <code>volume</code> and
+<code>pitch</code>. Supports standard Minecraft sound keys (e.g. <code>BLOCK_NOTE_BLOCK_PLING</code>):</p>
+<pre><span class="lang-badge">yaml</span><code>match-start:
   countdown:
-    sound: BLOCK_NOTE_BLOCK_PLING
+    enabled: true
+    sound: "BLOCK_NOTE_BLOCK_PLING"
     volume: 1.0
     pitch: 1.0
-  fight-start:
-    sound: ENTITY_WITHER_SPAWN
-    volume: 0.5
+  fight:
+    enabled: true
+    sound: "ENTITY_ENDER_DRAGON_GROWL"
+    volume: 1.0
+    pitch: 1.5
+
+duel:
+  invite:
+    enabled: true
+    sound: "ENTITY_EXPERIENCE_ORB_PICKUP"
+    volume: 0.8
+    pitch: 1.2
+
+match-result:
+  match-win:
+    enabled: true
+    sound: "UI_TOAST_CHALLENGE_COMPLETE"
+    volume: 1.0
     pitch: 1.0</code></pre>
+<p>Set <code>enabled: false</code> on any entry to mute just that event.</p>
 
 <div class="page-navigation">
   <a class="page-nav-link prev" href="practice-features.html">

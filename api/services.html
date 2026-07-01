@@ -342,7 +342,7 @@ Manages kit configuration templates, per-player edited kits, and their share met
 <p>Interface: <code>com.shyamstudio.shyamduels.api.kitshare.KitShareService</code><br/>
 Drives the per-kit share-code system for both edited base kits and player-built custom kits.
 Resolve via <code>api.kitShare()</code>. Codes resolve against an in-memory registry of <strong>online</strong>
-owners only &mdash; imports require the owner online and sharing enabled. Call
+owners only. Imports require the owner online and sharing enabled. Call
 <code>importKit(...)</code> on the main server thread; the resulting database/file writes run
 asynchronously inside the managers.</p>
 <div class="table-wrap">

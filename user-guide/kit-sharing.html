@@ -67,9 +67,9 @@
 <h2>Player Profile</h2>
 <p>Right-clicking another player opens the <strong>Player Profile</strong> GUI instead of opening the duel menu directly. The profile is the new hub for inspecting players and starting matches.</p>
 <ul>
-  <li><strong>Player Statistics</strong> &mdash; full PvP, match, and kit stats.</li>
-  <li><strong>Public Edited Kits</strong> &mdash; browse and import the player's shared kits.</li>
-  <li><strong>Send Duel</strong> &mdash; opens the existing duel menu (no duel behaviour changed).</li>
+  <li><strong>Player Statistics</strong> - full PvP, match, and kit stats.</li>
+  <li><strong>Public Edited Kits</strong> - browse and import the player's shared kits.</li>
+  <li><strong>Send Duel</strong> - opens the existing duel menu (no duel behaviour changed).</li>
   <li><strong>Close</strong>.</li>
 </ul>
 <p>The profile, statistics, public-kits and preview menus are all fully configurable from
@@ -94,7 +94,7 @@
 
 <h2>Share Codes</h2>
 <p>Every edited kit (and every player-built custom kit) carries its own unique, hard-to-guess
-8-character code &mdash; not one code per player. Example: <code>38RBJQ7P</code>.</p>
+8-character code, not one code per player. Example: <code>38RBJQ7P</code>.</p>
 <ul>
   <li>Generated automatically when kits load or are saved.</li>
   <li>Persisted with the kit, so they remain stable between sessions.</li>
@@ -119,7 +119,7 @@ Shift-Click a kit to import it
   <li>The edited kit still exists.</li>
   <li>You are not importing your own kit.</li>
 </ul>
-<p>On success the full layout &mdash; inventory, hotbar, armor and offhand &mdash; is copied and saved as
+<p>On success the full layout (inventory, hotbar, armor and offhand) is copied and saved as
 your own edited kit under the original kit name, and the owner's import counter increases.</p>
 
 <div class="callout">
@@ -144,13 +144,6 @@ unranked players from inheriting paid cosmetics through a shared kit.
   </tbody>
 </table>
 </div>
-
-<h2>Performance &amp; Caching</h2>
-<p>Every expensive operation runs off the main thread. Statistics, edited kits, previews and share
-codes load asynchronously, and the inventory only updates once the data is ready. Share codes
-resolve through an in-memory registry of online owners, so importing never hits the database on the
-hot path. Caches are invalidated automatically when a player edits, deletes or imports a kit,
-changes their sharing setting, or disconnects.</p>
 
 <div class="page-navigation">
   <a class="page-nav-link prev" href="kit-setup.html">

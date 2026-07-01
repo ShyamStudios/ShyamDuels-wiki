@@ -300,6 +300,50 @@
 <pre><code>/arena reset Arena1</code></pre>
 <p>This triggers a rollback paste, changing the state to REGENERATING and back to AVAILABLE.</p>
 
+<h2 id="fake-world-borders">Fake World Borders</h2>
+<p>ShyamDuels draws a red world border around each arena so fighters and spectators can see the exact
+edge of the play area. These borders are <strong>fully client-side and per-player</strong>: they are
+sent as packets (via PacketEvents) to one player at a time and never touch the real server world
+border. Two players standing in the same world can each see a different border (their own arena's),
+and lobby players keep the genuine world border untouched.</p>
+<ul>
+  <li>The border is a <strong>square</strong> built from the arena's two corners (<code>/arena corner1</code>
+  and <code>/arena corner2</code>). Its center is the midpoint of the corners and its size uses the
+  longer side, so it encloses the whole region.</li>
+  <li>It is shown automatically when a player enters an arena for a duel, an FFA match, or while
+  spectating, and the player's real border is restored the moment they leave or disconnect.</li>
+  <li>Nothing is sent on a per-tick timer: a border is pushed only when it appears, changes, or the
+  player rejoins, so the feature is effectively free at runtime.</li>
+</ul>
+<p>Because the border follows the arena corners, re-running <code>/arena corner1</code> and
+<code>/arena corner2</code> after resizing an arena also updates its border.</p>
+
+<h3>Configuration</h3>
+<p>Configured under <code>world-border:</code> in <code>config.yml</code>:</p>
+<pre><code>world-border:
+  enabled: true        # Master switch; false sends no arena borders at all
+  padding: 0.0         # Extra blocks on every side (0.0 hugs the corner blocks exactly)
+  warning-blocks: 0    # Red "approaching border" overlay distance in blocks (0 = off)
+  warning-time: 0      # Red warning overlay duration in seconds (0 = off)</code></pre>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th>Option</th><th>Description</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>enabled</code></td><td>Turns the whole feature on or off. When <code>false</code>, no arena border packets are sent.</td></tr>
+    <tr><td><code>padding</code></td><td>Blocks added on each side so the wall sits slightly outside the play area. <code>0.0</code> keeps it exactly on the corner blocks.</td></tr>
+    <tr><td><code>warning-blocks</code></td><td>Distance from the edge at which the red vignette appears. <code>0</code> disables the overlay.</td></tr>
+    <tr><td><code>warning-time</code></td><td>Time-based warning overlay duration in seconds. <code>0</code> disables it.</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="alert alert-note">
+  <div class="alert-title">Requires an arena with both corners</div>
+  A border is only drawn when the arena has both <code>corner1</code> and <code>corner2</code> set. Arenas
+  missing a corner simply show no fake border. The feature relies on the bundled PacketEvents dependency.
+</div>
+
 <h2>Exhaustive Arena Setup Command Reference</h2>
 <p>Below is a complete command reference table for managing arena environments (requires <code>shyamduels.admin</code>):</p>
 <div class="table-wrap">
