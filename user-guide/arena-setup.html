@@ -202,9 +202,10 @@
 </table>
 </div>
 
-<h2>Creating a Standard Duel Arena</h2>
+<h2 id="creating-a-standard-duel-arena">Creating a Standard Duel Arena</h2>
 <ol class="steps">
   <li>Register the arena record: <code>/arena create Arena1</code></li>
+  <li>Build and register any <strong>Complex Door gates</strong> for the arena now, before capturing the schematic: get the wand with <code>/shyamduels gate wand</code>, select the doorway corners, then run <code>/shyamduels gate addgate Arena1</code> for each gate. See the <a href="gate-setup.html">Gate Setup</a> guide for the full walkthrough.</li>
   <li>Stand at <strong>one corner</strong> of the boundary you wish to protect and execute: <code>/arena corner1 Arena1</code></li>
   <li>Walk diagonally to the <strong>opposite corner</strong> (other side, floor/ceiling boundary) and execute: <code>/arena corner2 Arena1</code>. You should see a confirmation notification if the schematic saved successfully.</li>
   <li>Stand at the spawn point for <strong>Player 1</strong> facing the arena center and execute: <code>/arena spawn1 Arena1</code></li>
@@ -212,6 +213,11 @@
   <li>(Optional) Stand at the arena center and run: <code>/arena center Arena1</code>. This coordinates spectators and team spawn boundaries.</li>
   <li>Link a kit configuration: <code>/arena addkit Arena1 NoDebuff</code></li>
 </ol>
+
+<div class="alert alert-note">
+  <div class="alert-title">Set up gates before the corners</div>
+  Configure any <code>/shyamduels gate</code> selections first so the fence/doorway blocks are already in place when you run <code>corner1</code> and <code>corner2</code>. Since <code>corner2</code> triggers the FAWE schematic capture, doing gates first ensures the saved schematic (and reset behavior) matches what players will actually see, including the gate frame. If you build or move a gate later, re-run <code>corner1</code> / <code>corner2</code> to refresh the schematic.
+</div>
 
 <div class="alert alert-warning">
   <div class="alert-title">Boundary Selection Warning</div>

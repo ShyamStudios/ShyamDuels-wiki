@@ -86,13 +86,18 @@
 
 <h2>Prerequisites</h2>
 <ol class="steps">
-  <li>The arena is already created and linked to a kit (<a href="arena-setup.html">Arena Setup</a>).</li>
+  <li>The arena record is already created with <code>/arena create &lt;name&gt;</code> (<a href="arena-setup.html">Arena Setup</a>).</li>
   <li>Door animation is enabled in <code>config.yml</code>:
 <pre><code>door-animation:
   enabled: true</code></pre>
   </li>
   <li>You are standing inside the arena world at the gate you want to configure.</li>
 </ol>
+
+<div class="alert alert-note">
+  <div class="alert-title">Set up gates before corner1 / corner2</div>
+  Configure gates <strong>before</strong> running <code>/arena corner1</code> and <code>/arena corner2</code>. Corner2 triggers the FAWE schematic capture, so building and saving gates first ensures the fence/doorway blocks are included in the saved schematic. Corners, spawns, center, and the kit link can be finished afterward: see <a href="arena-setup.html#creating-a-standard-duel-arena">Creating a Standard Duel Arena</a> for the full order.
+</div>
 
 <h2>Quick Setup (Follow the Video)</h2>
 <ol class="steps">
