@@ -69,7 +69,6 @@
 <pre><span class="lang-badge">java</span><code>import com.shyamstudio.shyamduels.api.ShyamDuelsAPI;
 import com.shyamstudio.shyamduels.api.ShyamDuelsProvider;
 import com.shyamstudio.shyamduels.stats.PlayerStats;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public void rewardElo(Player player, int eloAmount) {
@@ -85,10 +84,7 @@ public void rewardElo(Player player, int eloAmount) {
 
     // Save changes back to database pool asynchronously
     api.stats().saveStats(stats).thenRun(() -> {
-        // Hop back to the main thread before calling Bukkit APIs
-        Bukkit.getScheduler().runTask(api.getPlugin(), () -> {
-            player.sendMessage("§aYour ELO has been updated to: " + stats.getElo());
-        });
+        player.sendMessage("§aYour ELO has been updated to: " + stats.getElo());
     });
 }</code></pre>
 

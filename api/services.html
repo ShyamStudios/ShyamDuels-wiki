@@ -86,32 +86,32 @@ Manages active duel instances, invitations, and match structures:</p>
     <tr>
       <td><code>isInDuel(Player player)</code></td>
       <td>boolean</td>
-      <td><strong>[Main Thread]</strong> Returns true if the player is currently inside a duel.</td>
+      <td>Returns true if the player is currently inside a duel.</td>
     </tr>
     <tr>
       <td><code>getDuel(Player player)</code></td>
-      <td><code>@Nullable Duel</code></td>
-      <td><strong>[Main Thread]</strong> Retrieves the player's current active Duel model, or null.</td>
+      <td>Duel</td>
+      <td>Retrieves the player's current active Duel model, or null.</td>
     </tr>
     <tr>
       <td><code>getOpponent(Player player)</code></td>
-      <td><code>@Nullable Player</code></td>
-      <td><strong>[Main Thread]</strong> Gets the player's active opponent (1v1 duels), or null.</td>
+      <td>Player</td>
+      <td>Gets the player's active opponent (1v1 duels), or null.</td>
     </tr>
     <tr>
       <td><code>startDuel(Player p1, Player p2, Kit kit, int rounds)</code></td>
       <td>void</td>
-      <td><strong>[Main Thread]</strong> Immediately starts a duel between two players in a claimed arena.</td>
+      <td>Immediately starts a duel between two players in a claimed arena.</td>
     </tr>
     <tr>
       <td><code>forceEnd(Duel duel)</code></td>
       <td>void</td>
-      <td><strong>[Main Thread]</strong> Immediately terminates the duel instance and teleports players back to lobby.</td>
+      <td>Immediately terminates the duel instance and teleports players back to lobby.</td>
     </tr>
     <tr>
       <td><code>sendInvite(Player sender, Player target, Kit kit, int rounds)</code></td>
       <td>void</td>
-      <td><strong>[Main Thread]</strong> Sends a duel invite challenge from sender to target.</td>
+      <td>Sends a duel invite challenge from sender to target.</td>
     </tr>
   </tbody>
 </table>
@@ -132,103 +132,103 @@ Fetches and updates player ELO ratings, kills, deaths, winstreaks, and ranks:</p
   <tbody>
     <tr>
       <td><code>getStats(Player player)</code></td>
-      <td><code>@NotNull PlayerStats</code></td>
-      <td><strong>[Thread Safe]</strong> Gets the player's cached statistics. If not loaded, returns a placeholder and triggers an asynchronous load.</td>
+      <td>PlayerStats</td>
+      <td>Gets the player's cached statistics.</td>
     </tr>
     <tr>
       <td><code>getStats(UUID uuid)</code></td>
-      <td><code>@NotNull PlayerStats</code></td>
-      <td><strong>[Thread Safe]</strong> Gets cached statistics for a UUID. If not loaded, returns a placeholder and triggers an asynchronous load.</td>
+      <td>PlayerStats</td>
+      <td>Gets cached statistics for a UUID.</td>
     </tr>
     <tr>
       <td><code>loadPlayer(Player player)</code></td>
-      <td><code>@NotNull CompletableFuture&lt;PlayerStats&gt;</code></td>
-      <td><strong>[Asynchronous]</strong> Asynchronously loads and caches a player's statistics from the database.</td>
+      <td>CompletableFuture&lt;PlayerStats&gt;</td>
+      <td>Asynchronously loads and caches a player's statistics from the database.</td>
     </tr>
     <tr>
       <td><code>savePlayer(Player player)</code></td>
       <td>void</td>
-      <td><strong>[Main Thread]</strong> Persists a player's cached statistics to the database.</td>
+      <td>Persists a player's cached statistics to the database.</td>
     </tr>
     <tr>
       <td><code>unloadPlayer(Player player)</code></td>
       <td>void</td>
-      <td><strong>[Main Thread]</strong> Flushes and evicts a player's cached statistics.</td>
+      <td>Flushes and evicts a player's cached statistics.</td>
     </tr>
     <tr>
       <td><code>recordKill(Player killer, Player victim)</code></td>
       <td>void</td>
-      <td><strong>[Main Thread]</strong> Records a kill for the killer (increments kills and killstreak).</td>
+      <td>Records a kill for the killer (increments kills and killstreak).</td>
     </tr>
     <tr>
       <td><code>recordDeath(Player victim, Player killer)</code></td>
       <td>void</td>
-      <td><strong>[Main Thread]</strong> Records a death for the victim (increments deaths, resets killstreak).</td>
+      <td>Records a death for the victim (increments deaths, resets killstreak).</td>
     </tr>
     <tr>
       <td><code>recordWin(Player winner)</code></td>
       <td>void</td>
-      <td><strong>[Main Thread]</strong> Records a win for the player.</td>
+      <td>Records a win for the player.</td>
     </tr>
     <tr>
       <td><code>recordWin(Player winner, Collection&lt;UUID&gt; opponents)</code></td>
       <td>void</td>
-      <td><strong>[Main Thread]</strong> Records a win and applies ELO changes against the given opponents.</td>
+      <td>Records a win and applies ELO changes against the given opponents.</td>
     </tr>
     <tr>
       <td><code>recordLoss(Player loser)</code></td>
       <td>void</td>
-      <td><strong>[Main Thread]</strong> Records a loss for the player.</td>
+      <td>Records a loss for the player.</td>
     </tr>
     <tr>
       <td><code>recordLoss(Player loser, Collection&lt;UUID&gt; opponents)</code></td>
       <td>void</td>
-      <td><strong>[Main Thread]</strong> Records a loss and applies ELO changes against the given opponents.</td>
+      <td>Records a loss and applies ELO changes against the given opponents.</td>
     </tr>
     <tr>
       <td><code>getKills(UUID uuid)</code></td>
       <td>int</td>
-      <td><strong>[Thread Safe]</strong> Convenience getter for a player's total kills. Returns 0 if player has no cached stats.</td>
+      <td>Convenience getter for a player's total kills.</td>
     </tr>
     <tr>
       <td><code>getDeaths(UUID uuid)</code></td>
       <td>int</td>
-      <td><strong>[Thread Safe]</strong> Convenience getter for a player's total deaths. Returns 0 if player has no cached stats.</td>
+      <td>Convenience getter for a player's total deaths.</td>
     </tr>
     <tr>
       <td><code>getWins(UUID uuid)</code></td>
       <td>int</td>
-      <td><strong>[Thread Safe]</strong> Convenience getter for a player's total wins. Returns 0 if player has no cached stats.</td>
+      <td>Convenience getter for a player's total wins.</td>
     </tr>
     <tr>
       <td><code>getLosses(UUID uuid)</code></td>
       <td>int</td>
-      <td><strong>[Thread Safe]</strong> Convenience getter for a player's total losses. Returns 0 if player has no cached stats.</td>
+      <td>Convenience getter for a player's total losses.</td>
     </tr>
     <tr>
       <td><code>getElo(UUID uuid)</code></td>
       <td>int</td>
-      <td><strong>[Thread Safe]</strong> Convenience getter for a player's current ELO rating. Returns 1000 if player has no cached stats.</td>
+      <td>Convenience getter for a player's current ELO rating.</td>
     </tr>
     <tr>
       <td><code>getRank(Player player)</code></td>
-      <td><code>@Nullable Rank</code></td>
-      <td><strong>[Thread Safe]</strong> Resolves the player's current rank from their ELO, or <code>null</code> if the ELO system is disabled or no ranks match.</td>
+      <td>Rank</td>
+      <td>Resolves the player's current rank from their ELO.</td>
     </tr>
     <tr>
       <td><code>isEloEnabled()</code></td>
       <td>boolean</td>
-      <td><strong>[Thread Safe]</strong> Whether the ELO system is enabled.</td>
+      <td>Whether the ELO system is enabled.</td>
     </tr>
     <tr>
       <td><code>saveStats(PlayerStats stats)</code></td>
-      <td><code>@NotNull CompletableFuture&lt;Void&gt;</code></td>
-      <td><strong>[Asynchronous]</strong> Saves modifications back to the SQLite or MySQL database pools.</td>
+      <td>CompletableFuture&lt;Void&gt;</td>
+      <td>Saves modifications back to the SQLite or MySQL database pools.</td>
     </tr>
     <tr>
       <td><code>getTopPlayers(String stat, int limit)</code></td>
-      <td><code>@NotNull CompletableFuture&lt;List&lt;PlayerStats&gt;&gt;</code></td>
-      <td><strong>[Asynchronous]</strong> Asynchronously fetches a leaderboard ordered by a stat (e.g. "elo", "kills", "wins").</td>
+      <td>CompletableFuture&lt;List&lt;PlayerStats&gt;&gt;</td>
+      <td>Asynchronously fetches a leaderboard ordered by a stat (e.g. "elo", "kills", "wins").</td>
     </tr>
   </tbody>
 </table>
@@ -430,14 +430,14 @@ Manages friend requests and friend list states:</p>
   </thead>
   <tbody>
     <tr>
-      <td><code>getFriendUuids(UUID playerUuid)</code></td>
-      <td><code>@NotNull Set&lt;UUID&gt;</code></td>
-      <td><strong>[Thread Safe]</strong> Gets the set of player UUIDs on the target player's friends list.</td>
+      <td><code>getFriends(Player player)</code></td>
+      <td>List&lt;UUID&gt;</td>
+      <td>Gets a list of player UUIDs on the target player's friends list.</td>
     </tr>
     <tr>
-      <td><code>areFriends(UUID a, UUID b)</code></td>
+      <td><code>isFriend(Player p1, Player p2)</code></td>
       <td>boolean</td>
-      <td><strong>[Thread Safe]</strong> Returns true if the two players are friends.</td>
+      <td>Returns true if the players are friends.</td>
     </tr>
   </tbody>
 </table>

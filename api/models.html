@@ -87,7 +87,6 @@ Represents a configured match environment:</p>
   <li><code>isBuildEnabled()</code>: Returns true if the arena allows block placing/breaking.</li>
   <li><code>isFFA()</code>: Returns true if the arena is set to Free For All mode.</li>
   <li><code>getSpawn1()</code> / <code>getSpawn2()</code>: Spawn locations for players.</li>
-  <li><code>getFfaSpawns()</code>: Returns an unmodifiable list of configured spawn locations for FFA mode.</li>
   <li><code>getCenter()</code>: Returns the center coordinate location of the arena boundaries.</li>
 </ul>
 
@@ -97,9 +96,9 @@ Represents a saved loadout template:</p>
 <ul>
   <li><code>getName()</code>: Returns the case-sensitive name ID of the kit.</li>
   <li><code>getDisplayName()</code>: Returns the GUI display name of the kit.</li>
-  <li><code>getInventory()</code>: Returns a defensive copy of the <code>ItemStack[]</code> contents mapping inventory slots.</li>
-  <li><code>getArmor()</code>: Returns a defensive copy of the <code>ItemStack[]</code> array mapping armor layouts.</li>
-  <li><code>getBuildWhitelist()</code>: Returns an unmodifiable list of materials whitelisted for block placing/breaking.</li>
+  <li><code>getInventoryItems()</code>: Returns the array list of <code>ItemStack</code> contents mapping inventory slots.</li>
+  <li><code>getArmorContents()</code>: Returns the <code>ItemStack</code> array mapping armor layouts.</li>
+  <li><code>getWhitelistedBlocks()</code>: Returns the list of materials whitelisted for block placing/breaking.</li>
   <li><code>getStartingSaturation()</code>: Saturation amount applied to players on start (0 to 20 scale).</li>
 </ul>
 
