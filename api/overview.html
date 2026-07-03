@@ -80,7 +80,7 @@
 version: 1.0
 main: com.myname.integration.IntegrationPlugin
 api-version: '1.21'
-depend: [ShyamDuels]    # Guarantees ShyamDuels enables first</code></pre>
+softdepend: [ShyamDuels]    # Guarantees ShyamDuels enables first if present</code></pre>
 
 <h2>Accessing the API</h2>
 <p>The public entry point is <code>ShyamDuelsAPI</code>. Resolve the interface instance during your plugin startup using the static provider:</p>
