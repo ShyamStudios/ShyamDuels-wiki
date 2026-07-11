@@ -108,6 +108,40 @@ public class IntegrationPlugin extends JavaPlugin {
     }
 }</code></pre>
 
+<h2>Available Services</h2>
+<p>The <code>ShyamDuelsAPI</code> interface exposes the following service accessors. See <a href="services.html">Services Reference</a> for method details.</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th>Accessor</th><th>Service</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>duels()</code></td><td>DuelService</td><td>Match lifecycle, invites, party duels</td></tr>
+    <tr><td><code>arenas()</code></td><td>ArenaService</td><td>Arena lookup and availability</td></tr>
+    <tr><td><code>kits()</code></td><td>KitService</td><td>Kit definitions and player layouts</td></tr>
+    <tr><td><code>kitShare()</code></td><td>KitShareService</td><td>Edited-kit sharing codes</td></tr>
+    <tr><td><code>queue()</code></td><td>QueueService</td><td>Ranked matchmaking queues</td></tr>
+    <tr><td><code>commands()</code></td><td>CommandService</td><td>Command restriction helpers</td></tr>
+    <tr><td><code>parties()</code></td><td>PartyService</td><td>Party creation and management</td></tr>
+    <tr><td><code>ffa()</code></td><td>FFAService</td><td>Free-for-all arenas</td></tr>
+    <tr><td><code>spectators()</code></td><td>SpectatorService</td><td>Match spectating</td></tr>
+    <tr><td><code>rematch()</code></td><td>RematchService</td><td>Post-duel rematch offers</td></tr>
+    <tr><td><code>stats()</code></td><td>StatsService</td><td>Player statistics and ELO</td></tr>
+    <tr><td><code>settings()</code></td><td>SettingsService</td><td>Per-player preferences</td></tr>
+    <tr><td><code>tab()</code></td><td>TabService</td><td>Tab list management</td></tr>
+    <tr><td><code>scoreboard()</code></td><td>ScoreboardService</td><td>Scoreboard display</td></tr>
+    <tr><td><code>nameTags()</code></td><td>NameTagService</td><td>Nametag formatting</td></tr>
+    <tr><td><code>animations()</code></td><td>AnimationService</td><td>Tab/scoreboard animations</td></tr>
+    <tr><td><code>friends()</code></td><td>FriendsService</td><td>Friends list</td></tr>
+    <tr><td><code>placeholders()</code></td><td>PlaceholderService</td><td>Internal placeholder resolution</td></tr>
+    <tr><td><code>practice()</code></td><td>PracticeService</td><td>Optional — practice module features</td></tr>
+    <tr><td><code>customKits()</code></td><td>CustomKitsService</td><td>Optional — player-built custom kits</td></tr>
+    <tr><td><code>kitEditor()</code></td><td>KitEditorService</td><td>Optional — kit editor / kit room</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Services marked <strong>Optional</strong> return <code>Optional.empty()</code> when their module is disabled in <code>config.yml</code>.</p>
+
 <div class="page-navigation">
   <a class="page-nav-link prev" href="../user-guide/troubleshooting.html">
     <span class="page-nav-label">Previous Page</span>

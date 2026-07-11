@@ -118,6 +118,12 @@
       <td>Bypasses the GUI and immediately joins the specified FFA arena.</td>
     </tr>
     <tr>
+      <td><code>/ffa list</code></td>
+      <td>-</td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Lists all registered FFA arenas in chat (admin diagnostic).</td>
+    </tr>
+    <tr>
       <td><code>/ffa leave</code></td>
       <td>-</td>
       <td><code>shyamduels.use</code></td>
@@ -152,6 +158,24 @@
       <td>-</td>
       <td><code>shyamduels.use</code></td>
       <td>Bypasses the selector and directly opens the editor layout for the specified kit.</td>
+    </tr>
+    <tr>
+      <td><code>/kiteditor save</code></td>
+      <td>-</td>
+      <td><code>shyamduels.use</code></td>
+      <td>While inside the kit editor, saves your current layout to the active kit and exits.</td>
+    </tr>
+    <tr>
+      <td><code>/kiteditor reset</code></td>
+      <td>-</td>
+      <td><code>shyamduels.use</code></td>
+      <td>Resets the in-editor layout to the base kit (subject to a cooldown).</td>
+    </tr>
+    <tr>
+      <td><code>/kiteditor leave</code></td>
+      <td>-</td>
+      <td><code>shyamduels.use</code></td>
+      <td>Exits the kit editor without saving and returns you to the lobby.</td>
     </tr>
     <tr>
       <td><code>/kitcreator</code></td>
@@ -232,10 +256,28 @@
       <td>Opens the personal configuration menu to toggle visibility, auto-GG, sounds, scoreboard, time, and weather.</td>
     </tr>
     <tr>
-      <td><code>/stats</code></td>
+      <td><code>/profile</code></td>
+      <td><code>/prof</code></td>
+      <td><code>shyamduels.use</code></td>
+      <td>Opens the player profile GUI for yourself. Shows stats, public kits, and duel options. See <a href="kit-sharing.html">Kit Sharing &amp; Profiles</a>.</td>
+    </tr>
+    <tr>
+      <td><code>/profile &lt;player&gt;</code></td>
+      <td>-</td>
+      <td><code>shyamduels.use</code></td>
+      <td>Opens the profile GUI for another <strong>online</strong> player (reads live cached stats and rank).</td>
+    </tr>
+    <tr>
+      <td><code>/stats</code> / <code>/stats help</code></td>
       <td><code>/stat</code></td>
       <td><code>shyamduels.use</code></td>
-      <td>Prints your current wins, losses, ELO, and rank metrics in the chat.</td>
+      <td>Prints your wins, losses, ELO, rank, killstreaks, winstreaks, and playtime in chat.</td>
+    </tr>
+    <tr>
+      <td><code>/stats view</code></td>
+      <td>-</td>
+      <td><code>shyamduels.use</code></td>
+      <td>Displays stats for yourself when no player is given.</td>
     </tr>
     <tr>
       <td><code>/stats view &lt;player&gt;</code></td>
@@ -244,7 +286,7 @@
       <td>Displays match statistics for the specified player (supports offline targets).</td>
     </tr>
     <tr>
-      <td><code>/friend</code></td>
+      <td><code>/friend</code> / <code>/friend help</code></td>
       <td><code>/f</code>, <code>/friends</code></td>
       <td><code>shyamduels.use</code></td>
       <td>Displays list of subcommands for the friends module.</td>
@@ -290,7 +332,7 @@
 </div>
 
 <h2>Party Subcommands</h2>
-<p>All party commands are invoked as subcommands under the primary command <code>/party &lt;subcommand&gt;</code> (aliases: <code>/p</code>, <code>/team</code>).</p>
+<p>All party commands are invoked as subcommands under the primary command <code>/party &lt;subcommand&gt;</code> (aliases: <code>/p</code>, <code>/team</code>). Run <code>/party help</code> in-game for a quick reference.</p>
 <div class="table-wrap">
 <table>
   <thead>
@@ -505,7 +547,7 @@
 </div>
 
 <h2>Arena Admin Commands</h2>
-<p>Admin commands are accessed under <code>/arena &lt;subcommand&gt;</code> (aliases: <code>/arenas</code>, <code>/shyamarenas</code>) and require <code>shyamduels.admin</code>.</p>
+<p>Admin commands are accessed under <code>/arena &lt;subcommand&gt;</code> (aliases: <code>/arenas</code>, <code>/shyamarenas</code>) and require <code>shyamduels.admin</code>. Run <code>/arena help</code> in-game for a quick reference.</p>
 <div class="table-wrap">
 <table>
   <thead>
@@ -535,6 +577,11 @@
       <td><code>list</code></td>
       <td>-</td>
       <td>Lists all registered arenas, including setup checks, types, and linked kits.</td>
+    </tr>
+    <tr>
+      <td><code>info</code></td>
+      <td><code>&lt;name&gt;</code></td>
+      <td>Prints a detailed dump of the arena: corners, spawns, center, build/FFA flags, linked kits, and gate status.</td>
     </tr>
     <tr>
       <td><code>corner1</code></td>
@@ -631,7 +678,7 @@
 </div>
 
 <h2>Kit Admin Commands</h2>
-<p>Kit commands are accessed under <code>/kit &lt;subcommand&gt;</code> (aliases: <code>/kits</code>, <code>/shyamkits</code>). Modifying commands require <code>shyamduels.admin</code>.</p>
+<p>Kit commands are accessed under <code>/kit &lt;subcommand&gt;</code> (aliases: <code>/kits</code>, <code>/shyamkits</code>). Run <code>/kit help</code> in-game for a quick reference. Modifying commands require <code>shyamduels.admin</code>.</p>
 <div class="table-wrap">
 <table>
   <thead>
@@ -664,8 +711,8 @@
     <tr>
       <td><code>list</code></td>
       <td>-</td>
-      <td><code>shyamduels.kit.list</code></td>
-      <td>Lists all registered kits.</td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Lists all registered kits with build mode, round count, match-start potion, and kit-room tags.</td>
     </tr>
     <tr>
       <td><code>info</code></td>
@@ -761,7 +808,7 @@
       <td><code>matchstartpots list</code></td>
       <td>-</td>
       <td><code>shyamduels.admin</code></td>
-      <td>Lists all kits that have automatic match-start potions active.</td>
+      <td>Lists all kits that have match-start potion scanning enabled. Also accepts <code>/kit matchstartpots &lt;kit&gt; list</code>.</td>
     </tr>
   </tbody>
 </table>
@@ -799,6 +846,10 @@
 
 <h2>Plugin &amp; Practice Admin Commands</h2>
 <p>These core subcommands are run under the main command <code>/shyamduels &lt;subcommand&gt;</code> (aliases: <code>/sd</code>, <code>/duels</code>). In addition to system configurations, they cover practice utilities and feature set-ups.</p>
+<div class="alert alert-note">
+  <div class="alert-title">Granular reload commands</div>
+  There is no single <code>/shyamduels reload</code> command. Use the <code>reload-*</code> subcommands below to reload specific config files. Arena and kit data are <strong>not</strong> hot-reloaded — restart the server after changing arenas or kits.
+</div>
 <div class="table-wrap">
 <table>
   <thead>
@@ -841,10 +892,70 @@
       <td>Opens the Kit Room editor GUI workspace.</td>
     </tr>
     <tr>
-      <td><code>reload</code></td>
+      <td><code>reload-config</code></td>
       <td>-</td>
       <td><code>shyamduels.admin</code></td>
-      <td>Reloads configs, layouts, tab formatting, scores, database pools, and sub-modules.</td>
+      <td>Reloads <code>config.yml</code> and merged <code>database.yml</code> / <code>ranks.yml</code> scalars.</td>
+    </tr>
+    <tr>
+      <td><code>reload-messages</code></td>
+      <td>-</td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Reloads <code>lang/messages.yml</code>.</td>
+    </tr>
+    <tr>
+      <td><code>reload-ranks</code></td>
+      <td>-</td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Reloads <code>ranks.yml</code> (ELO rank ladder).</td>
+    </tr>
+    <tr>
+      <td><code>reload-gui</code></td>
+      <td>-</td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Reloads all <code>menus/*.yml</code> GUI configurations.</td>
+    </tr>
+    <tr>
+      <td><code>reload-items</code></td>
+      <td>-</td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Reloads lobby, queue, and party hotbar item configs (<code>items/*.yml</code>).</td>
+    </tr>
+    <tr>
+      <td><code>reload-tab</code></td>
+      <td>-</td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Reloads <code>tab/display.yml</code> and <code>tab/animations.yml</code>.</td>
+    </tr>
+    <tr>
+      <td><code>reload-scoreboard</code></td>
+      <td>-</td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Reloads <code>tab/scoreboard.yml</code>.</td>
+    </tr>
+    <tr>
+      <td><code>reload-order</code></td>
+      <td>-</td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Reloads <code>data/order.yml</code> (kit display order and names).</td>
+    </tr>
+    <tr>
+      <td><code>reload-sounds</code></td>
+      <td>-</td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Reloads <code>sounds.yml</code>.</td>
+    </tr>
+    <tr>
+      <td><code>reload-practice</code></td>
+      <td>-</td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Reloads the practice module configuration.</td>
+    </tr>
+    <tr>
+      <td><code>reload-customkits</code></td>
+      <td>-</td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Reloads the custom kits module configuration.</td>
     </tr>
     <tr>
       <td><code>migrate strikepractice</code></td>
@@ -1019,6 +1130,12 @@
   </thead>
   <tbody>
     <tr>
+      <td><code>/tab</code></td>
+      <td><code>/tablist</code></td>
+      <td><code>shyamduels.tab.admin</code></td>
+      <td>Shows tab list admin help when run with no arguments.</td>
+    </tr>
+    <tr>
       <td><code>/tab reload</code></td>
       <td><code>/tablist</code></td>
       <td><code>shyamduels.tab.admin</code></td>
@@ -1037,11 +1154,78 @@
       <td>Preview MiniMessage formatting in chat (useful when editing <code>tab/display.yml</code>).</td>
     </tr>
     <tr>
-      <td><code>/practice …</code></td>
+      <td><code>/practice</code></td>
       <td><code>/shyamduelspractice</code></td>
-      <td><code>shyamduels.admin</code></td>
-      <td>Legacy alias tree for admin practice commands. Use <code>/shyamduels</code> instead. See <a href="practice-features.html">Practice Features</a>.</td>
+      <td>Varies</td>
+      <td>Legacy alias tree. With no args, prints admin practice command help. Prefer <code>/shyamduels</code> for new setups. See <a href="practice-features.html">Practice Features</a>.</td>
     </tr>
+    <tr>
+      <td><code>/practice reload</code></td>
+      <td>-</td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Legacy alias for reloading practice module configs. Prefer <code>/shyamduels reload-practice</code>.</td>
+    </tr>
+    <tr>
+      <td><code>/practice edit-kitroom</code></td>
+      <td>-</td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Legacy alias for <code>/shyamduels edit-kitroom</code>.</td>
+    </tr>
+    <tr>
+      <td><code>/practice golden-head …</code></td>
+      <td>-</td>
+      <td><code>shyamduels.practice.goldenhead</code></td>
+      <td>Legacy alias for <code>/shyamduels golden-head</code> subcommands.</td>
+    </tr>
+    <tr>
+      <td><code>/practice gate …</code></td>
+      <td>-</td>
+      <td><code>shyamduels.practice.gate.setup</code></td>
+      <td>Legacy alias for <code>/shyamduels gate</code> subcommands.</td>
+    </tr>
+    <tr>
+      <td><code>/practice practiceduel …</code></td>
+      <td>-</td>
+      <td><code>shyamduels.practice.duel</code></td>
+      <td>Legacy alias for <code>/shyamduels practiceduel</code>.</td>
+    </tr>
+    <tr>
+      <td><code>/practice totem-practice</code></td>
+      <td><code>/practice totempractice</code></td>
+      <td><code>shyamduels.practice.totempractice</code></td>
+      <td>Legacy alias for <code>/shyamduels totem-practice</code>.</td>
+    </tr>
+    <tr>
+      <td><code>/practice armor-trimmer</code></td>
+      <td><code>/practice armortrimmer</code></td>
+      <td><code>shyamduels.practice.armortrimmer.use</code></td>
+      <td>Legacy alias for <code>/shyamduels armor-trimmer</code>.</td>
+    </tr>
+    <tr>
+      <td><code>/practice shield-customizer</code></td>
+      <td><code>/practice shieldcustomizer</code></td>
+      <td><code>shyamduels.practice.shieldcustomizer.use</code></td>
+      <td>Legacy alias for <code>/shyamduels shield-customizer</code>.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Dynamically Registered Commands</h2>
+<p>These commands are registered at runtime when their module is enabled. They are not all listed in <code>plugin.yml</code> but work on a live server:</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th>Command</th><th>Aliases</th><th>Module</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>/stats</code></td><td><code>/stat</code></td><td>Core</td><td>Registered via ACF (<code>StatsCommand</code>).</td></tr>
+    <tr><td><code>/profile</code></td><td><code>/prof</code></td><td>Core</td><td>Registered via ACF (<code>ProfileCommand</code>).</td></tr>
+    <tr><td><code>/practiceduel</code></td><td><code>/pduel</code>, <code>/roundsduel</code></td><td>Practice</td><td>Requires <code>modules.practice-duel-command</code>.</td></tr>
+    <tr><td><code>/deathmessages</code></td><td>-</td><td>Practice</td><td>Requires <code>modules.practice-death-messages</code>.</td></tr>
+    <tr><td><code>/totempractice</code></td><td><code>/totem</code></td><td>Practice</td><td>Requires <code>modules.practice-totem-practice</code>. Configurable name via <code>totem-practice.command</code>.</td></tr>
+    <tr><td><code>/kitcreator</code></td><td><code>/customkit</code>, <code>/ckit</code></td><td>Custom Kits</td><td>Requires <code>modules.custom-kits</code>.</td></tr>
+    <tr><td><code>/customkits</code></td><td><code>/ckits</code>, <code>/mykits</code></td><td>Custom Kits</td><td>Requires <code>modules.custom-kits</code>.</td></tr>
   </tbody>
 </table>
 </div>

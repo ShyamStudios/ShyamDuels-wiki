@@ -98,7 +98,12 @@
     <tr>
       <td><code>shyamduels.tab.admin</code></td>
       <td><span class="badge badge-yellow">op</span></td>
-      <td>Allows reloading the tab list system configuration via <code>/tab reload</code>.</td>
+      <td>Allows reloading the tab list system via <code>/tab reload</code> or <code>/shyamduels reload-tab</code>. Child of <code>shyamduels.admin</code>.</td>
+    </tr>
+    <tr>
+      <td><code>shyamduels.tab.staff</code></td>
+      <td><span class="badge badge-yellow">op</span></td>
+      <td>Staff sort rank in the tab list. Child of <code>shyamduels.admin</code>.</td>
     </tr>
     <tr>
       <td><code>customkits.admin</code></td>
@@ -123,17 +128,7 @@
     <tr>
       <td><code>shyamduels.use</code></td>
       <td><span class="badge badge-green">true</span></td>
-      <td>Grants base permission to join queues, use duels, join FFA, spectate, and customize preferences.</td>
-    </tr>
-    <tr>
-      <td><code>shyamduels.kit.list</code></td>
-      <td><span class="badge badge-green">true</span></td>
-      <td>Allows viewing kit lists and checking kit details via <code>/kit list</code> and <code>/kit info</code> commands.</td>
-    </tr>
-    <tr>
-      <td><code>shyamduels.kit.list</code></td>
-      <td><span class="badge badge-green">true</span></td>
-      <td>Allows viewing kit lists and checking details via <code>/kit list</code> and <code>/kit info</code>.</td>
+      <td>Grants base permission to join queues, use duels, join FFA, spectate, open profiles, and customize preferences.</td>
     </tr>
     <tr>
       <td><code>shyamduels.practice.duel</code></td>
@@ -180,6 +175,11 @@
       <td><code>shyamduels.vipplus</code></td>
       <td><span class="badge badge-red">false</span></td>
       <td>VIP+ Tier: Inherits all VIP perks and increases maximum party capacity limits to 32.</td>
+    </tr>
+    <tr>
+      <td><code>shyamduels.tab.vip</code></td>
+      <td><span class="badge badge-red">false</span></td>
+      <td>VIP sort rank in the tab list. Child of <code>shyamduels.vip</code>.</td>
     </tr>
     <tr>
       <td><code>shyamduels.practice.armortrimmer.use</code></td>
@@ -264,14 +264,14 @@
     <tr>
       <td><code>shyamduels.cosmetics</code></td>
       <td><span class="badge badge-red">false</span></td>
-      <td>Allows keeping armor trims, banner patterns, and other cosmetic decorations when importing kits via kit sharing. Without this permission, cosmetics are stripped from imported kits (configurable in config.yml under <code>cosmetics.strip-without-permission</code>).</td>
+      <td>Allows keeping armor trims, banner patterns, and other cosmetic decorations when importing kits via kit sharing. Without this permission, cosmetics are stripped from imported kits (configurable in <code>cosmetics.strip-without-permission</code>). Not registered in <code>plugin.yml</code> — assign via LuckPerms.</td>
     </tr>
   </tbody>
 </table>
 </div>
 
 <h2>Tab Sort Rank Permissions</h2>
-<p>Configured in <code>tab/display.yml</code> under <code>sort-ranks:</code>. These are not registered in <code>plugin.yml</code> but control tab list prefix priority when assigned via LuckPerms:</p>
+<p>Configured in <code>tab/display.yml</code> under <code>sort-ranks:</code>. These control tab list prefix priority when assigned via LuckPerms:</p>
 <div class="table-wrap">
 <table>
   <thead>
@@ -282,9 +282,9 @@
   </thead>
   <tbody>
     <tr><td><code>group.owner</code></td><td>Owner rank prefix (dark red)</td></tr>
-    <tr><td><code>shyamtab.admin</code></td><td>Admin rank prefix (red)</td></tr>
-    <tr><td><code>shyamtab.staff</code></td><td>Staff rank prefix (blue)</td></tr>
-    <tr><td><code>shyamtab.vip</code></td><td>VIP rank prefix (gold)</td></tr>
+    <tr><td><code>shyamduels.tab.admin</code></td><td>Admin rank prefix (red)</td></tr>
+    <tr><td><code>shyamduels.tab.staff</code></td><td>Staff rank prefix (blue)</td></tr>
+    <tr><td><code>shyamduels.tab.vip</code></td><td>VIP rank prefix (gold)</td></tr>
   </tbody>
 </table>
 </div>

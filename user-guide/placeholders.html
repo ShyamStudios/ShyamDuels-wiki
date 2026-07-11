@@ -86,6 +86,8 @@
     <tr><td><code>%shyamduels_winstreak%</code></td><td>Integer</td><td>Current consecutive matchmaking victories.</td></tr>
     <tr><td><code>%shyamduels_best_winstreak%</code></td><td>Integer</td><td>All-time highest consecutive matchmaking win record.</td></tr>
     <tr><td><code>%shyamduels_elo%</code></td><td>Integer</td><td>Current matchmaking rating.</td></tr>
+    <tr><td><code>%shyamduels_playtime%</code></td><td>String</td><td>Formatted total playtime (e.g. <code>3h 24m</code>).</td></tr>
+    <tr><td><code>%shyamduels_playtime_hours%</code></td><td>Integer</td><td>Total playtime rounded down to whole hours.</td></tr>
     <tr><td><code>%shyamduels_rank%</code> / <code>%shyamduels_rank_colored%</code> / <code>%shyamduels_rank_color%</code></td><td>MiniMessage Format</td><td>Displays rank name formatting (e.g., <code>&lt;gold&gt;[Gold V]&lt;/gold&gt;</code>). Returns <code>&lt;gray&gt;[Unranked]&lt;/gray&gt;</code> if no rank applies.</td></tr>
   </tbody>
 </table>
@@ -296,6 +298,13 @@
     <tr><td><code>&lt;kd&gt;</code> / <code>&lt;kdr&gt;</code></td><td>Decimal</td><td>K/D ratio.</td></tr>
     <tr><td><code>&lt;wins&gt;</code></td><td>Integer</td><td>Ranked wins.</td></tr>
     <tr><td><code>&lt;losses&gt;</code></td><td>Integer</td><td>Ranked losses.</td></tr>
+    <tr><td><code>&lt;wl&gt;</code></td><td>Decimal</td><td>W/L ratio.</td></tr>
+    <tr><td><code>&lt;killstreak&gt;</code></td><td>Integer</td><td>Current killstreak.</td></tr>
+    <tr><td><code>&lt;best_killstreak&gt;</code></td><td>Integer</td><td>All-time best killstreak.</td></tr>
+    <tr><td><code>&lt;winstreak&gt;</code></td><td>Integer</td><td>Current winstreak.</td></tr>
+    <tr><td><code>&lt;best_winstreak&gt;</code></td><td>Integer</td><td>All-time best winstreak.</td></tr>
+    <tr><td><code>&lt;playtime&gt;</code></td><td>String</td><td>Formatted playtime (e.g. <code>3h 24m</code>).</td></tr>
+    <tr><td><code>&lt;playtime_hours&gt;</code></td><td>Integer</td><td>Total playtime in whole hours.</td></tr>
     <tr><td><code>&lt;elo&gt;</code></td><td>Integer</td><td>Current ELO rating.</td></tr>
     <tr><td><code>&lt;rank&gt;</code></td><td>String</td><td>Rank display name, or <code>Unranked</code>.</td></tr>
     <tr><td><code>&lt;rank_colored&gt;</code></td><td>MiniMessage</td><td>Colored rank name with formatting codes.</td></tr>
@@ -346,7 +355,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr><td><code>%shyamtab_display_mode%</code></td><td>String</td><td>Current lobby tab display mode (Lobby or Friends). Shown in <code>tab/display.yml</code> footers.</td></tr>
+    <tr><td><code>%shyamduels_display_mode%</code></td><td>String</td><td>Current lobby tab display mode (Lobby or Friends). Shown in <code>tab/display.yml</code> footers. Aliases: <code>%shyamduels_tab_view%</code>, <code>%shyamduels_setting_tab_view%</code>.</td></tr>
     <tr><td><code>%animation:&lt;name&gt;%</code></td><td>String</td><td>Scrolling animation frame from <code>tab/animations.yml</code>. Resolved before PlaceholderAPI.</td></tr>
     <tr><td><code>[display=true]</code> / <code>[display=false]</code></td><td>Conditional</td><td>Hide or show a tab/scoreboard line based on a boolean condition (often another <code>&lt;tag&gt;</code>).</td></tr>
   </tbody>

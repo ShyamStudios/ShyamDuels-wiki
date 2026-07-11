@@ -69,7 +69,13 @@
 
 <h3>Module Toggles</h3>
 <p>Disable specific sub-modules server-wide:</p>
-<pre><span class="lang-badge">yaml</span><code>modules:
+<pre><span class="lang-badge">yaml</span><code>License: ""                    # BuiltByBit license key (injected at build time)
+debug: false                    # Verbose display/logging output
+
+server:
+  name: Practice Server         # Shown in messages and display configs
+
+modules:
   queue: true
   ffa: true
   party: true
@@ -98,7 +104,9 @@
 <h3>World and Arena Configurations</h3>
 <pre><span class="lang-badge">yaml</span><code>arenas:
   world: Arenas               # Base void world; clone worlds become Arenas1, Arenas2, …
+  difficulty: HARD              # Applied to base + clone worlds (HARD for crystal/anchor damage)
   cloning: 0                  # Extra world copies for duel capacity (0 = off; FFA never cloned)
+  reset-clones-on-startup: true # Delete and re-clone Arenas1/2/… from base world each boot
   reset-queue:
     max-concurrent: 3         # Max simultaneous FAWE arena restorations
     ffa-one-at-a-time: true   # Only one FFA reset at a time (duel resets unaffected)
@@ -145,6 +153,14 @@ left untouched).</p>
     show-death-messages: false
     random-tick-speed: 0      # stop block/crop ticking</code></pre>
 
+<h3>Enabled Worlds</h3>
+<p>Restrict certain features to specific lobby/world names:</p>
+<pre><span class="lang-badge">yaml</span><code>enabled-worlds:
+  kit-editor:
+    - spawn                   # Worlds where /kiteditor is allowed
+  right-click-duel:
+    - spawn                   # Worlds where right-click player interaction is active</code></pre>
+
 <h3>Command Restrictions</h3>
 <p>Configure command rules inside matches to block cheating or bypass attempts:</p>
 <pre><span class="lang-badge">yaml</span><code>command-restrictions:
@@ -167,10 +183,13 @@ left untouched).</p>
     - party
   in-duel:
     mode: block-all
+    commands: []
   in-ffa:
     mode: block-all
+    commands: []
   in-spectate:
-    mode: block-all</code></pre>
+    mode: block-all
+    commands: []</code></pre>
 
 <h3>Queue and Duels</h3>
 <pre><span class="lang-badge">yaml</span><code>queue:
@@ -185,7 +204,8 @@ left untouched).</p>
     4v4: true
   match-found-animation:
     enabled: true
-    totem-pop: false          # Client totem-pop on match start (bundles item overlay + particles + sound)
+    totem-pop: true           # Client totem-pop on match start (bundles item overlay + particles + sound)
+    totem-sound: false        # false suppresses the local vanilla pop sound; custom sound below can replace it
     sound: ""                 # Optional extra sound key; empty = no sound
     sound-volume: 1.0
     sound-pitch: 1.2
@@ -222,10 +242,30 @@ requests are read, so a request disappears once <code>request-expiry-seconds</co
 <h3>Party, FFA, and Match Start</h3>
 <pre><span class="lang-badge">yaml</span><code>party:
   default-max-size: 8
+  min-member-limit: 2
+  broadcast-cooldown:
+    enabled: true
+    seconds: 30
+  member-limit-input: sign    # chat, sign, or auto
+  size-permission-prefix: shyamduels.party.size.
   size-permissions:
     shyamduels.vip: 16
     shyamduels.vipplus: 32
   invite-expiration: 60
+  transfer-ownership-on-leave: true
+  announce-format: "<#FF780C>[Party Announcement]</#FF780C> <white>{owner}</white><gray>:</gray> <#FFFA45>{message}</#FFFA45>"
+  external-commands:          # Route /party queue|ffa to other commands
+    enabled: true
+    subcommands:
+      queue:
+        require-in-party: true
+        require-owner: true
+        commands:
+          - "player:queue"
+      ffa:
+        require-in-party: false
+        commands:
+          - "player:ffa"
 
 party-chat:
   format: "&#55FFFF[Party] &#FFFFFF{player}: &#AAAAAA{message}"
@@ -238,6 +278,12 @@ ffa:
   use-match-start-options: true
   skip-countdown: false
   countdown-seconds: [5, 4, 3, 2, 1]
+  random-spawn:
+    enabled: false
+    max-attempts: 40          # Columns to test before falling back to configured spawn
+
+kill-regen:
+  enabled: true               # Refill killer's kit on every kill (FFA + all duel modes)
 
 match-start:
   countdown-seconds: [5, 4, 3, 2, 1]
@@ -257,27 +303,97 @@ match-start-potions:
       name: "Killing Spree"
     - kills: 10
       name: "Rampage"
+    - kills: 15
+      name: "Dominating"
+    - kills: 20
+      name: "Unstoppable"
+    - kills: 25
+      name: "Godlike"
 
 death-messages:
   enabled: true
   customizable: true
+  kill-commands:              # Run commands on kills (rank-based rewards)
+    enabled: false
+    attacker: []
+    victim: []
+    ranks: {}
 
 auto-gg:
   enabled: true
   delay-seconds: 2
   default-enabled: true       # Default Auto GG state before a player changes it
 
+combat:
+  anti-death-drops: true      # Prevent item drops on death inside matches
+
+cosmetics:
+  strip-without-permission:
+    enabled: true
+    permission: "shyamduels.cosmetics"
+    armor-trims: true
+    banner-patterns: true
+
+action-bar:
+  enabled: true
+  interval-ticks: 20
+  message: ""                 # MiniMessage; empty = use built-in state message
+
+first-join-commands:
+  enabled: false
+  commands: []                # Run once on a player's first join
+
+every-join-commands:
+  enabled: false
+  commands: []                # Run on every join
+
+item-names:
+  kit-selector: "&#55FFFFSelect a Kit"
+  arena-selector: "&#55FFFFSelect an Arena"
+
 golden-head:
   cooldown: 3
-  item: { ... }               # Texture, name, lore, effects
+  item: { texture-url, texture-value, display-name, lore }
+  effects:
+    - "ABSORPTION:120:1:true:false"
+    - "REGENERATION:8:2:true:false"
+    - "SPEED:15:1:true:false"
+  particles:
+    enabled: true
+    consume-particles: [...]
+  advanced:
+    drop-if-full: true
+    remove-existing-effects: true
+    action-bar-countdown: true
+    consume-duration: 1.6
+    max-stack-size: 16
+    prevent-stacking: false
 
 totem-practice:
-  command: "totempractice"
+  command: "totempractice"    # Root command name registered by practice module
   gui: { title, size }
   practice: { score_reset_duration, max_misses }
+  titles: { exit: { fadeIn, stay, fadeOut } }
 
 door-animation:
-  enabled: true               # Complex door gates (see Gate Setup guide)
+  enabled: true
+  animation_ticks: 20
+  fence_material: "OAK_FENCE"
+  kits: []
+  gate:
+    close_delay_seconds: 3
+    eject_check_radius: 10
+    open_speed_ticks: 20
+    close_speed_ticks: 20
+    debug: false
+    ready_up:
+      enabled: true
+      prompt: "&#FF780C&l⚡ &#FFFA45Hit the gate to ready up!"
+      player_ready: "&#37F699✔ &#37F699{player} is ready!"
+      all_ready: "&#55FFFF&l⚡ &#55FFFFAll players ready! Opening gates!"
+      large_party_threshold: 10
+      large_party_actionbar: "&#37F699✔ &f{player} &7is ready &8({ready}/{total})"
+      large_party_bar: "&#37F699✔ Ready: &f{ready}&7/&f{total}"
 
 custom-kits:
   enabled: true
@@ -308,7 +424,8 @@ kit-sharing:
   # Cooldown (seconds) between successful kit imports per player (0 = off; anti shift-click spam)
   import-cooldown-seconds: 30</code></pre>
 <p>When <code>action: profile</code>, right-clicking opens the configurable Player Profile GUI
-(<code>menus/profile.yml</code>) instead of running a command. See
+(<code>menus/profile.yml</code>) instead of running a command. Worlds are controlled by
+<code>enabled-worlds.right-click-duel</code>. See
 <a href="kit-sharing.html">Kit Sharing &amp; Profiles</a> for the full system.</p>
 <p>Golden head, totem practice, and door animation are toggled via <code>modules.*</code>, not separate <code>enabled</code> keys on those sections.</p>
 
@@ -321,7 +438,7 @@ kit-sharing:
 </ul>
 <p>Reload tab config with <code>/tab reload</code>. Players toggle tab/scoreboard visibility in <code>/settings</code>.</p>
 <p>In <code>tab/scoreboard.yml</code>, <code>scoreboard.async-placeholders: true</code> (default) resolves PlaceholderAPI off the main thread for performance. Set it to <code>false</code> only if a PlaceholderAPI expansion you use is not thread-safe and errors on the scoreboard.</p>
-<p><strong>Tab sort ranks</strong> in <code>tab/display.yml</code> use optional LuckPerms permissions for prefix priority: <code>group.owner</code>, <code>shyamtab.admin</code>, <code>shyamtab.staff</code>, <code>shyamtab.vip</code>.</p>
+<p><strong>Tab sort ranks</strong> in <code>tab/display.yml</code> use LuckPerms permissions for prefix priority: <code>group.owner</code>, <code>shyamduels.tab.admin</code>, <code>shyamduels.tab.staff</code>, <code>shyamduels.tab.vip</code>.</p>
 
 <h3>GUI Menus and Item Configs</h3>
 <p>All player-facing menus live under <code>plugins/ShyamDuels/menus/</code>:</p>
@@ -352,7 +469,7 @@ items:
     material: DIAMOND_SWORD
     name: "&b&lRANKED QUEUE"
     commands: ["player:queue"]</code></pre>
-<p>Rematch lore supports <code>{opponent}</code> and <code>{kit}</code> placeholders. Reload with <code>/shyamduels reload</code>.</p>
+<p>Rematch lore supports <code>{opponent}</code> and <code>{kit}</code> placeholders. Reload item configs with <code>/shyamduels reload-items</code>.</p>
 <p>Kit and FFA GUI order/icons: <code>data/order.yml</code>. Custom kit categories: <code>categories.json</code> (runtime).</p>
 
 <h3>Custom Item Icons (Custom Model Data &amp; Nexo)</h3>
@@ -406,10 +523,10 @@ logs <code>Nexo hook: enabled</code> when the integration is active.</p>
 </ul>
 
 <h3>Messages (lang/messages.yml)</h3>
-<p>All in-game chat strings, GUI titles, duel titles, party messages, and help text live in <code>plugins/ShyamDuels/lang/messages.yml</code>. Reload with <code>/shyamduels reload</code>.</p>
+<p>All in-game chat strings, GUI titles, duel titles, party messages, and help text live in <code>plugins/ShyamDuels/lang/messages.yml</code>. Reload with <code>/shyamduels reload-messages</code>.</p>
 
 <h2>Database Connection Settings (database.yml)</h2>
-<p>Manages backend data connections for matchmaking stats, arena registers, and kit loads:</p>
+<p>Database settings are stored in <code>plugins/ShyamDuels/database.yml</code> as a separate editable file. On startup and when you run <code>/shyamduels reload-config</code>, the plugin merges this file into the runtime config under the <code>database.*</code> prefix (e.g. <code>database.type</code>, <code>database.performance.io-threads</code>). Edit <code>database.yml</code> on disk — you do not need a <code>database:</code> block inside <code>config.yml</code>.</p>
 <pre><span class="lang-badge">yaml</span><code>type: SQLITE                  # Connection type: SQLITE or MYSQL
 
 sqlite:
@@ -426,6 +543,7 @@ mysql:
   password: ""
   use-ssl: false
   pool-size: 10               # Pooled MySQL connections (10+ recommended for 300+ players)
+  max-overflow: 10            # Extra connections beyond pool-size when the pool is exhausted
 
 # Performance settings — tuned for big servers (300+ players)
 performance:

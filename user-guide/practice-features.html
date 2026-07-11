@@ -147,8 +147,8 @@
   <li><strong>Auto-GG:</strong> players can toggle automatic post-match GG messages in <code>/settings</code> (<code>auto-gg:</code> in config).</li>
 </ul>
 
-<h2>Right-Click Duel</h2>
-<p>When <code>modules.practice-right-click-duel: true</code>, players can right-click another player in configured worlds (<code>enabled-worlds.right-click-duel</code>) to send a duel invite. This uses the standard <code>/duel</code> flow, not practice duel rounds.</p>
+<h2>Right-Click Player Interaction</h2>
+<p>When <code>modules.practice-right-click-duel: true</code>, players can right-click another player in worlds listed under <code>enabled-worlds.right-click-duel</code>. The default action opens the <strong>Player Profile GUI</strong> (<code>right-click.action: profile</code>). Set <code>action: command</code> to restore legacy duel-invite behaviour via <code>right-click.commands</code>. See <a href="kit-sharing.html">Kit Sharing &amp; Profiles</a> and <a href="configuration.html">Configuration Files</a>.</p>
 
 <h2>Match-Start Potions</h2>
 <p>Scans player potion effects at match start and removes blocked debuffs. Configure globally in <code>config.yml</code> under <code>match-start-potions:</code>, then per kit:</p>

@@ -83,36 +83,28 @@ Manages active duel instances, invitations, and match structures:</p>
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td><code>isInDuel(Player player)</code></td>
-      <td>boolean</td>
-      <td>Returns true if the player is currently inside a duel.</td>
-    </tr>
-    <tr>
-      <td><code>getDuel(Player player)</code></td>
-      <td>Duel</td>
-      <td>Retrieves the player's current active Duel model, or null.</td>
-    </tr>
-    <tr>
-      <td><code>getOpponent(Player player)</code></td>
-      <td>Player</td>
-      <td>Gets the player's active opponent (1v1 duels), or null.</td>
-    </tr>
-    <tr>
-      <td><code>startDuel(Player p1, Player p2, Kit kit, int rounds)</code></td>
-      <td>void</td>
-      <td>Immediately starts a duel between two players in a claimed arena.</td>
-    </tr>
-    <tr>
-      <td><code>forceEnd(Duel duel)</code></td>
-      <td>void</td>
-      <td>Immediately terminates the duel instance and teleports players back to lobby.</td>
-    </tr>
-    <tr>
-      <td><code>sendInvite(Player sender, Player target, Kit kit, int rounds)</code></td>
-      <td>void</td>
-      <td>Sends a duel invite challenge from sender to target.</td>
-    </tr>
+    <tr><td><code>isInDuel(Player)</code></td><td>boolean</td><td>True if the player is in an active duel round.</td></tr>
+    <tr><td><code>isParticipatingInDuel(Player)</code></td><td>boolean</td><td>True if the player is in a duel (including between rounds).</td></tr>
+    <tr><td><code>getDuel(Player)</code></td><td>Duel</td><td>Current duel for the player, or null.</td></tr>
+    <tr><td><code>getDuelById(UUID)</code></td><td>Duel</td><td>Lookup a duel by its UUID.</td></tr>
+    <tr><td><code>getEndingDuel(Player)</code></td><td>Duel</td><td>Duel currently ending for the player (post-match cleanup), or null.</td></tr>
+    <tr><td><code>getOpponent(Player)</code></td><td>Player</td><td>1v1 opponent, or null.</td></tr>
+    <tr><td><code>getDuelRespawnLocation(Player)</code></td><td>Location</td><td>Respawn point for the player in the current duel round.</td></tr>
+    <tr><td><code>getActiveDuels()</code></td><td>List&lt;Duel&gt;</td><td>All currently active duel instances.</td></tr>
+    <tr><td><code>sendInvite(sender, target, kit, rounds)</code></td><td>void</td><td>Sends a ranked duel invitation.</td></tr>
+    <tr><td><code>acceptInvite(acceptor, sender)</code></td><td>void</td><td>Accepts a pending duel invite.</td></tr>
+    <tr><td><code>denyInvite(target, sender)</code></td><td>void</td><td>Denies a pending duel invite.</td></tr>
+    <tr><td><code>startDuel(p1, p2, kit, rounds)</code></td><td>void</td><td>Immediately starts a 1v1 duel.</td></tr>
+    <tr><td><code>startDuel(team1, team2, kit, mode, rounds)</code></td><td>boolean</td><td>Starts a team duel; returns false if arena allocation fails.</td></tr>
+    <tr><td><code>forfeitDuel(Player)</code></td><td>void</td><td>Forfeits the player's current duel.</td></tr>
+    <tr><td><code>forceEnd(Duel)</code></td><td>void</td><td>Immediately terminates a duel and returns players to lobby.</td></tr>
+    <tr><td><code>eliminatePlayer(victim, killer)</code></td><td>void</td><td>Handles a player elimination inside a duel round.</td></tr>
+    <tr><td><code>sendPartyDuelInvite(senderParty, targetParty, kit)</code></td><td>void</td><td>Sends a party-vs-party challenge.</td></tr>
+    <tr><td><code>acceptPartyDuelInvite(acceptor)</code></td><td>void</td><td>Accepts a pending party duel invite (party leader).</td></tr>
+    <tr><td><code>startPartyDuel(team1Party, team2Party, kit)</code></td><td>void</td><td>Starts a party-vs-party match.</td></tr>
+    <tr><td><code>startPartyFFA(players, kit, party)</code></td><td>void</td><td>Starts a party free-for-all inside one arena.</td></tr>
+    <tr><td><code>getSelfRelation(Player)</code></td><td>String</td><td>MiniMessage relation tag for the player's own nametag context.</td></tr>
+    <tr><td><code>getRelationPlaceholder(viewer, target)</code></td><td>String</td><td>Relational placeholder color between two players.</td></tr>
   </tbody>
 </table>
 </div>
@@ -161,7 +153,7 @@ Fetches and updates player ELO ratings, kills, deaths, winstreaks, and ranks:</p
       <td>Records a kill for the killer (increments kills and killstreak).</td>
     </tr>
     <tr>
-      <td><code>recordDeath(Player victim, Player killer)</code></td>
+      <td><code>recordDeath(Player victim)</code></td>
       <td>void</td>
       <td>Records a death for the victim (increments deaths, resets killstreak).</td>
     </tr>
@@ -402,16 +394,29 @@ Tracks active parties, member indices, and team divisions:</p>
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td><code>getParty(Player player)</code></td>
-      <td>Party</td>
-      <td>Retrieves the player's active Party, or null.</td>
-    </tr>
-    <tr>
-      <td><code>isInParty(Player player)</code></td>
-      <td>boolean</td>
-      <td>Returns true if the player is currently inside a party structure.</td>
-    </tr>
+    <tr><td><code>createParty(Player)</code></td><td>Party</td><td>Creates a party with the player as owner.</td></tr>
+    <tr><td><code>disbandParty(Party)</code></td><td>void</td><td>Disbands a party.</td></tr>
+    <tr><td><code>invitePlayer(sender, target)</code></td><td>void</td><td>Sends a party invite.</td></tr>
+    <tr><td><code>acceptInvite(Player)</code></td><td>void</td><td>Accepts a pending party invite.</td></tr>
+    <tr><td><code>denyInvite(Player)</code></td><td>void</td><td>Denies a pending party invite.</td></tr>
+    <tr><td><code>joinPublicParty(player, targetOwner)</code></td><td>void</td><td>Joins a public party by leader name.</td></tr>
+    <tr><td><code>leaveParty(Player)</code></td><td>void</td><td>Removes the player from their party.</td></tr>
+    <tr><td><code>kickPlayer(owner, target)</code></td><td>void</td><td>Kicks a member (leader only).</td></tr>
+    <tr><td><code>setPublic(Player, boolean)</code></td><td>void</td><td>Toggles public/private join mode.</td></tr>
+    <tr><td><code>setPartyMode(Player, PartyMode)</code></td><td>void</td><td>Sets queue/split/ffa/duel party behavior.</td></tr>
+    <tr><td><code>setMemberLimit(Player, int)</code></td><td>void</td><td>Sets a custom member cap.</td></tr>
+    <tr><td><code>cyclePlayMode(Player)</code></td><td>void</td><td>Cycles the party play mode.</td></tr>
+    <tr><td><code>toggleChat(Player)</code></td><td>void</td><td>Toggles party-only chat for the player.</td></tr>
+    <tr><td><code>isInParty(Player)</code></td><td>boolean</td><td>Whether the player is in a party.</td></tr>
+    <tr><td><code>getParty(Player)</code></td><td>Party</td><td>Active party for the player, or null.</td></tr>
+    <tr><td><code>getPartyByMember(UUID)</code></td><td>Party</td><td>Party containing the UUID, or null.</td></tr>
+    <tr><td><code>getPartyById(UUID)</code></td><td>Party</td><td>Party by party UUID, or null.</td></tr>
+    <tr><td><code>getAllParties()</code></td><td>Collection&lt;Party&gt;</td><td>All active parties.</td></tr>
+    <tr><td><code>getPublicParties()</code></td><td>List&lt;Party&gt;</td><td>Parties with public join enabled.</td></tr>
+    <tr><td><code>getMaxPartySize(Party)</code></td><td>int</td><td>Effective max size for a party.</td></tr>
+    <tr><td><code>getMaxPartySize(Player)</code></td><td>int</td><td>Max size the player could create based on permissions.</td></tr>
+    <tr><td><code>hasPendingInvite(Player)</code></td><td>boolean</td><td>Whether the player has an unhandled party invite.</td></tr>
+    <tr><td><code>handlePlayerDisconnect(Player)</code></td><td>void</td><td>Cleans up party state on quit.</td></tr>
   </tbody>
 </table>
 </div>
@@ -429,16 +434,19 @@ Manages friend requests and friend list states:</p>
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td><code>getFriends(Player player)</code></td>
-      <td>List&lt;UUID&gt;</td>
-      <td>Gets a list of player UUIDs on the target player's friends list.</td>
-    </tr>
-    <tr>
-      <td><code>isFriend(Player p1, Player p2)</code></td>
-      <td>boolean</td>
-      <td>Returns true if the players are friends.</td>
-    </tr>
+    <tr><td><code>getMaxFriends()</code></td><td>int</td><td>Configured friend list cap.</td></tr>
+    <tr><td><code>getFriendUuids(UUID)</code></td><td>Set&lt;UUID&gt;</td><td>Friend UUIDs for a player.</td></tr>
+    <tr><td><code>getStatus(UUID)</code></td><td>FriendStatus</td><td>Online/offline status aggregate.</td></tr>
+    <tr><td><code>isNotificationsEnabled(UUID)</code></td><td>boolean</td><td>Whether friend notifications are on.</td></tr>
+    <tr><td><code>areFriends(UUID, UUID)</code></td><td>boolean</td><td>Whether two players are friends.</td></tr>
+    <tr><td><code>hasIncomingRequest(receiver, sender)</code></td><td>boolean</td><td>Pending request from sender to receiver.</td></tr>
+    <tr><td><code>getIncomingRequests(UUID)</code></td><td>Set&lt;UUID&gt;</td><td>All pending incoming request senders.</td></tr>
+    <tr><td><code>loadPlayerFuture(UUID)</code></td><td>CompletableFuture&lt;Void&gt;</td><td>Async load of friend data.</td></tr>
+    <tr><td><code>unloadPlayer(UUID)</code></td><td>void</td><td>Evicts cached friend data.</td></tr>
+    <tr><td><code>sendRequest(sender, target)</code></td><td>SendResult</td><td>Sends a friend request (enum result).</td></tr>
+    <tr><td><code>acceptRequest(receiver, sender)</code></td><td>AcceptResult</td><td>Accepts a friend request.</td></tr>
+    <tr><td><code>denyRequest(receiver, sender)</code></td><td>void</td><td>Denies a friend request.</td></tr>
+    <tr><td><code>removeFriend(playerId, targetId)</code></td><td>void</td><td>Removes a friend.</td></tr>
   </tbody>
 </table>
 </div>
@@ -450,11 +458,27 @@ Manages ranked/unranked matchmaking queues for solo players and parties:</p>
 <table>
   <thead><tr><th>Key Methods</th><th>Description</th></tr></thead>
   <tbody>
-    <tr><td><code>addPlayer(player, kit, mode)</code></td><td>Adds a player to a kit queue.</td></tr>
-    <tr><td><code>removePlayer(player)</code></td><td>Removes a player from all queues.</td></tr>
-    <tr><td><code>isQueued(player)</code></td><td>Returns whether the player is in any queue.</td></tr>
-    <tr><td><code>getQueueSize(kitName, mode)</code></td><td>Players waiting in a specific queue.</td></tr>
-    <tr><td><code>addParty(party, kit, mode)</code></td><td>Queues an entire party together.</td></tr>
+    <tr><td><code>addPlayer(player, kit, mode)</code></td><td>void</td><td>Adds a player to a kit queue.</td></tr>
+    <tr><td><code>joinRandomQueue(player, mode)</code></td><td>void</td><td>Queues for a random needed kit.</td></tr>
+    <tr><td><code>removePlayer(player)</code></td><td>void</td><td>Removes a player from all queues.</td></tr>
+    <tr><td><code>removeKitFromQueue(player, key)</code></td><td>void</td><td>Removes one specific queue entry.</td></tr>
+    <tr><td><code>addParty(party, kit, mode)</code></td><td>void</td><td>Queues an entire party together.</td></tr>
+    <tr><td><code>removeParty(party)</code></td><td>void</td><td>Removes a party from all queues.</td></tr>
+    <tr><td><code>isQueued(player)</code></td><td>boolean</td><td>Whether the player is in any queue.</td></tr>
+    <tr><td><code>isActivelyQueued(player)</code></td><td>boolean</td><td>Whether the player is waiting for a match (not in-game).</td></tr>
+    <tr><td><code>isQueuedForKit(player/uuid, kitName, mode)</code></td><td>boolean</td><td>Queued for a specific kit+mode.</td></tr>
+    <tr><td><code>isPrimaryQueuedKit(player/uuid, kitName, mode)</code></td><td>boolean</td><td>Whether this is the player's primary queue slot.</td></tr>
+    <tr><td><code>getPlayerQueueKey(player)</code></td><td>QueueKey</td><td>Primary queue key, or null.</td></tr>
+    <tr><td><code>getPrimaryQueueKey(uuid)</code></td><td>QueueKey</td><td>Primary queue key by UUID.</td></tr>
+    <tr><td><code>getPlayerQueueKeys(player)</code></td><td>List&lt;QueueKey&gt;</td><td>All active queue keys (multi-kit).</td></tr>
+    <tr><td><code>getPlayerQueueCount(player)</code></td><td>int</td><td>Number of kits queued.</td></tr>
+    <tr><td><code>getQueueSize(kitName, mode)</code></td><td>int</td><td>Players waiting in a queue.</td></tr>
+    <tr><td><code>getInGameSize(kitName, mode)</code></td><td>int</td><td>Players currently in matches from that queue.</td></tr>
+    <tr><td><code>resolveQueueRounds(kit)</code></td><td>int</td><td>Effective round count for queue matches.</td></tr>
+    <tr><td><code>isMultipleKitsEnabled()</code></td><td>boolean</td><td>Whether multi-kit queueing is on.</td></tr>
+    <tr><td><code>pickRandomNeededKit(mode)</code></td><td>Kit</td><td>Kit most needed for matchmaking, or null.</td></tr>
+    <tr><td><code>resetPlayerState(player)</code></td><td>void</td><td>Clears queue UI/state for a player.</td></tr>
+    <tr><td><code>handlePlayerDisconnect(player)</code></td><td>void</td><td>Removes player from queues on quit.</td></tr>
   </tbody>
 </table>
 </div>
@@ -466,10 +490,20 @@ Controls FFA join/leave, arena state, and resets:</p>
 <table>
   <thead><tr><th>Key Methods</th><th>Description</th></tr></thead>
   <tbody>
-    <tr><td><code>joinFFA(player, arena)</code></td><td>Teleports a player into an FFA arena.</td></tr>
-    <tr><td><code>leaveFFA(player)</code></td><td>Removes a player from FFA.</td></tr>
-    <tr><td><code>getPlayerArena(player)</code></td><td>Returns the arena the player is in, or null.</td></tr>
-    <tr><td><code>resetArena(arena)</code></td><td>Triggers an FFA map reset.</td></tr>
+    <tr><td><code>joinFFA(player, arena)</code></td><td>void</td><td>Teleports a player into an FFA arena.</td></tr>
+    <tr><td><code>leaveFFA(player)</code></td><td>void</td><td>Removes a player from FFA.</td></tr>
+    <tr><td><code>handleDeath(player)</code></td><td>void</td><td>Processes FFA death (respawn/kill regen).</td></tr>
+    <tr><td><code>getPlayerState(player)</code></td><td>FFAState</td><td>NONE, IN_ARENA, etc.</td></tr>
+    <tr><td><code>getPlayerArena(player)</code></td><td>Arena</td><td>Arena the player is in, or null.</td></tr>
+    <tr><td><code>getPlayerKit(player)</code></td><td>Kit</td><td>Kit assigned in FFA, or null.</td></tr>
+    <tr><td><code>isInArena(player, arena)</code></td><td>boolean</td><td>Whether the player is in the given arena.</td></tr>
+    <tr><td><code>getPlayersInArena(arena)</code></td><td>List&lt;Player&gt;</td><td>All players in an FFA arena.</td></tr>
+    <tr><td><code>getPlayerCount(arena)</code></td><td>int</td><td>Player count in an arena.</td></tr>
+    <tr><td><code>getResetIntervalSeconds()</code></td><td>long</td><td>Configured FFA reset interval.</td></tr>
+    <tr><td><code>getSecondsUntilReset(arena)</code></td><td>long</td><td>Seconds until the next scheduled reset.</td></tr>
+    <tr><td><code>resetArena(arena)</code></td><td>void</td><td>Triggers an FFA map reset.</td></tr>
+    <tr><td><code>getLobbyLocation()</code></td><td>Location</td><td>Lobby spawn location.</td></tr>
+    <tr><td><code>teleportToLobby(player)</code></td><td>CompletableFuture&lt;Boolean&gt;</td><td>Async-safe lobby teleport.</td></tr>
   </tbody>
 </table>
 </div>
@@ -480,9 +514,16 @@ Controls FFA join/leave, arena state, and resets:</p>
 <table>
   <thead><tr><th>Key Methods</th><th>Description</th></tr></thead>
   <tbody>
-    <tr><td><code>joinSpectate(spectator, target)</code></td><td>Starts spectating a player's duel.</td></tr>
-    <tr><td><code>leaveSpectate(spectator)</code></td><td>Stops spectating.</td></tr>
-    <tr><td><code>getActiveDuels()</code></td><td>Lists all duels that can be spectated.</td></tr>
+    <tr><td><code>joinSpectate(spectator, target)</code></td><td>void</td><td>Starts spectating a player's duel.</td></tr>
+    <tr><td><code>leaveSpectate(spectator)</code></td><td>void</td><td>Stops spectating.</td></tr>
+    <tr><td><code>endSpectateForDuel(duel)</code></td><td>void</td><td>Ends all spectators when a duel ends.</td></tr>
+    <tr><td><code>redirectSpectatorsFrom(deadPlayer, duel)</code></td><td>void</td><td>Redirects spectators after a player dies.</td></tr>
+    <tr><td><code>isSpectating(player)</code></td><td>boolean</td><td>Whether the player is spectating.</td></tr>
+    <tr><td><code>getDuel(spectator)</code></td><td>Duel</td><td>Duel being spectated, or null.</td></tr>
+    <tr><td><code>getSpectatingArena(spectator)</code></td><td>Arena</td><td>Arena being spectated, or null.</td></tr>
+    <tr><td><code>getSpectatorsOfDuel(duel)</code></td><td>List&lt;UUID&gt;</td><td>Spectator UUIDs for a duel.</td></tr>
+    <tr><td><code>getSpectatorCount(duel)</code></td><td>int</td><td>Number of spectators on a duel.</td></tr>
+    <tr><td><code>getActiveDuels()</code></td><td>List&lt;Duel&gt;</td><td>All duels that can be spectated.</td></tr>
   </tbody>
 </table>
 </div>
@@ -575,13 +616,62 @@ Plays configurable title animations from <code>messages.yml</code>:</p>
 </table>
 </div>
 
-<h2>SettingsService, PlaceholderService, CommandService</h2>
-<p>Additional core services on <code>ShyamDuelsAPI</code>:</p>
-<ul>
-  <li><code>settings()</code> - read/update per-player toggles (scoreboard, tab, auto-GG, etc.)</li>
-  <li><code>placeholders()</code> - resolve ShyamDuels placeholders programmatically</li>
-  <li><code>commands()</code> - inspect command restriction state for players</li>
-</ul>
+<h2>SettingsService</h2>
+<p>Interface: <code>com.shyamstudio.shyamduels.api.settings.SettingsService</code></p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Method</th><th>Returns</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>getSettings(UUID)</code></td><td>PlayerSettings</td><td>Cached settings for a player.</td></tr>
+    <tr><td><code>loadPlayer(Player)</code></td><td>CompletableFuture&lt;PlayerSettings&gt;</td><td>Async load from database.</td></tr>
+    <tr><td><code>saveSettings(PlayerSettings)</code></td><td>void</td><td>Persists settings changes.</td></tr>
+    <tr><td><code>unloadPlayer(UUID)</code></td><td>void</td><td>Flushes and evicts cached settings.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>PlaceholderService</h2>
+<p>Interface: <code>com.shyamstudio.shyamduels.api.placeholder.PlaceholderService</code></p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Method</th><th>Returns</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>getCurrentMode(Player)</code></td><td>String</td><td>Current game mode label (lobby, duel, queue, etc.).</td></tr>
+    <tr><td><code>isInFight(Player)</code></td><td>boolean</td><td>Whether the player is in any active fight.</td></tr>
+    <tr><td><code>isFFA(Player)</code></td><td>boolean</td><td>Whether the player is in FFA.</td></tr>
+    <tr><td><code>isInParty(Player)</code></td><td>boolean</td><td>Whether the player is in a party.</td></tr>
+    <tr><td><code>isEditor(Player)</code></td><td>boolean</td><td>Whether the player has an open kit editor session.</td></tr>
+    <tr><td><code>doPlaceholders(Player, text)</code></td><td>String</td><td>Resolves internal placeholders in a string.</td></tr>
+    <tr><td><code>getKitDisplayName(Player)</code></td><td>String</td><td>Current kit display name.</td></tr>
+    <tr><td><code>getQueueKitDisplayName(Player)</code></td><td>String</td><td>Primary queued kit name.</td></tr>
+    <tr><td><code>getQueueModeDisplay(Player)</code></td><td>String</td><td>Queue mode label (1v1, 2v2, etc.).</td></tr>
+    <tr><td><code>getQueueWaitTime(Player)</code></td><td>String</td><td>Formatted queue wait duration.</td></tr>
+    <tr><td><code>getQueueKitsList(Player)</code></td><td>String</td><td>Comma-separated queued kit names.</td></tr>
+    <tr><td><code>getQueueElapsedSeconds(UUID)</code></td><td>long</td><td>Seconds spent in queue.</td></tr>
+    <tr><td><code>invalidatePlayer(Player)</code></td><td>void</td><td>Clears cached placeholder state.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>CommandService</h2>
+<p>Interface: <code>com.shyamstudio.shyamduels.api.command.CommandService</code><br/>
+Inspects <code>command-restrictions</code> from config:</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Method</th><th>Returns</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>rootCommand(message)</code></td><td>String</td><td>Parses the root command from a chat line.</td></tr>
+    <tr><td><code>evaluateBlock(player, rootCommand)</code></td><td>String</td><td>Messages.yml block key if blocked, else null.</td></tr>
+    <tr><td><code>isAllowed(rootCommand)</code></td><td>boolean</td><td>Always-allowed command list.</td></tr>
+    <tr><td><code>isBlockedInParty(rootCommand)</code></td><td>boolean</td><td>Blocked while in a party lobby.</td></tr>
+    <tr><td><code>isBlockedInMatchGlobal(rootCommand)</code></td><td>boolean</td><td>Blocked during any match.</td></tr>
+    <tr><td><code>shouldBlockInDuel(rootCommand)</code></td><td>boolean</td><td>Blocked during duels.</td></tr>
+    <tr><td><code>shouldBlockInFfa(rootCommand)</code></td><td>boolean</td><td>Blocked during FFA.</td></tr>
+    <tr><td><code>shouldBlockInSpectate(rootCommand)</code></td><td>boolean</td><td>Blocked while spectating.</td></tr>
+    <tr><td><code>reload()</code></td><td>void</td><td>Reloads rules from config.</td></tr>
+  </tbody>
+</table>
+</div>
 
 <h2>Optional Services</h2>
 <p>Available when the corresponding module is enabled:</p>
@@ -635,6 +725,9 @@ Practice-mode feature toggles and actions (optional, available via <code>practic
   <thead><tr><th>Key Methods</th><th>Description</th></tr></thead>
   <tbody>
     <tr><td><code>isKitEditorEnabled()</code></td><td>Whether the kit editor feature is on.</td></tr>
+    <tr><td><code>isDuelCommandEnabled()</code></td><td>Whether <code>/practiceduel</code> is registered.</td></tr>
+    <tr><td><code>isRightClickDuelEnabled()</code></td><td>Whether right-click player interaction is on.</td></tr>
+    <tr><td><code>isDeathMessagesEnabled()</code></td><td>Whether <code>/deathmessages</code> is available.</td></tr>
     <tr><td><code>isGoldenHeadEnabled()</code></td><td>Whether golden heads are on.</td></tr>
     <tr><td><code>isTotemPracticeEnabled()</code></td><td>Whether totem practice is on.</td></tr>
     <tr><td><code>openKitRoom(player)</code></td><td>Opens the kit room for a player.</td></tr>
