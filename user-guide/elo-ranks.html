@@ -65,16 +65,86 @@
 <p class="page-lead">How ELO calculations function, details on the 34-tier rank progression tree, and rank customization guides.</p>
 
 <h2>How ELO Matchmaking Works</h2>
-<p>The ELO system measures a player's relative skill level. All players start at <strong>1000 ELO</strong>. Following a matchmaking duel:</p>
+<p>The ELO system measures a player's relative skill level. All players start at <strong>1000 ELO</strong>. Following an eligible matchmaking duel, ratings are adjusted as follows:</p>
+
+<h3>Step-by-Step ELO Example Scenario</h3>
+<p>To see how ELO is calculated, let's look at a match between two players:</p>
 <ul>
-  <li><strong>Winner</strong>: Receives ELO based on a base gain formula and bonus points for kills.</li>
-  <li><strong>Loser</strong>: Loses ELO based on a base loss formula, adjusted by the <em>loss multiplier</em> of their current rank.</li>
+  <li><strong>WeThink</strong>: Overall ELO of <strong>1200</strong> (Gold V rank).</li>
+  <li><strong>ErRoR25</strong>: Overall ELO of <strong>1000</strong> (Silver V rank).</li>
 </ul>
-<p>ELO cannot drop below 0. FFA kills/deaths do not affect ELO ratings.</p>
+
+<h4>Step 1: Expected Score Calculation</h4>
+<p>First, the plugin calculates the <strong>Expected Score</strong> (win probability) for each player. Because WeThink has a higher rating, WeThink is expected to have a higher chance of winning:</p>
+<ul>
+  <li>
+    <strong>WeThink's Expected Score:</strong>
+    <pre><code>Expected = 1 / (1 + 10^((1000 - 1200) / 400))
+Expected = 1 / (1 + 10^(-0.5))
+Expected = 1 / (1 + 0.316) ≈ 0.76 (76% chance of winning)</code></pre>
+  </li>
+  <li>
+    <strong>ErRoR25's Expected Score:</strong>
+    <pre><code>Expected = 1 / (1 + 10^((1200 - 1000) / 400))
+Expected = 1 / (1 + 10^(0.5))
+Expected = 1 / (1 + 3.162) ≈ 0.24 (24% chance of winning)</code></pre>
+  </li>
+</ul>
+
+<h4>Step 2: Calculate Rating Adjustments (Win / Loss Scenarios)</h4>
+<p>The rating adjustments depend on who wins the duel. Ratings are computed using the base parameters: <code>base-gain: 25</code> and <code>base-loss: 20</code>.</p>
+
+<h5>Scenario A: WeThink Wins (The expected outcome)</h5>
+<ul>
+  <li>
+    <strong>WeThink's Elo Gain:</strong>
+    <pre><code>Gain = round(25 * 2.0 * (1.0 - 0.76))
+Gain = round(50 * 0.24) = +12 ELO</code></pre>
+    <p>WeThink's ELO increases from 1200 to <strong>1212</strong>.</p>
+  </li>
+  <li>
+    <strong>ErRoR25's Elo Loss:</strong>
+    <pre><code>Loss = round(20 * 2.0 * 0.24 * Rank Multiplier)
+Loss = round(40 * 0.24 * 0.70x for Silver V)
+Loss = round(9.6 * 0.7) = -7 ELO</code></pre>
+    <p>ErRoR25's ELO decreases from 1000 to <strong>993</strong>.</p>
+  </li>
+</ul>
+
+<h5>Scenario B: ErRoR25 Wins (The upset outcome)</h5>
+<ul>
+  <li>
+    <strong>ErRoR25's Elo Gain:</strong>
+    <pre><code>Gain = round(25 * 2.0 * (1.0 - 0.24))
+Gain = round(50 * 0.76) = +38 ELO</code></pre>
+    <p>ErRoR25's ELO increases from 1000 to <strong>1038</strong> (a much larger gain since this was an upset victory).</p>
+  </li>
+  <li>
+    <strong>WeThink's Elo Loss:</strong>
+    <pre><code>Loss = round(20 * 2.0 * 0.76 * Rank Multiplier)
+Loss = round(40 * 0.76 * 1.00x for Gold V)
+Loss = round(30.4 * 1.0) = -30 ELO</code></pre>
+    <p>WeThink's ELO decreases from 1200 to <strong>1170</strong>.</p>
+  </li>
+</ul>
+
+<p>ELO cannot drop below 0. FFA matches and deaths do not affect ELO ratings.</p>
+
+<h2>Overall ELO vs. Per-Kit ELO</h2>
+<p>The plugin tracks two types of Elo metrics:</p>
+<ul>
+  <li><strong>Overall ELO</strong>: Used as the primary skill seed for matchmaking. The expected score and the resulting delta (gain/loss) are calculated using the overall Elo of the participants.</li>
+  <li><strong>Per-Kit ELO</strong>: Tracks a player's skill specific to each kit category. When a player wins or loses a match, their per-kit Elo is updated by the <em>exact same delta</em> computed from the overall Elo matchmaking formula.</li>
+</ul>
 
 <div class="alert alert-note">
-  <div class="alert-title">ELO Variables in config.yml</div>
-  Options: <code>elo.enabled</code>, <code>elo.base-gain</code>, <code>elo.base-loss</code>, <code>elo.kill-bonus</code>, <code>elo.minimum</code>.
+  <div class="alert-title">Custom Kits ELO Toggle</div>
+  <p>Per-kit ELO is tracked for all standard official kits. However, per-kit ELO gain for custom kits depends on the <code>elo.custom-kits</code> toggle in <code>config.yml</code>. If this option is set to <code>false</code>, per-kit ELO statistics for custom kits are not calculated and are hidden from the kit statistics menu.</p>
+</div>
+
+<div class="alert alert-note">
+  <div class="alert-title">ELO Settings in config.yml</div>
+  Options: <code>elo.enabled</code>, <code>elo.base-gain</code>, <code>elo.base-loss</code>, <code>elo.kill-gain</code>, <code>elo.custom-kits</code>, <code>elo.opponent-based</code>, <code>elo.min-elo</code>, <code>elo.min-gain</code>, <code>elo.max-gain</code>, <code>elo.min-loss</code>.
 </div>
 
 <h2>Default Ranks Database</h2>

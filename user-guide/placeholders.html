@@ -93,6 +93,37 @@
 </table>
 </div>
 
+<h2>Per-Kit Statistics Placeholders</h2>
+<p>The plugin exposes statistics filtered for specific kit categories. Use the format <code>%shyamduels_&lt;kit&gt;_&lt;metric&gt;%</code> where <code>&lt;kit&gt;</code> is the lowercase internal kit ID (e.g., <code>nodebuff</code>, <code>boxing</code>, or a custom kit identifier) and <code>&lt;metric&gt;</code> is one of the following:</p>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Kit Metric</th>
+      <th>Output Format</th>
+      <th>Description</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code>wins</code></td><td>Integer</td><td>Ranked victories with this kit.</td><td><code>%shyamduels_nodebuff_wins%</code></td></tr>
+    <tr><td><code>losses</code></td><td>Integer</td><td>Ranked defeats with this kit.</td><td><code>%shyamduels_boxing_losses%</code></td></tr>
+    <tr><td><code>games</code></td><td>Integer</td><td>Total matches played with this kit.</td><td><code>%shyamduels_gapple_games%</code></td></tr>
+    <tr><td><code>kills</code></td><td>Integer</td><td>Total kills recorded using this kit.</td><td><code>%shyamduels_nodebuff_kills%</code></td></tr>
+    <tr><td><code>deaths</code></td><td>Integer</td><td>Total deaths recorded using this kit.</td><td><code>%shyamduels_boxing_deaths%</code></td></tr>
+    <tr><td><code>kd</code></td><td>Decimal</td><td>Kills/Deaths ratio with this kit.</td><td><code>%shyamduels_nodebuff_kd%</code></td></tr>
+    <tr><td><code>wl</code></td><td>Decimal</td><td>Wins/Losses ratio with this kit.</td><td><code>%shyamduels_boxing_wl%</code></td></tr>
+    <tr><td><code>winrate</code></td><td>Decimal</td><td>Win rate percentage with this kit.</td><td><code>%shyamduels_boxing_winrate%</code></td></tr>
+    <tr><td><code>elo</code></td><td>Integer</td><td>Elo matchmaking rating for this specific kit.</td><td><code>%shyamduels_nodebuff_elo%</code></td></tr>
+    <tr><td><code>killstreak</code></td><td>Integer</td><td>Current active killstreak with this kit.</td><td><code>%shyamduels_nodebuff_killstreak%</code></td></tr>
+    <tr><td><code>best_killstreak</code></td><td>Integer</td><td>All-time highest killstreak with this kit.</td><td><code>%shyamduels_boxing_best_killstreak%</code></td></tr>
+    <tr><td><code>winstreak</code></td><td>Integer</td><td>Current active winstreak with this kit.</td><td><code>%shyamduels_nodebuff_winstreak%</code></td></tr>
+    <tr><td><code>best_winstreak</code></td><td>Integer</td><td>All-time highest winstreak with this kit.</td><td><code>%shyamduels_boxing_best_winstreak%</code></td></tr>
+  </tbody>
+</table>
+</div>
+
 <h2>Active Match States</h2>
 <div class="table-wrap">
 <table>
