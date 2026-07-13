@@ -92,21 +92,23 @@ Expected = 1 / (1 + 3.162) ≈ 0.24 (24% chance of winning)</code></pre>
 </ul>
 
 <h4>Step 2: Calculate Rating Adjustments (Win / Loss Scenarios)</h4>
-<p>The rating adjustments depend on who wins the duel. Ratings are computed using the base parameters: <code>base-gain: 25</code> and <code>base-loss: 20</code>.</p>
+<p>Ratings are computed using the default parameters: <code>base-gain: 20</code>, <code>base-loss: 20</code>, <code>min-gain: 1</code>, <code>max-gain: 40</code>, <code>min-loss: 1</code>, and <code>max-loss: 40</code>.</p>
 
 <h5>Scenario A: WeThink Wins (The expected outcome)</h5>
 <ul>
   <li>
     <strong>WeThink's Elo Gain:</strong>
-    <pre><code>Gain = round(25 * 2.0 * (1.0 - 0.76))
-Gain = round(50 * 0.24) = +12 ELO</code></pre>
-    <p>WeThink's ELO increases from 1200 to <strong>1212</strong>.</p>
+    <pre><code>Gain = base-gain * 2.0 * (1.0 - Expected)
+Gain = 20 * 2.0 * (1.0 - 0.76) = 40 * 0.24 = 9.6
+Gain = clamp(min-gain, max-gain, round(9.6)) = +10 ELO</code></pre>
+    <p>WeThink's ELO increases from 1200 to <strong>1210</strong>.</p>
   </li>
   <li>
     <strong>ErRoR25's Elo Loss:</strong>
-    <pre><code>Loss = round(20 * 2.0 * 0.24 * Rank Multiplier)
-Loss = round(40 * 0.24 * 0.70x for Silver V)
-Loss = round(9.6 * 0.7) = -7 ELO</code></pre>
+    <pre><code>Loss = base-loss * 2.0 * Expected
+Loss = 20 * 2.0 * 0.24 = 9.6
+Loss = Loss * 0.70x (Silver V loss multiplier) = 6.72
+Loss = clamp(min-loss, max-loss, round(6.72)) = -7 ELO</code></pre>
     <p>ErRoR25's ELO decreases from 1000 to <strong>993</strong>.</p>
   </li>
 </ul>
@@ -115,20 +117,25 @@ Loss = round(9.6 * 0.7) = -7 ELO</code></pre>
 <ul>
   <li>
     <strong>ErRoR25's Elo Gain:</strong>
-    <pre><code>Gain = round(25 * 2.0 * (1.0 - 0.24))
-Gain = round(50 * 0.76) = +38 ELO</code></pre>
-    <p>ErRoR25's ELO increases from 1000 to <strong>1038</strong> (a much larger gain since this was an upset victory).</p>
+    <pre><code>Gain = base-gain * 2.0 * (1.0 - Expected)
+Gain = 20 * 2.0 * (1.0 - 0.24) = 40 * 0.76 = 30.4
+Gain = clamp(min-gain, max-gain, round(30.4)) = +30 ELO</code></pre>
+    <p>ErRoR25's ELO increases from 1000 to <strong>1030</strong> (a much larger gain since this was an upset victory).</p>
   </li>
   <li>
     <strong>WeThink's Elo Loss:</strong>
-    <pre><code>Loss = round(20 * 2.0 * 0.76 * Rank Multiplier)
-Loss = round(40 * 0.76 * 1.00x for Gold V)
-Loss = round(30.4 * 1.0) = -30 ELO</code></pre>
-    <p>WeThink's ELO decreases from 1200 to <strong>1170</strong>.</p>
+    <pre><code>Loss = base-loss * 2.0 * Expected
+Loss = 20 * 2.0 * 0.76 = 30.4
+Loss = Loss * 0.80x (Silver III loss multiplier) = 24.32
+Loss = clamp(min-loss, max-loss, round(24.32)) = -24 ELO</code></pre>
+    <p>WeThink's ELO decreases from 1200 to <strong>1176</strong>.</p>
   </li>
 </ul>
 
-<p>ELO cannot drop below 0. FFA matches and deaths do not affect ELO ratings.</p>
+<p>ELO cannot drop below the configured <code>min-elo</code> (default 0). FFA matches and deaths do not affect ELO ratings.</p>
+
+<h2>How Min/Max Gain & Loss Work Together</h2>
+<p>The <code>min-gain</code>, <code>max-gain</code>, <code>min-loss</code>, and <code>max-loss</code> settings act as a safety range for ELO adjustments. They prevent extreme rating swings (such as losing hundreds of points in a single match) while ensuring there is always a meaningful rating change. For example, a win against a far stronger player is capped at <code>max-gain</code> (40 ELO) instead of awarding a massive rating boost, and a defeat by a far weaker player is capped at <code>max-loss</code> (40 ELO) to avoid excessive penalty. Conversely, the <code>min-gain</code> and <code>min-loss</code> floors guarantee that players always receive a token rating change (at least 1 ELO) even for completely expected matches.</p>
 
 <h2>Overall ELO vs. Per-Kit ELO</h2>
 <p>The plugin tracks two types of Elo metrics:</p>
@@ -143,8 +150,8 @@ Loss = round(30.4 * 1.0) = -30 ELO</code></pre>
 </div>
 
 <div class="alert alert-note">
-  <div class="alert-title">ELO Settings in config.yml</div>
-  Options: <code>elo.enabled</code>, <code>elo.base-gain</code>, <code>elo.base-loss</code>, <code>elo.kill-gain</code>, <code>elo.custom-kits</code>, <code>elo.opponent-based</code>, <code>elo.min-elo</code>, <code>elo.min-gain</code>, <code>elo.max-gain</code>, <code>elo.min-loss</code>.
+  <div class="alert-title">ELO Settings in ranks.yml</div>
+  Options: <code>elo.enabled</code>, <code>elo.base-gain</code>, <code>elo.base-loss</code>, <code>elo.kill-gain</code>, <code>elo.custom-kits</code>, <code>elo.opponent-based</code>, <code>elo.min-elo</code>, <code>elo.min-gain</code>, <code>elo.max-gain</code>, <code>elo.min-loss</code>, <code>elo.max-loss</code>, <code>elo.starting-elo</code>.
 </div>
 
 <h2>Default Ranks Database</h2>
