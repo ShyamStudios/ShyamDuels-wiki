@@ -588,7 +588,13 @@ performance:
 tag, an ELO range (<code>min-elo</code>/<code>max-elo</code>) and a <code>loss-multiplier</code>.
 See <a href="elo-ranks.html">ELO &amp; Ranks</a> for the full ladder.</p>
 
-<p>Import from StrikePractice: see the <a href="migration.html">Migration Guide</a>.</p>
+<h2>External Plugin Compatibility</h2>
+<p>Settings for compatibility with third-party external plugins (such as cosmetic or kill effects plugins):</p>
+<pre><span class="lang-badge">yaml</span><code>compatibility:
+  # If enabled, ShyamDuels will fire a fake PlayerDeathEvent during virtual deaths.
+  # This allows third-party cosmetic/kill-effects plugins that only listen to the
+  # vanilla death event to work seamlessly during virtual duel eliminations.
+  fire-fake-death-event: false</code></pre>
 
 <h2>Sound Effects Library (sounds.yml)</h2>
 <p>Maps custom sounds to events, grouped by category (e.g. <code>match-start</code>, <code>duel</code>,

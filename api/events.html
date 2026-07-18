@@ -111,6 +111,17 @@ Fired when a player dies inside a match arena during a duel round.</p>
   <li><code>isFinalRound()</code>: Returns true if this death concludes the entire match (meaning no further rounds will execute).</li>
 </ul>
 
+<h3>PlayerVirtualDeathEvent</h3>
+<p>Class path: <code>com.shyamstudio.shyamduels.api.event.PlayerVirtualDeathEvent</code><br/>
+Fired when a player experiences virtual death (e.g. during a duel match where damage is cancelled to bypass the standard death/respawn screen). Ideal for custom kill effects, cosmetics, or custom stats trackers.</p>
+<ul>
+  <li><code>getPlayer()</code>: Returns the victim player entity.</li>
+  <li><code>getKiller()</code>: Returns the killer player entity, if one exists (returns null if death was caused by environment or fall damage).</li>
+  <li><code>getLocation()</code>: Returns the Location where the virtual death occurred.</li>
+  <li><code>getDamageCause()</code>: Returns the Bukkit <code>DamageCause</code> that triggered the death (returns null if unknown).</li>
+  <li><code>getDuel()</code>: Returns the active <a href="models.html">Duel</a> model in which the player died (returns null if not in a duel).</li>
+</ul>
+
 <h3>RoundStartEvent</h3>
 <p>Class path: <code>com.shyamstudio.shyamduels.duel.event.RoundStartEvent</code><br/>
 Fired at the beginning of a round in multi-round duels (e.g. Best of 3 matches), before the countdown starts.</p>
