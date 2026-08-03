@@ -69,7 +69,7 @@
 Represents an active matchmaking or challenged combat instance between players or teams:</p>
 <ul>
   <li><code>getDuelId()</code>: Returns the unique <code>UUID</code> of the duel match.</li>
-  <li><code>getMode()</code>: Returns the active <code>QueueMode</code> (e.g. <code>Ranked</code>, <code>Unranked</code>).</li>
+  <li><code>getMode()</code>: Returns the active <code>QueueMode</code> team-size mode (e.g. <code>ONE_V_ONE</code>, <code>TWO_V_TWO</code>).</li>
   <li><code>getFightType()</code>: Returns <code>DuelFightType</code> (e.g., <code>ONE_V_ONE</code>, <code>PARTY_SPLIT</code>, <code>PARTY_FFA</code>).</li>
   <li><code>getArena()</code>: Returns the <a href="#arena">Arena</a> assigned to the match.</li>
   <li><code>getKit()</code>: Returns the <a href="#kit">Kit</a> layout applied to match players.</li>
@@ -83,11 +83,16 @@ Represents an active matchmaking or challenged combat instance between players o
 Represents a configured match environment:</p>
 <ul>
   <li><code>getName()</code>: Returns the case-insensitive name ID of the arena.</li>
-  <li><code>getDisplayName()</code>: Returns the colored string name display used in FFA selector GUIs.</li>
+  <li><code>getType()</code>: Returns the <code>ArenaType</code>: <code>DUEL</code> or <code>FFA</code>.</li>
+  <li><code>getStatus()</code>: Returns the current <code>ArenaStatus</code> (e.g. <code>AVAILABLE</code>, <code>IN_USE</code>, <code>REGENERATING</code>).</li>
+  <li><code>getOriginalName()</code> / <code>getTemplateName()</code>: The original arena name / schematic template name (used for copied arenas).</li>
+  <li><code>isCopy()</code>: Returns true when the arena is a schematic copy of another arena.</li>
   <li><code>isBuildEnabled()</code>: Returns true if the arena allows block placing/breaking.</li>
-  <li><code>isFFA()</code>: Returns true if the arena is set to Free For All mode.</li>
   <li><code>getSpawn1()</code> / <code>getSpawn2()</code>: Spawn locations for players.</li>
+  <li><code>getCorner1()</code> / <code>getCorner2()</code>: The two boundary corner locations of the arena.</li>
   <li><code>getCenter()</code>: Returns the center coordinate location of the arena boundaries.</li>
+  <li><code>getFfaSpawns()</code> / <code>addFfaSpawn(Location)</code>: FFA spawn locations and registration.</li>
+  <li><code>contains(Location)</code> / <code>clampInside(Location)</code>: Containment check and clamped-position helper.</li>
 </ul>
 
 <h2 id="kit">Kit</h2>
@@ -96,10 +101,14 @@ Represents a saved loadout template:</p>
 <ul>
   <li><code>getName()</code>: Returns the case-sensitive name ID of the kit.</li>
   <li><code>getDisplayName()</code>: Returns the GUI display name of the kit.</li>
-  <li><code>getInventoryItems()</code>: Returns the array list of <code>ItemStack</code> contents mapping inventory slots.</li>
-  <li><code>getArmorContents()</code>: Returns the <code>ItemStack</code> array mapping armor layouts.</li>
-  <li><code>getWhitelistedBlocks()</code>: Returns the list of materials whitelisted for block placing/breaking.</li>
-  <li><code>getStartingSaturation()</code>: Saturation amount applied to players on start (0 to 20 scale).</li>
+  <li><code>getInventory()</code>: Returns the <code>ItemStack[]</code> contents mapping inventory slots.</li>
+  <li><code>getArmor()</code>: Returns the <code>ItemStack[]</code> array mapping armor layouts.</li>
+  <li><code>getOffhand()</code>: Returns the off-hand <code>ItemStack</code> of the kit.</li>
+  <li><code>getEffects()</code>: Returns the list of <code>PotionEffect</code>s applied when the kit is loaded.</li>
+  <li><code>getBuildWhitelist()</code>: Returns the list of materials whitelisted for block placing/breaking.</li>
+  <li><code>isBuildEnabled()</code> / <code>isMatchStartPotionsEnabled()</code> / <code>isCraftingEnabled()</code>: Kit-level toggles.</li>
+  <li><code>getSaturation()</code>: Saturation amount applied to players on start (0 to 20 scale).</li>
+  <li><code>getQueueRounds()</code>: The number of rounds used when the kit is played in the queue.</li>
 </ul>
 
 <h2 id="playerkit">PlayerKit</h2>
@@ -143,13 +152,17 @@ Represents personal preference configuration options:</p>
 </ul>
 
 <h2 id="rank">Rank</h2>
-<p>Class: <code>com.shyamstudio.shyamduels.stats.Rank</code><br/>
-Represents an ELO-based competitive rank tier:</p>
+<p>Record: <code>com.shyamstudio.shyamduels.stats.Rank</code><br/>
+Represents an ELO-based competitive rank tier (defined under <code>elo.ranks</code> in the config):</p>
 <ul>
-  <li><code>getDisplayName()</code>: Returns the colored display name of the rank.</li>
-  <li><code>getMinElo()</code> / <code>getMaxElo()</code>: The inclusive ELO boundaries of the rank tier.</li>
-  <li><code>getOrder()</code>: Returns the sort order index (lower is a lower tier).</li>
+  <li><code>id()</code>: The rank identifier key.</li>
+  <li><code>displayName()</code>: Returns the display name of the rank.</li>
+  <li><code>coloredName()</code>: Returns the colored display name of the rank.</li>
+  <li><code>minElo()</code> / <code>maxElo()</code>: The inclusive ELO boundaries of the rank tier.</li>
+  <li><code>lossMultiplier()</code>: ELO loss multiplier applied to players in this tier.</li>
+  <li><code>order()</code>: Returns the sort order index (lower is a lower tier).</li>
 </ul>
+<p>Static helpers: <code>getRankForElo(int)</code>, <code>getNextRank(Rank)</code>, <code>getEloProgress(int)</code>, <code>getEloNeeded(int)</code>, <code>getProgressBar(int)</code>, <code>getEloPercent(int)</code>, and <code>getRanks()</code>.</p>
 
 <h2 id="queuemode">QueueMode</h2>
 <p>Class: <code>com.shyamstudio.shyamduels.queue.QueueMode</code><br/>

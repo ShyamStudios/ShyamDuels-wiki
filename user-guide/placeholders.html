@@ -77,10 +77,10 @@
   <tbody>
     <tr><td><code>%shyamduels_kills%</code></td><td>Integer</td><td>Total kills recorded.</td></tr>
     <tr><td><code>%shyamduels_deaths%</code></td><td>Integer</td><td>Total deaths recorded.</td></tr>
-    <tr><td><code>%shyamduels_kd%</code> / <code>%shyamduels_kdr%</code></td><td>Decimal</td><td>Kills divided by deaths, formatted to two decimal slots.</td></tr>
+    <tr><td><code>%shyamduels_kd%</code> / <code>%shyamduels_kdr%</code></td><td>Decimal</td><td>Kills divided by deaths (e.g. <code>1.5</code>; the per-kit variants below format to two decimals).</td></tr>
     <tr><td><code>%shyamduels_wins%</code></td><td>Integer</td><td>Total ranked match victories.</td></tr>
     <tr><td><code>%shyamduels_losses%</code></td><td>Integer</td><td>Total ranked match defeats.</td></tr>
-    <tr><td><code>%shyamduels_wl%</code></td><td>Decimal</td><td>Wins divided by losses, formatted to two decimal slots.</td></tr>
+    <tr><td><code>%shyamduels_wl%</code></td><td>Decimal</td><td>Wins divided by losses (e.g. <code>1.5</code>).</td></tr>
     <tr><td><code>%shyamduels_killstreak%</code></td><td>Integer</td><td>Current consecutive kills (resets on death).</td></tr>
     <tr><td><code>%shyamduels_best_killstreak%</code></td><td>Integer</td><td>All-time highest consecutive kill record.</td></tr>
     <tr><td><code>%shyamduels_winstreak%</code></td><td>Integer</td><td>Current consecutive matchmaking victories.</td></tr>
@@ -88,10 +88,41 @@
     <tr><td><code>%shyamduels_elo%</code></td><td>Integer</td><td>Current matchmaking rating.</td></tr>
     <tr><td><code>%shyamduels_playtime%</code></td><td>String</td><td>Formatted total playtime (e.g. <code>3h 24m</code>).</td></tr>
     <tr><td><code>%shyamduels_playtime_hours%</code></td><td>Integer</td><td>Total playtime rounded down to whole hours.</td></tr>
-    <tr><td><code>%shyamduels_rank%</code> / <code>%shyamduels_rank_colored%</code> / <code>%shyamduels_rank_color%</code></td><td>MiniMessage Format</td><td>Displays rank name formatting (e.g., <code>&lt;gold&gt;[Gold V]&lt;/gold&gt;</code>). Returns <code>&lt;gray&gt;[Unranked]&lt;/gray&gt;</code> if no rank applies.</td></tr>
+    <tr><td><code>%shyamduels_rank%</code></td><td>String</td><td>Displays the rank display name, or <code>Unranked</code>.</td></tr>
+    <tr><td><code>%shyamduels_rank_colored%</code> / <code>%shyamduels_rank_color%</code></td><td>MiniMessage Format</td><td>Displays the colored rank name (e.g., <code>&lt;gold&gt;[Gold V]&lt;/gold&gt;</code>). Returns <code>&lt;gray&gt;[Unranked]&lt;/gray&gt;</code> if no rank applies.</td></tr>
   </tbody>
 </table>
 </div>
+
+<h2>Additional Rank &amp; Opponent Placeholders</h2>
+<p>Extra ELO/rank and in-duel opponent placeholders handled by the expansion:</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Placeholder Variable</th>
+      <th>Output Format</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code>%shyamduels_ping%</code> / <code>%shyamduels_self_ping%</code></td><td>Integer</td><td>Viewer's ping (ms).</td></tr>
+    <tr><td><code>%shyamduels_opponent_ping%</code></td><td>Integer</td><td>Opponent's ping (ms) during a duel.</td></tr>
+    <tr><td><code>%shyamduels_rank_id%</code></td><td>String</td><td>Rank identifier key.</td></tr>
+    <tr><td><code>%shyamduels_rank_min_elo%</code> / <code>%shyamduels_rank_max_elo%</code></td><td>Integer</td><td>ELO boundaries of the player's rank.</td></tr>
+    <tr><td><code>%shyamduels_next_rank%</code></td><td>String</td><td>Next rank display name, or empty at the top tier.</td></tr>
+    <tr><td><code>%shyamduels_next_rank_color%</code> / <code>%shyamduels_next_rank_colored%</code></td><td>MiniMessage</td><td>Next rank colored name.</td></tr>
+    <tr><td><code>%shyamduels_next_rank_elo%</code></td><td>Integer</td><td>ELO required to reach the next rank.</td></tr>
+    <tr><td><code>%shyamduels_elo_needed%</code> / <code>%shyamduels_elo_left%</code> / <code>%shyamduels_elo_to_next%</code></td><td>Integer</td><td>ELO remaining until the next rank.</td></tr>
+    <tr><td><code>%shyamduels_elo_percent%</code> / <code>%shyamduels_elo_percentage%</code> / <code>%shyamduels_elo_progress%</code></td><td>String</td><td>Progress to the next rank as a percentage (e.g. <code>75.0%</code>).</td></tr>
+    <tr><td><code>%shyamduels_elo_bar%</code> / <code>%shyamduels_elo_progressbar%</code></td><td>String</td><td>Colored progress bar to the next rank.</td></tr>
+    <tr><td><code>%shyamduels_opponent_elo%</code></td><td>Integer</td><td>Opponent's ELO during a duel.</td></tr>
+    <tr><td><code>%shyamduels_opponent_rank%</code></td><td>String</td><td>Opponent's rank display name during a duel.</td></tr>
+    <tr><td><code>%shyamduels_opponent_rank_color%</code> / <code>%shyamduels_opponent_rank_colored%</code></td><td>MiniMessage</td><td>Opponent's colored rank name during a duel.</td></tr>
+  </tbody>
+</table>
+</div>
+<p>The rank/ELO metrics above (<code>rank</code>, <code>rank_color</code>, <code>rank_colored</code>, <code>rank_id</code>, <code>rank_min_elo</code>, <code>rank_max_elo</code>, <code>next_rank*</code>, <code>elo_needed</code>/<code>elo_left</code>/<code>elo_to_next</code>, <code>elo_percent</code>/<code>elo_percentage</code>/<code>elo_progress</code>, <code>elo_bar</code>/<code>elo_progressbar</code>) are also available as per-kit metrics via <code>%shyamduels_&lt;kit&gt;_&lt;metric&gt;%</code>.</p>
 
 <h2>Per-Kit Statistics Placeholders</h2>
 <p>The plugin exposes statistics filtered for specific kit categories. Use the format <code>%shyamduels_&lt;kit&gt;_&lt;metric&gt;%</code> where <code>&lt;kit&gt;</code> is the lowercase internal kit ID (e.g., <code>nodebuff</code>, <code>boxing</code>, or a custom kit identifier) and <code>&lt;metric&gt;</code> is one of the following:</p>
@@ -155,9 +186,9 @@
   </thead>
   <tbody>
     <tr><td><code>%shyamduels_in_queue%</code></td><td>boolean</td><td>Returns true if the player is in queue.</td></tr>
-    <tr><td><code>%shyamduels_queue_kit%</code></td><td>String</td><td>Displays the display name of the queued kit.</td></tr>
-    <tr><td><code>%shyamduels_queue_mode%</code></td><td>String</td><td>Displays the active queue matchmaking mode (e.g. Ranked).</td></tr>
-    <tr><td><code>%shyamduels_wait_time%</code> / <code>%shyamduels_queue_wait_time%</code></td><td>String</td><td>Formatted duration elapsed in queue (e.g., <code>01:24</code>).</td></tr>
+    <tr><td><code>%shyamduels_queue_kit%</code></td><td>String</td><td>Displays the display name of the queued kit (appends <code> (+N)</code> when multi-queued).</td></tr>
+    <tr><td><code>%shyamduels_queue_mode%</code></td><td>String</td><td>Displays the active queue team-size mode (e.g. <code>1v1</code>, <code>2v2</code>).</td></tr>
+    <tr><td><code>%shyamduels_wait_time%</code> / <code>%shyamduels_queue_wait_time%</code></td><td>String</td><td>Formatted duration elapsed in queue (e.g., <code>1:24</code>).</td></tr>
     <tr><td><code>%shyamduels_queue_count%</code></td><td>Integer</td><td>Number of kits the player is currently queued for (multi-queue).</td></tr>
     <tr><td><code>%shyamduels_queue_players%</code></td><td>Integer</td><td>Total players currently queued inside your active kit queue.</td></tr>
     <tr><td><code>%shyamduels_queue_playing%</code></td><td>Integer</td><td>Total players currently in active matches inside your active kit queue.</td></tr>
@@ -170,7 +201,7 @@
 </div>
 
 <h2>Player Preference Toggles</h2>
-<p>Returns status settings (e.g., <code>ON</code> or <code>OFF</code>):</p>
+<p>Returns MiniMessage-colored status settings (e.g., <code>&lt;green&gt;On&lt;/green&gt;</code> or <code>&lt;red&gt;Off&lt;/red&gt;</code>):</p>
 <div class="table-wrap">
 <table>
   <thead>
@@ -181,11 +212,11 @@
     </tr>
   </thead>
   <tbody>
-    <tr><td><code>%shyamduels_setting_scoreboard%</code></td><td>ON / OFF</td><td>Sidebar scoreboard state.</td></tr>
-    <tr><td><code>%shyamduels_setting_tab%</code></td><td>ON / OFF</td><td>Custom list tabs formatting state.</td></tr>
-    <tr><td><code>%shyamduels_setting_nametags%</code></td><td>ON / OFF</td><td>Nametag state.</td></tr>
-    <tr><td><code>%shyamduels_setting_actionbar%</code></td><td>ON / OFF</td><td>Queue time action bar state.</td></tr>
-    <tr><td><code>%shyamduels_setting_friends%</code></td><td>ON / OFF</td><td>Friend request receipt state.</td></tr>
+    <tr><td><code>%shyamduels_setting_scoreboard%</code></td><td>On / Off</td><td>Sidebar scoreboard state.</td></tr>
+    <tr><td><code>%shyamduels_setting_tab%</code></td><td>On / Off</td><td>Custom list tabs formatting state.</td></tr>
+    <tr><td><code>%shyamduels_setting_nametags%</code></td><td>On / Off</td><td>Nametag state.</td></tr>
+    <tr><td><code>%shyamduels_setting_actionbar%</code></td><td>On / Off</td><td>Queue time action bar state.</td></tr>
+    <tr><td><code>%shyamduels_setting_friends%</code></td><td>On / Off</td><td>Friend request receipt state.</td></tr>
     <tr><td><code>%shyamduels_tab_view%</code> / <code>%shyamduels_setting_tab_view%</code></td><td>Lobby / Friends</td><td>Active lobby tab list page setting.</td></tr>
   </tbody>
 </table>
@@ -204,9 +235,9 @@
   <tbody>
     <tr><td><code>%shyamduels_in_party%</code></td><td>boolean</td><td>Returns true if the player is inside a party.</td></tr>
     <tr><td><code>%shyamduels_party_members%</code></td><td>Integer</td><td>Current count of online party members.</td></tr>
-    <tr><td><code>%shyamduels_party_mode%</code></td><td>String</td><td>Returns the active party mode (e.g., FFA).</td></tr>
-    <tr><td><code>%shyamduels_party_play_mode%</code></td><td>String</td><td>Returns the party play mode (Queue, Split, FFA, or Vs Party).</td></tr>
-    <tr><td><code>%shyamduels_party_chat%</code></td><td>ON / OFF</td><td>Returns whether party chat is active for the player.</td></tr>
+    <tr><td><code>%shyamduels_party_mode%</code></td><td>String</td><td>Returns the party visibility mode: <code>Public</code>, <code>Friends Only</code>, or <code>Private</code>.</td></tr>
+    <tr><td><code>%shyamduels_party_play_mode%</code></td><td>String</td><td>Returns the party play mode label: <code>Queue</code>, <code>Party Split</code>, <code>Party FFA</code>, or <code>Party vs Party</code>.</td></tr>
+    <tr><td><code>%shyamduels_party_chat%</code></td><td>On / Off</td><td>Returns whether party chat is active for the player.</td></tr>
   </tbody>
 </table>
 </div>
@@ -271,6 +302,9 @@
     <tr><td><code>&lt;self_ping&gt;</code></td><td>Integer</td><td>Viewer's ping (ms).</td></tr>
     <tr><td><code>&lt;opponent&gt;</code></td><td>String</td><td>Opponent name, or <code>None</code>.</td></tr>
     <tr><td><code>&lt;opponent_ping&gt;</code></td><td>Integer</td><td>Opponent ping during a duel (0 if none).</td></tr>
+    <tr><td><code>&lt;opponent_elo&gt;</code></td><td>Integer</td><td>Opponent ELO during a duel (0 if none).</td></tr>
+    <tr><td><code>&lt;opponent_rank&gt;</code></td><td>String</td><td>Opponent rank display name during a duel, or <code>Unranked</code>.</td></tr>
+    <tr><td><code>&lt;opponent_rank_color&gt;</code> / <code>&lt;opponent_rank_colored&gt;</code></td><td>MiniMessage</td><td>Opponent's colored rank name during a duel.</td></tr>
     <tr><td><code>&lt;round&gt;</code></td><td>Integer</td><td>Current round number in a multi-round duel.</td></tr>
     <tr><td><code>&lt;max_rounds&gt;</code> / <code>&lt;total_rounds&gt;</code></td><td>Integer</td><td>Maximum rounds configured for the duel.</td></tr>
     <tr><td><code>&lt;own_wins&gt;</code></td><td>Integer</td><td>Viewer's round wins in the current duel.</td></tr>
@@ -288,7 +322,7 @@
   <tbody>
     <tr><td><code>&lt;queue_kit&gt;</code></td><td>String</td><td>Display name of the primary queued kit.</td></tr>
     <tr><td><code>&lt;queue_primary_kit&gt;</code></td><td>String</td><td>Same as <code>&lt;queue_kit&gt;</code>.</td></tr>
-    <tr><td><code>&lt;queue_mode&gt;</code></td><td>String</td><td>Active queue mode (e.g. Ranked).</td></tr>
+    <tr><td><code>&lt;queue_mode&gt;</code></td><td>String</td><td>Active queue team-size mode (e.g. <code>1v1</code>, <code>2v2</code>).</td></tr>
     <tr><td><code>&lt;queue_count&gt;</code></td><td>Integer</td><td>Number of kits the player is queued for (multi-queue).</td></tr>
     <tr><td><code>&lt;queue_extra&gt;</code></td><td>Integer</td><td>Extra queued kits beyond the primary (<code>queue_count - 1</code>).</td></tr>
     <tr><td><code>&lt;queue_kits&gt;</code></td><td>String</td><td>Comma-separated list of queued kit names.</td></tr>
@@ -307,9 +341,9 @@
   <tbody>
     <tr><td><code>&lt;party_owner&gt;</code></td><td>String</td><td>Party leader name.</td></tr>
     <tr><td><code>&lt;party_members&gt;</code></td><td>Integer</td><td>Online party member count.</td></tr>
-    <tr><td><code>&lt;party_mode&gt;</code></td><td>String</td><td>Active party mode (e.g. FFA).</td></tr>
-    <tr><td><code>&lt;party_play_mode&gt;</code></td><td>String</td><td>Party play mode (Queue, Split, FFA, Vs Party).</td></tr>
-    <tr><td><code>&lt;party_chat&gt;</code></td><td>ON / OFF</td><td>Whether party chat is enabled for the viewer.</td></tr>
+    <tr><td><code>&lt;party_mode&gt;</code></td><td>String</td><td>Party visibility mode: <code>Public</code>, <code>Friends Only</code>, or <code>Private</code>.</td></tr>
+    <tr><td><code>&lt;party_play_mode&gt;</code></td><td>String</td><td>Party play mode label: <code>Queue</code>, <code>Party Split</code>, <code>Party FFA</code>, or <code>Party vs Party</code>.</td></tr>
+    <tr><td><code>&lt;party_chat&gt;</code></td><td>On / Off</td><td>Whether party chat is enabled for the viewer.</td></tr>
     <tr><td><code>&lt;enemy_team_owner&gt;</code></td><td>String</td><td>Enemy team leader in party vs party.</td></tr>
     <tr><td><code>&lt;own_team_left&gt;</code></td><td>Integer</td><td>Alive players on the viewer's team.</td></tr>
     <tr><td><code>&lt;own_team_members&gt;</code></td><td>Integer</td><td>Total players on the viewer's team.</td></tr>
@@ -338,7 +372,15 @@
     <tr><td><code>&lt;playtime_hours&gt;</code></td><td>Integer</td><td>Total playtime in whole hours.</td></tr>
     <tr><td><code>&lt;elo&gt;</code></td><td>Integer</td><td>Current ELO rating.</td></tr>
     <tr><td><code>&lt;rank&gt;</code></td><td>String</td><td>Rank display name, or <code>Unranked</code>.</td></tr>
-    <tr><td><code>&lt;rank_colored&gt;</code></td><td>MiniMessage</td><td>Colored rank name with formatting codes.</td></tr>
+    <tr><td><code>&lt;rank_color&gt;</code> / <code>&lt;rank_colored&gt;</code></td><td>MiniMessage</td><td>Colored rank name (e.g. <code>&lt;gold&gt;[Gold V]&lt;/gold&gt;</code>), or <code>&lt;gray&gt;[Unranked]&lt;/gray&gt;</code>.</td></tr>
+    <tr><td><code>&lt;rank_id&gt;</code></td><td>String</td><td>Rank identifier key, or <code>unranked</code>.</td></tr>
+    <tr><td><code>&lt;rank_min_elo&gt;</code> / <code>&lt;rank_max_elo&gt;</code></td><td>Integer</td><td>ELO boundaries of the player's rank.</td></tr>
+    <tr><td><code>&lt;next_rank&gt;</code></td><td>String</td><td>Next rank display name, or <code>MAX</code> at the top tier.</td></tr>
+    <tr><td><code>&lt;next_rank_color&gt;</code> / <code>&lt;next_rank_colored&gt;</code></td><td>MiniMessage</td><td>Next rank colored name, or <code>&lt;gold&gt;MAX&lt;/gold&gt;</code>.</td></tr>
+    <tr><td><code>&lt;next_rank_elo&gt;</code></td><td>Integer</td><td>ELO required to reach the next rank, or <code>MAX</code>.</td></tr>
+    <tr><td><code>&lt;elo_needed&gt;</code> / <code>&lt;elo_left&gt;</code> / <code>&lt;elo_to_next&gt;</code></td><td>Integer</td><td>ELO remaining until the next rank.</td></tr>
+    <tr><td><code>&lt;elo_percent&gt;</code> / <code>&lt;elo_percentage&gt;</code> / <code>&lt;elo_progress&gt;</code></td><td>String</td><td>Progress to the next rank as a percentage (e.g. <code>75.0%</code>).</td></tr>
+    <tr><td><code>&lt;elo_bar&gt;</code> / <code>&lt;elo_progressbar&gt;</code></td><td>String</td><td>Colored progress bar to the next rank.</td></tr>
   </tbody>
 </table>
 </div>
@@ -353,11 +395,11 @@
     <tr><td><code>&lt;free_arenas&gt;</code></td><td>Integer</td><td>Available duel arenas.</td></tr>
     <tr><td><code>&lt;arenas&gt;</code></td><td>Integer</td><td>Total registered arenas.</td></tr>
     <tr><td><code>&lt;ping&gt;</code></td><td>Integer</td><td>Viewer ping (ms).</td></tr>
-    <tr><td><code>&lt;setting_tab&gt;</code></td><td>ON / OFF</td><td>Custom tab list toggle.</td></tr>
-    <tr><td><code>&lt;setting_nametags&gt;</code></td><td>ON / OFF</td><td>Nametag toggle.</td></tr>
-    <tr><td><code>&lt;setting_scoreboard&gt;</code></td><td>ON / OFF</td><td>Scoreboard toggle.</td></tr>
-    <tr><td><code>&lt;setting_actionbar&gt;</code></td><td>ON / OFF</td><td>Queue action bar toggle.</td></tr>
-    <tr><td><code>&lt;setting_friends&gt;</code></td><td>ON / OFF</td><td>Friend request toggle.</td></tr>
+    <tr><td><code>&lt;setting_tab&gt;</code></td><td>On / Off</td><td>Custom tab list toggle.</td></tr>
+    <tr><td><code>&lt;setting_nametags&gt;</code></td><td>On / Off</td><td>Nametag toggle.</td></tr>
+    <tr><td><code>&lt;setting_scoreboard&gt;</code></td><td>On / Off</td><td>Scoreboard toggle.</td></tr>
+    <tr><td><code>&lt;setting_actionbar&gt;</code></td><td>On / Off</td><td>Queue action bar toggle.</td></tr>
+    <tr><td><code>&lt;setting_friends&gt;</code></td><td>On / Off</td><td>Friend request toggle.</td></tr>
     <tr><td><code>&lt;setting_tab_view&gt;</code></td><td>Lobby / Friends</td><td>Active lobby tab page preference.</td></tr>
   </tbody>
 </table>
@@ -386,7 +428,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr><td><code>%shyamduels_display_mode%</code></td><td>String</td><td>Current lobby tab display mode (Lobby or Friends). Shown in <code>tab/display.yml</code> footers. Aliases: <code>%shyamduels_tab_view%</code>, <code>%shyamduels_setting_tab_view%</code>.</td></tr>
+    <tr><td><code>%shyamduels_display_mode%</code></td><td>String</td><td>Lobby tab display mode (Lobby or Friends). <strong>Not a PlaceholderAPI placeholder</strong> — resolved as a literal token only inside <code>tab/display.yml</code> footer rendering. Use <code>%shyamduels_tab_view%</code> / <code>%shyamduels_setting_tab_view%</code> for a real PAPI placeholder.</td></tr>
     <tr><td><code>%animation:&lt;name&gt;%</code></td><td>String</td><td>Scrolling animation frame from <code>tab/animations.yml</code>. Resolved before PlaceholderAPI.</td></tr>
     <tr><td><code>[display=true]</code> / <code>[display=false]</code></td><td>Conditional</td><td>Hide or show a tab/scoreboard line based on a boolean condition (often another <code>&lt;tag&gt;</code>).</td></tr>
   </tbody>

@@ -46,3 +46,9 @@ Documentation was last synced against the plugin source to reflect:
 - `/ffa list` admin permission, legacy `/practice` aliases
 - Expanded API services reference (DuelService, PartyService, QueueService, etc.)
 - Missing config sections: kill-regen, combat, cosmetics, join commands, party external-commands
+- Data-model corrections: `Arena.getType()`/`ArenaStatus`, `Kit.getInventory()`/`getArmor()`/`getBuildWhitelist()`/`getSaturation()`, `Rank` record accessors (`minElo()`, `order()`, ...)
+- `/stats` opens the stats GUI (default and `view`), plus the admin `/stats delete <player>` subcommand
+- `leavefight.delay` config key (removed the nonexistent `cooldown` key)
+- Services reference: added `StatsService.shouldUpdateElo(Duel)`, full `ArenaService` and `KitService` method lists
+- Events: `DuelStartEvent` is 1v1-only (team duels fire `PartyVsPartyStartEvent`); `RoundStartEvent` fires at fight start (after countdown)
+- Placeholders: `%shyamduels_rank%` is uncolored; global `kd`/`wl` are unformatted decimals; party mode/play-mode labels; settings output MiniMessage `On`/`Off`; `%shyamduels_display_mode%` is a tab-footer token, not a PAPI placeholder; added the rank/ELO/opponent placeholder family

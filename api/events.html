@@ -89,7 +89,7 @@ Fired when a duel countdown begins, before PvP damage is enabled.</p>
 
 <h3>DuelStartEvent</h3>
 <p>Class path: <code>com.shyamstudio.shyamduels.duel.event.DuelStartEvent</code><br/>
-Fired when a 1v1 or team duel starts, immediately after the countdown finishes and PvP damage is enabled.</p>
+Fired when a 1v1 duel starts, immediately after the countdown finishes and PvP damage is enabled. (Team duels fire <code>PartyVsPartyStartEvent</code> instead.)</p>
 <ul>
   <li><code>getDuel()</code>: Returns the active <a href="models.html">Duel</a> model.</li>
 </ul>
@@ -124,7 +124,7 @@ Fired when a player experiences virtual death (e.g. during a duel match where da
 
 <h3>RoundStartEvent</h3>
 <p>Class path: <code>com.shyamstudio.shyamduels.duel.event.RoundStartEvent</code><br/>
-Fired at the beginning of a round in multi-round duels (e.g. Best of 3 matches), before the countdown starts.</p>
+Fired at the moment a round begins in multi-round duels (e.g. Best of 3 matches), after the round's countdown finishes and the fight starts (rounds 2+).</p>
 <ul>
   <li><code>getDuel()</code>: Returns the active <a href="models.html">Duel</a> model.</li>
 </ul>

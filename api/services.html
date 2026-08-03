@@ -213,6 +213,11 @@ Fetches and updates player ELO ratings, kills, deaths, winstreaks, and ranks:</p
       <td>Whether the ELO system is enabled.</td>
     </tr>
     <tr>
+      <td><code>shouldUpdateElo(Duel duel)</code></td>
+      <td>boolean</td>
+      <td>Whether ELO changes are applied for the given duel (module/match-type gating).</td>
+    </tr>
+    <tr>
       <td><code>saveStats(PlayerStats stats)</code></td>
       <td>CompletableFuture&lt;Void&gt;</td>
       <td>Saves modifications back to the SQLite or MySQL database pools.</td>
@@ -253,6 +258,61 @@ Coordinates FAWE reset states and lists active arena environments:</p>
       <td><code>resetArena(Arena arena)</code></td>
       <td>void</td>
       <td>Force-queues an immediate schematic reset paste on the arena.</td>
+    </tr>
+    <tr>
+      <td><code>claimArena(String kitName)</code> / <code>claimArena(Kit)</code></td>
+      <td>Arena</td>
+      <td>Claims an available arena for a kit, or null.</td>
+    </tr>
+    <tr>
+      <td><code>releaseArena(Arena)</code></td>
+      <td>void</td>
+      <td>Marks an arena free again after a match.</td>
+    </tr>
+    <tr>
+      <td><code>hasAvailableArena(String kitName)</code> / <code>hasAvailableArena(Kit)</code></td>
+      <td>boolean</td>
+      <td>Whether an available arena exists for a kit.</td>
+    </tr>
+    <tr>
+      <td><code>hasArenaForKit(String kitName)</code> / <code>hasArenaForKit(Kit)</code></td>
+      <td>boolean</td>
+      <td>Whether any arena is configured for a kit.</td>
+    </tr>
+    <tr>
+      <td><code>getAvailableArena(String kitName)</code></td>
+      <td>Arena</td>
+      <td>Gets an available arena for a kit without claiming, or null.</td>
+    </tr>
+    <tr>
+      <td><code>getAvailableDuelArenaCount()</code></td>
+      <td>int</td>
+      <td>Number of arenas currently free for duels.</td>
+    </tr>
+    <tr>
+      <td><code>regenerateArena(Arena)</code> / <code>regenerateArena(Arena, Runnable)</code></td>
+      <td>void</td>
+      <td>Queues a schematic repaste; optional completion callback.</td>
+    </tr>
+    <tr>
+      <td><code>setSpawn(String arenaName, int id, Location)</code></td>
+      <td>void</td>
+      <td>Sets spawn 1/2 for an arena.</td>
+    </tr>
+    <tr>
+      <td><code>saveArena(Arena)</code></td>
+      <td>void</td>
+      <td>Persists arena data.</td>
+    </tr>
+    <tr>
+      <td><code>getBaseWorldName()</code></td>
+      <td>String</td>
+      <td>The configured base world name.</td>
+    </tr>
+    <tr>
+      <td><code>isArenaWorld(String)</code></td>
+      <td>boolean</td>
+      <td>Whether a world name belongs to the arena system.</td>
     </tr>
   </tbody>
 </table>
@@ -325,6 +385,46 @@ Manages kit configuration templates, per-player edited kits, and their share met
       <td><code>getCreatedAt(PlayerKit)</code></td>
       <td>long</td>
       <td>Epoch millis when the edited kit was first created.</td>
+    </tr>
+    <tr>
+      <td><code>getDisplayName(Kit)</code> / <code>getDisplayName(String)</code></td>
+      <td>String</td>
+      <td>Resolves a kit's display name.</td>
+    </tr>
+    <tr>
+      <td><code>kitPlaceholders(Kit)</code></td>
+      <td>Map&lt;String, String&gt;</td>
+      <td>Placeholder name/value pairs for a kit.</td>
+    </tr>
+    <tr>
+      <td><code>isBuildKit(Kit)</code></td>
+      <td>boolean</td>
+      <td>Whether the kit enables block building.</td>
+    </tr>
+    <tr>
+      <td><code>isInternalKit(String)</code></td>
+      <td>boolean</td>
+      <td>Whether the name belongs to an internal (non-public) kit.</td>
+    </tr>
+    <tr>
+      <td><code>getPlayerKitSync(UUID, String)</code></td>
+      <td>PlayerKit</td>
+      <td>Synchronous player-kit lookup, or null.</td>
+    </tr>
+    <tr>
+      <td><code>syncDisplayNameFromIcon(Kit, ItemStack)</code></td>
+      <td>void</td>
+      <td>Updates a kit's display name from its GUI icon.</td>
+    </tr>
+    <tr>
+      <td><code>getQueueRounds(Kit)</code> / <code>setQueueRounds(Kit, int)</code></td>
+      <td>int / void</td>
+      <td>Queue round count for a kit.</td>
+    </tr>
+    <tr>
+      <td><code>saveKit(Kit)</code></td>
+      <td>void</td>
+      <td>Persists a kit's configuration.</td>
     </tr>
   </tbody>
 </table>
