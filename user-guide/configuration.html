@@ -281,8 +281,18 @@ ffa:
     enabled: false
     max-attempts: 40          # Columns to test before falling back to configured spawn
 
+match-chat:
+  default-enabled: true       # Default state of the Global Chat in Matches player setting
+  isolate-match-chat: false   # Force match chat to duel/FFA participants and spectators
+
 kill-regen:
-  enabled: true               # Refill killer's kit on every kill (FFA + all duel modes)
+  enabled: true               # Global master toggle
+  duels: true                 # 1v1 duels
+  team-battle: true           # Team queue duels
+  party-vs-party: true
+  party-split: true
+  party-ffa: true
+  ffa: true                   # Global FFA arenas
 
 match-start:
   countdown-seconds: [5, 4, 3, 2, 1]
@@ -352,7 +362,12 @@ item-names:
 
 golden-head:
   cooldown: 3
-  item: { texture-url, texture-value, display-name, lore }
+  item:
+    id: "minecraft:honey_bottle"
+    texture-url: "https://textures.minecraft.net/texture/..."
+    texture-value: "&lt;base64 texture value&gt;"
+    display-name: "..."
+    lore: [...]
   effects:
     - "ABSORPTION:120:1:true:false"
     - "REGENERATION:8:2:true:false"
@@ -426,6 +441,10 @@ kit-sharing:
 (<code>menus/profile.yml</code>) instead of running a command. Worlds are controlled by
 <code>enabled-worlds.right-click-duel</code>. See
 <a href="kit-sharing.html">Kit Sharing &amp; Profiles</a> for the full system.</p>
+<div class="alert alert-note">
+  <div class="alert-title">Golden Head Item Identity</div>
+  Keep <code>golden-head.item.id</code> set to <code>minecraft:honey_bottle</code> to retain the intended consumable behaviour. The Golden Head appearance is supplied by <code>item.texture-value</code>; <code>item.texture-url</code> is optional reference data.
+</div>
 <p>Golden head, totem practice, and door animation are toggled via <code>modules.*</code>, not separate <code>enabled</code> keys on those sections.</p>
 
 <h3>Tab List and Scoreboard</h3>
@@ -490,6 +509,13 @@ icon for a resource-pack model or a Nexo custom item. Both sit alongside the nor
 <code>material</code>, so a resource pack can render a custom texture/model for that slot. It is only
 applied when the value is greater than <code>0</code>; leave it out (or set <code>0</code>) to keep
 the default look. The material must still be a valid Minecraft item.</p>
+
+<h4>Item Model</h4>
+<p>On modern Paper versions, <code>item-model: &lt;namespace:key&gt;</code> applies Minecraft's Item Model component to a vanilla material. This is useful when a resource pack supplies a model without relying on CustomModelData:</p>
+<pre><span class="lang-badge">yaml</span><code>some-item:
+  material: HONEY_BOTTLE
+  item-model: "minecraft:player_head"</code></pre>
+<p>The item remains the configured material; the model changes only its appearance.</p>
 
 <h4>Nexo Items</h4>
 <p><a href="https://docs.nexomc.com/" target="_blank" rel="noopener">Nexo</a> is an optional

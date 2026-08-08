@@ -1030,3 +1030,164 @@ pre code {
   color: var(--primary);
 }
 
+/* Modern dark documentation refresh ------------------------------------------
+   Deliberately calm, high-contrast surfaces inspired by focused wiki layouts. */
+:root {
+  --bg-main: #101114;
+  --bg-sidebar: #16171b;
+  --bg-card: #191b20;
+  --bg-nav: rgba(16, 17, 20, 0.88);
+  --border-color: #2a2d35;
+  --border-glow: rgba(250, 204, 21, 0.16);
+  --text-main: #f4f4f5;
+  --text-muted: #a1a1aa;
+  --text-subtle: #626570;
+  --primary: #facc15;
+  --primary-glow: rgba(250, 204, 21, 0.18);
+  --success: #5eead4;
+  --danger: #fb7185;
+  --warning: #fbbf24;
+  --purple: #fde68a;
+  --sidebar-width: 272px;
+  --topnav-height: 68px;
+  --radius-lg: 12px;
+  --radius-md: 8px;
+  --radius-sm: 5px;
+  --shadow-main: 0 16px 34px rgba(0, 0, 0, 0.22);
+  --transition-speed: 0.18s;
+}
+
+body {
+  background-color: var(--bg-main);
+  background-image: radial-gradient(circle at 50% -35rem, rgba(250, 204, 21, 0.10), transparent 46rem);
+  color: var(--text-main);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+::selection { background: rgba(250, 204, 21, 0.30); color: #fff; }
+::-webkit-scrollbar-thumb { background: #3f424d; }
+::-webkit-scrollbar-thumb:hover { background: #5a5f6d; }
+
+.topnav {
+  border-bottom-color: #272a31;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.02);
+  padding: 0 clamp(16px, 3vw, 36px);
+}
+.topnav .logo-img { border-color: #3b3c45; box-shadow: none; }
+.topnav .logo-text {
+  color: #fafafa;
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  letter-spacing: -0.035em;
+}
+.topnav .nav-links { gap: 4px; }
+.topnav .nav-links a { color: #a1a1aa; padding: 7px 12px; }
+.topnav .nav-links a:hover { background: #24262d; color: #fff; text-decoration: none; }
+.topnav .nav-links a.active { background: #312d1f; border-color: #61552c; color: #fde68a; }
+.topnav .discord-btn { background: #2a271b; border-color: #5a4c24; color: #fef3c7; box-shadow: none; }
+.topnav .discord-btn:hover { background: #3b331d; border-color: #86712d; box-shadow: none; }
+
+.sidebar {
+  border-right-color: #272a31;
+  padding: 28px 14px;
+  box-shadow: 1px 0 0 rgba(255, 255, 255, 0.015);
+}
+.sidebar-group { margin-bottom: 26px; }
+.sidebar-group-label { color: #737680; padding: 0 11px 8px; }
+.sidebar a { color: #a1a1aa; padding: 8px 11px; border-left: 0; margin-bottom: 3px; }
+.sidebar a:hover { color: #f4f4f5; background: #22242a; }
+.sidebar a.active { color: #fef3c7; background: #302c20; border-left-color: transparent; box-shadow: inset 3px 0 0 #facc15; }
+
+.content { max-width: 1136px; padding: 56px clamp(24px, 5vw, 72px) 96px; overflow-x: visible; }
+h1, .hero-title {
+  color: #fafafa;
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  letter-spacing: -0.045em;
+}
+h1 { font-size: clamp(2rem, 4vw, 2.8rem); margin-bottom: 14px; }
+h2 { font-size: 1.55rem; border-bottom-color: #30333a; margin-top: 48px; padding-bottom: 11px; }
+h3 { font-size: 1.18rem; margin-top: 32px; }
+h4 { color: #a1a1aa; }
+.page-lead { color: #b0b1b9; font-size: 1.08rem; max-width: 760px; margin-bottom: 36px; }
+.breadcrumb, .breadcrumb a { color: #868993; }
+.breadcrumb a:hover, a:hover { color: #fde68a; }
+p, ul, ol { color: #b4b5bd; }
+strong { color: #f4f4f5; }
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  padding: clamp(30px, 5vw, 54px);
+  border-color: #403a28;
+  background: linear-gradient(135deg, #1e1d19 0%, #181a20 62%, #282416 100%);
+  box-shadow: var(--shadow-main);
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  width: 300px;
+  height: 300px;
+  right: -125px;
+  top: -165px;
+  border: 44px solid rgba(250, 204, 21, 0.08);
+  border-radius: 50%;
+}
+.hero-title { font-size: clamp(2rem, 4vw, 3.05rem); margin-bottom: 14px; }
+.hero p { color: #b5b1c3; }
+.badge { font-size: 10.5px; padding: 4px 9px; letter-spacing: 0.06em; }
+.btn { border-radius: 8px; padding: 10px 17px; }
+.btn-primary { background: #facc15; border-color: #facc15; color: #201b08; box-shadow: none; }
+.btn-primary:hover { background: #fde047; border-color: #fde047; color: #201b08; box-shadow: 0 8px 18px rgba(250, 204, 21, 0.16); }
+.btn-outline { background: #202126; border-color: #3b3d45; color: #e4e4e7; }
+.btn-outline:hover { background: #292b31; border-color: #585b66; color: #fff; }
+
+.feature-grid { gap: 18px; }
+.feature-card { padding: 22px; border-color: #30333a; box-shadow: none; }
+.feature-card:hover { border-color: #665b31; background: #1d1e24; box-shadow: 0 12px 25px rgba(0, 0, 0, 0.16); transform: translateY(-3px); }
+.feature-card .fc-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  margin-bottom: 14px;
+  border: 1px solid #5c512c;
+  border-radius: 7px;
+  color: #fde68a;
+  background: #2c291c;
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+.feature-card .fc-title { color: #f4f4f5; }
+.feature-card .fc-desc { color: #aeb0b9; }
+
+.table-wrap { border-color: #30333a; box-shadow: none; }
+th { background: #1d1e23; color: #e4e4e7; }
+td { border-bottom-color: #292c33; color: #b4b5bd; }
+tr:hover td { background: #1d1e23; color: #f4f4f5; }
+code { background: #292635; color: #d8ccff; }
+pre { background: #0c0d10; border-color: #2d3038; box-shadow: none; }
+pre code { color: #d4d4d8; }
+.copy-btn { background: rgba(255, 255, 255, 0.06); border-color: rgba(255, 255, 255, 0.12); }
+
+.alert { border-radius: 10px; box-shadow: none; padding: 18px 20px; }
+.alert-note { background: #1d2030; border-color: #3d4675; }
+.alert-warning { background: #2a2518; border-color: #5d4a19; }
+.alert-danger { background: #2b1d21; border-color: #63323a; }
+.alert-success { background: #162827; border-color: #24544e; }
+.page-navigation { border-top-color: #30333a; margin-top: 56px; }
+.page-nav-link { background: #191b20; border-color: #30333a; box-shadow: none; }
+.page-nav-link:hover { background: #1f2026; border-color: #665b31; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); }
+.page-nav-label { color: #888a94; }
+
+@media (max-width: 768px) {
+  .content { padding: 32px 20px 72px; }
+  .sidebar { box-shadow: 14px 0 30px rgba(0, 0, 0, 0.32); }
+  .hero { padding: 28px 22px; }
+}

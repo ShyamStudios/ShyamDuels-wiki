@@ -83,7 +83,7 @@
   <li>The player is teleported to the arena.</li>
   <li>A countdown (configured as <code>ffa.countdown-seconds</code> in <code>config.yml</code>) runs, restricting movement and damage.</li>
   <li>The countdown concludes, applying the kit items and enabling combat.</li>
-  <li>On death: the player returns to the lobby and can rejoin the FFA using <code>/ffa</code>.</li>
+  <li>On death: the player returns to the lobby and can rejoin the FFA using <code>/ffa</code>, unless <code>ffa.dead-rejoin</code> is enabled.</li>
   <li>To leave voluntarily: execute <code>/leavefight</code>.</li>
 </ol>
 
@@ -124,7 +124,12 @@
 </ol>
 <p>Customize the reset cycle inside <code>config.yml</code>:</p>
 <pre><span class="lang-badge">yaml</span><code>ffa:
-  reset-interval-seconds: 1800  # 30 Minutes (default)</code></pre>
+  reset-interval-seconds: 1800  # 30 Minutes (default)
+  dead-rejoin: false            # Respawn in the same FFA after death
+  random-spawn:
+    enabled: false
+    max-attempts: 40</code></pre>
+<p>When <code>dead-rejoin</code> is enabled, a player who dies is restored at a valid FFA spawn with their kit instead of being sent to the lobby. Random spawn checks are used first when enabled, then the arena's configured FFA spawns, and finally <code>spawn1</code>/<code>spawn2</code>.</p>
 <p>Admins can trigger a manual reset at any time using:</p>
 <pre><code>/arena reset MyFFA</code></pre>
 

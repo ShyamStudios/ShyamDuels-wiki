@@ -117,7 +117,43 @@
 <p>Customize message templates and rank-based kill commands in <code>config.yml</code> under <code>death-messages:</code>.</p>
 
 <h2>Golden Head</h2>
-<p>Consumable healing item used in UHC-style kits. Admins configure the item in <code>config.yml</code> under <code>golden-head:</code>.</p>
+<p>A configurable consumable for UHC-style kits. Its base Minecraft item stays a honey bottle, while its item model can render as the custom Golden Head texture.</p>
+<div class="alert alert-success">
+  <div class="alert-title">Honey Bottle Base Item</div>
+  The default <code>item.id: "minecraft:honey_bottle"</code> preserves honey-bottle consumption behaviour. The configured texture value changes only the appearance, so the item still reports <code>minecraft:honey_bottle</code> in its component data.
+</div>
+<h3>Recommended Configuration</h3>
+<pre><span class="lang-badge">yaml</span><code>modules:
+  practice-golden-head: true
+
+golden-head:
+  cooldown: 3
+  item:
+    id: "minecraft:honey_bottle"
+    texture-value: "&lt;base64 texture value&gt;"
+    display-name: "&#FF780C&lGOLDEN HEAD &#AAAAAA(Right-Click)"
+    lore:
+      - "&#FFFA45&lLEGENDARY CONSUMABLE"
+  effects:
+    - "ABSORPTION:120:1:true:false"
+    - "REGENERATION:8:2:true:false"
+  advanced:
+    consume-duration: 1.6
+    max-stack-size: 16</code></pre>
+<p><code>texture-value</code> is the Base64 texture property used by the item model. The optional <code>texture-url</code> is retained in the configuration for reference; rendering uses <code>texture-value</code>.</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Setting</th><th>Purpose</th></tr></thead>
+  <tbody>
+    <tr><td><code>item.id</code></td><td>Base Minecraft item. Use <code>minecraft:honey_bottle</code> for the Golden Head behaviour shown above.</td></tr>
+    <tr><td><code>item.texture-value</code></td><td>Base64 texture that supplies the Golden Head appearance.</td></tr>
+    <tr><td><code>effects</code></td><td>Potion effects in <code>TYPE:seconds:amplifier:ambient:particles</code> format.</td></tr>
+    <tr><td><code>advanced.consume-duration</code></td><td>Consumption time in seconds.</td></tr>
+    <tr><td><code>advanced.max-stack-size</code></td><td>Maximum number of Golden Heads per inventory stack.</td></tr>
+  </tbody>
+</table>
+</div>
+<p>After editing, run <code>/shyamduels reload-practice</code> before creating new items. Existing Golden Heads keep the data they were given.</p>
 <div class="table-wrap">
 <table>
   <thead><tr><th>Command</th><th>Permission</th><th>Description</th></tr></thead>
