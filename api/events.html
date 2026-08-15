@@ -39,6 +39,7 @@
     <a href="../user-guide/gate-setup.html">Gate Setup</a>
     <a href="../user-guide/kit-setup.html">Kit Setup</a>
     <a href="../user-guide/kit-sharing.html">Kit Sharing &amp; Profiles</a>
+    <a href="../user-guide/tournaments.html">Tournament System</a>
     <a href="../user-guide/party-system.html">Party System</a>
     <a href="../user-guide/ffa.html">FFA Mode</a>
     <a href="../user-guide/elo-ranks.html">ELO &amp; Ranks</a>
@@ -79,6 +80,26 @@ public class MatchListener implements Listener {
 }</code></pre>
 
 <h2>Available Custom Events</h2>
+
+<h3>Tournament Events</h3>
+<p>Package: <code>com.shyamstudio.shyamduels.tournament.event.*</code></p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Event</th><th>Fired When</th></tr></thead>
+  <tbody>
+    <tr><td><code>TournamentCreatedEvent</code></td><td>A new tournament announcement/registration begins.</td></tr>
+    <tr><td><code>TournamentPlayerJoinEvent</code></td><td>A player registers for the tournament (Cancellable).</td></tr>
+    <tr><td><code>TournamentPlayerLeaveEvent</code></td><td>A player unregisters from the tournament.</td></tr>
+    <tr><td><code>TournamentStartedEvent</code></td><td>The countdown finishes and the bracket is generated.</td></tr>
+    <tr><td><code>TournamentRoundStartEvent</code></td><td>A tournament round begins.</td></tr>
+    <tr><td><code>TournamentMatchStartEvent</code></td><td>A duel match begins within the bracket.</td></tr>
+    <tr><td><code>TournamentMatchEndEvent</code></td><td>A match completes with a winner and loser.</td></tr>
+    <tr><td><code>TournamentPlayerEliminatedEvent</code></td><td>A participant is eliminated from the bracket.</td></tr>
+    <tr><td><code>TournamentEndEvent</code></td><td>The tournament concludes with a champion.</td></tr>
+    <tr><td><code>TournamentCancelledEvent</code></td><td>The tournament is stopped or cancelled.</td></tr>
+  </tbody>
+</table>
+</div>
 
 <h3>DuelCountdownStartEvent</h3>
 <p>Class path: <code>com.shyamstudio.shyamduels.duel.event.DuelCountdownStartEvent</code><br/>

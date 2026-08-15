@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Tournaments: ShyamDuels</title>
+<link rel="stylesheet" href="../assets/style.css"/>
+</head>
+<body>
+<nav class="topnav">
+  <a class="logo-container" href="../index.html">
+    <img src="../shyam.webp" alt="ShyamDuels Logo" class="logo-img"/>
+    <span class="logo-text">ShyamDuels</span>
+  </a>
+  <span class="divider">/</span>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="getting-started.html" class="active">User Guide</a>
+    <a href="../api/overview.html">Developer API</a>
+  </div>
+  <span class="spacer"></span>
+  <a class="discord-btn" href="https://discord.gg/sMdsvZFqnX" target="_blank" rel="noopener">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037 12.9 12.9 0 0 0-.608 1.25 18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+    Discord
+  </a>
+  <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+  </button>
+</nav>
+<div id="overlay"></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">User Guide</span>
+    <a href="getting-started.html">Getting Started</a>
+    <a href="commands.html">Commands Reference</a>
+    <a href="permissions.html">Permissions</a>
+    <a href="arena-setup.html">Arena Setup</a>
+    <a href="gate-setup.html">Gate Setup</a>
+    <a href="kit-setup.html">Kit Setup</a>
+    <a href="kit-sharing.html">Kit Sharing &amp; Profiles</a>
+    <a href="tournaments.html" class="active">Tournament System</a>
+    <a href="party-system.html">Party System</a>
+    <a href="ffa.html">FFA Mode</a>
+    <a href="elo-ranks.html">ELO &amp; Ranks</a>
+    <a href="settings.html">Player Settings</a>
+    <a href="practice-features.html">Practice Features</a>
+    <a href="configuration.html">Configuration Files</a>
+    <a href="migration.html">Migration Guide</a>
+    <a href="placeholders.html">PlaceholderAPI</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">Developer API</span>
+    <a href="../api/overview.html">Overview &amp; Setup</a>
+    <a href="../api/services.html">Services Reference</a>
+    <a href="../api/events.html">Events Reference</a>
+    <a href="../api/models.html">Data Models</a>
+    <a href="../api/examples.html">Code Examples</a>
+  </div>
+</aside>
+<main class="content">
+
+<div class="breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="getting-started.html">User Guide</a><span>›</span>Tournaments</div>
+<h1>Tournament System</h1>
+<p class="page-lead">Comprehensive automated tournament system featuring single-elimination brackets, persistent countdown timers across reboots, wave arena scheduling, live visual bracket GUIs with auto-pagination, Nexo custom items, and spectator integrations.</p>
+
+<div class="callout callout-info">
+  <div class="callout-title">Master Toggle</div>
+  <p>The entire tournament feature can be enabled or disabled in <code>tournament.yml</code> via <code>enabled: true/false</code>.</p>
+</div>
+
+<h2>Feature Highlights</h2>
+<ul>
+  <li><strong>Automatic Periodic Scheduling:</strong> Configure tournaments to run every X hours or days (e.g. <code>interval: "24h"</code>).</li>
+  <li><strong>Persistent Schedule Across Restarts:</strong> If the server reboots with 45 minutes remaining on the countdown, it resumes at 45 minutes rather than resetting.</li>
+  <li><strong>Interactive Live Visual Bracket:</strong> Dynamic GUI rendering round matchups, player heads, fight statuses, and winners.</li>
+  <li><strong>Auto-Pagination:</strong> Brackets exceeding 16 players automatically split across pages with previous/next controls.</li>
+  <li><strong>Non-Strict Wave Execution:</strong> Tournaments can run smoothly even when fewer arenas exist than concurrent matches. Waiting players receive interactive 1-click spectator prompts.</li>
+  <li><strong>Full Nexo &amp; CustomModelData Support:</strong> Borders, navigation buttons, and overview menu items fully support CustomModelData and Nexo custom items.</li>
+  <li><strong>Automated Prize Distribution:</strong> Execute custom console commands, send titles, and give rewards to 1st, 2nd, and 3rd place winners.</li>
+</ul>
+
+<h2>Commands Reference</h2>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Permission</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/tournament</code> or <code>/tourney</code></td>
+      <td>None</td>
+      <td>Opens the main interactive Tournament Overview GUI.</td>
+    </tr>
+    <tr>
+      <td><code>/tournament join</code></td>
+      <td>None</td>
+      <td>Joins an open tournament registration.</td>
+    </tr>
+    <tr>
+      <td><code>/tournament leave</code></td>
+      <td>None</td>
+      <td>Leaves an open tournament registration.</td>
+    </tr>
+    <tr>
+      <td><code>/tournament bracket</code></td>
+      <td>None</td>
+      <td>Opens the visual live bracket viewer.</td>
+    </tr>
+    <tr>
+      <td><code>/tournament info</code></td>
+      <td>None</td>
+      <td>Displays current tournament status, kit, round, and remaining players in chat.</td>
+    </tr>
+    <tr>
+      <td><code>/tournament list</code></td>
+      <td>None</td>
+      <td>Lists all registered tournament participants.</td>
+    </tr>
+    <tr>
+      <td><code>/tournament spectate [player]</code></td>
+      <td>Configurable</td>
+      <td>Spectates a running tournament fight or opens the bracket.</td>
+    </tr>
+    <tr>
+      <td><code>/tournament start [kit]</code></td>
+      <td><code>shyamduels.tournament.admin</code></td>
+      <td>Starts registration for a tournament with the specified kit.</td>
+    </tr>
+    <tr>
+      <td><code>/tournament forcestart</code></td>
+      <td><code>shyamduels.tournament.admin</code></td>
+      <td>Force starts an active registration immediately without waiting for timer.</td>
+    </tr>
+    <tr>
+      <td><code>/tournament stop</code></td>
+      <td><code>shyamduels.tournament.admin</code></td>
+      <td>Cancels the currently active or registering tournament.</td>
+    </tr>
+    <tr>
+      <td><code>/tournament setkit &lt;kit&gt;</code></td>
+      <td><code>shyamduels.tournament.admin</code></td>
+      <td>Changes the default or current registration tournament kit.</td>
+    </tr>
+    <tr>
+      <td><code>/tournament setmin &lt;amount&gt;</code></td>
+      <td><code>shyamduels.tournament.admin</code></td>
+      <td>Sets the minimum required participants.</td>
+    </tr>
+    <tr>
+      <td><code>/tournament setmax &lt;amount&gt;</code></td>
+      <td><code>shyamduels.tournament.admin</code></td>
+      <td>Sets the maximum tournament player capacity.</td>
+    </tr>
+    <tr>
+      <td><code>/tournament nextmatch</code></td>
+      <td><code>shyamduels.tournament.admin</code></td>
+      <td>Forces wave execution to launch pending matches into available arenas.</td>
+    </tr>
+    <tr>
+      <td><code>/tournament skipround</code></td>
+      <td><code>shyamduels.tournament.admin</code></td>
+      <td>Resolves all pending matches in the active round and advances the bracket.</td>
+    </tr>
+    <tr>
+      <td><code>/tournament add &lt;player&gt;</code></td>
+      <td><code>shyamduels.tournament.admin</code></td>
+      <td>Manually adds a player into the tournament.</td>
+    </tr>
+    <tr>
+      <td><code>/tournament remove &lt;player&gt;</code></td>
+      <td><code>shyamduels.tournament.admin</code></td>
+      <td>Manually eliminates or removes a player from the tournament.</td>
+    </tr>
+    <tr>
+      <td><code>/tournament reload</code></td>
+      <td><code>shyamduels.tournament.admin</code></td>
+      <td>Reloads <code>tournament.yml</code> into memory and restarts schedulers.</td>
+    </tr>
+    <tr>
+      <td><code>/tournament debug</code></td>
+      <td><code>shyamduels.tournament.admin</code></td>
+      <td>Outputs internal tournament engine and bracket state diagnostics.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Configuration Overview (<code>tournament.yml</code>)</h2>
+
+<pre><code class="language-yaml"># Master toggle: disables all tournaments, commands, and schedulers when false
+enabled: false
+
+schedule:
+  enabled: true
+  interval: "24h"
+  initial-delay: "30m"
+  persist-schedule-across-restarts: true
+
+players:
+  minimum: 4
+  maximum: 16
+  require-even: true
+  odd-player-handling: "BYE" # "BYE", "WAIT", or "CANCEL"
+
+kit:
+  default-kit: "Nethpot"
+  random-kit: false
+  kit-pool:
+    - "axe"
+    - "crystal"
+    - "BuildUHC"
+
+match:
+  time-limit: "5m"
+  timeout-behavior: "DISQUALIFY_BOTH" # "DISQUALIFY_BOTH", "HIGHEST_HEALTH", "RANDOM_WINNER"
+  rounds: 1
+  round-system: "BEST_OF" # "BEST_OF" (win majority e.g. Best of 3) or "FIRST_TO" (e.g. First to 3 wins)
+  affect-elo: false
+  record-stats: false
+
+arenas:
+  reserve-before: "5m"
+  strict-mode: false
+  force-reserve: true
+  minimum-required: 1
+
+spectator:
+  enabled: true
+  # Automatically spectate when eliminated
+  auto-spectate-on-elimination: false
+  # Auto-teleport waiting players to spectate the active match (non-strict mode)
+  # They exit spectator automatically when their own match is ready
+  auto-spectate-waiting-players: false
+  # When auto-spectate is false, send a 1-click [CLICK TO SPECTATE] chat prompt
+  notify-waiting-players: true
+
+rewards:
+  first-place:
+    enabled: true
+    title: "&lt;gradient:#37F699:#55FFFF&gt;&lt;bold&gt;CHAMPION!&lt;/bold&gt;&lt;/gradient&gt;"
+    subtitle: "&lt;gray&gt;You won the &lt;aqua&gt;%kit%&lt;/aqua&gt; tournament!&lt;/gray&gt;"
+    commands:
+      - "eco give %player% 10000"
+      - "give %player% diamond 10"
+</code></pre>
+
+<h2>Bracket GUI: Navigation &amp; Pagination</h2>
+<p>The live bracket viewer GUI supports full Nexo / CustomModelData items and auto-paginates brackets with more than 16 players.</p>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>bracket-gui.back-button.slot</code></td>
+      <td><code>45</code></td>
+      <td>Inventory slot for the back button (bottom-left of a 6-row chest).</td>
+    </tr>
+    <tr>
+      <td><code>bracket-gui.back-button.custom-model-data</code></td>
+      <td><code>0</code></td>
+      <td>CustomModelData int applied to the back button item. Set <code>0</code> to disable.</td>
+    </tr>
+    <tr>
+      <td><code>bracket-gui.back-button.nexo</code></td>
+      <td><code>""</code></td>
+      <td>Nexo item ID for the back button. Takes priority over <code>material</code> when set.</td>
+    </tr>
+    <tr>
+      <td><code>bracket-gui.back-button.item-model</code></td>
+      <td><code>""</code></td>
+      <td>Vanilla <code>minecraft:item_model</code> component key for the back button (1.21.4+).</td>
+    </tr>
+    <tr>
+      <td><code>bracket-gui.pagination.previous.slot</code></td>
+      <td><code>48</code></td>
+      <td>Slot for the "previous page" arrow (only shown when multiple pages exist).</td>
+    </tr>
+    <tr>
+      <td><code>bracket-gui.pagination.next.slot</code></td>
+      <td><code>50</code></td>
+      <td>Slot for the "next page" arrow.</td>
+    </tr>
+    <tr>
+      <td><code>bracket-gui.pagination.info.slot</code></td>
+      <td><code>49</code></td>
+      <td>Centre slot showing current page / total pages. Supports <code>{page}</code> and <code>{total_pages}</code>.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout callout-tip">
+  <div class="callout-title">Nexo &amp; item-model priority</div>
+  <p>For any bracket GUI button: if <code>nexo</code> is non-empty it takes priority; otherwise <code>item-model</code> is applied if set; otherwise the plain <code>material</code> is used. <code>custom-model-data</code> is always applied on top of whichever item is chosen.</p>
+</div>
+
+<h2>Messages: Waiting Player Notification</h2>
+<p>When <code>spectator.notify-waiting-players</code> is <code>true</code>, waiting participants receive a clickable chat prompt. Customise the text in <code>tournament.yml</code> under <code>messages.waiting-match-running</code>.</p>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Placeholder</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>{player1}</code></td>
+      <td>Name of the first fighter currently in the arena.</td>
+    </tr>
+    <tr>
+      <td><code>{player2}</code></td>
+      <td>Name of the second fighter currently in the arena.</td>
+    </tr>
+    <tr>
+      <td><code>{arena}</code></td>
+      <td>Arena name where the current match is taking place.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+<h2>PlaceholderAPI Placeholders</h2>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Placeholder</th>
+      <th>Description</th>
+      <th>Example Output</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>%shyamduels_tournament_status%</code></td>
+      <td>Current tournament lifecycle state</td>
+      <td><code>Waiting</code>, <code>In Progress</code>, <code>Disabled</code></td>
+    </tr>
+    <tr>
+      <td><code>%shyamduels_tournament_kit%</code></td>
+      <td>Selected kit for the tournament</td>
+      <td><code>Nethpot</code></td>
+    </tr>
+    <tr>
+      <td><code>%shyamduels_tournament_players%</code></td>
+      <td>Current participant count</td>
+      <td><code>8</code></td>
+    </tr>
+    <tr>
+      <td><code>%shyamduels_tournament_max_players%</code></td>
+      <td>Maximum capacity</td>
+      <td><code>16</code></td>
+    </tr>
+    <tr>
+      <td><code>%shyamduels_tournament_current_round%</code></td>
+      <td>Active round number</td>
+      <td><code>2</code></td>
+    </tr>
+    <tr>
+      <td><code>%shyamduels_tournament_total_rounds%</code></td>
+      <td>Total expected bracket rounds</td>
+      <td><code>4</code></td>
+    </tr>
+    <tr>
+      <td><code>%shyamduels_tournament_champion%</code></td>
+      <td>Crowned tournament champion</td>
+      <td><code>Steve</code></td>
+    </tr>
+    <tr>
+      <td><code>%shyamduels_tournament_next_auto%</code></td>
+      <td>Time remaining until next automated tournament</td>
+      <td><code>12h 30m 00s</code></td>
+    </tr>
+    <tr>
+      <td><code>%shyamduels_tournament_player_status%</code></td>
+      <td>Viewer's participation status</td>
+      <td><code>Alive</code>, <code>Fighting</code>, <code>Eliminated</code></td>
+    </tr>
+    <tr>
+      <td><code>%shyamduels_tournament_player_wins%</code></td>
+      <td>Matches won by the viewing player</td>
+      <td><code>3</code></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+</main>
+</div>
+<script src="../assets/nav.js"></script>
+</body>
+</html>

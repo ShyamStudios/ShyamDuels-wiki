@@ -39,6 +39,7 @@
     <a href="gate-setup.html">Gate Setup</a>
     <a href="kit-setup.html">Kit Setup</a>
     <a href="kit-sharing.html">Kit Sharing &amp; Profiles</a>
+    <a href="tournaments.html">Tournament System</a>
     <a href="party-system.html">Party System</a>
     <a href="ffa.html">FFA Mode</a>
     <a href="elo-ranks.html">ELO &amp; Ranks</a>
@@ -817,6 +818,24 @@
       <td>Lists all kits that have match-start potion scanning enabled. Also accepts <code>/kit matchstartpots &lt;kit&gt; list</code>.</td>
     </tr>
     <tr>
+      <td><code>autoignite</code></td>
+      <td><code>&lt;kit&gt; [true|false]</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Toggles or sets automatic TNT block priming and Creeper ignition for matches using this kit.</td>
+    </tr>
+    <tr>
+      <td><code>nofalldamage</code></td>
+      <td><code>&lt;kit&gt; [true|false]</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Toggles or sets fall damage immunity for players fighting with this kit.</td>
+    </tr>
+    <tr>
+      <td><code>crafttable</code></td>
+      <td><code>&lt;kit&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Toggles crafting table usability during matches using this kit.</td>
+    </tr>
+    <tr>
       <td><code>category create</code></td>
       <td><code>&lt;id&gt; &lt;displayName&gt;</code></td>
       <td><code>shyamduels.admin</code></td>
@@ -908,7 +927,7 @@
 <p>These core subcommands are run under the main command <code>/shyamduels &lt;subcommand&gt;</code> (aliases: <code>/sd</code>, <code>/duels</code>). In addition to system configurations, they cover practice utilities and feature set-ups.</p>
 <div class="alert alert-note">
   <div class="alert-title">Granular reload commands</div>
-  There is no single <code>/shyamduels reload</code> command. Use the <code>reload-*</code> subcommands below to reload specific config files. Arena and kit data are <strong>not</strong> hot-reloaded — restart the server after changing arenas or kits.
+  There is no single <code>/shyamduels reload</code> command. Use the <code>reload-*</code> subcommands below to reload specific config files. Arena and kit data are <strong>not</strong> hot-reloaded; restart the server after changing arenas or kits.
 </div>
 <div class="table-wrap">
 <table>
@@ -1267,6 +1286,39 @@
       <td><code>shyamduels.practice.shieldcustomizer.use</code></td>
       <td>Legacy alias for <code>/shyamduels shield-customizer</code>.</td>
     </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Tournament Commands (<code>/tournament</code>, <code>/tourney</code>, <code>/t</code>)</h2>
+<p>Player and administrative commands for automated brackets, registrations, and spectating:</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Permission</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code>/tournament</code></td><td>None</td><td>Opens the Tournament Overview GUI.</td></tr>
+    <tr><td><code>/tournament join</code></td><td>None</td><td>Joins an open tournament.</td></tr>
+    <tr><td><code>/tournament leave</code></td><td>None</td><td>Leaves an open tournament.</td></tr>
+    <tr><td><code>/tournament bracket</code></td><td>None</td><td>Opens the visual live bracket GUI.</td></tr>
+    <tr><td><code>/tournament info</code></td><td>None</td><td>Prints tournament information to chat.</td></tr>
+    <tr><td><code>/tournament list</code></td><td>None</td><td>Lists joined participants.</td></tr>
+    <tr><td><code>/tournament spectate [player]</code></td><td>Configurable</td><td>Spectates an active tournament match.</td></tr>
+    <tr><td><code>/tournament start [kit]</code></td><td><code>shyamduels.tournament.admin</code></td><td>Starts a tournament registration.</td></tr>
+    <tr><td><code>/tournament forcestart</code></td><td><code>shyamduels.tournament.admin</code></td><td>Force-starts active registration immediately.</td></tr>
+    <tr><td><code>/tournament stop</code></td><td><code>shyamduels.tournament.admin</code></td><td>Cancels active tournament.</td></tr>
+    <tr><td><code>/tournament setkit &lt;kit&gt;</code></td><td><code>shyamduels.tournament.admin</code></td><td>Changes default/active tournament kit.</td></tr>
+    <tr><td><code>/tournament setmin &lt;amount&gt;</code></td><td><code>shyamduels.tournament.admin</code></td><td>Sets minimum participants.</td></tr>
+    <tr><td><code>/tournament setmax &lt;amount&gt;</code></td><td><code>shyamduels.tournament.admin</code></td><td>Sets maximum player capacity.</td></tr>
+    <tr><td><code>/tournament nextmatch</code></td><td><code>shyamduels.tournament.admin</code></td><td>Pushes wave matches into free arenas.</td></tr>
+    <tr><td><code>/tournament skipround</code></td><td><code>shyamduels.tournament.admin</code></td><td>Resolves active round and advances bracket.</td></tr>
+    <tr><td><code>/tournament reload</code></td><td><code>shyamduels.tournament.admin</code></td><td>Reloads <code>tournament.yml</code> into cache.</td></tr>
+    <tr><td><code>/tournament debug</code></td><td><code>shyamduels.tournament.admin</code></td><td>Outputs internal tournament engine state.</td></tr>
   </tbody>
 </table>
 </div>

@@ -39,6 +39,7 @@
     <a href="gate-setup.html">Gate Setup</a>
     <a href="kit-setup.html">Kit Setup</a>
     <a href="kit-sharing.html">Kit Sharing &amp; Profiles</a>
+    <a href="tournaments.html">Tournament System</a>
     <a href="party-system.html">Party System</a>
     <a href="ffa.html">FFA Mode</a>
     <a href="elo-ranks.html">ELO &amp; Ranks</a>
@@ -204,6 +205,8 @@ left untouched).</p>
     4v4: true
   match-found-animation:
     enabled: true
+    blindness: true           # Apply blindness for the duration of the match-found animation
+    blindness-duration-ticks: 200 # Safety cap (removed early by animation callback; should exceed animation length)
     totem-pop: true           # Client totem-pop on match start (bundles item overlay + particles + sound)
     totem-sound: false        # false suppresses the local vanilla pop sound; custom sound below can replace it
     sound: ""                 # Optional extra sound key; empty = no sound
@@ -551,8 +554,14 @@ logs <code>Nexo hook: enabled</code> when the integration is active.</p>
 <p>All in-game chat strings, GUI titles, duel titles, party messages, and help text live in <code>plugins/ShyamDuels/lang/messages.yml</code>. Reload with <code>/shyamduels reload-messages</code>.</p>
 
 <h2>Database Connection Settings (database.yml)</h2>
-<p>Database settings are stored in <code>plugins/ShyamDuels/database.yml</code> as a separate editable file. On startup and when you run <code>/shyamduels reload-config</code>, the plugin merges this file into the runtime config under the <code>database.*</code> prefix (e.g. <code>database.type</code>, <code>database.performance.io-threads</code>). Edit <code>database.yml</code> on disk — you do not need a <code>database:</code> block inside <code>config.yml</code>.</p>
-<pre><span class="lang-badge">yaml</span><code>type: SQLITE                  # Connection type: SQLITE or MYSQL
+<p>Database settings are stored in <code>plugins/ShyamDuels/database.yml</code> as a separate editable file. On startup and when you run <code>/shyamduels reload-config</code>, the plugin merges this file into the runtime config under the <code>database.*</code> prefix (e.g. <code>database.type</code>, <code>database.performance.io-threads</code>). Edit <code>database.yml</code> on disk; you do not need a <code>database:</code> block inside <code>config.yml</code>.</p>
+<pre><span class="lang-badge">yaml</span><code># ==============================================================================
+# Database Configuration (plugins/ShyamDuels/database.yml)
+# ==============================================================================
+
+type: "SQLITE"                  # SQLITE or MYSQL
+
+# Performance settings (tuned for big servers: 300+ players)
 
 sqlite:
   directory: data
@@ -570,7 +579,7 @@ mysql:
   pool-size: 10               # Pooled MySQL connections (10+ recommended for 300+ players)
   max-overflow: 10            # Extra connections beyond pool-size when the pool is exhausted
 
-# Performance settings — tuned for big servers (300+ players)
+# Performance settings (tuned for big servers: 300+ players)
 performance:
   io-threads: 4               # Background threads for DB + file work. SQLite: 4 is plenty.
                               # MySQL: raise to 8-16 so more queries run at once.
@@ -695,6 +704,62 @@ sub-menu:
     - 14
     - 15
     - 16
+</code></pre>
+
+<h2>Tournament Configuration (<code>tournament.yml</code>)</h2>
+<p>Located at <code>plugins/ShyamDuels/tournament.yml</code>. Controls automated bracket tournaments, match timers, scheduler persistence across restarts, non-strict wave arena scheduling, custom spectator rules, and prize distributions.</p>
+
+<pre><span class="lang-badge">yaml</span><code># Master toggle
+enabled: true
+
+schedule:
+  enabled: true
+  interval: "24h"
+  initial-delay: "30m"
+  persist-schedule-across-restarts: true
+
+players:
+  minimum: 4
+  maximum: 16
+  require-even: true
+  odd-player-handling: "BYE" # "BYE", "WAIT", or "CANCEL"
+
+kit:
+  default-kit: "Nethpot"
+  random-kit: false
+  kit-pool:
+    - "axe"
+    - "crystal"
+    - "BuildUHC"
+
+match:
+  time-limit: "5m"
+  timeout-behavior: "DISQUALIFY_BOTH" # "DISQUALIFY_BOTH", "HIGHEST_HEALTH", "RANDOM_WINNER"
+  rounds: 1
+  round-system: "BEST_OF"
+  affect-elo: false
+  record-stats: false
+
+arenas:
+  reserve-before: "5m"
+  strict-mode: false
+  force-reserve: true
+  minimum-required: 1
+
+spectator:
+  enabled: true
+  auto-spectate-on-elimination: false
+  auto-spectate-waiting-players: false
+  notify-waiting-players: true
+
+rewards:
+  first-place:
+    enabled: true
+    title: "&lt;gradient:#37F699:#55FFFF&gt;&lt;bold&gt;CHAMPION!&lt;/bold&gt;&lt;/gradient&gt;"
+    subtitle: "&lt;gray&gt;You won the &lt;aqua&gt;%kit%&lt;/aqua&gt; tournament!&lt;/gray&gt;"
+    commands:
+      - "eco give %player% 10000"
+      - "give %player% diamond 10"
 </code></pre>
 
 <div class="page-navigation">

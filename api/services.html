@@ -39,6 +39,7 @@
     <a href="../user-guide/gate-setup.html">Gate Setup</a>
     <a href="../user-guide/kit-setup.html">Kit Setup</a>
     <a href="../user-guide/kit-sharing.html">Kit Sharing &amp; Profiles</a>
+    <a href="../user-guide/tournaments.html">Tournament System</a>
     <a href="../user-guide/party-system.html">Party System</a>
     <a href="../user-guide/ffa.html">FFA Mode</a>
     <a href="../user-guide/elo-ranks.html">ELO &amp; Ranks</a>
@@ -842,23 +843,20 @@ Controls the practice kit editor (optional, available via <code>kitEditor()</cod
 </table>
 </div>
 
-<h2>PracticeService</h2>
-<p>Interface: <code>com.shyamstudio.shyamduels.api.practice.PracticeService</code><br/>
-Practice-mode feature toggles and actions (optional, available via <code>practice()</code>):</p>
+<h2>TournamentService</h2>
+<p>Interface: <code>com.shyamstudio.shyamduels.api.tournament.TournamentService</code><br/>
+Manage tournament registrations, active bracket duels, and player memberships:</p>
 <div class="table-wrap">
 <table>
-  <thead><tr><th>Key Methods</th><th>Description</th></tr></thead>
+  <thead><tr><th>Method Signature</th><th>Returns</th><th>Description</th></tr></thead>
   <tbody>
-    <tr><td><code>isKitEditorEnabled()</code></td><td>Whether the kit editor feature is on.</td></tr>
-    <tr><td><code>isDuelCommandEnabled()</code></td><td>Whether <code>/practiceduel</code> is registered.</td></tr>
-    <tr><td><code>isRightClickDuelEnabled()</code></td><td>Whether right-click player interaction is on.</td></tr>
-    <tr><td><code>isDeathMessagesEnabled()</code></td><td>Whether <code>/deathmessages</code> is available.</td></tr>
-    <tr><td><code>isGoldenHeadEnabled()</code></td><td>Whether golden heads are on.</td></tr>
-    <tr><td><code>isTotemPracticeEnabled()</code></td><td>Whether totem practice is on.</td></tr>
-    <tr><td><code>openKitRoom(player)</code></td><td>Opens the kit room for a player.</td></tr>
-    <tr><td><code>giveGoldenHead(player, amount)</code></td><td>Gives a player golden heads.</td></tr>
-    <tr><td><code>startTotemPractice(player)</code></td><td>Starts a totem-practice session for a player.</td></tr>
-    <tr><td><code>reload()</code></td><td>Reloads the practice configuration.</td></tr>
+    <tr><td><code>hasActiveTournament()</code></td><td>boolean</td><td>True if a tournament registration or match phase is in progress.</td></tr>
+    <tr><td><code>getCurrentTournament()</code></td><td>Tournament</td><td>Returns current active tournament session or null.</td></tr>
+    <tr><td><code>createAndStartRegistration(String kitName, CommandSender starter)</code></td><td>boolean</td><td>Starts registration for a new tournament.</td></tr>
+    <tr><td><code>joinTournament(Player)</code></td><td>boolean</td><td>Adds player to the active registration.</td></tr>
+    <tr><td><code>leaveTournament(Player)</code></td><td>boolean</td><td>Removes player from the active registration.</td></tr>
+    <tr><td><code>isInTournament(Player)</code></td><td>boolean</td><td>True if player is participating in the current tournament.</td></tr>
+    <tr><td><code>cancelTournament(String reason)</code></td><td>void</td><td>Cancels active tournament.</td></tr>
   </tbody>
 </table>
 </div>

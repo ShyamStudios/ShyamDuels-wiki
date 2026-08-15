@@ -24,6 +24,7 @@ Open [`index.html`](index.html) in a browser to view the full documentation offl
 - [Getting Started](user-guide/getting-started.html)
 - [Commands Reference](user-guide/commands.html)
 - [Permissions](user-guide/permissions.html)
+- [Tournament System](user-guide/tournaments.html)
 - [Configuration Files](user-guide/configuration.html)
 - [PlaceholderAPI](user-guide/placeholders.html)
 - [Migration Guide](user-guide/migration.html)
@@ -34,5 +35,5 @@ Open [`index.html`](index.html) in a browser to view the full documentation offl
 - **Java:** 21+
 - **Required plugins:** FastAsyncWorldEdit, packetevents, LuckPerms, PlaceholderAPI
 - **Optional:** Nexo (custom menu icons)
-- **Database:** SQLite (default) or MySQL — configured in `database.yml` (merged at runtime under `database.*`)
+- **Database:** SQLite (default) or MySQL (configured in `database.yml`, merged at runtime under `database.*`)
 
