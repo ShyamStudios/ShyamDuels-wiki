@@ -426,6 +426,31 @@ Manages kit configuration templates, per-player edited kits, and their share met
       <td>void</td>
       <td>Persists a kit's configuration.</td>
     </tr>
+    <tr>
+      <td><code>getCategories()</code></td>
+      <td>List&lt;KitCategory&gt;</td>
+      <td>Returns all registered kit categories.</td>
+    </tr>
+    <tr>
+      <td><code>getCategory(String id)</code></td>
+      <td>KitCategory</td>
+      <td>Finds a kit category by its ID, or null.</td>
+    </tr>
+    <tr>
+      <td><code>getCategoryForKit(String kitName)</code></td>
+      <td>KitCategory</td>
+      <td>Gets the parent category linked to a kit, or null.</td>
+    </tr>
+    <tr>
+      <td><code>getKitsForCategory(KitCategory)</code></td>
+      <td>List&lt;Kit&gt;</td>
+      <td>Gets all kits belonging to a category.</td>
+    </tr>
+    <tr>
+      <td><code>getUncategorizedKits()</code></td>
+      <td>List&lt;Kit&gt;</td>
+      <td>Gets all standalone kits that are not in any category.</td>
+    </tr>
   </tbody>
 </table>
 </div>

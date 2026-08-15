@@ -653,33 +653,48 @@ match-result:
     pitch: 1.0</code></pre>
 <p>Set <code>enabled: false</code> on any entry to mute just that event.</p>
 
-<h2>Kit Categories Configuration (categories.yml)</h2>
-<p>Stored at <code>plugins/ShyamDuels/categories.yml</code>. Organizes kits into categories for selection menus. Starts empty by default:</p>
+<h2>Kit Categories Configuration (categories/*.yml)</h2>
+<p>Categories are organized in dedicated files inside <code>plugins/ShyamDuels/categories/&lt;id&gt;.yml</code> (e.g. <code>potpvp.yml</code>, <code>sword.yml</code>). Starts empty by default:</p>
 <pre><span class="lang-badge">yaml</span><code># ==============================================================================
-# ShyamDuels - Kit Categories Configuration
+# Category Configuration: potpvp.yml (plugins/ShyamDuels/categories/potpvp.yml)
 # ==============================================================================
-# Categories group kits under clean parent items in selection GUIs (Queue, Duel, Kit Editor, Party).
-# When no categories exist (categories: {}), all menus display kits in classic 1-level mode.
 
-categories:
-  # Example category definition:
-  # potpvp:
-  #   display-name: "&#FF5555&lPotPvP Kits"
-  #   icon:
-  #     material: SPLASH_POTION
-  #     custom-model-data: 0
-  #   lore:
-  #     - "&7Competitive potion fighting modes."
-  #     - ""
-  #     - "&fKits: &e&lt;kits_count&gt;"
-  #     - "&fQueued: &a&lt;queued&gt; &7| &fPlaying: &b&lt;playing&gt;"
-  #     - ""
-  #     - "&eClick to view kits!"
-  #   slot: -1
-  #   kits:
-  #     - "NoDebuff"
-  #     - "Debuff"
-  #     - "Gapple"
+id: "potpvp"
+display-name: "&lt;gradient:#FF1D54:#FF7B00&gt;&lt;b&gt;PotPvP Modes&lt;/b&gt;&lt;/gradient&gt;"
+slot: 11 # Slot in parent selection GUI (-1 for auto)
+
+icon:
+  material: SPLASH_POTION
+  custom-model-data: 1001
+  # nexo: "potpvp_icon"
+  # item-model: "minecraft:custom_potion"
+
+lore:
+  - "&7Competitive potion fighting modes."
+  - ""
+  - "&fKits Included: &e&lt;kits_count&gt;"
+  - "&fQueued: &a&lt;queued&gt; &7| &fPlaying: &b&lt;playing&gt;"
+  - ""
+  - "&eClick to browse category kits!"
+
+kits:
+  - "NoDebuff"
+  - "Debuff"
+  - "Gapple"
+
+# Optional Sub-Menu Layout Overrides:
+sub-menu:
+  title: "&lt;gradient:#FF1D54:#FF7B00&gt;PotPvP Queue&lt;/gradient&gt; &8| &7&lt;mode&gt;"
+  size: 54
+  border: RED_STAINED_GLASS_PANE
+  kit-slots:
+    - 10
+    - 11
+    - 12
+    - 13
+    - 14
+    - 15
+    - 16
 </code></pre>
 
 <div class="page-navigation">

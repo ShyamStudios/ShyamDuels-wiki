@@ -320,6 +320,90 @@
 </table>
 </div>
 
+<h3>Which Sub-GUI Opens &amp; Where to Edit Its Layout</h3>
+<p>When a player clicks a category item, a dedicated sub-menu opens displaying the kits linked to that category. You can customize the sub-menu layout either <strong>globally</strong> via the menu YAML files or <strong>per-category</strong> directly inside each category's own YAML file:</p>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Menu Trigger</th>
+      <th>Sub-GUI Opened on Category Click</th>
+      <th>Global Layout File</th>
+      <th>Per-Category Customization File</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/queue</code></td>
+      <td><strong>Category Queue Sub-Menu</strong></td>
+      <td><code>plugins/ShyamDuels/menus/queue-kit.yml</code></td>
+      <td><code>plugins/ShyamDuels/categories/&lt;category&gt;.yml</code></td>
+    </tr>
+    <tr>
+      <td><code>/duel &lt;player&gt;</code></td>
+      <td><strong>Category Duel Sub-Menu</strong></td>
+      <td><code>plugins/ShyamDuels/menus/duel.yml</code></td>
+      <td><code>plugins/ShyamDuels/categories/&lt;category&gt;.yml</code></td>
+    </tr>
+    <tr>
+      <td><code>/kiteditor</code></td>
+      <td><strong>Category Kit Picker</strong></td>
+      <td><code>plugins/ShyamDuels/menus/kiteditor.yml</code></td>
+      <td><code>plugins/ShyamDuels/categories/&lt;category&gt;.yml</code></td>
+    </tr>
+    <tr>
+      <td><code>/party duel</code></td>
+      <td><strong>Party Category Selection</strong></td>
+      <td><code>plugins/ShyamDuels/menus/public-kits.yml</code></td>
+      <td><code>plugins/ShyamDuels/categories/&lt;category&gt;.yml</code></td>
+    </tr>
+    <tr>
+      <td><em>Category Display &amp; Details</em></td>
+      <td><strong>Category Icons &amp; Details</strong></td>
+      <td>-</td>
+      <td><code>plugins/ShyamDuels/categories/&lt;category&gt;.yml</code></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="alert alert-note">
+  <div class="alert-title">Per-Category YAML System (Maximum Flexibility)</div>
+  Every category has its own dedicated file (e.g. <code>plugins/ShyamDuels/categories/potpvp.yml</code>). You can customize the icon, title, lore, linked kits, and optionally specify unique sub-menu settings (custom title, custom GUI size, custom glass border color, and custom slots) for that specific category!
+</div>
+
+<h3>How to Toggle Between Global and Per-Category Layout</h3>
+<p>You can easily switch any category between the <strong>Global Default Layout</strong> (configured in <code>menus/queue-kit.yml</code> and <code>menus/duel.yml</code>) and a <strong>Per-Category Custom Layout</strong> in two ways:</p>
+
+<h4>Method 1: The <code>sub-menu.enabled</code> Toggle (Recommended)</h4>
+<p>Inside <code>plugins/ShyamDuels/categories/&lt;category_id&gt;.yml</code>, use the <code>enabled</code> boolean:</p>
+
+<p><strong>A. To use the Global Default Layout:</strong></p>
+<pre><span class="lang-badge">yaml</span><code># Global Mode: Inherits global theme from menus/queue-kit.yml
+sub-menu:
+  enabled: false</code></pre>
+
+<p><strong>B. To use a Custom Per-Category Layout:</strong></p>
+<pre><span class="lang-badge">yaml</span><code># Per-Category Mode: Activates unique design overrides for this category
+sub-menu:
+  enabled: true
+  title: "&lt;gradient:#FF1D54:#FF7B00&gt;PotPvP Queue&lt;/gradient&gt; &8| &7&lt;mode&gt;"
+  size: 54
+  border: RED_STAINED_GLASS_PANE
+  kit-slots: [10, 11, 12, 13, 14, 15, 16]</code></pre>
+
+<h4>Method 2: Omit or Include the <code>sub-menu:</code> Section</h4>
+<ul>
+  <li><strong>Global Mode:</strong> Simply do not include the <code>sub-menu:</code> section in the category's YAML file. It will automatically inherit all global styles.</li>
+  <li><strong>Custom Mode:</strong> Add the <code>sub-menu:</code> section whenever you want custom borders, sizes, or slots for that category.</li>
+</ul>
+
+<div class="alert alert-tip">
+  <div class="alert-title">Instant Hot-Reload</div>
+  After editing any category YAML file, apply changes live with: <code>/kit category reload</code>
+</div>
+
 <h3>3. Auto-Pagination Engine</h3>
 <p>Both root menus and category sub-menus are powered by an intelligent, mathematical pagination engine (<code>GuiPagination</code>):</p>
 <ul>
@@ -333,20 +417,115 @@
   </li>
 </ul>
 
-<h3>4. Performance, Concurrency &amp; $O(1)$ Caching</h3>
-<p>The system is built from the ground up for high-capacity networks running hundreds of concurrent players:</p>
-<ul>
-  <li><strong>$O(1)$ Bidirectional In-Memory Lookups:</strong> <code>CategoryManager</code> maintains concurrent lookup maps (<code>categories</code> and <code>kitToCategoryMap</code>) backed by <code>ConcurrentHashMap</code>. Checking whether a kit is categorized or resolving its parent category requires zero file reads or linear iterations.</li>
-  <li><strong>Non-Blocking Asynchronous Disk Serialization:</strong> Saving modifications (creating, renaming, re-iconing, or linking kits) is executed asynchronously via worker threads (<code>AsyncUtil.runAsync</code>). The main server tick thread is never stalled by disk I/O.</li>
-  <li><strong>Live Differential GUI Updates:</strong> The Matchmaking Queue uses slot signature hashing to only push inventory packets for slots whose player counts or queue states have actually changed.</li>
-</ul>
-
-<h3>5. Hierarchical Depth &amp; Sub-Category Support</h3>
+<h3>4. Hierarchical Depth &amp; Sub-Category Support</h3>
 <p>A frequent question among server administrators is whether categories can contain sub-categories:</p>
 <ul>
-  <li><strong>The 2-Level Standard:</strong> In competitive Minecraft PvP, player UX research overwhelmingly indicates that a <strong>2-Tier Hierarchy</strong> (Root Categories $\rightarrow$ Kits) provides the highest retention and lowest bounce rate. Players can navigate to any kit within exactly two clicks (Click Category $\rightarrow$ Click Kit to Queue).</li>
-  <li><strong>Sub-Category Compatibility:</strong> The underlying <code>KitCategory</code> architecture supports arbitrary hierarchical grouping. If your network requires multi-level nested folders (e.g. <code>Competitive</code> $\rightarrow$ <code>PotPvP</code> $\rightarrow$ <code>NoDebuff</code>), each category ID acts as a distinct routing node.</li>
+  <li><strong>The 2-Level Standard:</strong> In competitive Minecraft PvP, player UX research overwhelmingly indicates that a <strong>2-Tier Hierarchy</strong> (Root Categories &rarr; Kits) provides the highest retention and lowest bounce rate. Players can navigate to any kit within exactly two clicks (Click Category &rarr; Click Kit to Queue).</li>
+  <li><strong>Sub-Category Compatibility:</strong> The underlying <code>KitCategory</code> architecture supports arbitrary hierarchical grouping. If your network requires multi-level nested folders (e.g. <code>Competitive</code> &rarr; <code>PotPvP</code> &rarr; <code>NoDebuff</code>), each category ID acts as a distinct routing node.</li>
 </ul>
+
+<h3>5. Step-by-Step: Creating &amp; Designing Category UI</h3>
+<p>Follow these steps to create, style, and populate your kit categories with custom icons, colors, and live counter lores:</p>
+
+<ol class="steps">
+  <li>
+    <strong>Create the Category:</strong><br/>
+    Execute the creation command specifying a unique identifier key and initial display name:
+    <pre><code>/kit category create potpvp &#FF5555&amp;lPotPvP &amp;7Kits</code></pre>
+  </li>
+  <li>
+    <strong>Set the Category GUI Icon:</strong><br/>
+    Hold any item in your main hand (including <strong>Nexo 3D custom items</strong>, items with <strong>CustomModelData</strong>, or custom heads) and execute:
+    <pre><code>/kit category seticon potpvp</code></pre>
+  </li>
+  <li>
+    <strong>Style the Display Name (Gradients &amp; Hex Colors):</strong><br/>
+    You can update the category title at any time using MiniMessage tags or Hex codes:
+    <pre><code>/kit category setname potpvp &lt;gradient:#FF1D54:#FF7B00&gt;&lt;b&gt;PotPvP Modes&lt;/b&gt;&lt;/gradient&gt;</code></pre>
+  </li>
+  <li>
+    <strong>Link Kits to the Category:</strong><br/>
+    Add existing registered kits into this category:
+    <pre><code>/kit category addkit potpvp NoDebuff
+/kit category addkit potpvp Debuff
+/kit category addkit potpvp Gapple</code></pre>
+  </li>
+  <li>
+    <strong>Customize Lore &amp; UI Appearance in <code>categories.yml</code>:</strong><br/>
+    Open <code>plugins/ShyamDuels/categories.yml</code> to fine-tune lore lines, add live counter placeholders, and specify fixed GUI slots:
+    <pre><span class="lang-badge">yaml</span><code>categories:
+  potpvp:
+    display-name: "&lt;gradient:#FF1D54:#FF7B00&gt;&lt;b&gt;PotPvP Modes&lt;/b&gt;&lt;/gradient&gt;"
+    icon:
+      material: SPLASH_POTION
+      custom-model-data: 1001
+      # nexo: "potpvp_icon"
+    slot: 11 # Specific slot in GUI (or -1 for automatic placement)
+    lore:
+      - "&7Competitive potion combat modes."
+      - ""
+      - "&fKits Included: &e&lt;kits_count&gt;"
+      - "&fQueued: &a&lt;queued&gt; &7| &fPlaying: &b&lt;playing&gt;"
+      - ""
+      - "&eClick to browse kits!"
+    kits:
+      - "nodebuff"
+      - "debuff"
+      - "gapple"</code></pre>
+  </li>
+  <li>
+    <strong>Reload and Verify:</strong><br/>
+    Apply configuration changes instantly in-game without rebooting:
+    <pre><code>/kit category reload</code></pre>
+    Open <code>/queue</code> or <code>/duel &lt;player&gt;</code> to test your new category layout.
+  </li>
+</ol>
+
+<h3>5. How Kit and Category Ordering Works (Replacing data/order.yml)</h3>
+<p>You can easily control how normal kits, categories, and glass panes look in every GUI using clean YAML files:</p>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>What You Want to Do</th>
+      <th>How to Configure It</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Set Category Slot in Main Menus</strong></td>
+      <td>Set <code>slot: &lt;number&gt;</code> in <code>categories/&lt;id&gt;.yml</code> or use <code>/kit category setslot</code>. Use <code>-1</code> for automatic order.</td>
+      <td><code>/kit category setslot potpvp 11</code></td>
+    </tr>
+    <tr>
+      <td><strong>Order Kits Inside a Category</strong></td>
+      <td>The list order under <code>kits:</code> inside <code>categories/&lt;id&gt;.yml</code> directly controls the slot order inside the sub-menu.</td>
+      <td><pre><span class="lang-badge">yaml</span><code>kits:
+  - "NoDebuff" # 1st kit
+  - "Debuff"   # 2nd kit
+  - "Gapple"   # 3rd kit</code></pre></td>
+    </tr>
+    <tr>
+      <td><strong>Normal (Uncategorized) Kits (Hybrid Mode)</strong></td>
+      <td>Kits not assigned to any category appear directly in the main menu alongside category folders. Clicking a normal kit starts the match immediately without opening a sub-menu.</td>
+      <td>Main Menu: <code>[PotPvP Category] [Sumo (Normal Kit)]</code></td>
+    </tr>
+    <tr>
+      <td><strong>Alternating Slots (Kit &rarr; Glass Pane &rarr; Kit)</strong></td>
+      <td>In <code>menus/queue-kit.yml</code> (or in category <code>sub-menu.kit-slots</code>), list only alternate slot numbers. Extra slots will stay as glass panes!</td>
+      <td><pre><span class="lang-badge">yaml</span><code>kit-slots: [10, 12, 14, 16]
+# Slots 11, 13, 15 will have glass panes!</code></pre></td>
+    </tr>
+    <tr>
+      <td><strong>1-Click Migration from <code>data/order.yml</code></strong></td>
+      <td>Run <code>/kit category importorder &lt;id&gt; [name]</code>. It reads your old order from <code>data/order.yml</code> and creates a category with that exact kit order.</td>
+      <td><code>/kit category importorder ranked Ranked Kits</code></td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 <h3>6. In-Game Admin Command Reference</h3>
 <p>All category administration is managed under the base command <code>/kit category</code> (or aliases <code>/kits category</code>, <code>/shyamkits category</code>). All arguments feature intelligent context-aware tab completion:</p>
@@ -389,15 +568,23 @@
       <td><code>/kit category seticon &lt;category&gt;</code></td>
       <td><code>shyamduels.admin</code></td>
       <td>
-        Sets the category's menu display item to the exact item currently held in your main hand (preserves CustomModelData, item flags, and enchantments).<br/>
-        <em>Example:</em> Hold a custom potion model and execute <code>/kit category seticon potpvp</code>
+        Sets the category icon to the item you are holding in your hand (supports custom 3D models).<br/>
+        <em>Example:</em> Hold a potion and type <code>/kit category seticon potpvp</code>
+      </td>
+    </tr>
+    <tr>
+      <td><code>/kit category setpermission &lt;category&gt; &lt;perm|none&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>
+        Sets a permission required for players to open this category in Queue, Duel, Kit Editor, and Party menus. Use <code>none</code> to remove permission requirement.<br/>
+        <em>Example:</em> <code>/kit category setpermission potpvp shyamduels.category.potpvp</code>
       </td>
     </tr>
     <tr>
       <td><code>/kit category addkit &lt;category&gt; &lt;kit&gt;</code></td>
       <td><code>shyamduels.admin</code></td>
       <td>
-        Assigns/links an existing registered kit to a category.<br/>
+        Adds a kit into a category.<br/>
         <em>Example:</em> <code>/kit category addkit potpvp NoDebuff</code>
       </td>
     </tr>
@@ -405,102 +592,102 @@
       <td><code>/kit category removekit &lt;category&gt; &lt;kit&gt;</code></td>
       <td><code>shyamduels.admin</code></td>
       <td>
-        Unlinks a kit from its category, restoring it as a standalone root kit.<br/>
+        Removes a kit from a category.<br/>
         <em>Example:</em> <code>/kit category removekit potpvp NoDebuff</code>
+      </td>
+    </tr>
+    <tr>
+      <td><code>/kit category setslot &lt;category&gt; &lt;slot&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>
+        Pins a category to an exact slot in the main selection GUI (use <code>-1</code> for auto placement).<br/>
+        <em>Example:</em> <code>/kit category setslot potpvp 11</code>
+      </td>
+    </tr>
+    <tr>
+      <td><code>/kit category importorder &lt;category&gt; [display]</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>
+        Automatically migrates your existing kit order from <code>data/order.yml</code> into a new category file.<br/>
+        <em>Example:</em> <code>/kit category importorder ranked Ranked Kits</code>
       </td>
     </tr>
     <tr>
       <td><code>/kit category list</code></td>
       <td><code>shyamduels.admin</code></td>
       <td>
-        Outputs a comprehensive breakdown in chat showing all configured categories, their display titles, and their linked kits.
+        Shows all categories and their kits in chat.
       </td>
     </tr>
     <tr>
       <td><code>/kit category reload</code></td>
       <td><code>shyamduels.admin</code></td>
       <td>
-        Hot-reloads <code>categories.yml</code> from disk into memory without requiring a server reboot.
+        Reloads all category files instantly without restarting server.
       </td>
     </tr>
     <tr>
       <td><code>/kit category help</code></td>
       <td><code>shyamduels.admin</code></td>
       <td>
-        Displays interactive command syntax and descriptions directly in the chat window.
+        Shows category command help in chat.
       </td>
     </tr>
   </tbody>
 </table>
 </div>
 
-<h3>7. Configuration File Structure (categories.yml)</h3>
-<p>Categories are persisted in <code>plugins/ShyamDuels/categories.yml</code>. Below is an exhaustive reference configuration with comments:</p>
+<h3>7. Per-Category Configuration File Structure (categories/&lt;id&gt;.yml)</h3>
+<p>Each category is saved in its own file under <code>plugins/ShyamDuels/categories/&lt;id&gt;.yml</code>. Below is an easy example configuration:</p>
 
 <pre><span class="lang-badge">yaml</span><code># ==============================================================================
-# ShyamDuels - Kit Categories Configuration
+# Category Configuration: potpvp.yml
+# Path: plugins/ShyamDuels/categories/potpvp.yml
 # ==============================================================================
-# Define categories to group your server kits into clean parent menus.
-# Supports full MiniMessage formatting, legacy color codes, and custom model data.
 
-categories:
-  potpvp:
-    display-name: "&#FF5555&lPotPvP Kits"
-    icon:
-      material: SPLASH_POTION
-      custom-model-data: 1001
-    lore:
-      - "&7Competitive potion fighting modes."
-      - ""
-      - "&fKits Included: &e&lt;kits_count&gt;"
-      - "&fQueued: &a&lt;queued&gt; &7| &fPlaying: &b&lt;playing&gt;"
-      - ""
-      - "&eClick to view category kits!"
-    slot: -1
-    kits:
-      - "NoDebuff"
-      - "Debuff"
-      - "Gapple"
+id: "potpvp"
+display-name: "&lt;gradient:#FF1D54:#FF7B00&gt;&lt;b&gt;PotPvP Modes&lt;/b&gt;&lt;/gradient&gt;"
+slot: 11 # Slot in main menu (-1 for auto placement)
 
-  sword:
-    display-name: "&#55FF55&lSword &amp; Combo"
-    icon:
-      material: DIAMOND_SWORD
-      custom-model-data: 1002
-      # Or pull custom 3D model icon directly from Nexo:
-      # nexo: "sword_category_icon"
-      # Or modern 1.21.2+ Minecraft Item Model:
-      # item-model: "minecraft:custom_sword"
-    lore:
-      - "&7Fast-paced melee and combo duels."
-      - ""
-      - "&fKits Included: &e&lt;kits_count&gt;"
-      - "&fQueued: &a&lt;queued&gt; &7| &fPlaying: &b&lt;playing&gt;"
-      - ""
-      - "&eClick to view category kits!"
-    slot: -1
-    kits:
-      - "Combo"
-      - "Sumo"
-      - "Boxing"
+# Optional Permission: Players need this permission to open this category (leave blank for everyone)
+permission: "shyamduels.category.potpvp"
 
-  uhc:
-    display-name: "&#FFAA00&lUHC &amp; Survival"
-    icon:
-      material: GOLDEN_APPLE
-      custom-model-data: 0
-    lore:
-      - "&7Hardcore survival and rod mechanics."
-      - ""
-      - "&fKits Included: &e&lt;kits_count&gt;"
-      - "&fQueued: &a&lt;queued&gt; &7| &fPlaying: &b&lt;playing&gt;"
-      - ""
-      - "&eClick to view category kits!"
-    slot: -1
-    kits:
-      - "BuildUHC"
-      - "FinalUHC"
-      - "Archer"
+# Category Icon (supports Nexo 3D items, CustomModelData, or regular items):
+icon:
+  material: SPLASH_POTION
+  custom-model-data: 1001
+  # nexo: "potpvp_icon"
+  # item-model: "minecraft:custom_potion"
+
+# Lore shown on the category item in the menu:
+lore:
+  - "&7Competitive potion fighting modes."
+  - ""
+  - "&fKits: &e&lt;kits_count&gt;"
+  - "&fQueued: &a&lt;queued&gt; &7| &fPlaying: &b&lt;playing&gt;"
+  - ""
+  - "&eClick to view kits!"
+
+# List of kits inside this category:
+kits:
+  - "NoDebuff"
+  - "Debuff"
+  - "Gapple"
+
+# Optional Custom Sub-Menu Design (leave out to use default menus/queue-kit.yml):
+sub-menu:
+  enabled: true
+  title: "&lt;gradient:#FF1D54:#FF7B00&gt;PotPvP Queue&lt;/gradient&gt; &8| &7&lt;mode&gt;"
+  size: 54
+  border: RED_STAINED_GLASS_PANE
+  kit-slots:
+    - 10
+    - 11
+    - 12
+    - 13
+    - 14
+    - 15
+    - 16
 </code></pre>
 
 <h3>8. Supported Placeholders in Category Lore</h3>
