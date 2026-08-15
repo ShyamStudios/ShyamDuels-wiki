@@ -653,6 +653,35 @@ match-result:
     pitch: 1.0</code></pre>
 <p>Set <code>enabled: false</code> on any entry to mute just that event.</p>
 
+<h2>Kit Categories Configuration (categories.yml)</h2>
+<p>Stored at <code>plugins/ShyamDuels/categories.yml</code>. Organizes kits into categories for selection menus. Starts empty by default:</p>
+<pre><span class="lang-badge">yaml</span><code># ==============================================================================
+# ShyamDuels - Kit Categories Configuration
+# ==============================================================================
+# Categories group kits under clean parent items in selection GUIs (Queue, Duel, Kit Editor, Party).
+# When no categories exist (categories: {}), all menus display kits in classic 1-level mode.
+
+categories:
+  # Example category definition:
+  # potpvp:
+  #   display-name: "&#FF5555&lPotPvP Kits"
+  #   icon:
+  #     material: SPLASH_POTION
+  #     custom-model-data: 0
+  #   lore:
+  #     - "&7Competitive potion fighting modes."
+  #     - ""
+  #     - "&fKits: &e&lt;kits_count&gt;"
+  #     - "&fQueued: &a&lt;queued&gt; &7| &fPlaying: &b&lt;playing&gt;"
+  #     - ""
+  #     - "&eClick to view kits!"
+  #   slot: -1
+  #   kits:
+  #     - "NoDebuff"
+  #     - "Debuff"
+  #     - "Gapple"
+</code></pre>
+
 <div class="page-navigation">
   <a class="page-nav-link prev" href="practice-features.html">
     <span class="page-nav-label">Previous Page</span>

@@ -243,6 +243,318 @@
   Deleting a kit clears all customized player files associated with it from the database and removes all linked arena entries.
 </div>
 
+<h2 id="kit-categories">Kit Categories System</h2>
+<p class="page-lead">An enterprise-grade hierarchical categorization and auto-pagination system designed to declutter large kit rosters, streamline matchmaking navigation, and provide a polished user experience across all kit-related menus.</p>
+
+<h3>1. Architectural Overview &amp; Design Philosophy</h3>
+<p>Modern competitive PvP servers often feature dozens of distinct game modes and loadouts (such as NoDebuff, Debuff, Gapple, Combo, Sumo, BuildUHC, Boxing, FinalUHC, BedFight, Bridge, and Bow). Presenting 30+ kits in a single unorganized menu overwhelms players and impairs navigation speed.</p>
+
+<p>The <strong>Kit Category System</strong> introduces a structured <strong>Two-Tier Hierarchy</strong>:</p>
+<ul>
+  <li><strong>Tier 1 (Root Menu):</strong> Displays top-level <strong>Category Items</strong> (e.g. <code>PotPvP</code>, <code>Sword PvP</code>, <code>UHC &amp; Rod</code>, <code>Modern Combat</code>) alongside any remaining <em>Uncategorized Kits</em>.</li>
+  <li><strong>Tier 2 (Category Sub-Menu):</strong> Clicking a category item opens a dedicated sub-menu rendering only the kits assigned to that specific category, equipped with live queue statistics, sub-menu pagination, and a context-aware <code>◀ BACK</code> navigation button.</li>
+</ul>
+
+<div class="alert alert-note">
+  <div class="alert-title">Zero-Breaking Change Guarantee (Empty by Default)</div>
+  By default, <code>plugins/ShyamDuels/categories.yml</code> starts completely empty (<code>categories: {}</code>). When no categories are configured, all GUIs throughout the plugin automatically render in standard 1-level mode with zero overhead or configuration changes required.
+</div>
+
+<h3>2. Comprehensive GUI Integrations</h3>
+<p>The Category System is deeply integrated across all player-facing and administrative interfaces in ShyamDuels:</p>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Interface</th>
+      <th>Trigger Command</th>
+      <th>Category Behavior &amp; Features</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Matchmaking Queue GUI</strong></td>
+      <td><code>/queue</code>, <code>/duels</code></td>
+      <td>
+        <ul>
+          <li>Root category icons display dynamic real-time player tallies (sum of all players queued and playing in that category).</li>
+          <li>Clicking a category opens the dedicated Category Queue GUI.</li>
+          <li>Individual kit slots retain real-time status indicators (<code>AVAILABLE</code>, <code>QUEUED</code>, <code>PRIMARY</code>) and support 1-click queue entry/exit.</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Direct Duel Kit Selection</strong></td>
+      <td><code>/duel &lt;player&gt;</code>, <code>/1v1</code></td>
+      <td>
+        <ul>
+          <li>Preserves the challenged opponent's name, target UUID, and selected match rounds across all category drill-downs.</li>
+          <li>Interactive Skeleton Skull round counter button (Left-Click: +1, Right-Click: -1, Shift-Click: ±5) remains interactive in both root and sub-menus.</li>
+          <li>Clicking any kit immediately dispatches the duel invitation with the active round count.</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Kit Editor Kit Picker</strong></td>
+      <td><code>/kiteditor</code>, <code>/editor</code></td>
+      <td>
+        <ul>
+          <li>Category items are registered with custom <code>PersistentDataContainer</code> (PDC) identifiers.</li>
+          <li>Clicking a category drills into that category's kit picker view.</li>
+          <li>Supports the Custom Kit Creator shortcut item and returns to the root picker upon clicking <code>◀ BACK</code>.</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Party Duel &amp; Battle Selection</strong></td>
+      <td><code>/party duel</code>, <code>/party vs</code></td>
+      <td>
+        <ul>
+          <li>Categorizes kit selection for Party vs Party, Party FFA, and Party Split team matches.</li>
+          <li>Maintains party ownership verification and Custom Kit integration.</li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3>3. Auto-Pagination Engine</h3>
+<p>Both root menus and category sub-menus are powered by an intelligent, mathematical pagination engine (<code>GuiPagination</code>):</p>
+<ul>
+  <li><strong>Dynamic Page Calculation:</strong> Computes <code>totalPages = ceil(itemCount / contentSlotsPerPage)</code> on the fly based on the target menu's configured slot array.</li>
+  <li><strong>Safe Page Clamping:</strong> Automatically bounds the requested page between <code>0</code> and <code>totalPages - 1</code>, preventing out-of-bounds GUI exceptions.</li>
+  <li><strong>Adaptive Navigation Bar:</strong>
+    <ul>
+      <li>When total pages &gt; 1, renders Previous Page (<code>◀</code>), Page Information indicator (<code>Page X of Y</code>), and Next Page (<code>▶</code>) controls in their configured slots.</li>
+      <li>When inside a category sub-menu, automatically injects a <code>◀ BACK</code> button allowing players to instantly return to the root category selection.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3>4. Performance, Concurrency &amp; $O(1)$ Caching</h3>
+<p>The system is built from the ground up for high-capacity networks running hundreds of concurrent players:</p>
+<ul>
+  <li><strong>$O(1)$ Bidirectional In-Memory Lookups:</strong> <code>CategoryManager</code> maintains concurrent lookup maps (<code>categories</code> and <code>kitToCategoryMap</code>) backed by <code>ConcurrentHashMap</code>. Checking whether a kit is categorized or resolving its parent category requires zero file reads or linear iterations.</li>
+  <li><strong>Non-Blocking Asynchronous Disk Serialization:</strong> Saving modifications (creating, renaming, re-iconing, or linking kits) is executed asynchronously via worker threads (<code>AsyncUtil.runAsync</code>). The main server tick thread is never stalled by disk I/O.</li>
+  <li><strong>Live Differential GUI Updates:</strong> The Matchmaking Queue uses slot signature hashing to only push inventory packets for slots whose player counts or queue states have actually changed.</li>
+</ul>
+
+<h3>5. Hierarchical Depth &amp; Sub-Category Support</h3>
+<p>A frequent question among server administrators is whether categories can contain sub-categories:</p>
+<ul>
+  <li><strong>The 2-Level Standard:</strong> In competitive Minecraft PvP, player UX research overwhelmingly indicates that a <strong>2-Tier Hierarchy</strong> (Root Categories $\rightarrow$ Kits) provides the highest retention and lowest bounce rate. Players can navigate to any kit within exactly two clicks (Click Category $\rightarrow$ Click Kit to Queue).</li>
+  <li><strong>Sub-Category Compatibility:</strong> The underlying <code>KitCategory</code> architecture supports arbitrary hierarchical grouping. If your network requires multi-level nested folders (e.g. <code>Competitive</code> $\rightarrow$ <code>PotPvP</code> $\rightarrow$ <code>NoDebuff</code>), each category ID acts as a distinct routing node.</li>
+</ul>
+
+<h3>6. In-Game Admin Command Reference</h3>
+<p>All category administration is managed under the base command <code>/kit category</code> (or aliases <code>/kits category</code>, <code>/shyamkits category</code>). All arguments feature intelligent context-aware tab completion:</p>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Command Syntax</th>
+      <th>Permission</th>
+      <th>Description &amp; Examples</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>/kit category create &lt;id&gt; &lt;displayName&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>
+        Creates a new category. Display names support MiniMessage tags, Hex codes (<code>&#RRGGBB</code>), and legacy color codes (<code>&amp;c</code>).<br/>
+        <em>Example:</em> <code>/kit category create potpvp &amp;c&amp;lPotPvP &amp;7Kits</code>
+      </td>
+    </tr>
+    <tr>
+      <td><code>/kit category delete &lt;category&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>
+        Deletes the specified category. Any kits linked to the category are safely detached and return to uncategorized status without data loss.<br/>
+        <em>Example:</em> <code>/kit category delete potpvp</code>
+      </td>
+    </tr>
+    <tr>
+      <td><code>/kit category setname &lt;category&gt; &lt;displayName&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>
+        Renames an existing category's formatted display title.<br/>
+        <em>Example:</em> <code>/kit category setname potpvp &lt;gradient:#FF1D54:#FF7B00&gt;&lt;b&gt;Ranked PotPvP&lt;/b&gt;&lt;/gradient&gt;</code>
+      </td>
+    </tr>
+    <tr>
+      <td><code>/kit category seticon &lt;category&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>
+        Sets the category's menu display item to the exact item currently held in your main hand (preserves CustomModelData, item flags, and enchantments).<br/>
+        <em>Example:</em> Hold a custom potion model and execute <code>/kit category seticon potpvp</code>
+      </td>
+    </tr>
+    <tr>
+      <td><code>/kit category addkit &lt;category&gt; &lt;kit&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>
+        Assigns/links an existing registered kit to a category.<br/>
+        <em>Example:</em> <code>/kit category addkit potpvp NoDebuff</code>
+      </td>
+    </tr>
+    <tr>
+      <td><code>/kit category removekit &lt;category&gt; &lt;kit&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>
+        Unlinks a kit from its category, restoring it as a standalone root kit.<br/>
+        <em>Example:</em> <code>/kit category removekit potpvp NoDebuff</code>
+      </td>
+    </tr>
+    <tr>
+      <td><code>/kit category list</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>
+        Outputs a comprehensive breakdown in chat showing all configured categories, their display titles, and their linked kits.
+      </td>
+    </tr>
+    <tr>
+      <td><code>/kit category reload</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>
+        Hot-reloads <code>categories.yml</code> from disk into memory without requiring a server reboot.
+      </td>
+    </tr>
+    <tr>
+      <td><code>/kit category help</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>
+        Displays interactive command syntax and descriptions directly in the chat window.
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3>7. Configuration File Structure (categories.yml)</h3>
+<p>Categories are persisted in <code>plugins/ShyamDuels/categories.yml</code>. Below is an exhaustive reference configuration with comments:</p>
+
+<pre><span class="lang-badge">yaml</span><code># ==============================================================================
+# ShyamDuels - Kit Categories Configuration
+# ==============================================================================
+# Define categories to group your server kits into clean parent menus.
+# Supports full MiniMessage formatting, legacy color codes, and custom model data.
+
+categories:
+  potpvp:
+    display-name: "&#FF5555&lPotPvP Kits"
+    icon:
+      material: SPLASH_POTION
+      custom-model-data: 1001
+    lore:
+      - "&7Competitive potion fighting modes."
+      - ""
+      - "&fKits Included: &e&lt;kits_count&gt;"
+      - "&fQueued: &a&lt;queued&gt; &7| &fPlaying: &b&lt;playing&gt;"
+      - ""
+      - "&eClick to view category kits!"
+    slot: -1
+    kits:
+      - "NoDebuff"
+      - "Debuff"
+      - "Gapple"
+
+  sword:
+    display-name: "&#55FF55&lSword &amp; Combo"
+    icon:
+      material: DIAMOND_SWORD
+      custom-model-data: 1002
+      # Or pull custom 3D model icon directly from Nexo:
+      # nexo: "sword_category_icon"
+      # Or modern 1.21.2+ Minecraft Item Model:
+      # item-model: "minecraft:custom_sword"
+    lore:
+      - "&7Fast-paced melee and combo duels."
+      - ""
+      - "&fKits Included: &e&lt;kits_count&gt;"
+      - "&fQueued: &a&lt;queued&gt; &7| &fPlaying: &b&lt;playing&gt;"
+      - ""
+      - "&eClick to view category kits!"
+    slot: -1
+    kits:
+      - "Combo"
+      - "Sumo"
+      - "Boxing"
+
+  uhc:
+    display-name: "&#FFAA00&lUHC &amp; Survival"
+    icon:
+      material: GOLDEN_APPLE
+      custom-model-data: 0
+    lore:
+      - "&7Hardcore survival and rod mechanics."
+      - ""
+      - "&fKits Included: &e&lt;kits_count&gt;"
+      - "&fQueued: &a&lt;queued&gt; &7| &fPlaying: &b&lt;playing&gt;"
+      - ""
+      - "&eClick to view category kits!"
+    slot: -1
+    kits:
+      - "BuildUHC"
+      - "FinalUHC"
+      - "Archer"
+</code></pre>
+
+<h3>8. Supported Placeholders in Category Lore</h3>
+<p>The following dynamic placeholders are evaluated at runtime when category items are rendered in menus:</p>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Placeholder</th>
+      <th>Replacement Value</th>
+      <th>Example Output</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>&lt;category_name&gt;</code>, <code>&lt;name&gt;</code></td>
+      <td>The formatted display name of the category.</td>
+      <td><code>PotPvP Kits</code></td>
+    </tr>
+    <tr>
+      <td><code>&lt;category_id&gt;</code>, <code>&lt;id&gt;</code></td>
+      <td>The internal YAML identifier key of the category.</td>
+      <td><code>potpvp</code></td>
+    </tr>
+    <tr>
+      <td><code>&lt;kits_count&gt;</code>, <code>&lt;count&gt;</code></td>
+      <td>The total count of registered public kits in the category.</td>
+      <td><code>3</code></td>
+    </tr>
+    <tr>
+      <td><code>&lt;queued&gt;</code></td>
+      <td>The live sum of all players queued across all kits in this category.</td>
+      <td><code>12</code></td>
+    </tr>
+    <tr>
+      <td><code>&lt;playing&gt;</code></td>
+      <td>The live sum of all players actively in matches across all kits in this category.</td>
+      <td><code>28</code></td>
+    </tr>
+    <tr>
+      <td><code>&lt;opponent&gt;</code></td>
+      <td>The opponent player's name (active in Duel Kit Selection).</td>
+      <td><code>Player123</code></td>
+    </tr>
+    <tr>
+      <td><code>&lt;rounds&gt;</code></td>
+      <td>The currently selected duel round count (active in Duel Kit Selection).</td>
+      <td><code>3</code></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
 <div class="page-navigation">
   <a class="page-nav-link prev" href="gate-setup.html">
     <span class="page-nav-label">Previous Page</span>

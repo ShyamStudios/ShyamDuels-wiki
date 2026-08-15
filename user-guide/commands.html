@@ -244,8 +244,8 @@
       <td>Teleports you as a spectator to watch the match of the specified player.</td>
     </tr>
     <tr>
-      <td><code>/spectate leave</code></td>
-      <td>-</td>
+      <td><code>/spectatorleave</code></td>
+      <td><code>/spectateleave</code>, <code>/spawn</code></td>
       <td><code>shyamduels.use</code></td>
       <td>Exits spectator mode and returns you to the lobby.</td>
     </tr>
@@ -815,6 +815,60 @@
       <td>-</td>
       <td><code>shyamduels.admin</code></td>
       <td>Lists all kits that have match-start potion scanning enabled. Also accepts <code>/kit matchstartpots &lt;kit&gt; list</code>.</td>
+    </tr>
+    <tr>
+      <td><code>category create</code></td>
+      <td><code>&lt;id&gt; &lt;displayName&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Creates a new kit category. Supports MiniMessage and Hex color formats in the display name.</td>
+    </tr>
+    <tr>
+      <td><code>category delete</code></td>
+      <td><code>&lt;category&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Deletes a category. Linked kits remain intact and return to uncategorized status.</td>
+    </tr>
+    <tr>
+      <td><code>category setname</code></td>
+      <td><code>&lt;category&gt; &lt;displayName&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Updates the display name of a category.</td>
+    </tr>
+    <tr>
+      <td><code>category seticon</code></td>
+      <td><code>&lt;category&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Sets the category display icon to your currently held item.</td>
+    </tr>
+    <tr>
+      <td><code>category addkit</code></td>
+      <td><code>&lt;category&gt; &lt;kit&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Adds/links an existing kit to a category.</td>
+    </tr>
+    <tr>
+      <td><code>category removekit</code></td>
+      <td><code>&lt;category&gt; &lt;kit&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Removes/unlinks a kit from a category.</td>
+    </tr>
+    <tr>
+      <td><code>category list</code></td>
+      <td>-</td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Lists all categories and their member kits in chat.</td>
+    </tr>
+    <tr>
+      <td><code>category reload</code></td>
+      <td>-</td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Reloads <code>categories.yml</code> from disk.</td>
+    </tr>
+    <tr>
+      <td><code>category help</code></td>
+      <td>-</td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Displays syntax and descriptions for all category commands.</td>
     </tr>
   </tbody>
 </table>
