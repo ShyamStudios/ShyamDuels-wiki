@@ -188,7 +188,7 @@ golden-head:
 <p>When <code>modules.practice-right-click-duel: true</code>, players can right-click another player in worlds listed under <code>enabled-worlds.right-click-duel</code>. The default action opens the <strong>Player Profile GUI</strong> (<code>right-click.action: profile</code>). Set <code>action: command</code> to restore legacy duel-invite behaviour via <code>right-click.commands</code>. See <a href="kit-sharing.html">Kit Sharing &amp; Profiles</a> and <a href="configuration.html">Configuration Files</a>.</p>
 
 <h2>Match-Start Potions</h2>
-<p>Scans player potion effects at match start and removes blocked debuffs. Configure globally in <code>config.yml</code> under <code>match-start-potions:</code>, then per kit:</p>
+<p>Scans kit splash potions at match start and auto-splashes approved buffs (like Speed II and Fire Resistance). By default (<code>take-from-inventory: false</code>), it splashes these effects without consuming items from player inventories (Minemen Club / MCPVP style). Set <code>take-from-inventory: true</code> in <code>config.yml</code> if you prefer consuming potions from inventories. Configure per kit:</p>
 <pre><code>/kit matchstartpots enable &lt;kit&gt;
 /kit matchstartpots disable &lt;kit&gt;
 /kit matchstartpots scan &lt;kit&gt;

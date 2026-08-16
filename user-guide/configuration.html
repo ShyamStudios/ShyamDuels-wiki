@@ -303,8 +303,9 @@ match-start:
 match-start-potions:
   enabled: true
   delay_seconds: 1
+  take-from-inventory: false
   blocked-effects: [poison, slowness, weakness, ...]</code></pre>
-<p>Configure match-start potion scanning per kit with <code>/kit matchstartpots</code>. See <a href="kit-setup.html">Kit Setup</a>.</p>
+<p>Configure match-start potion scanning per kit with <code>/kit matchstartpots</code>. When <code>take-from-inventory</code> is false, buffs are splashed without consuming items from player inventories (MMC/MCPVP style). See <a href="kit-setup.html">Kit Setup</a>.</p>
 
 <h3>Killstreaks, Messages, and Practice Items</h3>
 <pre><span class="lang-badge">yaml</span><code>killstreaks:
@@ -460,6 +461,49 @@ kit-sharing:
 <p>Reload tab config with <code>/tab reload</code>. Players toggle tab/scoreboard visibility in <code>/settings</code>.</p>
 <p>In <code>tab/scoreboard.yml</code>, <code>scoreboard.async-placeholders: true</code> (default) resolves PlaceholderAPI off the main thread for performance. Set it to <code>false</code> only if a PlaceholderAPI expansion you use is not thread-safe and errors on the scoreboard.</p>
 <p><strong>Tab sort ranks</strong> in <code>tab/display.yml</code> use LuckPerms permissions for prefix priority: <code>group.owner</code>, <code>shyamduels.tab.admin</code>, <code>shyamduels.tab.staff</code>, <code>shyamduels.tab.vip</code>.</p>
+
+<h3>Nametags and Below-Name Health System</h3>
+<p>Nametags and above-head health displays are configured in <code>tab/display.yml</code> under <code>nametags:</code> and <code>belowname-objective:</code>.</p>
+<p>ShyamDuels v2.0+ supports both modern background-free <code>TextDisplay</code> entities (1.19.4+) and legacy vanilla scoreboard teams:</p>
+<pre><span class="lang-badge">yaml</span><code># tab/display.yml
+nametags:
+  enabled: true
+  # Display mode:
+  #   text-display -> Modern (1.19.4+), background-free nametags with crisp text drop shadows (Recommended)
+  #   scoreboard   -> Classic vanilla scoreboard teams (has client-side dark translucent background)
+  mode: text-display
+
+  # Settings for text-display mode:
+  # background-color: 'transparent' (no background box), or hex '#RRGGBB' / '#AARRGGBB', or 'default'
+  background-color: transparent
+  # Enables crisp text drop shadows for contrast against all blocks and skies
+  text-shadow: true
+  # Vertical offset above player's head (default: 0.25)
+  height-offset: 0.25
+  # Whether nametag is visible through solid blocks
+  see-through: false
+
+  # Text before player name above head
+  tagprefix: '%luckperms_prefix%'
+  tagsuffix: ''
+  collision: never
+  respect-npcs: true
+
+belowname-objective:
+  enabled: true
+  # In text-display mode, this is automatically merged as Line 2 of the background-free display
+  fancy-value: '<#FFFA45>%shyamduels_rank% &r<gray>» <#FF780C>%shyamduels_elo% ELO'
+  per-world:
+    Arenas:
+      fancy-value: '<#FF1D54>❤ %player_health_rounded%'
+      value: '%player_health_rounded%'</code></pre>
+<p><strong>Highlights of TextDisplay Mode:</strong></p>
+<ul>
+  <li><strong>Background-Free:</strong> Removes the dark rectangular background box rendered by vanilla Minecraft clients.</li>
+  <li><strong>Multi-line Integration:</strong> Combines player rank/prefix/name and below-name health (<code>❤ 21.8</code>) in a single unified display.</li>
+  <li><strong>Client-Side Interpolation:</strong> Passenger mounting ensures 0-jitter, 100% smooth positioning matching client FPS.</li>
+  <li><strong>First-Person Protection:</strong> Automatically hidden from the player themselves to keep the 1st-person screen clear during combat.</li>
+</ul>
 
 <h3>GUI Menus and Item Configs</h3>
 <p>All player-facing menus live under <code>plugins/ShyamDuels/menus/</code>:</p>

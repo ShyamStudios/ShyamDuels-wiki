@@ -31,9 +31,10 @@ Open [`index.html`](index.html) in a browser to view the full documentation offl
 
 ## Plugin facts (v2.0)
 
-- **Server:** Paper 1.21+ (API `1.21`)
+- **Server:** Paper 1.21+ / Paper 26.x / Leaf 26.2 / 1.21.11 (API `1.21`)
 - **Java:** 21+
 - **Required plugins:** FastAsyncWorldEdit, packetevents, LuckPerms, PlaceholderAPI
 - **Optional:** Nexo (custom menu icons)
 - **Database:** SQLite (default) or MySQL (configured in `database.yml`, merged at runtime under `database.*`)
+
 

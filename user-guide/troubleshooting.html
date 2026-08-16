@@ -98,6 +98,21 @@
 </ul>
 <p>Matchmaking only claims arenas whose build mode matches the kit. An arena with build enabled will not be used for a non-build kit, and vice versa.</p>
 
+<h2>Paper / Leaf 26.2+ Dimension Storage &amp; World Migration</h2>
+<p>On Paper 26.x, Leaf 26.2, and Paper 1.20.6+/1.21+, custom worlds and arena clones are stored in vanilla dimension folders (e.g., <code>&lt;level-name&gt;/dimensions/minecraft/arenas1</code>) instead of legacy root folders.</p>
+
+<h3>Error: "Failed to migrate legacy world ... Refusing to overwrite existing migrated file"</h3>
+<p>This error occurred when an obsolete, unmigrated legacy folder (e.g. <code>./Arenas1</code> in the server root) conflicted with a freshly copied dimension clone world. In ShyamDuels v2.0+, the plugin automatically purges stale legacy root folders when modern dimension storage is active to prevent Paper's <code>LegacyCraftBukkitWorldMigration</code> from triggering collision errors.</p>
+
+<h2>Match Teleport &amp; Duel Preparation</h2>
+
+<h3>Error: "Could not safely prepare player for duel"</h3>
+<p>If a player fails to teleport to the arena at the start of a duel, common causes include:</p>
+<ul>
+  <li><strong>Passenger or Vehicle Interference:</strong> When using TextDisplay nametags or riding a vehicle, cross-world teleports can be rejected by the server if passengers are attached. ShyamDuels automatically dismounts vehicles and purges TextDisplay passengers immediately before cross-world teleportation.</li>
+  <li><strong>Unloaded Arena World:</strong> Ensure the arena's target world (e.g. <code>Arenas</code> or clone worlds) is loaded properly at startup. ShyamDuels automatically resolves and refreshes live world handles during match preparation.</li>
+</ul>
+
 <h2>Database Connection Issues</h2>
 <p>If player ELO statistics do not persist or matches fail to save:</p>
 
