@@ -224,9 +224,54 @@ Fetches and updates player ELO ratings, kills, deaths, winstreaks, and ranks:</p
       <td>Saves modifications back to the SQLite or MySQL database pools.</td>
     </tr>
     <tr>
+      <td><code>getKitStats(Player player, String kitName)</code></td>
+      <td>KitStats</td>
+      <td>Gets cached statistics for a player and specific kit.</td>
+    </tr>
+    <tr>
+      <td><code>getKitStats(UUID uuid, String kitName)</code></td>
+      <td>KitStats</td>
+      <td>Gets cached statistics for a UUID and specific kit.</td>
+    </tr>
+    <tr>
+      <td><code>getKitElo(UUID uuid, String kitName)</code></td>
+      <td>int</td>
+      <td>Convenience getter for a player's ELO rating in a specific kit.</td>
+    </tr>
+    <tr>
+      <td><code>getKitWins(UUID uuid, String kitName)</code></td>
+      <td>int</td>
+      <td>Convenience getter for a player's wins with a specific kit.</td>
+    </tr>
+    <tr>
+      <td><code>getKitLosses(UUID uuid, String kitName)</code></td>
+      <td>int</td>
+      <td>Convenience getter for a player's losses with a specific kit.</td>
+    </tr>
+    <tr>
+      <td><code>getKitKills(UUID uuid, String kitName)</code></td>
+      <td>int</td>
+      <td>Convenience getter for a player's kills with a specific kit.</td>
+    </tr>
+    <tr>
+      <td><code>getKitDeaths(UUID uuid, String kitName)</code></td>
+      <td>int</td>
+      <td>Convenience getter for a player's deaths with a specific kit.</td>
+    </tr>
+    <tr>
+      <td><code>saveStats(PlayerStats stats)</code></td>
+      <td>CompletableFuture&lt;Void&gt;</td>
+      <td>Saves modifications back to the SQLite or MySQL database pools.</td>
+    </tr>
+    <tr>
       <td><code>getTopPlayers(String stat, int limit)</code></td>
       <td>CompletableFuture&lt;List&lt;PlayerStats&gt;&gt;</td>
-      <td>Asynchronously fetches a leaderboard ordered by a stat (e.g. "elo", "kills", "wins").</td>
+      <td>Asynchronously fetches an overall leaderboard ordered by a stat (e.g. "elo", "kills", "wins", "winstreak").</td>
+    </tr>
+    <tr>
+      <td><code>getTopPlayers(String kitName, String stat, int limit)</code> / <code>getTopKitPlayers(...)</code></td>
+      <td>CompletableFuture&lt;List&lt;KitLeaderboardEntry&gt;&gt;</td>
+      <td>Asynchronously fetches per-kit leaderboard entries ordered by a stat (e.g. "elo", "wins", "kills", "killstreak", "winstreak").</td>
     </tr>
   </tbody>
 </table>

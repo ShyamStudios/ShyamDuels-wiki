@@ -141,6 +141,33 @@ Represents cached player statistics:</p>
   <li><code>getFormattedPlaytime()</code>: Returns a human-readable playtime string (e.g. <code>3h 24m</code>).</li>
 </ul>
 
+<h2 id="kitstats">KitStats</h2>
+<p>Class: <code>com.shyamstudio.shyamduels.stats.KitStats</code><br/>
+Represents cached per-player statistics for a specific kit loadout:</p>
+<ul>
+  <li><code>getElo()</code>: Current ELO matchmaking rating for this kit (default 1000).</li>
+  <li><code>getWins()</code> / <code>getLosses()</code>: Match victories and defeats with this kit.</li>
+  <li><code>getKills()</code> / <code>getDeaths()</code>: Kills and deaths recorded using this kit.</li>
+  <li><code>getKillstreak()</code> / <code>getBestKillstreak()</code>: Current and all-time highest kill streaks with this kit.</li>
+  <li><code>getWinstreak()</code> / <code>getBestWinstreak()</code>: Current and all-time highest win streaks with this kit.</li>
+  <li><code>getKD()</code> / <code>getWL()</code>: Kill/Death and Win/Loss ratios formatted as decimals.</li>
+  <li><code>getWinRate()</code>: Win percentage with this kit.</li>
+  <li><code>getGames()</code>: Total matches played with this kit.</li>
+</ul>
+
+<h2 id="kitleaderboardentry">KitLeaderboardEntry</h2>
+<p>Class: <code>com.shyamstudio.shyamduels.stats.KitLeaderboardEntry</code><br/>
+Represents a ranked entry in a per-kit leaderboard query:</p>
+<ul>
+  <li><code>getPlayerUuid()</code>: The player's unique <code>UUID</code>.</li>
+  <li><code>getKitName()</code>: The kit identifier for this leaderboard entry.</li>
+  <li><code>getStats()</code>: Returns the underlying <a href="#kitstats">KitStats</a> data object.</li>
+  <li><code>getElo()</code> / <code>getWins()</code> / <code>getLosses()</code>: Direct getters for rating and match records.</li>
+  <li><code>getKills()</code> / <code>getDeaths()</code>: Direct getters for combat kills and deaths.</li>
+  <li><code>getKillstreak()</code> / <code>getBestKillstreak()</code> / <code>getWinstreak()</code> / <code>getBestWinstreak()</code>: Streak milestones.</li>
+  <li><code>getKD()</code> / <code>getWL()</code> / <code>getWinRate()</code> / <code>getGames()</code>: Computed ratio and match count metrics.</li>
+</ul>
+
 <h2>PlayerSettings</h2>
 <p>Class: <code>com.shyamstudio.shyamduels.settings.PlayerSettings</code><br/>
 Represents personal preference configuration options:</p>

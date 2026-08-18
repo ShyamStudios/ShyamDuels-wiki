@@ -234,54 +234,80 @@ public void onRematchButtonClicked(Player player) {
     api.rematch().handleRematchClick(player);
 }</code></pre>
 
-<h2>Example 8: Building an ELO Leaderboard</h2>
-<p>Fetch the top players by a stat asynchronously and display them without blocking the main thread:</p>
+<h2>Example 8: Building Overall &amp; Per-Kit Leaderboards</h2>
+<p>Fetch top players asynchronously for global rankings or filtered by a specific kit (e.g. <code>nodebuff</code>, <code>boxing</code>, <code>gapple</code>):</p>
 <pre><span class="lang-badge">java</span><code>import com.shyamstudio.shyamduels.api.ShyamDuelsAPI;
 import com.shyamstudio.shyamduels.api.ShyamDuelsProvider;
+import com.shyamstudio.shyamduels.stats.KitLeaderboardEntry;
 import com.shyamstudio.shyamduels.stats.PlayerStats;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-public void showLeaderboard(Player viewer) {
+// 1. Overall ELO Leaderboard
+public void showGlobalLeaderboard(Player viewer) {
     ShyamDuelsAPI api = ShyamDuelsProvider.get();
     if (api == null) return;
 
     api.stats().getTopPlayers("elo", 10).thenAccept(top -> {
-        // Hop back to the main thread before touching Bukkit
         Bukkit.getScheduler().runTask(api.getPlugin(), () -> {
-            viewer.sendMessage("§6Top 10 by ELO:");
+            viewer.sendMessage("§6=== Top 10 Overall ELO ===");
             int rank = 1;
             for (PlayerStats stats : top) {
-                viewer.sendMessage("§e#" + (rank++) + " §7" + stats.getUuid() + " §f- " + stats.getElo());
+                viewer.sendMessage("§e#" + (rank++) + " §7" + stats.getUuid() + " §f- " + stats.getElo() + " ELO");
+            }
+        });
+    });
+}
+
+// 2. Per-Kit Leaderboard (e.g. Nodebuff ELO or Wins)
+public void showKitLeaderboard(Player viewer, String kitName) {
+    ShyamDuelsAPI api = ShyamDuelsProvider.get();
+    if (api == null) return;
+
+    api.stats().getTopPlayers(kitName, "elo", 10).thenAccept(top -> {
+        Bukkit.getScheduler().runTask(api.getPlugin(), () -> {
+            viewer.sendMessage("§6=== Top 10 for " + kitName + " ===");
+            int rank = 1;
+            for (KitLeaderboardEntry entry : top) {
+                viewer.sendMessage("§e#" + (rank++) + " §7" + entry.getPlayerUuid() 
+                        + " §f- §b" + entry.getElo() + " ELO §7(Wins: " + entry.getWins() + ")");
             }
         });
     });
 }</code></pre>
 
-<h2>Example 9: Reading Kills, Deaths, and ELO by UUID</h2>
-<p>The convenience getters on <code>StatsService</code> let you read individual stats for any cached player without touching the <code>PlayerStats</code> object directly. This is handy for PlaceholderAPI bridges, custom GUIs, or reward checks:</p>
+<h2>Example 9: Reading Per-Kit &amp; Overall Stats by Player / UUID</h2>
+<p>The convenience getters on <code>StatsService</code> let you read overall and per-kit stats for any cached player directly or via <code>KitStats</code>/<code>PlayerStats</code> without boilerplate. This is handy for PlaceholderAPI bridges, custom GUIs, or reward checks:</p>
 <pre><span class="lang-badge">java</span><code>import com.shyamstudio.shyamduels.api.ShyamDuelsAPI;
 import com.shyamstudio.shyamduels.api.ShyamDuelsProvider;
+import com.shyamstudio.shyamduels.stats.KitStats;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-public void showCombatSummary(Player viewer, UUID target) {
+public void showCombatSummary(Player viewer, UUID target, String kitName) {
     ShyamDuelsAPI api = ShyamDuelsProvider.get();
     if (api == null) return;
 
-    int kills = api.stats().getKills(target);
-    int deaths = api.stats().getDeaths(target);
-    int wins = api.stats().getWins(target);
-    int losses = api.stats().getLosses(target);
-    int elo = api.stats().getElo(target);
+    // Overall stats
+    int globalElo = api.stats().getElo(target);
+    int globalWins = api.stats().getWins(target);
+    int globalKills = api.stats().getKills(target);
+    int globalDeaths = api.stats().getDeaths(target);
 
-    double kd = deaths == 0 ? kills : (double) kills / deaths;
+    // Per-Kit stats & metrics
+    KitStats kitStats = api.stats().getKitStats(target, kitName);
+    int kitElo = kitStats.getElo();
+    int kitWins = kitStats.getWins();
+    int kitLosses = kitStats.getLosses();
+    double kitKd = kitStats.getKD();
+    double kitWinrate = kitStats.getWinRate();
 
-    viewer.sendMessage("§6Combat Summary:");
-    viewer.sendMessage("§eKills: §f" + kills + " §7| §eDeaths: §f" + deaths);
-    viewer.sendMessage("§eWins: §f" + wins + " §7| §eLosses: §f" + losses);
-    viewer.sendMessage(String.format("§eK/D: §f%.2f §7| §eELO: §f%d", kd, elo));
+    viewer.sendMessage("§6=== Stats Summary for " + kitName + " ===");
+    viewer.sendMessage("§7Global: §f" + globalElo + " ELO §7| §f" + globalWins + " Wins §7| §f" + globalKills + " Kills");
+    viewer.sendMessage("§7Kit ELO: §b" + kitElo + " §7| Wins: §a" + kitWins + " §7| Losses: §c" + kitLosses);
+    viewer.sendMessage(String.format("§7Kit K/D: §f%.2f §7| Win Rate: §f%.1f%% §7| Streak: §e%d", 
+            kitKd, kitWinrate, kitStats.getWinstreak()));
 }</code></pre>
 
 <h2>Example 10: Tracking Live Kills With FightDeathEvent</h2>
