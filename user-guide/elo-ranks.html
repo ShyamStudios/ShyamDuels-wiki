@@ -45,6 +45,7 @@
     <a href="elo-ranks.html" class="active">ELO &amp; Ranks</a>
     <a href="settings.html">Player Settings</a>
     <a href="practice-features.html">Practice Features</a>
+    <a href="country.html">Country Flags</a>
     <a href="configuration.html">Configuration Files</a>
     <a href="migration.html">Migration Guide</a>
     <a href="placeholders.html">PlaceholderAPI</a>
@@ -147,16 +148,16 @@ Loss = clamp(min-loss, max-loss, round(24.32)) = -24 ELO</code></pre>
 
 <div class="alert alert-note">
   <div class="alert-title">Custom Kits ELO Toggle</div>
-  <p>Per-kit ELO is tracked for all standard official kits. However, per-kit ELO gain for custom kits depends on the <code>elo.custom-kits</code> toggle in <code>config.yml</code>. If this option is set to <code>false</code>, per-kit ELO statistics for custom kits are not calculated and are hidden from the kit statistics menu.</p>
+  <p>Per-kit ELO is tracked for all standard official kits (including player-edited loadouts of internal kits). ELO/Win-Loss for custom-kit-system fights depends on the <code>elo.custom-kits</code> toggle in <code>ranks.yml</code>. If this option is set to <code>false</code>, custom kit matches are unranked; Kill/Death still update so K/D stays meaningful. Which match types count as ranked is controlled separately via <code>elo.match-types.*</code>.</p>
 </div>
 
 <div class="alert alert-note">
   <div class="alert-title">ELO Settings in ranks.yml</div>
-  Options: <code>elo.enabled</code>, <code>elo.base-gain</code>, <code>elo.base-loss</code>, <code>elo.kill-gain</code>, <code>elo.custom-kits</code>, <code>elo.opponent-based</code>, <code>elo.min-elo</code>, <code>elo.min-gain</code>, <code>elo.max-gain</code>, <code>elo.min-loss</code>, <code>elo.max-loss</code>, <code>elo.starting-elo</code>.
+  Options: <code>elo.rank-system</code>, <code>elo.enabled</code>, <code>elo.custom-kits</code>, <code>elo.match-types.*</code>, <code>elo.base-gain</code>, <code>elo.base-loss</code>, <code>elo.kill-gain</code>, <code>elo.opponent-based</code>, <code>elo.min-elo</code>, <code>elo.min-gain</code>, <code>elo.max-gain</code>, <code>elo.min-loss</code>, <code>elo.max-loss</code>, <code>elo.starting-elo</code>, <code>elo.anti-farm.*</code>, and <code>elo.progress-bar.*</code>.
 </div>
 
 <h2>Default Ranks Database</h2>
-<p>If not customized inside the configuration files, the plugin loads these 34 default ranks defined in the source code:</p>
+<p>The 34 default ranks below ship in the bundled <code>ranks.yml</code> resource and are copied to <code>plugins/ShyamDuels/ranks.yml</code> on first start, where you can edit them:</p>
 <div class="table-wrap">
 <table>
   <thead>
@@ -192,27 +193,27 @@ Loss = clamp(min-loss, max-loss, round(24.32)) = -24 ELO</code></pre>
     <tr><td>Diamond III</td><td>2700 - 2799</td><td>1.60x</td></tr>
     <tr><td>Diamond II</td><td>2800 - 2899</td><td>1.65x</td></tr>
     <tr><td>Diamond I</td><td>2900 - 2999</td><td>1.70x</td></tr>
-    <tr><td>Crown V</td><td>3000 - 3099</td><td>1.75x</td></tr>
-    <tr><td>Crown IV</td><td>3100 - 3199</td><td>1.80x</td></tr>
-    <tr><td>Crown III</td><td>3200 - 3299</td><td>1.85x</td></tr>
-    <tr><td>Crown II</td><td>3300 - 3399</td><td>1.90x</td></tr>
-    <tr><td>Crown I</td><td>3400 - 3499</td><td>1.95x</td></tr>
-    <tr><td>Ace</td><td>3500 - 3999</td><td>2.00x</td></tr>
-    <tr><td>Ace Master</td><td>4000 - 4499</td><td>2.25x</td></tr>
-    <tr><td>Ace Dominator</td><td>4500 - 4999</td><td>2.50x</td></tr>
-    <tr><td><strong>Conqueror</strong></td><td>5000+</td><td>3.00x</td></tr>
+    <tr><td>Aqua V</td><td>3000 - 3099</td><td>1.75x</td></tr>
+    <tr><td>Aqua IV</td><td>3100 - 3199</td><td>1.80x</td></tr>
+    <tr><td>Aqua III</td><td>3200 - 3299</td><td>1.85x</td></tr>
+    <tr><td>Aqua II</td><td>3300 - 3399</td><td>1.90x</td></tr>
+    <tr><td>Aqua I</td><td>3400 - 3499</td><td>1.95x</td></tr>
+    <tr><td>Master</td><td>3500 - 3999</td><td>2.00x</td></tr>
+    <tr><td>Grandmaster</td><td>4000 - 4499</td><td>2.25x</td></tr>
+    <tr><td>Legend</td><td>4500 - 4999</td><td>2.50x</td></tr>
+    <tr><td><strong>Mythic</strong></td><td>5000+</td><td>3.00x</td></tr>
   </tbody>
 </table>
 </div>
 
 <h2>Customizing Ranks</h2>
-<p>Define custom ranks inside <code>config.yml</code> under the <code>elo.ranks</code> section. The plugin orders ranks based on their minimum ELO thresholds:</p>
+<p>Define custom ranks inside <code>ranks.yml</code> under the <code>elo.ranks</code> section. The plugin orders ranks based on their minimum ELO thresholds:</p>
 <pre><span class="lang-badge">yaml</span><code>elo:
   enabled: true
   base-gain: 25
   base-loss: 20
-  kill-bonus: 5
-  minimum: 0
+  kill-gain: 5
+  min-elo: 0
 
   ranks:
     iron:

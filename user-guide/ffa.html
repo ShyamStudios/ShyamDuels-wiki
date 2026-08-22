@@ -45,6 +45,7 @@
     <a href="elo-ranks.html">ELO &amp; Ranks</a>
     <a href="settings.html">Player Settings</a>
     <a href="practice-features.html">Practice Features</a>
+    <a href="country.html">Country Flags</a>
     <a href="configuration.html">Configuration Files</a>
     <a href="migration.html">Migration Guide</a>
     <a href="placeholders.html">PlaceholderAPI</a>
@@ -80,7 +81,7 @@
 <h2>Player Walk-Through</h2>
 <ol class="steps">
   <li>Player executes the <code>/ffa</code> command, opening a list of active arenas showing real-time player counts.</li>
-  <li>Clicking an arena selects a spawn location (randomly selects from defined spawns, falling back to spawn1/2).</li>
+  <li>Clicking an arena selects a spawn location (randomly selects from defined spawns, falling back to <code>spawn1</code>).</li>
   <li>The player is teleported to the arena.</li>
   <li>A countdown (configured as <code>ffa.countdown-seconds</code> in <code>config.yml</code>) runs, restricting movement and damage.</li>
   <li>The countdown concludes, applying the kit items and enabling combat.</li>
@@ -130,7 +131,7 @@
   random-spawn:
     enabled: false
     max-attempts: 40</code></pre>
-<p>When <code>dead-rejoin</code> is enabled, a player who dies is restored at a valid FFA spawn with their kit instead of being sent to the lobby. Random spawn checks are used first when enabled, then the arena's configured FFA spawns, and finally <code>spawn1</code>/<code>spawn2</code>.</p>
+<p>When <code>dead-rejoin</code> is enabled, a player who dies is restored at a valid FFA spawn with their kit instead of being sent to the lobby. Random spawn checks are used first when enabled, then the arena's configured FFA spawns, and finally <code>spawn1</code>.</p>
 <p>Admins can trigger a manual reset at any time using:</p>
 <pre><code>/arena reset MyFFA</code></pre>
 
@@ -168,7 +169,7 @@
       <td><code>/leavefight</code></td>
       <td>-</td>
       <td><code>shyamduels.use</code></td>
-      <td>Leaves the current active FFA match and returns you to the lobby spawn. Alias: <code>/leave</code>, <code>/spawn</code>.</td>
+      <td>Leaves the current active FFA match and returns you to the lobby spawn. Alias: <code>/leave</code>. (<code>/spawn</code>/<code>/lobby</code> is a separate command that also exits spectator mode.)</td>
     </tr>
     <tr>
       <td><code>/arena ffa</code></td>

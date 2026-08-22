@@ -45,6 +45,7 @@
     <a href="elo-ranks.html">ELO &amp; Ranks</a>
     <a href="settings.html">Player Settings</a>
     <a href="practice-features.html">Practice Features</a>
+    <a href="country.html">Country Flags</a>
     <a href="configuration.html">Configuration Files</a>
     <a href="migration.html">Migration Guide</a>
     <a href="placeholders.html">PlaceholderAPI</a>
@@ -201,9 +202,9 @@
       <td>Configures the GUI display name of the kit (supports Kyori MiniMessage formatting).</td>
     </tr>
     <tr>
-      <td><code>/kit setdescription</code></td>
-      <td><code>/kit setdescription &lt;name&gt; &lt;description&gt;</code></td>
-      <td>Sets the description lines displayed when hovering over the kit in selector GUIs.</td>
+      <td><code>/kit setitem</code></td>
+      <td><code>/kit setitem &lt;name&gt;</code></td>
+      <td>Sets the kit icon to your held item (including its display name) &mdash; the display name syncs from the held item.</td>
     </tr>
     <tr>
       <td><code>/kit list</code></td>
@@ -228,11 +229,11 @@
     <tr>
       <td><code>/kit kitroom</code></td>
       <td><code>/kit kitroom &lt;name&gt;</code></td>
-      <td>Opens the kit room editor for practice loadout testing.</td>
+      <td>Toggles whether this kit uses the Kit Room feature (players can grab extra items from a virtual chest during practice). Prints the current list of Kit Room kits.</td>
     </tr>
     <tr>
       <td><code>/kit give</code></td>
-      <td><code>/kit give &lt;player&gt; &lt;name&gt;</code></td>
+      <td><code>/kit give &lt;name&gt; &lt;player&gt;</code></td>
       <td>Applies a kit to a player's inventory.</td>
     </tr>
     <tr>
@@ -328,7 +329,7 @@
     </tr>
     <tr>
       <td><strong>Kit Editor Kit Picker</strong></td>
-      <td><code>/kiteditor</code>, <code>/editor</code></td>
+      <td><code>/kiteditor</code> (aliases: <code>/editkit</code>, <code>/kitedit</code>)</td>
       <td>
         <ul>
           <li>Category items are registered with custom <code>PersistentDataContainer</code> (PDC) identifiers.</li>
@@ -588,7 +589,7 @@ sub-menu:
       </td>
     </tr>
     <tr>
-      <td><code>/kit category setname &lt;category&gt; &lt;displayName&gt;</code></td>
+      <td><code>/kit category setname &lt;category&gt; &lt;displayName&gt;</code> (alias: <code>rename</code>)</td>
       <td><code>shyamduels.admin</code></td>
       <td>
         Renames an existing category's formatted display title.<br/>
@@ -604,7 +605,7 @@ sub-menu:
       </td>
     </tr>
     <tr>
-      <td><code>/kit category setpermission &lt;category&gt; &lt;perm|none&gt;</code></td>
+      <td><code>/kit category setpermission &lt;category&gt; &lt;perm|none&gt;</code> (alias: <code>setperm</code>)</td></td>
       <td><code>shyamduels.admin</code></td>
       <td>
         Sets a permission required for players to open this category in Queue, Duel, Kit Editor, and Party menus. Use <code>none</code> to remove permission requirement.<br/>

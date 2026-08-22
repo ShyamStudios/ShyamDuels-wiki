@@ -45,6 +45,7 @@
     <a href="elo-ranks.html">ELO &amp; Ranks</a>
     <a href="settings.html">Player Settings</a>
     <a href="practice-features.html">Practice Features</a>
+    <a href="country.html">Country Flags</a>
     <a href="configuration.html">Configuration Files</a>
     <a href="migration.html">Migration Guide</a>
     <a href="placeholders.html">PlaceholderAPI</a>
@@ -77,8 +78,13 @@
 <code>menus/profile.yml</code>, <code>menus/profile-stats.yml</code>, <code>menus/public-kits.yml</code> and
 <code>menus/kit-preview.yml</code>. The right-click behaviour can be switched in config:</p>
 <pre><code>right-click:
-  action: profile   # profile | command
-  command: "duel %player%"   # used when action: command</code></pre>
+  enabled: true
+  # What right-clicking another player does:
+  #   profile  -> open the player profile GUI (stats, public kits, send duel)  [default]
+  #   command  -> run the commands listed below (legacy behaviour)
+  action: profile
+  commands:
+    - "duel %clicked_player%"</code></pre>
 
 <h2>Enabling Kit Sharing</h2>
 <p>Kit sharing is an opt-in player setting. It is <strong>OFF</strong> by default.</p>
@@ -102,8 +108,9 @@
   <li>Can be regenerated on demand:</li>
 </ul>
 <pre><code>/kit regencode &lt;kit&gt;</code></pre>
-<p><code>/kit regencode</code> offers tab-completion of your own edited kit names. If you have not
-edited the named kit yet, the command reports that there is no edited kit to share.</p>
+<p><code>/kit regencode</code> offers tab-completion of your own edited kit names and also works for
+player-built custom kits (matched by name or ID). If nothing matches, the command reports
+<em>No kit found by that name or ID</em>.</p>
 
 <h2>Importing a Kit</h2>
 <p>Players can import a shared kit in two ways:</p>
@@ -122,6 +129,8 @@ Shift-Click a kit to import it
 </ul>
 <p>On success the full layout (inventory, hotbar, armor and offhand) is copied and saved as
 your own edited kit under the original kit name, and the owner's import counter increases.</p>
+<p>Imports are rate-limited by <code>kit-sharing.import-cooldown-seconds</code> (default <strong>30s</strong>,
+<code>0</code> disables it) to prevent shift-click spam.</p>
 
 <div class="callout">
 <strong>Cosmetic protection.</strong> If <code>kit-sharing.strip-cosmetics-on-import: true</code>, any
@@ -141,7 +150,10 @@ unranked players from inheriting paid cosmetics through a shared kit.
     <tr><td>Sharing disabled</td><td><code>kit-sharing.import-sharing-disabled</code></td></tr>
     <tr><td>Kit no longer exists</td><td><code>kit-sharing.import-kit-removed</code></td></tr>
     <tr><td>Importing your own kit</td><td><code>kit-sharing.import-self</code></td></tr>
-    <tr><td>No edited kit to share (regencode)</td><td><code>kit-sharing.no-edited-kit</code></td></tr>
+    <tr><td>Import on cooldown</td><td><code>kit-sharing.import-cooldown</code></td></tr>
+    <tr><td>No free custom-kit slot (custom kit import)</td><td><code>kit-sharing.import-no-slot</code></td></tr>
+    <tr><td>Nothing matched (regencode)</td><td><code>kit-sharing.no-kit-found</code></td></tr>
+    <tr><td>No edited kit by that name (regencode)</td><td><code>kit-sharing.no-edited-kit</code></td></tr>
   </tbody>
 </table>
 </div>

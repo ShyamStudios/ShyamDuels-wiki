@@ -45,6 +45,7 @@
     <a href="elo-ranks.html">ELO &amp; Ranks</a>
     <a href="settings.html">Player Settings</a>
     <a href="practice-features.html">Practice Features</a>
+    <a href="country.html">Country Flags</a>
     <a href="configuration.html">Configuration Files</a>
     <a href="migration.html">Migration Guide</a>
     <a href="placeholders.html">PlaceholderAPI</a>
@@ -99,7 +100,17 @@
     <tr>
       <td><code>shyamduels.admin.forceleavefight</code></td>
       <td><span class="badge badge-yellow">op</span></td>
-      <td>Declared in <code>plugin.yml</code> but not currently enforced: the <code>/leavefight</code> teleport delay (<code>leavefight.delay</code>) applies to all players regardless of permission.</td>
+      <td>Bypasses the <code>/leavefight</code> teleport delay (<code>leavefight.delay</code>) and is teleported immediately.</td>
+    </tr>
+    <tr>
+      <td><code>shyamduels.admin.forcespawn</code></td>
+      <td><span class="badge badge-yellow">op</span></td>
+      <td>Bypasses the <code>/spawn</code> teleport delay (<code>spawn.delay</code>, falling back to <code>leavefight.delay</code>). Also bypasses the <code>/leavefight</code> delay.</td>
+    </tr>
+    <tr>
+      <td><code>shyamduels.tournament.use</code></td>
+      <td><span class="badge badge-green">true</span></td>
+      <td>Declared in <code>plugin.yml</code> for tournament interaction, but not enforced by any command — tournament player commands are currently open to everyone.</td>
     </tr>
     <tr>
       <td><code>shyamduels.tab.admin</code></td>
@@ -155,6 +166,21 @@
       <td><code>customkits.unlock.&lt;kitId&gt;</code></td>
       <td><span class="badge badge-red">false</span></td>
       <td>Unlocks a specific custom kit slot by ID (configured in custom kits module configs).</td>
+    </tr>
+    <tr>
+      <td><code>shyamduels.country</code></td>
+      <td><span class="badge badge-green">true</span></td>
+      <td>Allows using <code>/countryflags</code> to select or reset your country flag.</td>
+    </tr>
+    <tr>
+      <td><code>shyamduels.party.create</code></td>
+      <td><span class="badge badge-green">true</span></td>
+      <td>Allows creating a party via <code>/party create</code>.</td>
+    </tr>
+    <tr>
+      <td><code>shyamduels.party.public</code></td>
+      <td><span class="badge badge-green">true</span></td>
+      <td>Allows switching a party to Public visibility mode.</td>
     </tr>
   </tbody>
 </table>
@@ -212,7 +238,7 @@
 </div>
 
 <h2>Party Capacity Restrictions</h2>
-<p>The maximum size constraints of a party are decided by the highest permission node active on the party leader at party creation.</p>
+<p>The base party capacity is the config value <code>party.default-max-size</code> (default 8) and requires no permission. It can be raised for the party leader by either numeric tier nodes (<code>&lt;prefix&gt;&lt;number&gt;</code>, prefix configurable via <code>party.size-permission-prefix</code>) or the alias nodes mapped in <code>party.size-permissions</code> (by default <code>shyamduels.vip</code> &rarr; 16 and <code>shyamduels.vipplus</code> &rarr; 32). The highest applicable limit wins.</p>
 <div class="table-wrap">
 <table>
   <thead>
@@ -228,7 +254,7 @@
       <td><code>shyamduels.party.size.8</code></td>
       <td><span class="badge badge-green">true</span></td>
       <td>8 Members</td>
-      <td>Standard base cap for all players.</td>
+      <td>Informational node matching the default cap (the default requires no permission).</td>
     </tr>
     <tr>
       <td><code>shyamduels.party.size.16</code></td>

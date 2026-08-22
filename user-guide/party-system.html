@@ -45,6 +45,7 @@
     <a href="elo-ranks.html">ELO &amp; Ranks</a>
     <a href="settings.html">Player Settings</a>
     <a href="practice-features.html">Practice Features</a>
+    <a href="country.html">Country Flags</a>
     <a href="configuration.html">Configuration Files</a>
     <a href="migration.html">Migration Guide</a>
     <a href="placeholders.html">PlaceholderAPI</a>
@@ -76,7 +77,8 @@
 <h2>Joining a Party</h2>
 <p><strong>Joining via invitation:</strong> Execute <code>/party accept</code> or click the accepting chat button prompt.</p>
 <p><strong>Joining open parties:</strong> If a party is set to PUBLIC or FRIENDS_ONLY, qualified players can join immediately using:</p>
-<pre><code>/party join &lt;leaderName&gt;</code></pre>
+<pre><code>/party join &lt;player&gt;</code></pre>
+<p>Replace <code>&lt;player&gt;</code> with <strong>any online member</strong> of that party (not just the leader) &mdash; the plugin resolves their party and joins you into it.</p>
 
 <h2>Party Privacy Modes</h2>
 <div class="table-wrap">
@@ -109,12 +111,13 @@
 </div>
 
 <h2>Party Member Sizes</h2>
-<p>The maximum capacity limits of a party are restricted by the LuckPerms permissions of the party leader:</p>
+<p>The base capacity is the config value <code>party.default-max-size</code> (default 8 members) and requires no permission. The party leader's permissions can raise the limit:</p>
 <ul>
-  <li>Default Base Limit: up to 8 members (Requires <code>shyamduels.party.size.8</code>).</li>
-  <li>VIP Limit Upgrade: up to 16 members (Requires <code>shyamduels.party.size.16</code>).</li>
-  <li>VIP+ Limit Upgrade: up to 32 members (Requires <code>shyamduels.party.size.32</code>).</li>
+  <li>Default Base Limit: up to 8 members (from <code>party.default-max-size</code>, no permission required).</li>
+  <li>VIP Limit Upgrade: up to 16 members (granted by <code>shyamduels.vip</code> via the <code>party.size-permissions</code> alias map, or a numeric node such as <code>shyamduels.party.size.16</code>).</li>
+  <li>VIP+ Limit Upgrade: up to 32 members (granted by <code>shyamduels.vipplus</code>, or a numeric node such as <code>shyamduels.party.size.32</code>).</li>
 </ul>
+<p>The highest applicable limit wins.</p>
 <p>Leaders can impose a custom member capacity limit using <code>/party limit</code> (launches sign text input) or return to max limits using <code>/party resetlimit</code>.</p>
 
 <h2>Play Modes</h2>
@@ -167,11 +170,11 @@
 /party unmute Steve</code></pre>
 
 <h2>Leadership Promotions</h2>
-<p>Leaders can hand over ownership permissions to another member using <code>/party promote &lt;player&gt;</code>. If the leader disconnects while <code>party.transfer-ownership-on-leave</code> is enabled, leadership is automatically passed to the next eligible member.</p>
+<p>Leaders can hand over ownership permissions to another member using <code>/party promote &lt;player&gt;</code>. If the leader disconnects or leaves, leadership is automatically passed to the next eligible member (this transfer always happens; the <code>party.transfer-ownership-on-leave</code> config key exists but is not currently read by the plugin).</p>
 
 <h2>Disbanding Parties</h2>
 <pre><code>/party disband</code></pre>
-<p>Disbanding kicks all members and returns them to the lobby spawn. Parties also auto-disband if all players disconnect.</p>
+<p>Disbanding kicks all members and restores their lobby hotbar items and game mode (members are not teleported). Parties also auto-disband if all players disconnect.</p>
 
 <h2>Exhaustive Party System Command Reference</h2>
 <p>Below is a complete command reference list for the party system:</p>
@@ -207,8 +210,8 @@
     </tr>
     <tr>
       <td><code>/party join</code></td>
-      <td><code>/party join &lt;leader&gt;</code></td>
-      <td>Joins an active public or friends-only party directly.</td>
+      <td><code>/party join &lt;player&gt;</code></td>
+      <td>Joins the public or friends-only party that the named player belongs to (any member works, not just the leader).</td>
     </tr>
     <tr>
       <td><code>/party leave</code></td>
@@ -269,6 +272,76 @@
       <td><code>/partychat</code></td>
       <td>-</td>
       <td>Toggles your default chat output to party channel only. Alias: <code>/party chat</code>.</td>
+    </tr>
+    <tr>
+      <td><code>/party kick</code></td>
+      <td><code>/party kick &lt;player&gt;</code></td>
+      <td>Kicks a member from the party (owner only).</td>
+    </tr>
+    <tr>
+      <td><code>/party announce</code></td>
+      <td><code>/party announce &lt;message&gt;</code></td>
+      <td>Broadcasts an announcement message to all party members (owner only, subject to the announce cooldown).</td>
+    </tr>
+    <tr>
+      <td><code>/party list</code></td>
+      <td>-</td>
+      <td>Lists all party members in chat.</td>
+    </tr>
+    <tr>
+      <td><code>/party uninvite</code></td>
+      <td><code>/party uninvite &lt;player&gt;</code></td>
+      <td>Revokes a pending invitation (owner only).</td>
+    </tr>
+    <tr>
+      <td><code>/party inviteall</code></td>
+      <td>-</td>
+      <td>Invites all of your online friends to the party (owner only).</td>
+    </tr>
+    <tr>
+      <td><code>/party refresh</code></td>
+      <td>-</td>
+      <td>Refreshes party hotbar items for every member (owner only).</td>
+    </tr>
+    <tr>
+      <td><code>/party info</code></td>
+      <td>-</td>
+      <td>Shows party owner, member list, and current mode in chat.</td>
+    </tr>
+    <tr>
+      <td><code>/party member</code> / <code>/party play</code></td>
+      <td>-</td>
+      <td>Opens the party member/play GUI.</td>
+    </tr>
+    <tr>
+      <td><code>/party manage</code></td>
+      <td>-</td>
+      <td>Opens the party management GUI.</td>
+    </tr>
+    <tr>
+      <td><code>/party settings</code></td>
+      <td>-</td>
+      <td>Opens the party settings GUI (owner only).</td>
+    </tr>
+    <tr>
+      <td><code>/party split</code></td>
+      <td>-</td>
+      <td>Opens the team split screen (owner only, requires 2+ members).</td>
+    </tr>
+    <tr>
+      <td><code>/party ffa</code></td>
+      <td>-</td>
+      <td>Opens the Party FFA arena selection GUI (owner only).</td>
+    </tr>
+    <tr>
+      <td><code>/party duel</code></td>
+      <td>-</td>
+      <td>Opens the party-vs-party challenge GUI (owner only).</td>
+    </tr>
+    <tr>
+      <td><code>/party duel accept</code></td>
+      <td>-</td>
+      <td>Accepts an incoming party-vs-party duel challenge (owner only).</td>
     </tr>
   </tbody>
 </table>

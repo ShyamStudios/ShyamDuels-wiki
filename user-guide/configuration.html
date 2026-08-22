@@ -45,6 +45,7 @@
     <a href="elo-ranks.html">ELO &amp; Ranks</a>
     <a href="settings.html">Player Settings</a>
     <a href="practice-features.html">Practice Features</a>
+    <a href="country.html">Country Flags</a>
     <a href="configuration.html" class="active">Configuration Files</a>
     <a href="migration.html">Migration Guide</a>
     <a href="placeholders.html">PlaceholderAPI</a>
@@ -100,7 +101,8 @@ modules:
   shield-customizer: true
   kit-editor-armor-trimmer: true
   kit-room-shulker-editor: true</code></pre>
-<p>See <a href="practice-features.html">Practice Features</a> for practice module details.</p>
+<p>See <a href="practice-features.html">Practice Features</a>
+    <a href="country.html">Country Flags</a> for practice module details.</p>
 
 <h3>World and Arena Configurations</h3>
 <pre><span class="lang-badge">yaml</span><code>arenas:
@@ -216,11 +218,16 @@ left untouched).</p>
 
 duels:
   invite-expiration: 60       # Seconds before duel invites expire
+  invite-resend-cooldown: 10  # Seconds before the same sender can re-invite the same player (0 disables)
   start-countdown: 5          # Countdown before round starts
-  max-rounds: 20
+  round-system: BEST_OF       # BEST_OF (majority of rounds) or FIRST_TO (exact win count)
+  end-commands: []            # Console commands run when a duel ends
 
 leavefight:
-  delay: 1                      # Teleport delay in seconds after /leavefight (0 disables the delay)</code></pre>
+  delay: 1                      # Teleport delay in seconds after /leavefight (0 disables the delay)
+
+spawn:
+  delay: 1                      # Teleport delay for /spawn (falls back to leavefight.delay)</code></pre>
 
 <h3>Arena World Borders</h3>
 <p>Per-player, client-side red borders drawn around arenas during duels, FFA, and spectating. They
@@ -254,7 +261,7 @@ requests are read, so a request disappears once <code>request-expiry-seconds</co
     shyamduels.vip: 16
     shyamduels.vipplus: 32
   invite-expiration: 60
-  transfer-ownership-on-leave: true
+  transfer-ownership-on-leave: true   # Present but currently unused; ownership always transfers
   announce-format: "<#FF780C>[Party Announcement]</#FF780C> <white>{owner}</white><gray>:</gray> <#FFFA45>{message}</#FFFA45>"
   external-commands:          # Route /party queue|ffa to other commands
     enabled: true
@@ -303,7 +310,7 @@ match-start:
 match-start-potions:
   enabled: true
   delay_seconds: 1
-  take-from-inventory: false
+  take-from-inventory: true
   blocked-effects: [poison, slowness, weakness, ...]</code></pre>
 <p>Configure match-start potion scanning per kit with <code>/kit matchstartpots</code>. When <code>take-from-inventory</code> is false, buffs are splashed without consuming items from player inventories (MMC/MCPVP style). See <a href="kit-setup.html">Kit Setup</a>.</p>
 
@@ -417,7 +424,7 @@ custom-kits:
   enabled: true
   base-kit-name: custom
   default-unlocked-kits: 3
-  hide-from-public-menus: true
+  hide-from-public-menus: false
   play-others-gui:
     enabled: true
     show-when-hosted-at-least: 1
@@ -495,8 +502,9 @@ belowname-objective:
   fancy-value: '<#FFFA45>%shyamduels_rank% &r<gray>» <#FF780C>%shyamduels_elo% ELO'
   per-world:
     Arenas:
-      fancy-value: '<#FF1D54>❤ %player_health_rounded%'
+      fancy-value: '<#FF1D54>❤ %player_health_rounded% | <#FFFA45>❤ %player_golden_health%'
       value: '%player_health_rounded%'</code></pre>
+<p>In arena worlds the red heart is real HP. After a golden apple or golden head, absorption is shown as a gold heart (for example <code>❤ 18.0 | ❤ 4.0</code>). Both values are shown to one decimal place. The gold half is omitted when absorption is 0. <code>%player_health_rounded%</code> is HP only; <code>%player_golden_health%</code> is the absorption number.</p>
 <p><strong>Highlights of TextDisplay Mode:</strong></p>
 <ul>
   <li><strong>Background-Free:</strong> Removes the dark rectangular background box rendered by vanilla Minecraft clients.</li>
@@ -621,12 +629,13 @@ mysql:
   password: ""
   use-ssl: false
   pool-size: 10               # Pooled MySQL connections (10+ recommended for 300+ players)
-  max-overflow: 10            # Extra connections beyond pool-size when the pool is exhausted
 
 # Performance settings (tuned for big servers: 300+ players)
 performance:
   io-threads: 4               # Background threads for DB + file work. SQLite: 4 is plenty.
                               # MySQL: raise to 8-16 so more queries run at once.
+  auto-detect-threads: true   # Auto-detect CPU cores (Pterodactyl/Docker aware) and adjust
+                              # io-threads automatically using an optimal performance formula.
   autosave-minutes: 5         # Batch-save all online players' stats every N minutes (0 = off).
                               # Saves everyone in one go and limits crash loss to a few minutes.</code></pre>
 
@@ -644,6 +653,18 @@ performance:
 <pre><span class="lang-badge">yaml</span><code>elo:
   rank-system: true           # Enable rank progressions
   enabled: true
+  custom-kits: false          # Award Win/Loss (and ELO) for custom-kit-system fights.
+                              # Official kits (Crystal Sea, Anchor Sea, ...) always count.
+  match-types:                # When false, that match type records neither ELO nor Win/Loss.
+    duel: true                # Kill/Death still update for every finished match.
+    queue: true
+    party: false
+    party-vs-party: false
+    party-split: false
+    team-battle: false
+    party-ffa: false
+    ffa: false
+    rematch: false
   starting-elo: 1000          # Base ELO rating for new players
   min-elo: 0                  # Floor a player's ELO can drop to
   base-gain: 20               # ELO added on an even-matchup win (set equal to base-loss)
@@ -656,15 +677,51 @@ performance:
   min-gain: 1                 # Floor for a win (token amount vs far-weaker players)
   max-gain: 40                # Cap for a win (vs far-stronger players)
   min-loss: 1                 # Floor for a loss
+  max-loss: 40                # Cap for a loss (vs far-weaker players / prevents extreme swings)
 
   anti-farm:
     enabled: true             # Block ELO farming exploits
-    cooldown-hours: 3         # Cooldown before the same opponent yields ELO again
-    max-wins-per-opponent: 2  # Max wins against the same player in cooldown period
-    block-same-ip: true       # Block ELO gains between matching IP addresses</code></pre>
+    cooldown-hours: 2         # Cooldown before the same opponent yields ELO again
+    max-wins-per-opponent: 5  # Max wins against the same player in cooldown period
+    block-same-ip: true       # Block ELO gains between matching IP addresses
+
+  progress-bar:               # %shyamduels_elo_bar% / %shyamduels_elo_progressbar%
+    length: 10
+    completed-symbol: "|"
+    uncompleted-symbol: "|"
+    completed-color: "&lt;#00FF88&gt;"
+    uncompleted-color: "&lt;#555555&gt;"</code></pre>
 <p>Each rank under <code>elo.ranks.*</code> defines <code>name</code>, a <code>colored</code> display
 tag, an ELO range (<code>min-elo</code>/<code>max-elo</code>) and a <code>loss-multiplier</code>.
 See <a href="elo-ranks.html">ELO &amp; Ranks</a> for the full ladder.</p>
+
+<h3>Country Flags &amp; Player Heads Cache</h3>
+<p>Country display powers <code>/countryflags</code>, tab/nametag flag prefixes, and the
+<code>%shyamduels_country*</code> placeholders (see the <a href="country.html">Country Flags</a> guide for
+the full list of supported countries). It resolves player countries from a MaxMind
+GeoLite2-Country database:</p>
+<pre><span class="lang-badge">yaml</span><code>country:
+  enabled: true               # Master toggle for the country feature
+  update-on-join: true        # Re-check MaxMind on join; persists only when the ISO code changed.
+                              # Manual /country flag selections are never overwritten.
+  maxmind:
+    database: "GeoLite2-Country.mmdb"  # Local file (plugin data folder unless absolute)
+    auto-download: true       # Download the database automatically when missing/expired
+    download-url: "https://github.com/P3TERX/GeoLite.mmdb/raw/download/GeoLite2-Country.mmdb"</code></pre>
+<p>The player's real client IP is taken from Paper's connection address (works behind Velocity/Bungee
+when Velocity modern forwarding is configured correctly); otherwise it falls back to
+<code>Player#getAddress()</code>. Without correct proxy forwarding, MaxMind may resolve the proxy
+host's country instead of the player's.</p>
+<p>Player head textures (used by tab lists, scoreboards, and bracket GUIs) are cached with optional
+Mojang refresh:</p>
+<pre><span class="lang-badge">yaml</span><code>heads:
+  mojang-enabled: true        # Query Mojang for skin textures
+  mojang-interval-ms: 1400    # Rate limit between Mojang requests
+  http-timeout-ms: 1500
+  positive-ttl-ms: 2592000000 # Successful lookups cached for ~30 days
+  failure-ttl-ms: 900000      # Failed lookups retried after ~15 minutes
+  max-entries: 20000          # In-memory cache ceiling
+  disk-save-debounce-ms: 5000 # Debounce for flushing the disk cache</code></pre>
 
 <h2>External Plugin Compatibility</h2>
 <p>Settings for compatibility with third-party external plugins (such as cosmetic or kill effects plugins):</p>
@@ -753,8 +810,8 @@ sub-menu:
 <h2>Tournament Configuration (<code>tournament.yml</code>)</h2>
 <p>Located at <code>plugins/ShyamDuels/tournament.yml</code>. Controls automated bracket tournaments, match timers, scheduler persistence across restarts, non-strict wave arena scheduling, custom spectator rules, and prize distributions.</p>
 
-<pre><span class="lang-badge">yaml</span><code># Master toggle
-enabled: true
+<pre><span class="lang-badge">yaml</span><code># Master toggle (shipped default: false)
+enabled: false
 
 schedule:
   enabled: true

@@ -45,6 +45,7 @@
     <a href="../user-guide/elo-ranks.html">ELO &amp; Ranks</a>
     <a href="../user-guide/settings.html">Player Settings</a>
     <a href="../user-guide/practice-features.html">Practice Features</a>
+    <a href="../user-guide/country.html">Country Flags</a>
     <a href="../user-guide/configuration.html">Configuration Files</a>
     <a href="../user-guide/migration.html">Migration Guide</a>
     <a href="../user-guide/placeholders.html">PlaceholderAPI</a>
@@ -193,12 +194,15 @@ Represents an ELO-based competitive rank tier (defined under <code>elo.ranks</co
 <p>Static helpers: <code>getRankForElo(int)</code>, <code>getNextRank(Rank)</code>, <code>getEloProgress(int)</code>, <code>getEloNeeded(int)</code>, <code>getProgressBar(int)</code>, <code>getEloPercent(int)</code>, and <code>getRanks()</code>.</p>
 
 <h2 id="queuemode">QueueMode</h2>
-<p>Class: <code>com.shyamstudio.shyamduels.queue.QueueMode</code><br/>
-Represents a matchmaking team-size mode (e.g. 1v1, 2v2):</p>
+<p>Enum: <code>com.shyamstudio.shyamduels.queue.QueueMode</code><br/>
+Represents a matchmaking team-size mode: <code>ONE_V_ONE</code>, <code>TWO_V_TWO</code>, <code>THREE_V_THREE</code>, <code>FOUR_V_FOUR</code>:</p>
 <ul>
   <li><code>getTeamSize()</code>: Returns the number of players per team.</li>
   <li><code>getTotalPlayers()</code>: Returns the total players in a match (team size &times; 2).</li>
   <li><code>getDisplay()</code>: Returns the display label (e.g. <code>1v1</code>, <code>2v2</code>).</li>
+  <li><code>getConfigKey()</code>: Returns the config key used by this mode.</li>
+  <li><code>isEnabled(FileConfiguration)</code>: Whether the mode is enabled in queue settings.</li>
+  <li><code>fromTeamSize(int)</code>: Resolves a mode from its team size.</li>
 </ul>
 
 <h2 id="queuekey">QueueKey</h2>
@@ -217,7 +221,7 @@ Represents a group of players queued and playing together:</p>
   <li><code>getOwner()</code>: Returns the party leader's <code>UUID</code>.</li>
   <li><code>getMembers()</code>: Returns an unmodifiable <code>Set&lt;UUID&gt;</code> of all party members.</li>
   <li><code>getSize()</code>: Returns the current member count.</li>
-  <li><code>getState()</code>: Returns the current <code>PartyState</code> (e.g. <code>IDLE</code>, <code>IN_DUEL</code>).</li>
+  <li><code>getState()</code>: Returns the current <code>PartyState</code> (<code>LOBBY</code>, <code>IN_QUEUE</code>, or <code>IN_DUEL</code>).</li>
   <li><code>isInDuel()</code>: Returns true when the party is currently in a duel.</li>
 </ul>
 

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Country Flags: ShyamDuels</title>
+<link rel="stylesheet" href="../assets/style.css"/>
+</head>
+<body>
+<nav class="topnav">
+  <a class="logo-container" href="../index.html">
+    <img src="../shyam.webp" alt="ShyamDuels Logo" class="logo-img"/>
+    <span class="logo-text">ShyamDuels</span>
+  </a>
+  <span class="divider">/</span>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="getting-started.html" class="active">User Guide</a>
+    <a href="../api/overview.html">Developer API</a>
+  </div>
+  <span class="spacer"></span>
+  <a class="discord-btn" href="https://discord.gg/sMdsvZFqnX" target="_blank" rel="noopener">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037 12.9 12.9 0 0 0-.608 1.25 18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+    Discord
+  </a>
+  <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+  </button>
+</nav>
+<div id="overlay"></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">User Guide</span>
+    <a href="getting-started.html">Getting Started</a>
+    <a href="commands.html">Commands Reference</a>
+    <a href="permissions.html">Permissions</a>
+    <a href="arena-setup.html">Arena Setup</a>
+    <a href="gate-setup.html">Gate Setup</a>
+    <a href="kit-setup.html">Kit Setup</a>
+    <a href="kit-sharing.html">Kit Sharing &amp; Profiles</a>
+    <a href="tournaments.html">Tournament System</a>
+    <a href="party-system.html">Party System</a>
+    <a href="ffa.html">FFA Mode</a>
+    <a href="elo-ranks.html">ELO &amp; Ranks</a>
+    <a href="settings.html">Player Settings</a>
+    <a href="practice-features.html">Practice Features</a>
+    <a href="country.html" class="active">Country Flags</a>
+    <a href="configuration.html">Configuration Files</a>
+    <a href="migration.html">Migration Guide</a>
+    <a href="placeholders.html">PlaceholderAPI</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">Developer API</span>
+    <a href="../api/overview.html">Overview &amp; Setup</a>
+    <a href="../api/services.html">Services Reference</a>
+    <a href="../api/events.html">Events Reference</a>
+    <a href="../api/models.html">Data Models</a>
+    <a href="../api/examples.html">Code Examples</a>
+  </div>
+</aside>
+<main class="content">
+
+<div class="breadcrumb"><a href="../index.html">Home</a><span>â€º</span><a href="getting-started.html">User Guide</a><span>â€º</span>Country Flags</div>
+<h1>Country Flags</h1>
+<p class="page-lead">Let players wear their nation's flag as a head cosmetic. ShyamDuels bundles player-head textures for every country below.</p>
+
+<h2>Commands</h2>
+<pre><code>/countryflags              # Opens the flag selection GUI
+/countryflags &lt;country&gt;    # Selects by full name or ISO code
+/countryflags reset        # Resets to the default head
+/flags flag &lt;country&gt;      # Alias syntax</code></pre>
+<p>All aliases (<code>/countryflags</code>, <code>/countryflag</code>, <code>/flags</code>, <code>/country</code>) require the <code>shyamduels.country</code> permission (default: all players). Selections persist per player and can be displayed in tab lists, scoreboards, and duels via the <a href="placeholders.html">Country placeholders</a>.</p>
+
+<h2>Supported Countries (224)</h2>
+<p>The list below contains the exact display names shown in-game. Each name can be used directly with <code>/countryflags &lt;name&gt;</code>, or its two-letter code:</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Name</th><th>Code</th>
+      <th>Name</th><th>Code</th>
+      <th>Name</th><th>Code</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Afghanistan</td><td><code>AF</code></td><td>Albania</td><td><code>AL</code></td><td>Algeria</td><td><code>DZ</code></td></tr>
+    <tr><td>Andorra</td><td><code>AD</code></td><td>Angola</td><td><code>AO</code></td><td>Anguilla</td><td><code>AI</code></td></tr>
+    <tr><td>Antarctica</td><td><code>AQ</code></td><td>Antigua &amp; Barbuda</td><td><code>AG</code></td><td>Argentina</td><td><code>AR</code></td></tr>
+    <tr><td>Armenia</td><td><code>AM</code></td><td>Aruba</td><td><code>AW</code></td><td>Australia</td><td><code>AU</code></td></tr>
+    <tr><td>Austria</td><td><code>AT</code></td><td>Azerbaijan</td><td><code>AZ</code></td><td>Bahamas</td><td><code>BS</code></td></tr>
+    <tr><td>Bahrain</td><td><code>BH</code></td><td>Bangladesh</td><td><code>BD</code></td><td>Barbados</td><td><code>BB</code></td></tr>
+    <tr><td>Belarus</td><td><code>BY</code></td><td>Belgium</td><td><code>BE</code></td><td>Belize</td><td><code>BZ</code></td></tr>
+    <tr><td>Benin</td><td><code>BJ</code></td><td>Bermuda</td><td><code>BM</code></td><td>Bhutan</td><td><code>BT</code></td></tr>
+    <tr><td>Bolivia</td><td><code>BO</code></td><td>Bosnia &amp; Herzegovina</td><td><code>BA</code></td><td>Botswana</td><td><code>BW</code></td></tr>
+    <tr><td>Brazil</td><td><code>BR</code></td><td>British Indian Ocean Territory</td><td><code>IO</code></td><td>Brunei</td><td><code>BN</code></td></tr>
+    <tr><td>Bulgaria</td><td><code>BG</code></td><td>Burkina Faso</td><td><code>BF</code></td><td>Burundi</td><td><code>BI</code></td></tr>
+    <tr><td>Cambodia</td><td><code>KH</code></td><td>Cameroon</td><td><code>CM</code></td><td>Canada</td><td><code>CA</code></td></tr>
+    <tr><td>Cape Verde</td><td><code>CV</code></td><td>Caribbean Netherlands</td><td><code>BQ</code></td><td>Central African Republic</td><td><code>CF</code></td></tr>
+    <tr><td>Chad</td><td><code>TD</code></td><td>Chile</td><td><code>CL</code></td><td>China</td><td><code>CN</code></td></tr>
+    <tr><td>Colombia</td><td><code>CO</code></td><td>Comoros</td><td><code>KM</code></td><td>Congo - Brazzaville</td><td><code>CG</code></td></tr>
+    <tr><td>Congo - Kinshasa</td><td><code>CD</code></td><td>Cook Islands</td><td><code>CK</code></td><td>Costa Rica</td><td><code>CR</code></td></tr>
+    <tr><td>Croatia</td><td><code>HR</code></td><td>Cuba</td><td><code>CU</code></td><td>Cura&#231;ao</td><td><code>CW</code></td></tr>
+    <tr><td>Cyprus</td><td><code>CY</code></td><td>Czechia</td><td><code>CZ</code></td><td>C&#244;te d’Ivoire</td><td><code>CI</code></td></tr>
+    <tr><td>Denmark</td><td><code>DK</code></td><td>Djibouti</td><td><code>DJ</code></td><td>Dominica</td><td><code>DM</code></td></tr>
+    <tr><td>Dominican Republic</td><td><code>DO</code></td><td>Ecuador</td><td><code>EC</code></td><td>Egypt</td><td><code>EG</code></td></tr>
+    <tr><td>El Salvador</td><td><code>SV</code></td><td>Equatorial Guinea</td><td><code>GQ</code></td><td>Eritrea</td><td><code>ER</code></td></tr>
+    <tr><td>Estonia</td><td><code>EE</code></td><td>Eswatini</td><td><code>SZ</code></td><td>Ethiopia</td><td><code>ET</code></td></tr>
+    <tr><td>Faroe Islands</td><td><code>FO</code></td><td>Fiji</td><td><code>FJ</code></td><td>Finland</td><td><code>FI</code></td></tr>
+    <tr><td>France</td><td><code>FR</code></td><td>French Guiana</td><td><code>GF</code></td><td>French Polynesia</td><td><code>PF</code></td></tr>
+    <tr><td>Gabon</td><td><code>GA</code></td><td>Gambia</td><td><code>GM</code></td><td>Georgia</td><td><code>GE</code></td></tr>
+    <tr><td>Germany</td><td><code>DE</code></td><td>Ghana</td><td><code>GH</code></td><td>Gibraltar</td><td><code>GI</code></td></tr>
+    <tr><td>Greece</td><td><code>GR</code></td><td>Greenland</td><td><code>GL</code></td><td>Grenada</td><td><code>GD</code></td></tr>
+    <tr><td>Guadeloupe</td><td><code>GP</code></td><td>Guatemala</td><td><code>GT</code></td><td>Guernsey</td><td><code>GG</code></td></tr>
+    <tr><td>Guinea</td><td><code>GN</code></td><td>Guinea-Bissau</td><td><code>GW</code></td><td>Guyana</td><td><code>GY</code></td></tr>
+    <tr><td>Haiti</td><td><code>HT</code></td><td>Honduras</td><td><code>HN</code></td><td>Hong Kong SAR China</td><td><code>HK</code></td></tr>
+    <tr><td>Hungary</td><td><code>HU</code></td><td>Iceland</td><td><code>IS</code></td><td>India</td><td><code>IN</code></td></tr>
+    <tr><td>Indonesia</td><td><code>ID</code></td><td>Iran</td><td><code>IR</code></td><td>Iraq</td><td><code>IQ</code></td></tr>
+    <tr><td>Ireland</td><td><code>IE</code></td><td>Israel</td><td><code>IL</code></td><td>Italy</td><td><code>IT</code></td></tr>
+    <tr><td>Jamaica</td><td><code>JM</code></td><td>Japan</td><td><code>JP</code></td><td>Jersey</td><td><code>JE</code></td></tr>
+    <tr><td>Jordan</td><td><code>JO</code></td><td>Kazakhstan</td><td><code>KZ</code></td><td>Kenya</td><td><code>KE</code></td></tr>
+    <tr><td>Kiribati</td><td><code>KI</code></td><td>Kuwait</td><td><code>KW</code></td><td>Kyrgyzstan</td><td><code>KG</code></td></tr>
+    <tr><td>Laos</td><td><code>LA</code></td><td>Latvia</td><td><code>LV</code></td><td>Lebanon</td><td><code>LB</code></td></tr>
+    <tr><td>Lesotho</td><td><code>LS</code></td><td>Liberia</td><td><code>LR</code></td><td>Libya</td><td><code>LY</code></td></tr>
+    <tr><td>Liechtenstein</td><td><code>LI</code></td><td>Lithuania</td><td><code>LT</code></td><td>Luxembourg</td><td><code>LU</code></td></tr>
+    <tr><td>Macao SAR China</td><td><code>MO</code></td><td>Madagascar</td><td><code>MG</code></td><td>Malawi</td><td><code>MW</code></td></tr>
+    <tr><td>Malaysia</td><td><code>MY</code></td><td>Maldives</td><td><code>MV</code></td><td>Mali</td><td><code>ML</code></td></tr>
+    <tr><td>Malta</td><td><code>MT</code></td><td>Marshall Islands</td><td><code>MH</code></td><td>Martinique</td><td><code>MQ</code></td></tr>
+    <tr><td>Mauritania</td><td><code>MR</code></td><td>Mauritius</td><td><code>MU</code></td><td>Mexico</td><td><code>MX</code></td></tr>
+    <tr><td>Micronesia</td><td><code>FM</code></td><td>Moldova</td><td><code>MD</code></td><td>Monaco</td><td><code>MC</code></td></tr>
+    <tr><td>Mongolia</td><td><code>MN</code></td><td>Montenegro</td><td><code>ME</code></td><td>Morocco</td><td><code>MA</code></td></tr>
+    <tr><td>Mozambique</td><td><code>MZ</code></td><td>Myanmar (Burma)</td><td><code>MM</code></td><td>Namibia</td><td><code>NA</code></td></tr>
+    <tr><td>Nauru</td><td><code>NR</code></td><td>Nepal</td><td><code>NP</code></td><td>Netherlands</td><td><code>NL</code></td></tr>
+    <tr><td>New Caledonia</td><td><code>NC</code></td><td>New Zealand</td><td><code>NZ</code></td><td>Nicaragua</td><td><code>NI</code></td></tr>
+    <tr><td>Niger</td><td><code>NE</code></td><td>Nigeria</td><td><code>NG</code></td><td>North Korea</td><td><code>KP</code></td></tr>
+    <tr><td>North Macedonia</td><td><code>MK</code></td><td>Norway</td><td><code>NO</code></td><td>Oman</td><td><code>OM</code></td></tr>
+    <tr><td>Pakistan</td><td><code>PK</code></td><td>Palau</td><td><code>PW</code></td><td>Palestinian Territories</td><td><code>PS</code></td></tr>
+    <tr><td>Panama</td><td><code>PA</code></td><td>Papua New Guinea</td><td><code>PG</code></td><td>Paraguay</td><td><code>PY</code></td></tr>
+    <tr><td>Peru</td><td><code>PE</code></td><td>Philippines</td><td><code>PH</code></td><td>Poland</td><td><code>PL</code></td></tr>
+    <tr><td>Portugal</td><td><code>PT</code></td><td>Puerto Rico</td><td><code>PR</code></td><td>Qatar</td><td><code>QA</code></td></tr>
+    <tr><td>Romania</td><td><code>RO</code></td><td>Russia</td><td><code>RU</code></td><td>Rwanda</td><td><code>RW</code></td></tr>
+    <tr><td>R&#233;union</td><td><code>RE</code></td><td>Samoa</td><td><code>WS</code></td><td>San Marino</td><td><code>SM</code></td></tr>
+    <tr><td>Saudi Arabia</td><td><code>SA</code></td><td>Senegal</td><td><code>SN</code></td><td>Serbia</td><td><code>RS</code></td></tr>
+    <tr><td>Seychelles</td><td><code>SC</code></td><td>Sierra Leone</td><td><code>SL</code></td><td>Singapore</td><td><code>SG</code></td></tr>
+    <tr><td>Sint Maarten</td><td><code>SX</code></td><td>Slovakia</td><td><code>SK</code></td><td>Slovenia</td><td><code>SI</code></td></tr>
+    <tr><td>Solomon Islands</td><td><code>SB</code></td><td>Somalia</td><td><code>SO</code></td><td>South Africa</td><td><code>ZA</code></td></tr>
+    <tr><td>South Korea</td><td><code>KR</code></td><td>South Sudan</td><td><code>SS</code></td><td>Spain</td><td><code>ES</code></td></tr>
+    <tr><td>Sri Lanka</td><td><code>LK</code></td><td>St. Barth&#233;lemy</td><td><code>BL</code></td><td>St. Kitts &amp; Nevis</td><td><code>KN</code></td></tr>
+    <tr><td>St. Lucia</td><td><code>LC</code></td><td>St. Pierre &amp; Miquelon</td><td><code>PM</code></td><td>St. Vincent &amp; Grenadines</td><td><code>VC</code></td></tr>
+    <tr><td>Sudan</td><td><code>SD</code></td><td>Suriname</td><td><code>SR</code></td><td>Sweden</td><td><code>SE</code></td></tr>
+    <tr><td>Switzerland</td><td><code>CH</code></td><td>Syria</td><td><code>SY</code></td><td>S&#227;o Tom&#233; &amp; Pr&#237;ncipe</td><td><code>ST</code></td></tr>
+    <tr><td>Taiwan</td><td><code>TW</code></td><td>Tajikistan</td><td><code>TJ</code></td><td>Tanzania</td><td><code>TZ</code></td></tr>
+    <tr><td>Thailand</td><td><code>TH</code></td><td>Timor-Leste</td><td><code>TL</code></td><td>Togo</td><td><code>TG</code></td></tr>
+    <tr><td>Tonga</td><td><code>TO</code></td><td>Trinidad &amp; Tobago</td><td><code>TT</code></td><td>Tunisia</td><td><code>TN</code></td></tr>
+    <tr><td>Turkmenistan</td><td><code>TM</code></td><td>Tuvalu</td><td><code>TV</code></td><td>T&#252;rkiye</td><td><code>TR</code></td></tr>
+    <tr><td>U.S. Virgin Islands</td><td><code>VI</code></td><td>Uganda</td><td><code>UG</code></td><td>Ukraine</td><td><code>UA</code></td></tr>
+    <tr><td>United Arab Emirates</td><td><code>AE</code></td><td>United Kingdom</td><td><code>GB</code></td><td>United States</td><td><code>US</code></td></tr>
+    <tr><td>Uruguay</td><td><code>UY</code></td><td>Uzbekistan</td><td><code>UZ</code></td><td>Vanuatu</td><td><code>VU</code></td></tr>
+    <tr><td>Vatican City</td><td><code>VA</code></td><td>Venezuela</td><td><code>VE</code></td><td>Vietnam</td><td><code>VN</code></td></tr>
+    <tr><td>Wallis &amp; Futuna</td><td><code>WF</code></td><td>Yemen</td><td><code>YE</code></td><td>Zambia</td><td><code>ZM</code></td></tr>
+    <tr><td>Zimbabwe</td><td><code>ZW</code></td><td>&#197;land Islands</td><td><code>AX</code></td><td></td><td></td></tr>
+
+  </tbody>
+</table>
+</div>
+
+<div class="page-navigation">
+  <a class="page-nav-link prev" href="practice-features.html">
+    <span class="page-nav-label">Previous Page</span>
+    <span class="page-nav-title">Practice Features</span>
+  </a>
+  <a class="page-nav-link next" href="configuration.html">
+    <span class="page-nav-label">Next Page</span>
+    <span class="page-nav-title">Configuration Files</span>
+  </a>
+</div>
+
+</main>
+</div>
+<script src="../assets/nav.js"></script>
+</body>
+</html>

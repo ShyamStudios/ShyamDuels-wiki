@@ -45,6 +45,7 @@
     <a href="elo-ranks.html">ELO &amp; Ranks</a>
     <a href="settings.html">Player Settings</a>
     <a href="practice-features.html" class="active">Practice Features</a>
+    <a href="country.html">Country Flags</a>
     <a href="configuration.html">Configuration Files</a>
     <a href="migration.html">Migration Guide</a>
     <a href="placeholders.html">PlaceholderAPI</a>
@@ -188,7 +189,7 @@ golden-head:
 <p>When <code>modules.practice-right-click-duel: true</code>, players can right-click another player in worlds listed under <code>enabled-worlds.right-click-duel</code>. The default action opens the <strong>Player Profile GUI</strong> (<code>right-click.action: profile</code>). Set <code>action: command</code> to restore legacy duel-invite behaviour via <code>right-click.commands</code>. See <a href="kit-sharing.html">Kit Sharing &amp; Profiles</a> and <a href="configuration.html">Configuration Files</a>.</p>
 
 <h2>Match-Start Potions</h2>
-<p>Scans kit splash potions at match start and auto-splashes approved buffs (like Speed II and Fire Resistance). By default (<code>take-from-inventory: false</code>), it splashes these effects without consuming items from player inventories (Minemen Club / MCPVP style). Set <code>take-from-inventory: true</code> in <code>config.yml</code> if you prefer consuming potions from inventories. Configure per kit:</p>
+<p>Scans kit splash potions at match start and auto-splashes approved buffs (like Speed II and Fire Resistance). By default (<code>take-from-inventory: true</code>), the potions are consumed from the player's inventory. Set <code>take-from-inventory: false</code> in <code>config.yml</code> to splash effects without consuming items (Minemen Club / MCPVP style). Configure per kit:</p>
 <pre><code>/kit matchstartpots enable &lt;kit&gt;
 /kit matchstartpots disable &lt;kit&gt;
 /kit matchstartpots scan &lt;kit&gt;

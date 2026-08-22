@@ -45,6 +45,7 @@
     <a href="elo-ranks.html">ELO &amp; Ranks</a>
     <a href="settings.html">Player Settings</a>
     <a href="practice-features.html">Practice Features</a>
+    <a href="country.html">Country Flags</a>
     <a href="configuration.html">Configuration Files</a>
     <a href="migration.html">Migration Guide</a>
     <a href="placeholders.html">PlaceholderAPI</a>
@@ -101,10 +102,10 @@
       <td>Rejects a pending duel invitation.</td>
     </tr>
     <tr>
-      <td><code>/duel spectate &lt;player&gt;</code></td>
+      <td><code>/rematch</code></td>
       <td>-</td>
-      <td><code>shyamduels.use</code></td>
-      <td>Spectates the specified player if they are currently inside a match.</td>
+      <td>-</td>
+      <td>Accepts your pending rematch request (same as clicking the rematch button shown after a duel ends). See <a href="configuration.html">Configuration</a> for rematch cooldown settings.</td>
     </tr>
     <tr>
       <td><code>/ffa</code></td>
@@ -212,7 +213,8 @@
       <td><code>/practiceduel [player]</code></td>
       <td><code>/pduel</code>, <code>/roundsduel</code></td>
       <td><code>shyamduels.practice.duel</code></td>
-      <td>Challenges a player to a round-based practice duel. See <a href="practice-features.html">Practice Features</a>.</td>
+      <td>Challenges a player to a round-based practice duel. See <a href="practice-features.html">Practice Features</a>
+    <a href="country.html">Country Flags</a>.</td>
     </tr>
     <tr>
       <td><code>/practiceduel accept &lt;player&gt;</code></td>
@@ -228,9 +230,15 @@
     </tr>
     <tr>
       <td><code>/leavefight</code></td>
-      <td><code>/leave</code>, <code>/spawn</code>, <code>/lobby</code></td>
+      <td><code>/leave</code></td>
       <td><code>shyamduels.use</code></td>
       <td>Leaves a duel or FFA arena. Bypasses active combat timers if the player has bypass permissions.</td>
+    </tr>
+    <tr>
+      <td><code>/spawn</code></td>
+      <td><code>/lobby</code></td>
+      <td>-</td>
+      <td>Returns you to the lobby spawn (also used to exit spectator mode; see the spectator action bar prompt).</td>
     </tr>
     <tr>
       <td><code>/spectate</code></td>
@@ -246,9 +254,15 @@
     </tr>
     <tr>
       <td><code>/spectatorleave</code></td>
-      <td><code>/spectateleave</code>, <code>/spawn</code></td>
+      <td><code>/spectateleave</code></td>
       <td><code>shyamduels.use</code></td>
       <td>Exits spectator mode and returns you to the lobby.</td>
+    </tr>
+    <tr>
+      <td><code>/countryflags [country|reset]</code></td>
+      <td><code>/countryflag</code>, <code>/flags</code>, <code>/country</code></td>
+      <td><code>shyamduels.country</code></td>
+      <td>Opens the country flag selection menu, or directly selects a country by name/ISO code. <code>reset</code> restores the default (no flag). Requires the GeoLite2 country display feature to be enabled.</td>
     </tr>
     <tr>
       <td><code>/settings</code></td>
@@ -1236,7 +1250,8 @@
       <td><code>/practice</code></td>
       <td><code>/shyamduelspractice</code></td>
       <td>Varies</td>
-      <td>Legacy alias tree. With no args, prints admin practice command help. Prefer <code>/shyamduels</code> for new setups. See <a href="practice-features.html">Practice Features</a>.</td>
+      <td>Legacy alias tree. With no args, prints admin practice command help. Prefer <code>/shyamduels</code> for new setups. See <a href="practice-features.html">Practice Features</a>
+    <a href="country.html">Country Flags</a>.</td>
     </tr>
     <tr>
       <td><code>/practice reload</code></td>
@@ -1308,7 +1323,7 @@
     <tr><td><code>/tournament bracket</code></td><td>None</td><td>Opens the visual live bracket GUI.</td></tr>
     <tr><td><code>/tournament info</code></td><td>None</td><td>Prints tournament information to chat.</td></tr>
     <tr><td><code>/tournament list</code></td><td>None</td><td>Lists joined participants.</td></tr>
-    <tr><td><code>/tournament spectate [player]</code></td><td>Configurable</td><td>Spectates an active tournament match.</td></tr>
+    <tr><td><code>/tournament spectate [player]</code></td><td>None</td><td>Spectates an active tournament match.</td></tr>
     <tr><td><code>/tournament start [kit]</code></td><td><code>shyamduels.tournament.admin</code></td><td>Starts a tournament registration.</td></tr>
     <tr><td><code>/tournament forcestart</code></td><td><code>shyamduels.tournament.admin</code></td><td>Force-starts active registration immediately.</td></tr>
     <tr><td><code>/tournament stop</code></td><td><code>shyamduels.tournament.admin</code></td><td>Cancels active tournament.</td></tr>

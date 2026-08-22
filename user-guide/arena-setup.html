@@ -45,6 +45,7 @@
     <a href="elo-ranks.html">ELO &amp; Ranks</a>
     <a href="settings.html">Player Settings</a>
     <a href="practice-features.html">Practice Features</a>
+    <a href="country.html">Country Flags</a>
     <a href="configuration.html">Configuration Files</a>
     <a href="migration.html">Migration Guide</a>
     <a href="placeholders.html">PlaceholderAPI</a>
@@ -197,7 +198,7 @@
     </tr>
     <tr>
       <td><code>DISABLED</code></td>
-      <td>Manually blocked from matchmaking.</td>
+      <td>An internal state meaning the arena is skipped by matchmaking. There is currently no command that sets it &mdash; to take an arena out of rotation temporarily, unlink its kits with <code>/arena removekit</code>.</td>
     </tr>
   </tbody>
 </table>
@@ -208,7 +209,7 @@
   <li>Register the arena record: <code>/arena create Arena1</code></li>
   <li>Build and register any <strong>Complex Door gates</strong> for the arena now, before capturing the schematic: get the wand with <code>/shyamduels gate wand</code>, select the doorway corners, then run <code>/shyamduels gate addgate Arena1</code> for each gate. See the <a href="gate-setup.html">Gate Setup</a> guide for the full walkthrough.</li>
   <li>Stand at <strong>one corner</strong> of the boundary you wish to protect and execute: <code>/arena corner1 Arena1</code></li>
-  <li>Walk diagonally to the <strong>opposite corner</strong> (other side, floor/ceiling boundary) and execute: <code>/arena corner2 Arena1</code>. You should see a confirmation notification if the schematic saved successfully.</li>
+  <li>Walk diagonally to the <strong>opposite corner</strong> (other side, floor/ceiling boundary) and execute: <code>/arena corner2 Arena1</code>. As soon as both corners are set (whichever corner you set last), FAWE saves the captured block region to a schematic and you get a confirmation notification.</li>
   <li>Stand at the spawn point for <strong>Player 1</strong> facing the arena center and execute: <code>/arena spawn1 Arena1</code></li>
   <li>Stand at the spawn point for <strong>Player 2</strong> facing the opponent spawn and execute: <code>/arena spawn2 Arena1</code></li>
   <li>(Optional) Stand at the arena center and run: <code>/arena center Arena1</code>. This coordinates spectators and team spawn boundaries.</li>
@@ -217,7 +218,7 @@
 
 <div class="alert alert-note">
   <div class="alert-title">Set up gates before the corners</div>
-  Configure any <code>/shyamduels gate</code> selections first so the fence/doorway blocks are already in place when you run <code>corner1</code> and <code>corner2</code>. Since <code>corner2</code> triggers the FAWE schematic capture, doing gates first ensures the saved schematic (and reset behavior) matches what players will actually see, including the gate frame. If you build or move a gate later, re-run <code>corner1</code> / <code>corner2</code> to refresh the schematic.
+  Configure any <code>/shyamduels gate</code> selections first so the fence/doorway blocks are already in place when you run <code>corner1</code> and <code>corner2</code>. The schematic is captured automatically once both corners are set, so doing gates first ensures the saved schematic (and reset behavior) matches what players will actually see, including the gate frame. If you build or move a gate later, re-run <code>/arena saveschem &lt;name&gt;</code> (or the corner commands) to refresh the schematic.
 </div>
 
 <div class="alert alert-warning">
@@ -235,7 +236,7 @@
 <p>Use this when you want multiple copies of the same map at <strong>different coordinates</strong> in the base <code>Arenas</code> world (or another world if cloning is disabled), without rebuilding by hand. This is separate from <a href="#arena-cloning">world cloning</a> in <code>config.yml</code>, which duplicates entire worlds on startup. Do not use <code>/arena copypaste</code> inside <code>Arenas1</code> or <code>Arenas2</code>; those clone worlds are managed automatically.</p>
 <ol class="steps">
   <li>Fully set up the source arena: both corners (so the schematic is saved), spawns, center, and linked kits.</li>
-  <li>Fly to where the <strong>minimum corner</strong> of the new copy should go (the same relative anchor point you used for the source arena's <code>corner1</code> / <code>corner2</code> selection).</li>
+  <li>Fly to where the <strong>center</strong> of the new copy should land &mdash; the paste is center-to-center, so the source arena's center is placed exactly at your position (falls back to the region's geometric center if no <code>/arena center</code> was set).</li>
   <li>Run: <code>/arena copypaste &lt;sourceArena&gt; &lt;newName&gt;</code></li>
 </ol>
 <p>The plugin pastes the source schematic, creates a new arena record, and copies these settings (offset to the new location where applicable):</p>
@@ -251,7 +252,7 @@
 <p>A fresh schematic is saved for the new arena so FAWE resets work independently.</p>
 <div class="alert alert-warning">
   <div class="alert-title">Cannot be undone</div>
-  <code>/arena copypaste</code> places real blocks in the world. If the paste fails partway through, the command rolls back the new arena entry. To remove a completed copy, use <code>/arena delete &lt;newName&gt;</code> and manually clear any leftover blocks if needed.
+  <code>/arena copypaste</code> places real blocks in the world. If the paste fails partway through, the command rolls back the new arena entry. To remove a completed copy, use <code>/arena delete &lt;newName&gt;</code> and manually clear any leftover blocks if needed. If you misclick and paste in the wrong spot, <code>/arena copypasteundo</code> removes the most recent copy's blocks and arena entry.
 </div>
 
 <h2>Creating an FFA Arena</h2>
@@ -366,7 +367,7 @@ and lobby players keep the genuine world border untouched.</p>
     <tr>
       <td><code>/arena create</code></td>
       <td><code>/arena create &lt;name&gt;</code></td>
-      <td>Registers a new empty arena configuration profile in the database.</td>
+      <td>Registers a new arena and seeds both corners with your current position (adjust them afterwards).</td>
     </tr>
     <tr>
       <td><code>/arena delete</code></td>
@@ -400,8 +401,8 @@ and lobby players keep the genuine world border untouched.</p>
     </tr>
     <tr>
       <td><code>/arena teleport</code></td>
-      <td><code>/arena teleport &lt;name&gt;</code></td>
-      <td>Teleports you to the center of the specified arena. Aliases: <code>tp</code>, <code>gotoworkspace</code>.</td>
+      <td><code>/arena teleport [name]</code></td>
+      <td>Teleports you to the specified arena's spawn. Alias: <code>tp</code>. Run without a name to list all arenas.</td>
     </tr>
     <tr>
       <td><code>/arena addkit</code></td>
@@ -436,17 +437,17 @@ and lobby players keep the genuine world border untouched.</p>
     <tr>
       <td><code>/arena clearffaspawns</code></td>
       <td><code>/arena clearffaspawns &lt;name&gt;</code></td>
-      <td>Clears all registered additional FFA spawn points, falling back to spawn1 and spawn2.</td>
+      <td>Clears all registered additional FFA spawn points; players then spawn at <code>spawn1</code>.</td>
     </tr>
     <tr>
-      <td><code>/arena disable</code></td>
-      <td><code>/arena disable &lt;name&gt;</code></td>
-      <td>Disables the arena, blocking matchmaking queues from choosing it.</td>
+      <td><code>/arena saveschem</code></td>
+      <td><code>/arena saveschem &lt;name&gt;</code></td>
+      <td>Re-captures the arena schematic from its current corners and center (aliases: <code>saveschematic</code>, <code>resaveschem</code>). Refused for world-clone copies, which regenerate from their template's schematic.</td>
     </tr>
     <tr>
-      <td><code>/arena enable</code></td>
-      <td><code>/arena enable &lt;name&gt;</code></td>
-      <td>Enables the arena for active matchmaking queues.</td>
+      <td><code>/arena copypasteundo</code></td>
+      <td>-</td>
+      <td>Removes the most recent <code>/arena copypaste</code> result: rolls back the pasted blocks and deletes the new arena entry.</td>
     </tr>
     <tr>
       <td><code>/arena reset</code></td>

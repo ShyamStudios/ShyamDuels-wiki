@@ -45,6 +45,7 @@
     <a href="elo-ranks.html">ELO &amp; Ranks</a>
     <a href="settings.html">Player Settings</a>
     <a href="practice-features.html">Practice Features</a>
+    <a href="country.html">Country Flags</a>
     <a href="configuration.html">Configuration Files</a>
     <a href="migration.html">Migration Guide</a>
     <a href="placeholders.html">PlaceholderAPI</a>
@@ -94,9 +95,9 @@
   </thead>
   <tbody>
     <tr>
-      <td><code>/tournament</code> or <code>/tourney</code></td>
+      <td><code>/tournament</code> or <code>/tourney</code>, <code>/t</code></td>
       <td>None</td>
-      <td>Opens the main interactive Tournament Overview GUI.</td>
+      <td>Opens the main interactive Tournament Overview GUI (console shows a text summary).</td>
     </tr>
     <tr>
       <td><code>/tournament join</code></td>
@@ -125,7 +126,7 @@
     </tr>
     <tr>
       <td><code>/tournament spectate [player]</code></td>
-      <td>Configurable</td>
+      <td>None</td>
       <td>Spectates a running tournament fight or opens the bracket.</td>
     </tr>
     <tr>
@@ -191,10 +192,11 @@
   </tbody>
 </table>
 </div>
+<p>All tournament admin subcommands accept either <code>shyamduels.tournament.admin</code> or the global <code>shyamduels.admin</code> permission. <code>/tournament stop</code> is aliased as <code>/tournament cancel</code>, and <code>/tournament forcestart</code> as <code>/tournament force-start</code>.</p>
 
 <h2>Configuration Overview (<code>tournament.yml</code>)</h2>
 
-<pre><code class="language-yaml"># Master toggle: disables all tournaments, commands, and schedulers when false
+<pre><span class="lang-badge">yaml</span><code># Master toggle: disables all tournaments, commands, and schedulers when false
 enabled: false
 
 schedule:
@@ -208,28 +210,44 @@ players:
   maximum: 16
   require-even: true
   odd-player-handling: "BYE" # "BYE", "WAIT", or "CANCEL"
+  wait-extension-seconds: 60 # Used when odd-player-handling is "WAIT"
 
 kit:
   default-kit: "Nethpot"
   random-kit: false
   kit-pool:
     - "axe"
+    - "cartpvp"
     - "crystal"
     - "BuildUHC"
 
 match:
   time-limit: "5m"
-  timeout-behavior: "DISQUALIFY_BOTH" # "DISQUALIFY_BOTH", "HIGHEST_HEALTH", "RANDOM_WINNER"
+  timeout-behavior: "DISQUALIFY_BOTH" # "DISQUALIFY_BOTH", "HIGHEST_HEALTH", "RANDOM_WINNER", or "DRAW"
   rounds: 1
   round-system: "BEST_OF" # "BEST_OF" (win majority e.g. Best of 3) or "FIRST_TO" (e.g. First to 3 wins)
   affect-elo: false
   record-stats: false
+
+countdown:
+  registration-seconds: 120      # Registration countdown when a tournament is announced
+  match-start-seconds: 5         # Countdown before players can move/fight
+  round-transition-seconds: 10   # Pause between rounds
+  broadcast-intervals: [120, 60, 30, 15, 10, 5, 3, 2, 1]
 
 arenas:
   reserve-before: "5m"
   strict-mode: false
   force-reserve: true
   minimum-required: 1
+
+rules:
+  allow-join: true
+  allow-leave: true
+  block-parties: true            # Players must leave their party to join
+  block-queues: true             # Participants cannot join normal queues or FFA
+  broadcast-replacements: true   # Announce open slots when someone leaves during registration
+  return-to-previous-location: true
 
 spectator:
   enabled: true
@@ -249,7 +267,8 @@ rewards:
     commands:
       - "eco give %player% 10000"
       - "give %player% diamond 10"
-</code></pre>
+  # second-place / third-place / participation blocks follow the same layout
+  # (participation has no title/subtitle, only enabled + commands)</code></pre>
 
 <h2>Bracket GUI: Navigation &amp; Pagination</h2>
 <p>The live bracket viewer GUI supports full Nexo / CustomModelData items and auto-paginates brackets with more than 16 players.</p>
@@ -350,9 +369,19 @@ rewards:
   </thead>
   <tbody>
     <tr>
+      <td><code>%shyamduels_in_tournament%</code></td>
+      <td>Whether the viewer is a participant</td>
+      <td><code>true</code> / <code>false</code></td>
+    </tr>
+    <tr>
       <td><code>%shyamduels_tournament_status%</code></td>
       <td>Current tournament lifecycle state</td>
       <td><code>Waiting</code>, <code>In Progress</code>, <code>Disabled</code></td>
+    </tr>
+    <tr>
+      <td><code>%shyamduels_tournament_status_formatted%</code></td>
+      <td>Colored variant of the state</td>
+      <td>MiniMessage string</td>
     </tr>
     <tr>
       <td><code>%shyamduels_tournament_kit%</code></td>
@@ -365,12 +394,12 @@ rewards:
       <td><code>8</code></td>
     </tr>
     <tr>
-      <td><code>%shyamduels_tournament_max_players%</code></td>
-      <td>Maximum capacity</td>
-      <td><code>16</code></td>
+      <td><code>%shyamduels_tournament_min_players%</code> / <code>%shyamduels_tournament_max_players%</code></td>
+      <td>Minimum required / maximum capacity</td>
+      <td><code>4</code>, <code>16</code></td>
     </tr>
     <tr>
-      <td><code>%shyamduels_tournament_current_round%</code></td>
+      <td><code>%shyamduels_tournament_round%</code></td>
       <td>Active round number</td>
       <td><code>2</code></td>
     </tr>
@@ -380,24 +409,54 @@ rewards:
       <td><code>4</code></td>
     </tr>
     <tr>
+      <td><code>%shyamduels_tournament_remaining_players%</code></td>
+      <td>Non-eliminated players remaining</td>
+      <td><code>5</code></td>
+    </tr>
+    <tr>
+      <td><code>%shyamduels_tournament_participants%</code></td>
+      <td>Comma-separated participant list</td>
+      <td><code>Steve, Alex, ...</code></td>
+    </tr>
+    <tr>
+      <td><code>%shyamduels_tournament_countdown%</code></td>
+      <td>Registration countdown remaining</td>
+      <td><code>1m 30s</code></td>
+    </tr>
+    <tr>
+      <td><code>%shyamduels_tournament_match_time%</code></td>
+      <td>Configured per-match time limit</td>
+      <td><code>5m 00s</code></td>
+    </tr>
+    <tr>
       <td><code>%shyamduels_tournament_champion%</code></td>
       <td>Crowned tournament champion</td>
       <td><code>Steve</code></td>
     </tr>
     <tr>
       <td><code>%shyamduels_tournament_next_auto%</code></td>
-      <td>Time remaining until next automated tournament</td>
+      <td>Time remaining until next automated tournament (<code>Disabled</code> when scheduling off)</td>
       <td><code>12h 30m 00s</code></td>
     </tr>
     <tr>
       <td><code>%shyamduels_tournament_player_status%</code></td>
       <td>Viewer's participation status</td>
-      <td><code>Alive</code>, <code>Fighting</code>, <code>Eliminated</code></td>
+      <td><code>Alive</code>, <code>Fighting</code>, <code>Eliminated</code>, <code>Not Joined</code></td>
     </tr>
     <tr>
-      <td><code>%shyamduels_tournament_player_wins%</code></td>
-      <td>Matches won by the viewing player</td>
-      <td><code>3</code></td>
+      <td><code>%shyamduels_tournament_player_wins%</code> / <code>%shyamduels_tournament_player_losses%</code></td>
+      <td>Matches won / lost by the viewing player this tournament</td>
+      <td><code>3</code>, <code>0</code></td>
+    </tr>
+    <tr>
+      <td><code>%shyamduels_tournament_player_round%</code></td>
+      <td>Rounds survived by the viewer</td>
+      <td><code>2</code></td>
+    </tr>
+    <tr>
+      <td><code>%shyamduels_tournament_arena%</code> / <code>%shyamduels_tournament_match_status%</code> / <code>%shyamduels_tournament_player_opponent%</code></td>
+      <td>Viewer's current match arena / match status / opponent</td>
+      <td><code>Arena1</code>, <code>Fighting</code>, <code>Alex</code></td>
     </tr>
   </tbody>
 </table>

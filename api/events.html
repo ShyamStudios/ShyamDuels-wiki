@@ -45,6 +45,7 @@
     <a href="../user-guide/elo-ranks.html">ELO &amp; Ranks</a>
     <a href="../user-guide/settings.html">Player Settings</a>
     <a href="../user-guide/practice-features.html">Practice Features</a>
+    <a href="../user-guide/country.html">Country Flags</a>
     <a href="../user-guide/configuration.html">Configuration Files</a>
     <a href="../user-guide/migration.html">Migration Guide</a>
     <a href="../user-guide/placeholders.html">PlaceholderAPI</a>
@@ -82,7 +83,7 @@ public class MatchListener implements Listener {
 <h2>Available Custom Events</h2>
 
 <h3>Tournament Events</h3>
-<p>Package: <code>com.shyamstudio.shyamduels.tournament.event.*</code></p>
+<p>Package: <code>com.shyamstudio.shyamduels.tournament.event.*</code>. All events below extend the abstract <code>TournamentEvent</code> base class, which exposes <code>getTournament()</code> returning the associated <code>Tournament</code> instance.</p>
 <div class="table-wrap">
 <table>
   <thead><tr><th>Event</th><th>Fired When</th></tr></thead>

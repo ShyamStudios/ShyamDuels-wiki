@@ -45,6 +45,7 @@
     <a href="elo-ranks.html">ELO &amp; Ranks</a>
     <a href="settings.html">Player Settings</a>
     <a href="practice-features.html">Practice Features</a>
+    <a href="country.html">Country Flags</a>
     <a href="configuration.html">Configuration Files</a>
     <a href="migration.html" class="active">Migration Guide</a>
     <a href="placeholders.html">PlaceholderAPI</a>
@@ -75,7 +76,11 @@
 
 <h2>Migration Command</h2>
 <pre><code>/shyamduels migrate strikepractice</code></pre>
-<p>Permission: <code>shyamduels.admin</code></p>
+<p>Permission: <code>shyamduels.admin</code>. The migrator reads its source from
+<code>plugins/ShyamDuels/migrator/StrikePractice/</code> (drop your StrikePractice <code>kits.yml</code>,
+<code>arenas.yml</code>, and <code>config.yml</code> there), or falls back to an installed
+StrikePractice plugin's own data folder. ShyamStrikeCore's <code>door-animation.yml</code> is read from
+<code>plugins/ShyamDuels/migrator/ShyamStrikeCore/</code>.</p>
 
 <h2>What Gets Imported</h2>
 <div class="table-wrap">

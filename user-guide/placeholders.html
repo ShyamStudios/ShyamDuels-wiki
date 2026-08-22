@@ -45,6 +45,7 @@
     <a href="elo-ranks.html">ELO &amp; Ranks</a>
     <a href="settings.html">Player Settings</a>
     <a href="practice-features.html">Practice Features</a>
+    <a href="country.html">Country Flags</a>
     <a href="configuration.html">Configuration Files</a>
     <a href="migration.html">Migration Guide</a>
     <a href="placeholders.html" class="active">PlaceholderAPI</a>
@@ -107,8 +108,8 @@
     </tr>
   </thead>
   <tbody>
-    <tr><td><code>%shyamduels_ping%</code> / <code>%shyamduels_self_ping%</code></td><td>Integer</td><td>Viewer's ping (ms).</td></tr>
-    <tr><td><code>%shyamduels_opponent_ping%</code></td><td>Integer</td><td>Opponent's ping (ms) during a duel.</td></tr>
+    <tr><td><code>%shyamduels_ping%</code> / <code>%shyamduels_self_ping%</code> / <code>%shyamduels_your_ping%</code></td><td>Integer</td><td>Viewer's ping (ms).</td></tr>
+    <tr><td><code>%shyamduels_opponent_ping%</code> / <code>%shyamduels_enemy_ping%</code></td><td>Integer</td><td>Opponent's ping (ms) during a duel.</td></tr>
     <tr><td><code>%shyamduels_rank_id%</code></td><td>String</td><td>Rank identifier key.</td></tr>
     <tr><td><code>%shyamduels_rank_min_elo%</code> / <code>%shyamduels_rank_max_elo%</code></td><td>Integer</td><td>ELO boundaries of the player's rank.</td></tr>
     <tr><td><code>%shyamduels_next_rank%</code></td><td>String</td><td>Next rank display name, or empty at the top tier.</td></tr>
@@ -120,6 +121,29 @@
     <tr><td><code>%shyamduels_opponent_elo%</code></td><td>Integer</td><td>Opponent's ELO during a duel.</td></tr>
     <tr><td><code>%shyamduels_opponent_rank%</code></td><td>String</td><td>Opponent's rank display name during a duel.</td></tr>
     <tr><td><code>%shyamduels_opponent_rank_color%</code> / <code>%shyamduels_opponent_rank_colored%</code></td><td>MiniMessage</td><td>Opponent's colored rank name during a duel.</td></tr>
+    <tr><td><code>%shyamduels_round_wins%</code> / <code>%shyamduels_duel_wins%</code></td><td>Integer</td><td>Viewer's round wins in the current duel.</td></tr>
+    <tr><td><code>%shyamduels_opponent_round_wins%</code> / <code>%shyamduels_opponent_wins%</code> / <code>%shyamduels_opp_wins%</code></td><td>Integer</td><td>Opponent's round wins in the current duel.</td></tr>
+    <tr><td><code>%shyamduels_duel_round%</code> / <code>%shyamduels_current_round%</code></td><td>Integer</td><td>Current round number in a multi-round duel.</td></tr>
+    <tr><td><code>%shyamduels_duel_max_rounds%</code> / <code>%shyamduels_max_rounds%</code></td><td>Integer</td><td>Maximum rounds configured for the duel.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Country Placeholders</h2>
+<p>Resolved from the GeoLite2 country service (see <a href="configuration.html">Configuration</a> and the <a href="country.html">Country Flags</a> guide). Return <code>UNKNOWN</code>/empty when the feature is disabled or the country is unknown:</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Placeholder Variable</th>
+      <th>Output Format</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code>%shyamduels_country%</code> / <code>%shyamduels_country_code%</code></td><td>ISO Code</td><td>Player's cached ISO country code (e.g. <code>US</code>), or <code>UNKNOWN</code>.</td></tr>
+    <tr><td><code>%shyamduels_country_flag%</code> / <code>%shyamduels_countryflag%</code> / <code>%shyamduels_flag%</code></td><td>Head Component</td><td>Flag rendered as a player-head component string (empty when unknown).</td></tr>
+    <tr><td><code>%shyamduels_country_name%</code></td><td>String</td><td>English display name of the country (e.g. <code>United States</code>), or <code>Unknown</code>.</td></tr>
   </tbody>
 </table>
 </div>
@@ -412,7 +436,7 @@
   <thead><tr><th>Token / Placeholder</th><th>Output</th><th>Description</th></tr></thead>
   <tbody>
     <tr><td><code>%shyamduels_head_self%</code></td><td><code>&lt;head:self&gt;</code></td><td>Player head component for scoreboards/tab.</td></tr>
-    <tr><td><code>%shyamduels_head_enemy%</code></td><td><code>&lt;head:enemy&gt;</code></td><td>Opponent head component during duels.</td></tr>
+    <tr><td><code>%shyamduels_head_enemy%</code> / <code>%shyamduels_head_opponent%</code></td><td><code>&lt;head:enemy&gt;</code></td><td>Opponent head component during duels.</td></tr>
   </tbody>
 </table>
 </div>
@@ -429,7 +453,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr><td><code>%shyamduels_display_mode%</code></td><td>String</td><td>Lobby tab display mode (Lobby or Friends). <strong>Not a PlaceholderAPI placeholder</strong>: resolved as a literal token only inside <code>tab/display.yml</code> footer rendering. Use <code>%shyamduels_tab_view%</code> / <code>%shyamduels_setting_tab_view%</code> for a real PAPI placeholder.</td></tr>
+    <tr><td><code>%shyamduels_display_mode%</code></td><td>String</td><td>Lobby tab display mode (Lobby or Friends). Registered both as a real PlaceholderAPI placeholder (<code>%shyamduels_display_mode%</code> / <code>%shyamduels_displaymode%</code>) and as a literal token inside tab rendering. <code>%shyamduels_tab_view%</code> / <code>%shyamduels_setting_tab_view%</code> return the same preference.</td></tr>
     <tr><td><code>%animation:&lt;name&gt;%</code></td><td>String</td><td>Scrolling animation frame from <code>tab/animations.yml</code>. Resolved before PlaceholderAPI.</td></tr>
     <tr><td><code>[display=true]</code> / <code>[display=false]</code></td><td>Conditional</td><td>Hide or show a tab/scoreboard line based on a boolean condition (often another <code>&lt;tag&gt;</code>).</td></tr>
   </tbody>
@@ -448,20 +472,29 @@
     </tr>
   </thead>
   <tbody>
+    <tr><td><code>%shyamduels_in_tournament%</code></td><td>boolean</td><td>true if the viewer is a tournament participant.</td></tr>
     <tr><td><code>%shyamduels_tournament_status%</code></td><td>String</td><td>Current tournament state (e.g. <code>Waiting</code>, <code>In Progress</code>, <code>Disabled</code>).</td></tr>
+    <tr><td><code>%shyamduels_tournament_status_formatted%</code> / <code>%shyamduels_tournament_status_colored%</code></td><td>MiniMessage</td><td>Colored variant of the tournament state.</td></tr>
     <tr><td><code>%shyamduels_tournament_kit%</code></td><td>String</td><td>Kit chosen for the tournament.</td></tr>
-    <tr><td><code>%shyamduels_tournament_players%</code></td><td>Integer</td><td>Current joined participant count.</td></tr>
+    <tr><td><code>%shyamduels_tournament_players%</code> / <code>%shyamduels_tournament_player_count%</code></td><td>Integer</td><td>Current joined participant count.</td></tr>
     <tr><td><code>%shyamduels_tournament_max_players%</code></td><td>Integer</td><td>Maximum allowed participants.</td></tr>
     <tr><td><code>%shyamduels_tournament_min_players%</code></td><td>Integer</td><td>Minimum required participants.</td></tr>
-    <tr><td><code>%shyamduels_tournament_current_round%</code></td><td>Integer</td><td>Current active round index.</td></tr>
+    <tr><td><code>%shyamduels_tournament_round%</code></td><td>Integer</td><td>Current active round index.</td></tr>
     <tr><td><code>%shyamduels_tournament_total_rounds%</code></td><td>Integer</td><td>Total expected bracket rounds.</td></tr>
     <tr><td><code>%shyamduels_tournament_remaining_players%</code></td><td>Integer</td><td>Count of non-eliminated remaining players.</td></tr>
-    <tr><td><code>%shyamduels_tournament_champion%</code></td><td>String</td><td>Name of the crowned champion.</td></tr>
-    <tr><td><code>%shyamduels_tournament_next_auto%</code></td><td>String</td><td>Time remaining until next automated tournament run.</td></tr>
-    <tr><td><code>%shyamduels_tournament_player_status%</code></td><td>String</td><td>Viewer's tournament status (<code>Alive</code>, <code>Fighting</code>, <code>Eliminated</code>).</td></tr>
+    <tr><td><code>%shyamduels_tournament_champion%</code> / <code>%shyamduels_tournament_winner%</code></td><td>String</td><td>Name of the crowned champion (<code>None</code> until decided).</td></tr>
+    <tr><td><code>%shyamduels_tournament_participants%</code></td><td>String</td><td>Comma-separated participant name list.</td></tr>
+    <tr><td><code>%shyamduels_tournament_next_auto%</code> / <code>%shyamduels_tournament_time_until_next%</code> / <code>%shyamduels_tournament_next%</code></td><td>String</td><td>Time remaining until next automated tournament run (<code>Disabled</code> when scheduling is off).</td></tr>
+    <tr><td><code>%shyamduels_tournament_countdown%</code></td><td>String</td><td>Registration countdown remaining while waiting for players.</td></tr>
+    <tr><td><code>%shyamduels_tournament_match_time%</code></td><td>String</td><td>Configured per-match time limit.</td></tr>
+    <tr><td><code>%shyamduels_tournament_player_status%</code></td><td>String</td><td>Viewer's tournament status (<code>Alive</code>, <code>Fighting</code>, <code>Eliminated</code>, or <code>Not Joined</code>).</td></tr>
     <tr><td><code>%shyamduels_tournament_player_wins%</code></td><td>Integer</td><td>Matches won by the viewer in the current tournament.</td></tr>
     <tr><td><code>%shyamduels_tournament_player_losses%</code></td><td>Integer</td><td>Matches lost by the viewer.</td></tr>
     <tr><td><code>%shyamduels_tournament_player_round%</code></td><td>Integer</td><td>Rounds survived by the viewer.</td></tr>
+    <tr><td><code>%shyamduels_tournament_position%</code> / <code>%shyamduels_tournament_player_position%</code></td><td>Integer</td><td>Viewer's bracket seed/position.</td></tr>
+    <tr><td><code>%shyamduels_tournament_arena%</code></td><td>String</td><td>Arena of the viewer's current match (<code>None</code> if not fighting).</td></tr>
+    <tr><td><code>%shyamduels_tournament_match_status%</code></td><td>String</td><td>Status of the viewer's current bracket match.</td></tr>
+    <tr><td><code>%shyamduels_tournament_player_opponent%</code></td><td>String</td><td>Viewer's current tournament opponent name (<code>None</code> if none).</td></tr>
   </tbody>
 </table>
 </div>
