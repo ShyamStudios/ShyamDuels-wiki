@@ -245,6 +245,14 @@ A resolved reference to a shared kit, returned by <code>KitShareService.resolve(
   <li><code>kitId()</code>: Kit slot ID (used for <code>CUSTOM</code> kits; <code>-1</code> for edited kits).</li>
 </ul>
 
+<h2>Country Flag Data</h2>
+<p>Country codes are uppercase ISO 3166-1 alpha-2 strings (e.g. <code>IN</code>, <code>US</code>, <code>GB</code>). The internal registry (<code>CountryFlagRegistry</code>) exposes exactly 224 textures via <code>CountryService.getAllTextures()</code> / <code>getAllCountryCodes()</code>. Synthetic/non-ISO heads are not enabled — <code>getExtraTextures().size() == 0</code> is asserted by regression tests. Use <code>CountryService.UNKNOWN = "UNKNOWN"</code> as the sentinel for absent/unknown; the API getters return <code>null</code> (not UNKNOWN) for unknown/hidden. Display name lookup and input resolution are handled by <code>CountryNames</code> via <code>getDisplayName</code>/<code>resolveIsoCode</code> (accepts <code>"India"</code>, <code>"IN"</code>, <code>"United_States"</code>, <code>"United"</code> prefix).</p>
+<ul>
+  <li><code>normalize(String)</code>: 2–32 chars, starts with letter, <code>A-Z0-9_-</code>, must exist in registry. Returns null for <code>"USA"</code> etc.</li>
+  <li><code>normalizeIso(String)</code>: Strict 2-letter ISO only.</li>
+  <li><code>PlayerCountryChangeEvent.Cause</code>: <code>SELECT</code> | <code>RESET</code> | <code>GEOIP</code> | <code>JOIN_RESOLVE</code></li>
+</ul>
+
 <div class="page-navigation">
   <a class="page-nav-link prev" href="events.html">
     <span class="page-nav-label">Previous Page</span>

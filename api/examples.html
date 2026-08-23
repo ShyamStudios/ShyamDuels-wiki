@@ -379,6 +379,77 @@ public class KitShareExample {
     }
 }</code></pre>
 
+<h2>Example 12: Country Flags — Lookup, Mutation and Heads</h2>
+<p>Fetch display-safe country codes, programmatically select/reset flags, render head components and craft GUI heads. Display getters are O(1) and safe for frequent tab/nametag updates:</p>
+<pre><span class="lang-badge">java</span><code>import com.shyamstudio.shyamduels.api.ShyamDuelsAPI;
+import com.shyamstudio.shyamduels.api.ShyamDuelsProvider;
+import com.shyamstudio.shyamduels.api.country.CountryService;
+import net.kyori.adventure.text.Component;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+public class CountryExamples {
+
+    public void showFlag(Player viewer, Player target) {
+        CountryService country = ShyamDuelsProvider.require().country();
+
+        // Display-safe lookup (respects /settings hide toggle, returns null if hidden/unknown)
+        String code = country.getDisplayCountry(target.getUniqueId());
+        if (code == null) return;
+
+        // Adventure head component + MiniMessage string for chat/tab embedding
+        Component flagComponent = country.getFlagComponent(code);
+        String headSnippet = country.getFlagHeadString(code); // "&lt;head:BASE64&gt;"
+
+        // Heads for GUIs (cloned from cache, safe to mutate)
+        ItemStack flagHead = country.createFlagHead(code);
+        ItemStack namedHead = country.createFlagHead(code, "&lt;gold&gt;" + country.getDisplayName(code), null, false);
+    }
+
+    public void selectFlag(Player player, String input) {
+        // Resolve "india", "IN", "United_States", "United" -&gt; canonical ISO
+        CountryService country = ShyamDuelsProvider.require().country();
+        String iso = country.resolveIsoCode(input);
+        if (iso == null) {
+            player.sendMessage("§cUnknown country: " + input);
+            return;
+        }
+        // Must be called on the main thread; persists and refreshes displays
+        if (country.selectCountry(player, iso)) {
+            player.sendMessage("§aFlag set to " + country.getDisplayName(iso));
+        }
+        // Reset back to GeoIP/default
+        // country.resetCountry(player);
+    }
+
+    public void checkRegistry() {
+        CountryService country = ShyamDuelsProvider.require().country();
+        int size = country.getCountryCount(); // 224
+        boolean has = country.contains("IN");
+        String texture = country.getTexture("JP");
+    }
+}</code></pre>
+
+<h3>Listening to flag changes</h3>
+<pre><span class="lang-badge">java</span><code>import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import com.shyamstudio.shyamduels.api.country.event.PlayerCountryChangeEvent;
+
+public class CountryFlagListener implements Listener {
+    @EventHandler
+    public void onCountryChange(PlayerCountryChangeEvent e) {
+        String oldC = e.getOldCountry();
+        String newC = e.getNewCountry();
+        switch (e.getCause()) {
+            case SELECT -&gt; { /* player used /countryflags GUI */ }
+            case RESET -&gt; { /* player reset to GeoIP/none */ }
+            case GEOIP -&gt; { /* MaxMind detected a new country on join */ }
+            case JOIN_RESOLVE -&gt; { /* persisted DB value applied */ }
+        }
+        // e.isManual() == true for GUI-locked selections
+    }
+}</code></pre>
+
 <div class="page-navigation">
   <a class="page-nav-link prev" href="models.html">
     <span class="page-nav-label">Previous Page</span>

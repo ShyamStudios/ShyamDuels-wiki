@@ -889,6 +889,50 @@ Controls the practice kit editor (optional, available via <code>kitEditor()</cod
 </table>
 </div>
 
+<h2>CountryService</h2>
+<p>Interface: <code>com.shyamstudio.shyamduels.api.country.CountryService</code><br/>
+GeoIP detection, manual flag selection (/countryflags), display resolution and head rendering backed by a 224-entry registry. Resolve via <code>api.country()</code>. All lookups are cache-first (ConcurrentHashMap) and safe for the tab/nametag hot path; mutations must be called on the main thread.</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Method Signature</th><th>Returns</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>isDisplayAvailable()</code></td><td>boolean</td><td>Whether country flag display is enabled (<code>country.enabled</code>). False hides all flags and rejects selections.</td></tr>
+    <tr><td><code>isDetectionEnabled()</code></td><td>boolean</td><td>Whether fresh IP detection is possible (display enabled and MaxMind reader loaded).</td></tr>
+    <tr><td><code>isEnabled()</code></td><td>boolean</td><td><em>Deprecated:</em> equivalent to <code>isDetectionEnabled()</code>.</td></tr>
+    <tr><td><code>getCachedCountry(UUID)</code></td><td>String</td><td>Cached ISO code without DB/GeoIP, or null if unknown.</td></tr>
+    <tr><td><code>getDisplayCountry(UUID)</code> / <code>getDisplayCountry(Player)</code></td><td>String</td><td>Respects visibility toggle; code to render or null (hidden/unknown). O(1) — safe for every nametag refresh.</td></tr>
+    <tr><td><code>getCountry(UUID)</code> / <code>getCountry(Player)</code></td><td>String</td><td>Alias for <code>getCachedCountry</code> (fast cache-only path).</td></tr>
+    <tr><td><code>isManual(UUID)</code></td><td>boolean</td><td>Whether the player's country was locked via the flag GUI (not MaxMind).</td></tr>
+    <tr><td><code>isFlagVisible(UUID)</code></td><td>boolean</td><td>Whether the player has not hidden their flag in /settings.</td></tr>
+    <tr><td><code>setFlagVisible(UUID, boolean)</code></td><td>void</td><td>Updates visibility cache when the COUNTRY_FLAG setting toggles.</td></tr>
+    <tr><td><code>selectCountry(Player, String isoCode)</code></td><td>boolean</td><td>Persists GUI selection, updates cache, fires <code>PlayerCountryChangeEvent(SELECT)</code> and refreshes displays. Main thread only.</td></tr>
+    <tr><td><code>resetCountry(Player)</code></td><td>boolean</td><td>Clears manual override back to GeoIP/none, fires <code>RESET</code> event, refreshes displays. Main thread only.</td></tr>
+    <tr><td><code>getAllCountryCodes()</code></td><td>Set&lt;String&gt;</td><td>All 224 ISO codes (unmodifiable snapshot).</td></tr>
+    <tr><td><code>getAllTextures()</code></td><td>Map&lt;String,String&gt;</td><td>ISO -&gt; Base64 head texture map (224 entries).</td></tr>
+    <tr><td><code>getTexture(String iso)</code></td><td>String</td><td>Base64 texture for the code, or null.</td></tr>
+    <tr><td><code>contains(String iso)</code></td><td>boolean</td><td>Whether the registry contains the code.</td></tr>
+    <tr><td><code>getCountryCount()</code></td><td>int</td><td>Registered flag count (expected 224).</td></tr>
+    <tr><td><code>getDisplayName(String iso)</code></td><td>String</td><td>English name for the code (e.g. US -&gt; United States).</td></tr>
+    <tr><td><code>getSortedDisplayNames()</code></td><td>List&lt;String&gt;</td><td>Cached sorted names for tab-completion (immutable).</td></tr>
+    <tr><td><code>resolveIsoCode(String input)</code></td><td>String</td><td>Resolves ISO, full name, underscore or prefix to canonical ISO (or null).</td></tr>
+    <tr><td><code>getFlagComponent(String iso)</code></td><td>Component</td><td>Adventure head component for the flag; empty if unknown.</td></tr>
+    <tr><td><code>getFlagHeadString(String iso)</code></td><td>String</td><td>MiniMessage snippet <code>&lt;head:BASE64&gt;</code> for embedding.</td></tr>
+    <tr><td><code>getFlagForPlayer(UUID)</code> / <code>getFlagForPlayer(Player)</code></td><td>Component</td><td>Flag component for the player's display country (respects visibility).</td></tr>
+    <tr><td><code>createFlagHead(String iso)</code></td><td>ItemStack</td><td>Player-head ItemStack for the flag (cloned from cache, safe to mutate).</td></tr>
+    <tr><td><code>createFlagHead(String iso, String name, List&lt;String&gt; lore, boolean glow)</code></td><td>ItemStack</td><td>Flag head with custom name/lore/glow (MiniMessage name, lore lines).</td></tr>
+    <tr><td><code>lookupCountry(InetAddress)</code></td><td>String</td><td>MaxMind lookup for an address, or null if private/disabled. Thread-safe.</td></tr>
+    <tr><td><code>lookupCountry(String ip)</code></td><td>String</td><td>MaxMind lookup for a string IP, or null if invalid/private. Thread-safe.</td></tr>
+    <tr><td><code>isGeoIpEnabled()</code></td><td>boolean</td><td>Whether the MaxMind reader is loaded and enabled.</td></tr>
+    <tr><td><code>isGeoIpInitialized()</code></td><td>boolean</td><td>Whether GeoIpService has been initialized.</td></tr>
+    <tr><td><code>getDatabaseFile()</code></td><td>File</td><td>Resolved MaxMind .mmdb file, or null.</td></tr>
+    <tr><td><code>refreshDisplay(Player)</code></td><td>void</td><td>Forces nametag/tab/scoreboard refresh (main thread).</td></tr>
+    <tr><td><code>normalize(String code)</code></td><td>String</td><td>Normalizes to uppercase (2-32 chars, registry-checked), or null if invalid.</td></tr>
+    <tr><td><code>normalizeIso(String code)</code></td><td>String</td><td>Strict ISO-only normalize (2 uppercase letters) or null.</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Constant: <code>CountryService.UNKNOWN = "UNKNOWN"</code>. Registry invariants asserted by tests: exactly 224 ISO textures, zero extra textures, no synthetic <code>ANKARA</code> entry.</p>
+
 <h2>TournamentService</h2>
 <p>Interface: <code>com.shyamstudio.shyamduels.api.tournament.TournamentService</code><br/>
 Manage tournament registrations, active bracket duels, and player memberships:</p>
