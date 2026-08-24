@@ -211,6 +211,11 @@
   </thead>
   <tbody>
     <tr><td><code>%shyamduels_in_queue%</code></td><td>boolean</td><td>Returns true if the player is in queue.</td></tr>
+    <tr><td><code>%shyamduels_queued_players%</code> / <code>%shyamduels_total_queued%</code></td><td>Integer</td><td>Total players currently queued across ALL kits and modes.</td></tr>
+    <tr><td><code>%shyamduels_fighting_players%</code> / <code>%shyamduels_total_fighting%</code></td><td>Integer</td><td>Total players currently in active matches (Duels + FFA combined).</td></tr>
+    <tr><td><code>%shyamduels_duel_players%</code> / <code>%shyamduels_total_duels%</code></td><td>Integer</td><td>Total players currently in active duels across all arenas.</td></tr>
+    <tr><td><code>%shyamduels_total_ffa_players%</code> / <code>%shyamduels_all_ffa_players%</code></td><td>Integer</td><td>Total players currently inside all FFA arenas combined.</td></tr>
+    <tr><td><code>%shyamduels_playing_players%</code> / <code>%shyamduels_total_playing%</code></td><td>Integer</td><td>Total players currently playing or fighting across the entire server.</td></tr>
     <tr><td><code>%shyamduels_queue_kit%</code></td><td>String</td><td>Displays the display name of the queued kit (appends <code> (+N)</code> when multi-queued).</td></tr>
     <tr><td><code>%shyamduels_queue_mode%</code></td><td>String</td><td>Displays the active queue team-size mode (e.g. <code>1v1</code>, <code>2v2</code>).</td></tr>
     <tr><td><code>%shyamduels_wait_time%</code> / <code>%shyamduels_queue_wait_time%</code></td><td>String</td><td>Formatted duration elapsed in queue (e.g., <code>1:24</code>).</td></tr>
@@ -311,6 +316,10 @@
 <table>
   <thead><tr><th>Token</th><th>Output</th><th>Description</th></tr></thead>
   <tbody>
+    <tr><td><code>&lt;fighting_players&gt;</code> / <code>&lt;total_fighting&gt;</code></td><td>Integer</td><td>Total players currently in active fights (Duels + FFA combined across all arenas).</td></tr>
+    <tr><td><code>&lt;queued_players&gt;</code> / <code>&lt;total_queued&gt;</code></td><td>Integer</td><td>Total players currently waiting in queue across ALL kits.</td></tr>
+    <tr><td><code>&lt;duel_players&gt;</code> / <code>&lt;total_duels&gt;</code></td><td>Integer</td><td>Total players currently fighting in duels.</td></tr>
+    <tr><td><code>&lt;total_ffa_players&gt;</code> / <code>&lt;all_ffa_players&gt;</code></td><td>Integer</td><td>Total players currently fighting across all FFA arenas.</td></tr>
     <tr><td><code>&lt;ffa_players&gt;</code></td><td>Integer</td><td>Players currently in the same FFA arena as the viewer.</td></tr>
     <tr><td><code>&lt;ffa_rollback&gt;</code></td><td>N/A</td><td>Reserved legacy tag.</td></tr>
     <tr><td><code>&lt;kit&gt;</code></td><td>String</td><td>Active kit display name (duel, FFA, or queue context).</td></tr>
