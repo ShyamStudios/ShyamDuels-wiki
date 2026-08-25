@@ -193,7 +193,8 @@
   <tbody>
     <tr><td><code>%shyamduels_in_duel%</code></td><td>boolean</td><td>Returns true if the player is currently inside a duel.</td></tr>
     <tr><td><code>%shyamduels_in_fight%</code></td><td>boolean</td><td>Returns true if the player is inside an active fight.</td></tr>
-    <tr><td><code>%shyamduels_kit%</code></td><td>String</td><td>Displays the active kit display name for the current match.</td></tr>
+    <tr><td><code>%shyamduels_kit%</code></td><td>String</td><td>Displays the clean uncolored kit name (inherits line styling).</td></tr>
+    <tr><td><code>%shyamduels_kit_colored%</code> / <code>%shyamduels_kit_display%</code></td><td>String</td><td>Displays the kit display name with its configured colors.</td></tr>
     <tr><td><code>%shyamduels_opponent%</code></td><td>String</td><td>Displays the opponent player's name, or "None".</td></tr>
   </tbody>
 </table>
@@ -322,7 +323,8 @@
     <tr><td><code>&lt;total_ffa_players&gt;</code> / <code>&lt;all_ffa_players&gt;</code></td><td>Integer</td><td>Total players currently fighting across all FFA arenas.</td></tr>
     <tr><td><code>&lt;ffa_players&gt;</code></td><td>Integer</td><td>Players currently in the same FFA arena as the viewer.</td></tr>
     <tr><td><code>&lt;ffa_rollback&gt;</code></td><td>N/A</td><td>Reserved legacy tag.</td></tr>
-    <tr><td><code>&lt;kit&gt;</code></td><td>String</td><td>Active kit display name (duel, FFA, or queue context).</td></tr>
+    <tr><td><code>&lt;kit&gt;</code></td><td>String</td><td>Clean uncolored kit name (duel, FFA, or queue context; inherits line colors).</td></tr>
+    <tr><td><code>&lt;kit_colored&gt;</code> / <code>&lt;kit_display&gt;</code></td><td>String</td><td>Kit name with configured display colors.</td></tr>
   </tbody>
 </table>
 </div>

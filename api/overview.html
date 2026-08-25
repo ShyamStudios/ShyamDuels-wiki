@@ -67,7 +67,13 @@
 <p class="page-lead">Hook into the ShyamDuels API to fetch stats, listen to match events, manage queues, and start custom duels.</p>
 
 <h2>Maven Integration</h2>
-<p>To compile your plugin against ShyamDuels, declare the jar file as a dependency. Add the following to your <code>pom.xml</code> file:</p>
+<p>Build <code>shyamduels-2.0-api.jar</code> with <code>./gradlew apiJar</code> and compile against that small public artifact. Never shade or bundle it inside an add-on; ShyamDuels supplies the API classes at runtime.</p>
+
+<pre><span class="lang-badge">gradle</span><code>dependencies {
+    compileOnly files("libs/shyamduels-2.0-api.jar")
+}</code></pre>
+
+<p>For Maven repositories, publish the API artifact under the following coordinates and keep the dependency scope <code>provided</code>:</p>
 
 <pre><span class="lang-badge">xml</span><code>&lt;dependency&gt;
     &lt;groupId&gt;com.shyamstudio&lt;/groupId&gt;
@@ -85,10 +91,11 @@ api-version: '1.21'
 depend: [ShyamDuels]    # Guarantees ShyamDuels enables first</code></pre>
 
 <h2>Accessing the API</h2>
-<p>The public entry point is <code>ShyamDuelsAPI</code>. Resolve the interface instance during your plugin startup using the static provider:</p>
+<p>The public entry point is <code>ShyamDuelsAPI</code>. Bukkit's service registry is preferred; the static provider remains as a compatible convenience accessor:</p>
 
 <pre><span class="lang-badge">java</span><code>import com.shyamstudio.shyamduels.api.ShyamDuelsAPI;
 import com.shyamstudio.shyamduels.api.ShyamDuelsProvider;
+import com.shyamstudio.shyamduels.api.meta.ApiVersion;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class IntegrationPlugin extends JavaPlugin {
@@ -97,8 +104,8 @@ public class IntegrationPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Resolve the API instance
-        this.api = ShyamDuelsProvider.get();
+        this.api = getServer().getServicesManager().load(ShyamDuelsAPI.class);
+        if (api == null) this.api = ShyamDuelsProvider.get();
         
         if (api == null) {
             getLogger().severe("ShyamDuels was not found! Disabling integration.");
@@ -107,6 +114,11 @@ public class IntegrationPlugin extends JavaPlugin {
         }
 
         getLogger().info("Successfully hooked into ShyamDuels API!");
+
+        // Fail clearly when an add-on needs a newer incompatible API.
+        if (!api.metadata().apiVersion().isCompatibleWith(new ApiVersion(2, 0, 0))) {
+            throw new IllegalStateException("Unsupported ShyamDuels API " + api.metadata().apiVersion());
+        }
     }
 }</code></pre>
 
@@ -118,6 +130,9 @@ public class IntegrationPlugin extends JavaPlugin {
     <tr><th>Accessor</th><th>Service</th><th>Notes</th></tr>
   </thead>
   <tbody>
+    <tr><td><code>metadata()</code></td><td>ApiMetadata</td><td>Semantic API version and capability discovery</td></tr>
+    <tr><td><code>players()</code></td><td>PlayerService</td><td>Immutable cross-feature player snapshots</td></tr>
+    <tr><td><code>extensions()</code></td><td>ExtensionService</td><td>Typed, owner-scoped add-on contracts</td></tr>
     <tr><td><code>duels()</code></td><td>DuelService</td><td>Match lifecycle, invites, party duels</td></tr>
     <tr><td><code>arenas()</code></td><td>ArenaService</td><td>Arena lookup and availability</td></tr>
     <tr><td><code>kits()</code></td><td>KitService</td><td>Kit definitions and player layouts</td></tr>

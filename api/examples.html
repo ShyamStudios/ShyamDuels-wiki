@@ -450,6 +450,34 @@ public class CountryFlagListener implements Listener {
     }
 }</code></pre>
 
+<h2>Example 13: Reading Safe Cross-Feature Player State</h2>
+<p>Use immutable snapshots when an add-on needs duel, FFA, queue, party, or spectator state without depending on internal managers. Capture on the server thread; the returned value can then be retained or processed asynchronously:</p>
+<pre><span class="lang-badge">java</span><code>ShyamDuelsAPI api = ShyamDuelsProvider.require();
+PlayerSnapshot snapshot = api.players().snapshot(player);
+
+getLogger().info(snapshot.playerName() + " is " + snapshot.activity());
+if (snapshot.duelId() != null) {
+    getLogger().info("Duel=" + snapshot.duelId() + " arena=" + snapshot.arenaName());
+}
+for (QueueSnapshot queue : snapshot.queues()) {
+    getLogger().info(queue.kitName() + " " + queue.displayMode());
+}</code></pre>
+
+<h2>Example 14: Publishing an Add-on Extension</h2>
+<p>Extensions let add-ons expose typed optional contracts without adding dependencies on ShyamDuels internals. Registrations are unique and are automatically removed when the owner plugin disables:</p>
+<pre><span class="lang-badge">java</span><code>public interface RatingProvider {
+    int getRating(UUID playerId);
+}
+
+NamespacedKey key = new NamespacedKey(this, "rating-provider");
+ExtensionRegistration registration = ShyamDuelsProvider.require().extensions().register(
+        this, key, RatingProvider.class, playerId -&gt; calculateRating(playerId));
+
+// A consuming add-on uses the same key and shared contract:
+Optional&lt;RatingProvider&gt; provider = ShyamDuelsProvider.require()
+        .extensions().find(key, RatingProvider.class);
+</code></pre>
+
 <div class="page-navigation">
   <a class="page-nav-link prev" href="models.html">
     <span class="page-nav-label">Previous Page</span>
