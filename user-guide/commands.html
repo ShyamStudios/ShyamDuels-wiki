@@ -850,6 +850,42 @@
       <td>Toggles crafting table usability during matches using this kit.</td>
     </tr>
     <tr>
+      <td><code>bedwars</code></td>
+      <td><code>&lt;kit&gt; [true|false]</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Toggles BedFight mechanics for this kit; auto-enables build when set true.</td>
+    </tr>
+    <tr>
+      <td><code>nohunger</code></td>
+      <td><code>&lt;kit&gt; [true|false]</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Toggles hunger suppression during matches using this kit.</td>
+    </tr>
+    <tr>
+      <td><code>bridge</code></td>
+      <td><code>&lt;kit&gt; [true|false]</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Toggles Bridge scoring mechanics for this kit.</td>
+    </tr>
+    <tr>
+      <td><code>disablenaturalregen</code></td>
+      <td><code>&lt;kit&gt; [true|false]</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Disables natural health regeneration for this kit.</td>
+    </tr>
+    <tr>
+      <td><code>nohealthindicator</code></td>
+      <td><code>&lt;kit&gt; [true|false]</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Hides below-name health indicator for this kit (refreshes nametags).</td>
+    </tr>
+    <tr>
+      <td><code>uhcgaps</code></td>
+      <td><code>&lt;kit&gt; [true|false]</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Toggles UHC gapple handling for this kit.</td>
+    </tr>
+    <tr>
       <td><code>category create</code></td>
       <td><code>&lt;id&gt; &lt;displayName&gt;</code></td>
       <td><code>shyamduels.admin</code></td>
@@ -1332,6 +1368,8 @@
     <tr><td><code>/tournament setmax &lt;amount&gt;</code></td><td><code>shyamduels.tournament.admin</code></td><td>Sets maximum player capacity.</td></tr>
     <tr><td><code>/tournament nextmatch</code></td><td><code>shyamduels.tournament.admin</code></td><td>Pushes wave matches into free arenas.</td></tr>
     <tr><td><code>/tournament skipround</code></td><td><code>shyamduels.tournament.admin</code></td><td>Resolves active round and advances bracket.</td></tr>
+    <tr><td><code>/tournament add &lt;player&gt;</code></td><td><code>shyamduels.tournament.admin</code></td><td>Manually adds a player into an open tournament. Requires WAITING state.</td></tr>
+    <tr><td><code>/tournament remove &lt;player&gt;</code></td><td><code>shyamduels.tournament.admin</code></td><td>Removes a player from the tournament; during IN_PROGRESS forfeits their active match.</td></tr>
     <tr><td><code>/tournament reload</code></td><td><code>shyamduels.tournament.admin</code></td><td>Reloads <code>tournament.yml</code> into cache.</td></tr>
     <tr><td><code>/tournament debug</code></td><td><code>shyamduels.tournament.admin</code></td><td>Outputs internal tournament engine state.</td></tr>
   </tbody>
@@ -1353,9 +1391,13 @@
     <tr><td><code>/totempractice</code></td><td><code>/totem</code></td><td>Practice</td><td>Requires <code>modules.practice-totem-practice</code>. Configurable name via <code>totem-practice.command</code>.</td></tr>
     <tr><td><code>/kitcreator</code></td><td><code>/customkit</code>, <code>/ckit</code></td><td>Custom Kits</td><td>Requires <code>modules.custom-kits</code>.</td></tr>
     <tr><td><code>/customkits</code></td><td><code>/ckits</code>, <code>/mykits</code></td><td>Custom Kits</td><td>Requires <code>modules.custom-kits</code>.</td></tr>
+    <tr><td><code>/&lt;toggle&gt; [on|off]</code></td><td>-</td><td>Custom Toggles</td><td>Per-player custom toggles defined in <code>menus/player-settings.yml</code> under <code>custom-toggles.toggles.&lt;key&gt;</code>. Example: <code>/autogg on</code>. Each toggle has its own optional <code>permission</code> node. Requires <code>custom-toggles.enabled: true</code>. Registered at runtime via <code>CustomToggleManager</code>.</td></tr>
   </tbody>
 </table>
 </div>
+
+<h2>Custom Toggle Commands</h2>
+<p>When <code>custom-toggles.enabled: true</code> in <code>menus/player-settings.yml</code>, each entry under <code>custom-toggles.toggles</code> becomes a standalone <code>/&lt;key&gt;</code> command (e.g. <code>/autogg</code>, <code>/fastcrystal</code> if configured). Syntax: <code>/&lt;toggle&gt; [on|off]</code> toggles the player's preference. Tab completion suggests <code>on</code>/<code>off</code>. Each definition may specify a <code>permission</code> and on/off console/player commands run via <code>GuiCommandExecutor</code>.</p>
 
 <div class="page-navigation">
   <a class="page-nav-link prev" href="getting-started.html">

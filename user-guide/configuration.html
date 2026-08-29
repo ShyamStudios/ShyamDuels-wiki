@@ -216,6 +216,14 @@ left untouched).</p>
     sound-pitch: 1.2
     fallback-item: DIAMOND_SWORD  # Item model shown in the pop when a kit has no icon (totem-pop only)
 
+  indicator:
+    enabled: true
+    height-offset: 1.15       # Vertical offset above nametag passenger mount
+    scale: 0.60               # ItemDisplay scale (0.60 balanced with nametag)
+    rotation-speed-ticks: 5   # Ticks per 45° step (5 = 2s per full rotation)
+    billboard: FIXED          # FIXED (world-space), VERTICAL, or CENTER
+    show-to-self: false       # Show indicator to the queued player in F5
+
 duels:
   invite-expiration: 60       # Seconds before duel invites expire
   invite-resend-cooldown: 10  # Seconds before the same sender can re-invite the same player (0 disables)
@@ -404,7 +412,7 @@ door-animation:
   enabled: true
   animation_ticks: 20
   fence_material: "OAK_FENCE"
-  kits: []
+  kits: []                    # Empty = all duel kits use gates when they have them
   gate:
     close_delay_seconds: 3
     eject_check_radius: 10
@@ -419,6 +427,31 @@ door-animation:
       large_party_threshold: 10
       large_party_actionbar: "&#37F699✔ &f{player} &7is ready &8({ready}/{total})"
       large_party_bar: "&#37F699✔ Ready: &f{ready}&7/&f{total}"
+
+bedfight:
+  enabled: true
+  void-buffer: 5.0
+  void-fallback-offset: 10
+  void-fallback-y: 0
+  respawn-countdown-time: 3
+  fireball:
+    velocity: 1.0
+    lifetime-seconds: 5
+    cooldown-seconds: 2
+    knockback: { radius: {x: 6, y: 4, z: 6}, multiplier: 2.09, y-force: 0.805 }
+  tnt:
+    auto-ignite: true
+    fuse-ticks: 80
+    knockback: { radius: {x: 7, y: 4, z: 7}, multiplier: 1.87, y-force: 0.69 }
+
+bridge:
+  enabled: true
+  void-buffer: 5.0
+  respawn-countdown-time: 3
+  lock-to-spawn-during-countdown: true
+  spawn-cage: true
+  instant-golden-apples: false
+  bow-cooldown-seconds: 4.0
 
 custom-kits:
   enabled: true
@@ -543,7 +576,7 @@ items:
     name: "&b&lRANKED QUEUE"
     commands: ["player:queue"]</code></pre>
 <p>Rematch lore supports <code>{opponent}</code> and <code>{kit}</code> placeholders. Reload item configs with <code>/shyamduels reload-items</code>.</p>
-<p>Kit and FFA GUI order/icons: <code>data/order.yml</code>. Custom kit categories: <code>categories.json</code> (runtime).</p>
+<p>Kit and FFA GUI order/icons: <code>data/order.yml</code>. Kit categories: <code>categories/&lt;id&gt;.yml</code> (per-category files, legacy <code>categories.yml</code> supported). Custom kit editor categories: <code>data/customkits/categories.json</code> (runtime, managed by <code>CategoryDataManager</code>).</p>
 
 <h3>Custom Item Icons (Custom Model Data &amp; Nexo)</h3>
 <p>Every item entry in a menu or item config supports two optional fields for swapping the vanilla
@@ -628,24 +661,27 @@ mysql:
   username: root
   password: ""
   use-ssl: false
-  pool-size: 10               # Pooled MySQL connections (10+ recommended for 300+ players)
+  maximum-pool-size: 30       # HikariCP max connections (30 with 10 idle recommended for 400-500 CCU)
+  minimum-idle: 10            # Minimum idle connections kept ready
+  connection-timeout-ms: 5000 # Max wait for a connection from the pool
+  max-lifetime-ms: 1800000    # Max lifetime of a pooled connection (30m)
+  idle-timeout-ms: 600000     # Time an idle connection stays in pool (10m)
 
-# Performance settings (tuned for big servers: 300+ players)
+# Performance settings (tuned for high CCU servers: 400-500+ players)
 performance:
-  io-threads: 4               # Background threads for DB + file work. SQLite: 4 is plenty.
-                              # MySQL: raise to 8-16 so more queries run at once.
-  auto-detect-threads: true   # Auto-detect CPU cores (Pterodactyl/Docker aware) and adjust
-                              # io-threads automatically using an optimal performance formula.
+  compute-threads: 4          # Scoreboard/Tab diffing & MiniMessage parsing workers (auto: clamp(2,16,cores/2))
+  io-threads: 8               # DB queries, GeoIP & file I/O workers (auto: clamp(4,32,cores))
+  auto-detect-threads: true   # Auto-detect CPU cores (Pterodactyl/Docker aware) and adjust both pools
   autosave-minutes: 5         # Batch-save all online players' stats every N minutes (0 = off).
-                              # Saves everyone in one go and limits crash loss to a few minutes.</code></pre>
+                              # Saves everyone in one transaction; limits crash loss to a few minutes.</code></pre>
 
 <div class="alert alert-note">
   <div class="alert-title">Scaling to 300+ players</div>
   For high player counts, use <strong>MySQL</strong> (SQLite serializes all writes through a single
-  connection by design). Raise <code>pool-size</code> and <code>performance.io-threads</code> together
-  so concurrent queries have both connections and worker threads available. The
-  <code>performance</code> block lives in <code>database.yml</code> and is read under the
-  <code>database.</code> prefix internally.
+  connection by design). Raise <code>maximum-pool-size</code> / <code>minimum-idle</code> and
+  <code>performance.io-threads</code> together so concurrent queries have both connections and worker
+  threads available. The <code>performance</code> block lives in <code>database.yml</code> and is read under the
+  <code>database.</code> prefix internally. When <code>auto-detect-threads</code> is true, thread counts are derived from detected cores.
 </div>
 
 <h2>ELO and Ranks Database (ranks.yml)</h2>

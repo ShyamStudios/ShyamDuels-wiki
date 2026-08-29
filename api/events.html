@@ -101,6 +101,18 @@ public class MatchListener implements Listener {
   </tbody>
 </table>
 </div>
+<p><code>TournamentPlayerJoinEvent</code> is <strong>cancellable</strong> — cancelling prevents the player from joining (message via <code>messages.yml</code>). All tournament events expose <code>getTournament()</code>; round/match events expose <code>getRound()</code>/<code>getMatch()</code> and match-end exposes <code>getWinner()</code>/<code>getLoser()</code>.</p>
+
+<h3>PlayerCountryChangeEvent</h3>
+<p>Class path: <code>com.shyamstudio.shyamduels.api.country.event.PlayerCountryChangeEvent</code><br/>
+Fired on the main thread after a player's country flag is changed but before display refresh. Not cancellable; informational.</p>
+<ul>
+  <li><code>getPlayerId()</code>: Owner UUID.</li>
+  <li><code>getPlayer()</code>: Online Player or null if offline.</li>
+  <li><code>getOldCountry()</code> / <code>getNewCountry()</code>: ISO codes (UNKNOWN when cleared).</li>
+  <li><code>getCause()</code>: <code>SELECT</code> (menu/command), <code>RESET</code>, <code>GEOIP</code> (MaxMind), <code>JOIN_RESOLVE</code>.</li>
+  <li><code>isManual()</code>: True for player-chosen flags; false for automatic GeoIP resolves.</li>
+</ul>
 
 <h3>DuelCountdownStartEvent</h3>
 <p>Class path: <code>com.shyamstudio.shyamduels.duel.event.DuelCountdownStartEvent</code><br/>

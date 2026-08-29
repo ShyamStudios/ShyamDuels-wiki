@@ -146,6 +146,16 @@
       <td>Makes your edited kits public and importable by others via their share codes. See <a href="kit-sharing.html">Kit Sharing &amp; Profiles</a>.</td>
     </tr>
     <tr>
+      <td><code>ITEM_PICKUP</code></td>
+      <td>ON</td>
+      <td>Toggles whether players can pick up items while in lobby (match pickup is handled separately by kit settings).</td>
+    </tr>
+    <tr>
+      <td><code>COUNTRY_FLAG_VISIBLE</code></td>
+      <td>ON</td>
+      <td>Toggles whether your selected country flag head is shown in tab/nametag integrations.</td>
+    </tr>
+    <tr>
       <td><code>MATCH_CHAT</code></td>
       <td>Configured by <code>match-chat.default-enabled</code></td>
       <td>Controls whether the player sends and receives global chat while in a duel or FFA match. When disabled, their match chat is limited to relevant match participants and spectators.</td>
@@ -153,6 +163,9 @@
   </tbody>
 </table>
 </div>
+
+<h2>Custom Toggles</h2>
+<p>Admins can define additional per-player toggles in <code>menus/player-settings.yml</code> under <code>custom-toggles</code>. Each entry becomes a standalone <code>/&lt;key&gt; [on|off]</code> command (e.g. <code>/fastcrystal &lt;on|off&gt;</code> if configured) and a toggle button in <code>/settings</code>. Each toggle has its own <code>permission</code>, icons (<code>enabled-material</code>/<code>disabled-material</code>), and optional on/off commands executed via <code>GuiCommandExecutor</code>. Requires <code>custom-toggles.enabled: true</code>.</p>
 
 <h2>Personal Time Overrides</h2>
 <p>Players can configure a custom time layout. This changes daylight visibility only for their client view:</p>

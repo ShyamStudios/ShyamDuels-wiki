@@ -124,6 +124,12 @@
 <ul>
   <li><code>/kit nofalldamage &lt;name&gt; [true|false]</code>: Toggles whether players take fall damage during matches using this kit.</li>
   <li><code>/kit crafttable &lt;name&gt;</code>: Toggles crafting table usability during matches with this kit.</li>
+  <li><code>/kit bedwars &lt;name&gt; [true|false]</code>: Enables BedFight mechanics (also auto-enables build) for this kit.</li>
+  <li><code>/kit nohunger &lt;name&gt; [true|false]</code>: Toggles hunger suppression.</li>
+  <li><code>/kit bridge &lt;name&gt; [true|false]</code>: Toggles Bridge scoring mechanics.</li>
+  <li><code>/kit disablenaturalregen &lt;name&gt; [true|false]</code>: Disables natural health regeneration.</li>
+  <li><code>/kit nohealthindicator &lt;name&gt; [true|false]</code>: Hides below-name health indicator and refreshes nametags.</li>
+  <li><code>/kit uhcgaps | uhcgaps &lt;name&gt; [true|false]</code>: Toggles UHC gap apple handling.</li>
 </ul>
 
 <h2>Kit Editor GUI (For Players)</h2>
@@ -265,6 +271,36 @@
       <td><code>/kit crafttable</code></td>
       <td><code>/kit crafttable &lt;name&gt;</code></td>
       <td>Toggles crafting table usability during matches using this kit.</td>
+    </tr>
+    <tr>
+      <td><code>/kit bedwars</code></td>
+      <td><code>/kit bedwars &lt;name&gt; [true|false]</code></td>
+      <td>Toggles BedWars mechanics for this kit (auto-enables build when enabling). Requires kit build flag.</td>
+    </tr>
+    <tr>
+      <td><code>/kit nohunger</code></td>
+      <td><code>/kit nohunger &lt;name&gt; [true|false]</code></td>
+      <td>Toggles hunger drain suppression during matches.</td>
+    </tr>
+    <tr>
+      <td><code>/kit bridge</code></td>
+      <td><code>/kit bridge &lt;name&gt; [true|false]</code></td>
+      <td>Toggles Bridge scoring/respawn mechanics for this kit.</td>
+    </tr>
+    <tr>
+      <td><code>/kit disablenaturalregen</code></td>
+      <td><code>/kit disablenaturalregen &lt;name&gt; [true|false]</code></td>
+      <td>Toggles natural health regeneration suppression (food-based healing).</td>
+    </tr>
+    <tr>
+      <td><code>/kit nohealthindicator</code></td>
+      <td><code>/kit nohealthindicator &lt;name&gt; [true|false]</code></td>
+      <td>Hides below-name health displays for this kit; refreshes nametags.</td>
+    </tr>
+    <tr>
+      <td><code>/kit uhcGaps | uhcgaps</code></td>
+      <td><code>/kit uhcgaps &lt;name&gt; [true|false]</code></td>
+      <td>Toggles UHC golden-apple gap handling for this kit.</td>
     </tr>
   </tbody>
 </table>
