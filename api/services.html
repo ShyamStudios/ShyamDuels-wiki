@@ -46,6 +46,7 @@
     <a href="../user-guide/settings.html">Player Settings</a>
     <a href="../user-guide/practice-features.html">Practice Features</a>
     <a href="../user-guide/country.html">Country Flags</a>
+    <a href="../user-guide/advancements.html">Advancements</a>
     <a href="../user-guide/configuration.html">Configuration Files</a>
     <a href="../user-guide/migration.html">Migration Guide</a>
     <a href="../user-guide/placeholders.html">PlaceholderAPI</a>
@@ -260,11 +261,6 @@ Fetches and updates player ELO ratings, kills, deaths, winstreaks, and ranks:</p
       <td>Convenience getter for a player's deaths with a specific kit.</td>
     </tr>
     <tr>
-      <td><code>saveStats(PlayerStats stats)</code></td>
-      <td>CompletableFuture&lt;Void&gt;</td>
-      <td>Saves modifications back to the SQLite or MySQL database pools.</td>
-    </tr>
-    <tr>
       <td><code>getTopPlayers(String stat, int limit)</code></td>
       <td>CompletableFuture&lt;List&lt;PlayerStats&gt;&gt;</td>
       <td>Asynchronously fetches an overall leaderboard ordered by a stat (e.g. "elo", "kills", "wins", "winstreak").</td>
@@ -329,7 +325,7 @@ Coordinates FAWE reset states and lists active arena environments:</p>
     <tr>
       <td><code>getAvailableArena(String kitName)</code></td>
       <td>Arena</td>
-      <td>Gets an available arena for a kit without claiming, or null.</td>
+      <td><strong>Deprecated:</strong> atomically claims (sets IN_USE) via <code>claimArena(kitName)</code> - it does claim. Use <code>claimArena</code> directly.</td>
     </tr>
     <tr>
       <td><code>getAvailableDuelArenaCount()</code></td>
@@ -898,9 +894,9 @@ GeoIP detection, manual flag selection (/countryflags), display resolution and h
   <tbody>
     <tr><td><code>isDisplayAvailable()</code></td><td>boolean</td><td>Whether country flag display is enabled (<code>country.enabled</code>). False hides all flags and rejects selections.</td></tr>
     <tr><td><code>isDetectionEnabled()</code></td><td>boolean</td><td>Whether fresh IP detection is possible (display enabled and MaxMind reader loaded).</td></tr>
-    <tr><td><code>isEnabled()</code></td><td>boolean</td><td><em>Deprecated:</em> equivalent to <code>isDetectionEnabled()</code>.</td></tr>
+    <tr><td><code>isEnabled()</code></td><td>boolean</td><td><em>Deprecated:</em> prefer <code>isDetectionEnabled()</code> or <code>isDisplayAvailable()</code>.</td></tr>
     <tr><td><code>getCachedCountry(UUID)</code></td><td>String</td><td>Cached ISO code without DB/GeoIP, or null if unknown.</td></tr>
-    <tr><td><code>getDisplayCountry(UUID)</code> / <code>getDisplayCountry(Player)</code></td><td>String</td><td>Respects visibility toggle; code to render or null (hidden/unknown). O(1) — safe for every nametag refresh.</td></tr>
+    <tr><td><code>getDisplayCountry(UUID)</code> / <code>getDisplayCountry(Player)</code></td><td>String</td><td>Respects visibility toggle; code to render or null (hidden/unknown). O(1) - safe for every nametag refresh.</td></tr>
     <tr><td><code>getCountry(UUID)</code> / <code>getCountry(Player)</code></td><td>String</td><td>Alias for <code>getCachedCountry</code> (fast cache-only path).</td></tr>
     <tr><td><code>isManual(UUID)</code></td><td>boolean</td><td>Whether the player's country was locked via the flag GUI (not MaxMind).</td></tr>
     <tr><td><code>isFlagVisible(UUID)</code></td><td>boolean</td><td>Whether the player has not hidden their flag in /settings.</td></tr>
@@ -949,6 +945,53 @@ Manage tournament registrations, active bracket duels, and player memberships:</
     <tr><td><code>leaveTournament(Player)</code></td><td>boolean</td><td>Removes player from the active registration.</td></tr>
     <tr><td><code>forceStartTournament(CommandSender starter)</code></td><td>void</td><td>Skips the remaining countdown and starts the bracket immediately.</td></tr>
     <tr><td><code>cancelTournament(String reason)</code></td><td>void</td><td>Cancels active tournament.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>PlayerService</h2>
+<p>Interface: <code>com.shyamstudio.shyamduels.api.player.PlayerService</code><br/>
+Thread-safe snapshots of player activity (no live Bukkit objects retained). Must be called on the server thread. Resolve via <code>api.players()</code>:</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Method Signature</th><th>Returns</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>snapshot(UUID)</code></td><td>Optional&lt;PlayerSnapshot&gt;</td><td>Immutable snapshot (activity, duel/party/arena/kit/queues, tournament flag) or empty.</td></tr>
+    <tr><td><code>snapshot(Player)</code></td><td>PlayerSnapshot</td><td>Snapshot for an online player.</td></tr>
+    <tr><td><code>onlineSnapshots()</code></td><td>List&lt;PlayerSnapshot&gt;</td><td>Snapshots for all online players.</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Models: <code>PlayerSnapshot(playerId, playerName, activity, duelId, partyId, arenaName, kitName, queues, tournamentParticipant, capturedAt)</code>, <code>QueueSnapshot(kitName, mode, displayMode, teamSize)</code>, <code>PlayerActivity(LOADING, LOBBY, PARTY, KIT_EDITOR, TOURNAMENT, QUEUED, FFA, DUEL, SPECTATING)</code>. See <a href="models.html">Data Models</a>.</p>
+
+<h2>ExtensionService</h2>
+<p>Interface: <code>com.shyamstudio.shyamduels.api.extension.ExtensionService</code><br/>
+Thread-safe registry for add-on contracts (ConcurrentHashMap). Auto-unregisters on plugin disable. Resolve via <code>api.extensions()</code>:</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Method Signature</th><th>Returns</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>register(key, ownerPlugin, contractType)</code></td><td>ExtensionRegistration</td><td>Registers a contract; close/unregister to remove.</td></tr>
+    <tr><td><code>find(key)</code></td><td>Optional&lt;ExtensionRegistration&gt;</td><td>Looks up a registered contract.</td></tr>
+    <tr><td><code>registeredExtensions()</code></td><td>Collection&lt;ExtensionDescriptor&gt;</td><td>All active registrations (key, owner, contract type, timestamp).</td></tr>
+    <tr><td><code>unregisterAll(ownerPlugin)</code></td><td>void</td><td>Removes all contracts owned by a plugin.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>PracticeService</h2>
+<p>Interface: <code>com.shyamstudio.shyamduels.api.practice.PracticeService</code><br/>
+Optional practice-module facade (available via <code>practice()</code> when the practice module is enabled):</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Method Signature</th><th>Returns</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>isKitEditorEnabled()</code> / <code>isDuelCommandEnabled()</code> / <code>isRightClickDuelEnabled()</code></td><td>boolean</td><td>Module feature gates.</td></tr>
+    <tr><td><code>isDeathMessagesEnabled()</code> / <code>isGoldenHeadEnabled()</code> / <code>isTotemPracticeEnabled()</code></td><td>boolean</td><td>Practice feature gates.</td></tr>
+    <tr><td><code>openKitRoom(player)</code></td><td>void</td><td>Opens the practice kit-room GUI.</td></tr>
+    <tr><td><code>giveGoldenHead(player)</code></td><td>void</td><td>Gives a golden head item.</td></tr>
+    <tr><td><code>startTotemPractice(player)</code></td><td>void</td><td>Starts the totem reaction game.</td></tr>
+    <tr><td><code>reload()</code></td><td>CompletableFuture&lt;Void&gt;</td><td>Reloads practice configs (async).</td></tr>
   </tbody>
 </table>
 </div>

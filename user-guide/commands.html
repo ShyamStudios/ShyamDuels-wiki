@@ -46,6 +46,7 @@
     <a href="settings.html">Player Settings</a>
     <a href="practice-features.html">Practice Features</a>
     <a href="country.html">Country Flags</a>
+    <a href="advancements.html">Advancements</a>
     <a href="configuration.html">Configuration Files</a>
     <a href="migration.html">Migration Guide</a>
     <a href="placeholders.html">PlaceholderAPI</a>
@@ -138,10 +139,10 @@
       <td>Opens the primary ranked and unranked matchmaking queue selection GUI.</td>
     </tr>
     <tr>
-      <td><code>/queue [kit]</code></td>
+      <td><code>/queue [kit] [type]</code></td>
       <td>-</td>
       <td><code>shyamduels.use</code></td>
-      <td>Queues you immediately for a ranked match using the specified kit.</td>
+      <td>Queues you immediately for a match using the specified kit. Optional <code>type</code>: <code>ranked</code> / <code>unranked</code> (default ranked).</td>
     </tr>
     <tr>
       <td><code>/queue leave</code></td>
@@ -253,6 +254,12 @@
       <td>Teleports you as a spectator to watch the match of the specified player.</td>
     </tr>
     <tr>
+      <td><code>/spectate leave</code></td>
+      <td><code>/spectate exit</code></td>
+      <td><code>shyamduels.use</code></td>
+      <td>Exits spectator mode and returns you to the lobby (same as <code>/spectatorleave</code>).</td>
+    </tr>
+    <tr>
       <td><code>/spectatorleave</code></td>
       <td><code>/spectateleave</code></td>
       <td><code>shyamduels.use</code></td>
@@ -347,6 +354,18 @@
       <td><code>/pc</code>, <code>/pchat</code></td>
       <td><code>shyamduels.use</code></td>
       <td>Toggles party-only chat. While active, your public chat messages are redirected to your party members.</td>
+    </tr>
+    <tr>
+      <td><code>/advancements</code></td>
+      <td><code>/adv</code>, <code>/achievements</code>, <code>/sdadv</code></td>
+      <td><code>shyamduels.advancements.use</code></td>
+      <td>Opens the advancement GUI. Admin subcommands: <code>list</code>, <code>grant</code>, <code>revoke</code>, <code>reset</code>, <code>resetall</code>, <code>reload</code> (require <code>shyamduels.advancements.admin</code>).</td>
+    </tr>
+    <tr>
+      <td><code>/shulkerlore</code></td>
+      <td><code>/shulker-lore</code></td>
+      <td>None (open)</td>
+      <td>Toggles your shulker-box sprite lore preview (same as the <code>SHULKER_LORE</code> setting in <code>/settings</code>).</td>
     </tr>
   </tbody>
 </table>
@@ -675,6 +694,11 @@
       <td>Forces FAWE to immediately paste and reset the arena back to its saved schematic layout.</td>
     </tr>
     <tr>
+      <td><code>resetall</code></td>
+      <td>-</td>
+      <td>Resets all arenas back to their saved schematics.</td>
+    </tr>
+    <tr>
       <td><code>setdisplayname</code></td>
       <td><code>&lt;name&gt; &lt;display&gt;</code></td>
       <td>Sets a custom display name used for this arena in the FFA menu. Alias: <code>setname</code>.</td>
@@ -768,7 +792,7 @@
     <tr>
       <td><code>load</code></td>
       <td><code>&lt;name&gt;</code></td>
-      <td><code>shyamduels.admin</code></td>
+      <td>None - dual-use (admins load any kit; players import via <code>/kit load &lt;ShareCode&gt;</code>)</td>
       <td>Loads the kit items directly into your inventory. Players may also run <code>/kit load &lt;ShareCode&gt;</code> to import a shared kit (see <a href="kit-sharing.html">Kit Sharing</a>).</td>
     </tr>
     <tr>
@@ -928,6 +952,24 @@
       <td>Lists all categories and their member kits in chat.</td>
     </tr>
     <tr>
+      <td><code>category setpermission</code></td>
+      <td><code>&lt;category&gt; &lt;perm|none&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Sets the permission required to view a category (alias: <code>setperm</code>; <code>shyamduels.admin</code> bypasses).</td>
+    </tr>
+    <tr>
+      <td><code>category setslot</code></td>
+      <td><code>&lt;category&gt; &lt;slot&gt;</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Sets the GUI slot for a category.</td>
+    </tr>
+    <tr>
+      <td><code>category importorder</code></td>
+      <td><code>&lt;category&gt; [display]</code></td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Imports legacy kit order into a category.</td>
+    </tr>
+    <tr>
       <td><code>category reload</code></td>
       <td>-</td>
       <td><code>shyamduels.admin</code></td>
@@ -1067,6 +1109,18 @@
       <td>-</td>
       <td><code>shyamduels.admin</code></td>
       <td>Reloads <code>data/order.yml</code> (kit display order and names).</td>
+    </tr>
+    <tr>
+      <td><code>reload-advancements</code></td>
+      <td>-</td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Reloads <code>advancement.yml</code> and the advancement registry.</td>
+    </tr>
+    <tr>
+      <td><code>settings [setting] [on|off]</code></td>
+      <td>-</td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Views or toggles global settings at runtime.</td>
     </tr>
     <tr>
       <td><code>reload-sounds</code></td>

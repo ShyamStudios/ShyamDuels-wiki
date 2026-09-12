@@ -25,6 +25,7 @@ Open [`index.html`](index.html) in a browser to view the full documentation offl
 - [Commands Reference](user-guide/commands.html)
 - [Permissions](user-guide/permissions.html)
 - [Tournament System](user-guide/tournaments.html)
+- [Advancements](user-guide/advancements.html)
 - [Configuration Files](user-guide/configuration.html)
 - [PlaceholderAPI](user-guide/placeholders.html)
 - [Migration Guide](user-guide/migration.html)

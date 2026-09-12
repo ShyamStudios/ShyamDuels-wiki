@@ -46,6 +46,7 @@
     <a href="../user-guide/settings.html">Player Settings</a>
     <a href="../user-guide/practice-features.html">Practice Features</a>
     <a href="../user-guide/country.html">Country Flags</a>
+    <a href="../user-guide/advancements.html">Advancements</a>
     <a href="../user-guide/configuration.html">Configuration Files</a>
     <a href="../user-guide/migration.html">Migration Guide</a>
     <a href="../user-guide/placeholders.html">PlaceholderAPI</a>
@@ -245,10 +246,25 @@ A resolved reference to a shared kit, returned by <code>KitShareService.resolve(
   <li><code>kitId()</code>: Kit slot ID (used for <code>CUSTOM</code> kits; <code>-1</code> for edited kits).</li>
 </ul>
 
-<h2>Country Flag Data</h2>
-<p>Country codes are uppercase ISO 3166-1 alpha-2 strings (e.g. <code>IN</code>, <code>US</code>, <code>GB</code>). The internal registry (<code>CountryFlagRegistry</code>) exposes exactly 224 textures via <code>CountryService.getAllTextures()</code> / <code>getAllCountryCodes()</code>. Synthetic/non-ISO heads are not enabled — <code>getExtraTextures().size() == 0</code> is asserted by regression tests. Use <code>CountryService.UNKNOWN = "UNKNOWN"</code> as the sentinel for absent/unknown; the API getters return <code>null</code> (not UNKNOWN) for unknown/hidden. Display name lookup and input resolution are handled by <code>CountryNames</code> via <code>getDisplayName</code>/<code>resolveIsoCode</code> (accepts <code>"India"</code>, <code>"IN"</code>, <code>"United_States"</code>, <code>"United"</code> prefix).</p>
+<h2>Player Snapshots</h2>
+<p>Immutable activity snapshots from <code>PlayerService</code> (no live Bukkit objects; safe to retain):</p>
 <ul>
-  <li><code>normalize(String)</code>: 2–32 chars, starts with letter, <code>A-Z0-9_-</code>, must exist in registry. Returns null for <code>"USA"</code> etc.</li>
+  <li><code>PlayerSnapshot(playerId, playerName, activity, duelId, partyId, arenaName, kitName, queues, tournamentParticipant, capturedAt)</code></li>
+  <li><code>QueueSnapshot(kitName, mode, displayMode, teamSize)</code></li>
+  <li><code>PlayerActivity</code>: <code>LOADING, LOBBY, PARTY, KIT_EDITOR, TOURNAMENT, QUEUED, FFA, DUEL, SPECTATING</code></li>
+</ul>
+
+<h2>Extensions &amp; API Metadata</h2>
+<ul>
+  <li><code>ExtensionDescriptor(key, ownerPlugin, contractType, registeredAt)</code> - see <code>ExtensionService.registeredExtensions()</code>.</li>
+  <li><code>ExtensionRegistration</code> - <code>key/owner/contract/isRegistered/unregister/close</code> (AutoCloseable).</li>
+  <li><code>ApiMetadata(apiVersion, pluginVersion, capabilities)</code> + <code>supports(cap)</code>; <code>ApiVersion.CURRENT = 2.0.0</code>; capabilities: <code>bukkit-services, player-snapshots, extension-registry, duel-events, tournament-events, async-stats, country-flags, practice, custom-kits, kit-editor</code>.</li>
+</ul>
+
+<h2>Country Flag Data</h2>
+<p>Country codes are uppercase ISO 3166-1 alpha-2 strings (e.g. <code>IN</code>, <code>US</code>, <code>GB</code>). The internal registry (<code>CountryFlagRegistry</code>) exposes exactly 224 textures via <code>CountryService.getAllTextures()</code> / <code>getAllCountryCodes()</code>. The registry-level <code>getExtraTextures()</code> currently returns empty (no synthetic entries enabled). Use <code>CountryService.UNKNOWN = "UNKNOWN"</code> as the sentinel for absent/unknown; the API getters return <code>null</code> (not UNKNOWN) for unknown/hidden. Display name lookup and input resolution are handled by <code>CountryNames</code> via <code>getDisplayName</code>/<code>resolveIsoCode</code> (accepts <code>"India"</code>, <code>"IN"</code>, <code>"United_States"</code>, <code>"United"</code> prefix).</p>
+<ul>
+  <li><code>normalize(String)</code>: 2-32 chars, starts with letter, <code>A-Z0-9_-</code>, must exist in registry. Returns null for <code>"USA"</code> etc.</li>
   <li><code>normalizeIso(String)</code>: Strict 2-letter ISO only.</li>
   <li><code>PlayerCountryChangeEvent.Cause</code>: <code>SELECT</code> | <code>RESET</code> | <code>GEOIP</code> | <code>JOIN_RESOLVE</code></li>
 </ul>

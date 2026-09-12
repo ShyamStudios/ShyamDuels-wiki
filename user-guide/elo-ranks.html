@@ -46,6 +46,7 @@
     <a href="settings.html">Player Settings</a>
     <a href="practice-features.html">Practice Features</a>
     <a href="country.html">Country Flags</a>
+    <a href="advancements.html">Advancements</a>
     <a href="configuration.html">Configuration Files</a>
     <a href="migration.html">Migration Guide</a>
     <a href="placeholders.html">PlaceholderAPI</a>
@@ -94,16 +95,16 @@ Expected = 1 / (1 + 3.162) ≈ 0.24 (24% chance of winning)</code></pre>
 </ul>
 
 <h4>Step 2: Calculate Rating Adjustments (Win / Loss Scenarios)</h4>
-<p>Ratings are computed using the default parameters: <code>base-gain: 20</code>, <code>base-loss: 20</code>, <code>min-gain: 1</code>, <code>max-gain: 40</code>, <code>min-loss: 1</code>, and <code>max-loss: 40</code>.</p>
+<p>Ratings are computed using the default parameters: <code>base-gain: 25</code>, <code>base-loss: 20</code>, <code>min-gain: 1</code>, <code>max-gain: 40</code>, <code>min-loss: 1</code>, and <code>max-loss: 40</code> (verified against <code>EloSettings.java</code>).</p>
 
 <h5>Scenario A: WeThink Wins (The expected outcome)</h5>
 <ul>
   <li>
     <strong>WeThink's Elo Gain:</strong>
     <pre><code>Gain = base-gain * 2.0 * (1.0 - Expected)
-Gain = 20 * 2.0 * (1.0 - 0.76) = 40 * 0.24 = 9.6
-Gain = clamp(min-gain, max-gain, round(9.6)) = +10 ELO</code></pre>
-    <p>WeThink's ELO increases from 1200 to <strong>1210</strong>.</p>
+Gain = 25 * 2.0 * (1.0 - 0.76) = 50 * 0.24 = 12.0
+Gain = clamp(min-gain, max-gain, round(12.0)) = +12 ELO</code></pre>
+    <p>WeThink's ELO increases from 1200 to <strong>1212</strong>.</p>
   </li>
   <li>
     <strong>ErRoR25's Elo Loss:</strong>
@@ -120,9 +121,9 @@ Loss = clamp(min-loss, max-loss, round(6.72)) = -7 ELO</code></pre>
   <li>
     <strong>ErRoR25's Elo Gain:</strong>
     <pre><code>Gain = base-gain * 2.0 * (1.0 - Expected)
-Gain = 20 * 2.0 * (1.0 - 0.24) = 40 * 0.76 = 30.4
-Gain = clamp(min-gain, max-gain, round(30.4)) = +30 ELO</code></pre>
-    <p>ErRoR25's ELO increases from 1000 to <strong>1030</strong> (a much larger gain since this was an upset victory).</p>
+Gain = 25 * 2.0 * (1.0 - 0.24) = 50 * 0.76 = 38.0
+Gain = clamp(min-gain, max-gain, round(38.0)) = +38 ELO</code></pre>
+    <p>ErRoR25's ELO increases from 1000 to <strong>1038</strong> (a much larger gain since this was an upset victory).</p>
   </li>
   <li>
     <strong>WeThink's Elo Loss:</strong>
@@ -154,6 +155,12 @@ Loss = clamp(min-loss, max-loss, round(24.32)) = -24 ELO</code></pre>
 <div class="alert alert-note">
   <div class="alert-title">ELO Settings in ranks.yml</div>
   Options: <code>elo.rank-system</code>, <code>elo.enabled</code>, <code>elo.custom-kits</code>, <code>elo.match-types.*</code>, <code>elo.base-gain</code>, <code>elo.base-loss</code>, <code>elo.kill-gain</code>, <code>elo.opponent-based</code>, <code>elo.min-elo</code>, <code>elo.min-gain</code>, <code>elo.max-gain</code>, <code>elo.min-loss</code>, <code>elo.max-loss</code>, <code>elo.starting-elo</code>, <code>elo.anti-farm.*</code>, and <code>elo.progress-bar.*</code>.
+</div>
+
+<div class="alert alert-note">
+  <div class="alert-title">Ranked match types &amp; anti-farm</div>
+  <p><code>QueueType</code> is <code>RANKED</code> / <code>UNRANKED</code> (accepts <code>r</code> / <code>u</code> / <code>casual</code> aliases). Which <code>EloMatchTypes</code> count as ranked is controlled by <code>elo.match-types.*</code> (keys: <code>duel, queue, unranked-queue, unranked-duel, party, party-vs-party, party-split, team-battle, party-ffa (ffa alias), rematch, tournament</code>). Defaults: <code>duel</code> and <code>queue</code> true, the rest false.</p>
+  <p>Anti-farm has two namespaces: <code>elo.anti-farm.*</code> (ELO gates: <code>cooldown-hours</code> default 3, <code>max-wins-per-opponent</code> default 2) and <code>death-messages.kill-commands.anti-farm.*</code> (kill-reward gates: <code>SAME_IP</code> / <code>REPEAT_WINS</code> via <code>canAwardAntiFarmReward</code>).</p>
 </div>
 
 <h2>Default Ranks Database</h2>
@@ -193,15 +200,15 @@ Loss = clamp(min-loss, max-loss, round(24.32)) = -24 ELO</code></pre>
     <tr><td>Diamond III</td><td>2700 - 2799</td><td>1.60x</td></tr>
     <tr><td>Diamond II</td><td>2800 - 2899</td><td>1.65x</td></tr>
     <tr><td>Diamond I</td><td>2900 - 2999</td><td>1.70x</td></tr>
-    <tr><td>Aqua V</td><td>3000 - 3099</td><td>1.75x</td></tr>
-    <tr><td>Aqua IV</td><td>3100 - 3199</td><td>1.80x</td></tr>
-    <tr><td>Aqua III</td><td>3200 - 3299</td><td>1.85x</td></tr>
-    <tr><td>Aqua II</td><td>3300 - 3399</td><td>1.90x</td></tr>
-    <tr><td>Aqua I</td><td>3400 - 3499</td><td>1.95x</td></tr>
-    <tr><td>Master</td><td>3500 - 3999</td><td>2.00x</td></tr>
-    <tr><td>Grandmaster</td><td>4000 - 4499</td><td>2.25x</td></tr>
-    <tr><td>Legend</td><td>4500 - 4999</td><td>2.50x</td></tr>
-    <tr><td><strong>Mythic</strong></td><td>5000+</td><td>3.00x</td></tr>
+    <tr><td>Crown V</td><td>3000 - 3099</td><td>1.75x</td></tr>
+    <tr><td>Crown IV</td><td>3100 - 3199</td><td>1.80x</td></tr>
+    <tr><td>Crown III</td><td>3200 - 3299</td><td>1.85x</td></tr>
+    <tr><td>Crown II</td><td>3300 - 3399</td><td>1.90x</td></tr>
+    <tr><td>Crown I</td><td>3400 - 3499</td><td>1.95x</td></tr>
+    <tr><td>Ace</td><td>3500 - 3999</td><td>2.00x</td></tr>
+    <tr><td>Ace Master</td><td>4000 - 4499</td><td>2.25x</td></tr>
+    <tr><td>Ace Dominator</td><td>4500 - 4999</td><td>2.50x</td></tr>
+    <tr><td><strong>Conqueror</strong></td><td>5000+</td><td>3.00x</td></tr>
   </tbody>
 </table>
 </div>

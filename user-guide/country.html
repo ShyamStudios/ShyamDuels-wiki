@@ -46,6 +46,7 @@
     <a href="settings.html">Player Settings</a>
     <a href="practice-features.html">Practice Features</a>
     <a href="country.html" class="active">Country Flags</a>
+    <a href="advancements.html">Advancements</a>
     <a href="configuration.html">Configuration Files</a>
     <a href="migration.html">Migration Guide</a>
     <a href="placeholders.html">PlaceholderAPI</a>
@@ -77,6 +78,9 @@
 /countryflags reset        # Resets to the default head
 /flags flag &lt;country&gt;      # Alias syntax</code></pre>
 <p>All aliases (<code>/countryflags</code>, <code>/countryflag</code>, <code>/flags</code>, <code>/country</code>) require the <code>shyamduels.country</code> permission (default: all players). Selections persist per player and can be displayed in tab lists, scoreboards, and duels via the <a href="placeholders.html">Country placeholders</a>.</p>
+
+<h2>Auto-Detection</h2>
+<p>Resolution priority is <code>cache → player_stats.country_code → player_country table → MaxMind GeoIP → UNKNOWN</code>. Manual GUI selections are never overwritten by join resolves (<code>country.update-on-join</code>, default true). Private/loopback IPs are skipped, Velocity <code>getClientAddress</code> (with <code>::ffff:</code> unwrap) is used behind proxies, and every change fires <code>PlayerCountryChangeEvent</code> (<code>SELECT</code> / <code>RESET</code> / <code>GEOIP</code> / <code>JOIN_RESOLVE</code>). Toggle visibility per player in <code>/settings</code> (flag-hidden set).</p>
 
 <h2>Supported Countries (224)</h2>
 <p>The list below contains the exact display names shown in-game. Each name can be used directly with <code>/countryflags &lt;name&gt;</code>, or its two-letter code:</p>
@@ -175,9 +179,9 @@
     <span class="page-nav-label">Previous Page</span>
     <span class="page-nav-title">Practice Features</span>
   </a>
-  <a class="page-nav-link next" href="configuration.html">
+  <a class="page-nav-link next" href="advancements.html">
     <span class="page-nav-label">Next Page</span>
-    <span class="page-nav-title">Configuration Files</span>
+    <span class="page-nav-title">Advancements</span>
   </a>
 </div>
 

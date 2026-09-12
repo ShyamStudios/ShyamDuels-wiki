@@ -46,6 +46,7 @@
     <a href="settings.html">Player Settings</a>
     <a href="practice-features.html">Practice Features</a>
     <a href="country.html">Country Flags</a>
+    <a href="advancements.html">Advancements</a>
     <a href="configuration.html">Configuration Files</a>
     <a href="migration.html">Migration Guide</a>
     <a href="placeholders.html">PlaceholderAPI</a>
@@ -78,7 +79,7 @@
 <p><strong>Joining via invitation:</strong> Execute <code>/party accept</code> or click the accepting chat button prompt.</p>
 <p><strong>Joining open parties:</strong> If a party is set to PUBLIC or FRIENDS_ONLY, qualified players can join immediately using:</p>
 <pre><code>/party join &lt;player&gt;</code></pre>
-<p>Replace <code>&lt;player&gt;</code> with <strong>any online member</strong> of that party (not just the leader) &mdash; the plugin resolves their party and joins you into it.</p>
+<p>Replace <code>&lt;player&gt;</code> with <strong>any online member</strong> of that party (not just the leader) - the plugin resolves their party and joins you into it.</p>
 
 <h2>Party Privacy Modes</h2>
 <div class="table-wrap">
@@ -139,13 +140,13 @@
     </tr>
     <tr>
       <td><strong>vs Party Duels</strong></td>
-      <td><code>duel</code>, <code>vparty</code>, <code>vs</code></td>
+      <td><code>duel</code>, <code>vparty</code>, <code>vsparty</code>, <code>vs</code>, <code>pvp</code></td>
       <td>Directly challenge another active party to a team duel. Challenged leaders accept via <code>/party duel accept</code>.</td>
     </tr>
     <tr>
       <td><strong>Team Splitting</strong></td>
-      <td><code>split</code>, <code>team</code></td>
-      <td>Splits the party randomly into two equal teams. Requires at least 2 members.</td>
+      <td><code>split</code>, <code>team</code>, <code>teams</code></td>
+      <td>Splits the party into two teams (uneven allowed, minimum 1 per team for battle-ready; equal-teams check is a separate validity gate). Requires at least 2 members. Cycle with <code>/party mode</code> with no args.</td>
     </tr>
     <tr>
       <td><strong>Free For All (FFA)</strong></td>

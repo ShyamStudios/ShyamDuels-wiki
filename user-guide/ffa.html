@@ -46,6 +46,7 @@
     <a href="settings.html">Player Settings</a>
     <a href="practice-features.html">Practice Features</a>
     <a href="country.html">Country Flags</a>
+    <a href="advancements.html">Advancements</a>
     <a href="configuration.html">Configuration Files</a>
     <a href="migration.html">Migration Guide</a>
     <a href="placeholders.html">PlaceholderAPI</a>
@@ -83,7 +84,7 @@
   <li>Player executes the <code>/ffa</code> command, opening a list of active arenas showing real-time player counts.</li>
   <li>Clicking an arena selects a spawn location (randomly selects from defined spawns, falling back to <code>spawn1</code>).</li>
   <li>The player is teleported to the arena.</li>
-  <li>A countdown (configured as <code>ffa.countdown-seconds</code> in <code>config.yml</code>) runs, restricting movement and damage.</li>
+  <li>A countdown runs, restricting movement and damage. By default <code>ffa.use-match-start-options: true</code>, so the countdown uses <code>match-start.countdown-seconds</code>; set <code>ffa.use-match-start-options: false</code> to use <code>ffa.countdown-seconds</code> instead. Set <code>ffa.skip-countdown: true</code> to skip it entirely.</li>
   <li>The countdown concludes, applying the kit items and enabling combat.</li>
   <li>On death: the player returns to the lobby and can rejoin the FFA using <code>/ffa</code>, unless <code>ffa.dead-rejoin</code> is enabled.</li>
   <li>To leave voluntarily: execute <code>/leavefight</code>.</li>
@@ -117,9 +118,9 @@
 </div>
 
 <h2>Auto-Reset System</h2>
-<p>To clear building debris, water/lava placements, and restore chests, FFA arenas run an auto-reset cycle. When the reset timer fires:</p>
+<p>To clear building debris, water/lava placements, and restore chests, <strong>build-enabled</strong> FFA arenas run an auto-reset cycle. Non-build FFA arenas only reset on server startup (no block changes to undo). When the reset timer fires:</p>
 <ol>
-  <li>All players in the arena receive a warning broadcast.</li>
+  <li>Staff with <code>shyamduels.admin</code> receive the <code>ffa.arena-resetting</code> warning broadcast (not all players in the arena).</li>
   <li>Players are temporarily teleported to safe positions and their kits are refreshed.</li>
   <li>FAWE pastes the schematic back to restore the arena.</li>
   <li>The reset timer is restarted.</li>
@@ -128,6 +129,9 @@
 <pre><span class="lang-badge">yaml</span><code>ffa:
   reset-interval-seconds: 1800  # 30 Minutes (default)
   dead-rejoin: false            # Respawn in the same FFA after death
+  skip-countdown: false         # Skip the join countdown entirely
+  use-match-start-options: true # true = use match-start.countdown-seconds; false = use ffa.countdown-seconds
+  countdown-seconds: [5, 4, 3, 2, 1]
   random-spawn:
     enabled: false
     max-attempts: 40</code></pre>
@@ -164,6 +168,24 @@
       <td>-</td>
       <td><code>shyamduels.use</code></td>
       <td>Opens the GUI layout of active FFA arenas with real-time player counts.</td>
+    </tr>
+    <tr>
+      <td><code>/ffa join &lt;arena&gt;</code></td>
+      <td><code>&lt;arena&gt;</code></td>
+      <td><code>shyamduels.use</code></td>
+      <td>Joins the specified FFA arena directly without opening the GUI.</td>
+    </tr>
+    <tr>
+      <td><code>/ffa list</code></td>
+      <td>-</td>
+      <td><code>shyamduels.admin</code></td>
+      <td>Lists all FFA arenas with live player counts (same counters as <code>/arena list</code>).</td>
+    </tr>
+    <tr>
+      <td><code>/ffa leave</code></td>
+      <td>-</td>
+      <td><code>shyamduels.use</code></td>
+      <td>Leaves the current FFA arena (same as <code>/leavefight</code>).</td>
     </tr>
     <tr>
       <td><code>/leavefight</code></td>

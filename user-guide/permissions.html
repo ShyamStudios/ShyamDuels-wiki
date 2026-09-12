@@ -46,6 +46,7 @@
     <a href="settings.html">Player Settings</a>
     <a href="practice-features.html">Practice Features</a>
     <a href="country.html">Country Flags</a>
+    <a href="advancements.html">Advancements</a>
     <a href="configuration.html">Configuration Files</a>
     <a href="migration.html">Migration Guide</a>
     <a href="placeholders.html">PlaceholderAPI</a>
@@ -110,7 +111,7 @@
     <tr>
       <td><code>shyamduels.tournament.use</code></td>
       <td><span class="badge badge-green">true</span></td>
-      <td>Declared in <code>plugin.yml</code> for tournament interaction, but not enforced by any command — tournament player commands are currently open to everyone.</td>
+      <td>Declared in <code>plugin.yml</code> for tournament interaction, but not enforced by any command - tournament player commands are currently open to everyone.</td>
     </tr>
     <tr>
       <td><code>shyamduels.tab.admin</code></td>
@@ -125,7 +126,17 @@
     <tr>
       <td><code>customkits.admin</code></td>
       <td><span class="badge badge-yellow">op</span></td>
-      <td>Allows customizing the items and categories inside the custom kits builder GUI via <code>/shyamduels customkits</code>.</td>
+      <td>Allows customizing the items and categories inside the custom kits builder GUI via <code>/shyamduels customkits</code>. Note: Bukkit <code>/kitcreator</code> and <code>/customkits play</code> are open (no permission); only <code>edit-category</code>/<code>reload</code> require this node.</td>
+    </tr>
+    <tr>
+      <td><code>shyamduels.advancements.use</code></td>
+      <td><span class="badge badge-green">true</span></td>
+      <td>Opens the advancement GUI via <code>/advancements</code> (aliases <code>/adv</code>, <code>/achievements</code>, <code>/sdadv</code>).</td>
+    </tr>
+    <tr>
+      <td><code>shyamduels.advancements.admin</code></td>
+      <td><span class="badge badge-yellow">op</span></td>
+      <td>Advancement admin subcommands: <code>list</code>, <code>grant</code>, <code>revoke</code>, <code>reset</code>, <code>resetall</code>, <code>reload</code>.</td>
     </tr>
   </tbody>
 </table>
@@ -302,6 +313,11 @@
       <td><code>shyamduels.enchant</code></td>
       <td><span class="badge badge-yellow">op</span></td>
       <td>Allows using the Enchant Table in the Kit Editor and Kit Room. It is included in <code>shyamduels.vip</code>.</td>
+    </tr>
+    <tr>
+      <td><code>&lt;category permission&gt;</code> (for example <code>shyamduels.category.potpvp</code>)</td>
+      <td><span class="badge badge-green">true</span></td>
+      <td>Custom per-category view permission set with <code>/kit category setpermission</code> (alias <code>setperm</code>). Empty permission means everyone can see the category; <code>shyamduels.admin</code> bypasses all category permissions.</td>
     </tr>
   </tbody>
 </table>

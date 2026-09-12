@@ -46,6 +46,7 @@
     <a href="settings.html">Player Settings</a>
     <a href="practice-features.html">Practice Features</a>
     <a href="country.html">Country Flags</a>
+    <a href="advancements.html">Advancements</a>
     <a href="configuration.html">Configuration Files</a>
     <a href="migration.html">Migration Guide</a>
     <a href="placeholders.html">PlaceholderAPI</a>
@@ -223,7 +224,7 @@ kit:
 
 match:
   time-limit: "5m"
-  timeout-behavior: "DISQUALIFY_BOTH" # "DISQUALIFY_BOTH", "HIGHEST_HEALTH", "RANDOM_WINNER", or "DRAW"
+  timeout-behavior: "DISQUALIFY_BOTH" # "DISQUALIFY_BOTH" (default/fallback), "HIGHEST_HEALTH", or "RANDOM_WINNER". Any other value falls back to double disqualification.
   rounds: 1
   round-system: "BEST_OF" # "BEST_OF" (win majority e.g. Best of 3) or "FIRST_TO" (e.g. First to 3 wins)
   affect-elo: false
@@ -284,37 +285,37 @@ rewards:
   </thead>
   <tbody>
     <tr>
-      <td><code>bracket-gui.back-button.slot</code></td>
+      <td><code>gui.bracket.back-button.slot</code></td>
       <td><code>45</code></td>
       <td>Inventory slot for the back button (bottom-left of a 6-row chest).</td>
     </tr>
     <tr>
-      <td><code>bracket-gui.back-button.custom-model-data</code></td>
+      <td><code>gui.bracket.back-button.custom-model-data</code></td>
       <td><code>0</code></td>
       <td>CustomModelData int applied to the back button item. Set <code>0</code> to disable.</td>
     </tr>
     <tr>
-      <td><code>bracket-gui.back-button.nexo</code></td>
+      <td><code>gui.bracket.back-button.nexo</code></td>
       <td><code>""</code></td>
       <td>Nexo item ID for the back button. Takes priority over <code>material</code> when set.</td>
     </tr>
     <tr>
-      <td><code>bracket-gui.back-button.item-model</code></td>
+      <td><code>gui.bracket.back-button.item-model</code></td>
       <td><code>""</code></td>
       <td>Vanilla <code>minecraft:item_model</code> component key for the back button (1.21.4+).</td>
     </tr>
     <tr>
-      <td><code>bracket-gui.pagination.previous.slot</code></td>
+      <td><code>gui.bracket.pagination.previous.slot</code></td>
       <td><code>48</code></td>
       <td>Slot for the "previous page" arrow (only shown when multiple pages exist).</td>
     </tr>
     <tr>
-      <td><code>bracket-gui.pagination.next.slot</code></td>
+      <td><code>gui.bracket.pagination.next.slot</code></td>
       <td><code>50</code></td>
       <td>Slot for the "next page" arrow.</td>
     </tr>
     <tr>
-      <td><code>bracket-gui.pagination.info.slot</code></td>
+      <td><code>gui.bracket.pagination.info.slot</code></td>
       <td><code>49</code></td>
       <td>Centre slot showing current page / total pages. Supports <code>{page}</code> and <code>{total_pages}</code>.</td>
     </tr>

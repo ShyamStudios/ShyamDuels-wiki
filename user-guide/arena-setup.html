@@ -46,6 +46,7 @@
     <a href="settings.html">Player Settings</a>
     <a href="practice-features.html">Practice Features</a>
     <a href="country.html">Country Flags</a>
+    <a href="advancements.html">Advancements</a>
     <a href="configuration.html">Configuration Files</a>
     <a href="migration.html">Migration Guide</a>
     <a href="placeholders.html">PlaceholderAPI</a>
@@ -194,11 +195,11 @@
     </tr>
     <tr>
       <td><code>UNAVAILABLE</code></td>
-      <td>FAWE failed to restore blocks after multiple attempts. The arena shuts down and administrators are notified. Requires a server reboot.</td>
+      <td>FAWE failed to restore blocks after multiple attempts (2 attempts, 60s duel / 180s FFA timeout). The arena is marked UNAVAILABLE and auto-recovery is scheduled (60s later). Run <code>/arena reset &lt;name&gt;</code> to retry manually.</td>
     </tr>
     <tr>
       <td><code>DISABLED</code></td>
-      <td>An internal state meaning the arena is skipped by matchmaking. There is currently no command that sets it &mdash; to take an arena out of rotation temporarily, unlink its kits with <code>/arena removekit</code>.</td>
+      <td>An internal state meaning the arena is skipped by matchmaking. There is currently no command that sets it - to take an arena out of rotation temporarily, unlink its kits with <code>/arena removekit</code>.</td>
     </tr>
   </tbody>
 </table>
@@ -236,7 +237,7 @@
 <p>Use this when you want multiple copies of the same map at <strong>different coordinates</strong> in the base <code>Arenas</code> world (or another world if cloning is disabled), without rebuilding by hand. This is separate from <a href="#arena-cloning">world cloning</a> in <code>config.yml</code>, which duplicates entire worlds on startup. Do not use <code>/arena copypaste</code> inside <code>Arenas1</code> or <code>Arenas2</code>; those clone worlds are managed automatically.</p>
 <ol class="steps">
   <li>Fully set up the source arena: both corners (so the schematic is saved), spawns, center, and linked kits.</li>
-  <li>Fly to where the <strong>center</strong> of the new copy should land &mdash; the paste is center-to-center, so the source arena's center is placed exactly at your position (falls back to the region's geometric center if no <code>/arena center</code> was set).</li>
+  <li>Fly to where the <strong>center</strong> of the new copy should land - the paste is center-to-center, so the source arena's center is placed exactly at your position (falls back to the region's geometric center if no <code>/arena center</code> was set).</li>
   <li>Run: <code>/arena copypaste &lt;sourceArena&gt; &lt;newName&gt;</code></li>
 </ol>
 <p>The plugin pastes the source schematic, creates a new arena record, and copies these settings (offset to the new location where applicable):</p>
@@ -316,8 +317,7 @@ border. Two players standing in the same world can each see a different border (
 and lobby players keep the genuine world border untouched.</p>
 <ul>
   <li>The border is a <strong>square</strong> built from the arena's two corners (<code>/arena corner1</code>
-  and <code>/arena corner2</code>). Its center is the midpoint of the corners and its size uses the
-  longer side, so it encloses the whole region.</li>
+  and <code>/arena corner2</code>). Center is <code>arena.getCenter()</code> when set, else the corner midpoint; size is <code>2 × max(distance(center, min/max))</code> plus <code>2 × world-border.padding</code>, with a 4-block spawn margin (<code>min(spawns)-4</code> / <code>max+4</code>) and a 1.0 minimum clamp.</li>
   <li>It is shown automatically when a player enters an arena for a duel, an FFA match, or while
   spectating, and the player's real border is restored the moment they leave or disconnect.</li>
   <li>Nothing is sent on a per-tick timer: a border is pushed only when it appears, changes, or the
@@ -469,7 +469,7 @@ and lobby players keep the genuine world border untouched.</p>
 </div>
 
 <h2>Matchmaking Arena Claim Checks</h2>
-<p>When matchmaking pairs two players, it requests an arena using <code>ArenaManager.claimArena("KitName")</code>. The manager selects an arena that:</p>
+<p>When matchmaking pairs two players, it requests an arena using <code>ArenaManager.claimArena(kit, buildOverride, claimToken)</code> (the <code>String</code> overload is a thin wrapper; <code>getAvailableArena</code> is deprecated and also claims). The manager selects an arena that:</p>
 <ul>
   <li>Is currently in the <code>AVAILABLE</code> state.</li>
   <li>Is categorized as a <code>DUEL</code> type.</li>

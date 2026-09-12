@@ -46,6 +46,7 @@
     <a href="settings.html">Player Settings</a>
     <a href="practice-features.html">Practice Features</a>
     <a href="country.html">Country Flags</a>
+    <a href="advancements.html">Advancements</a>
     <a href="configuration.html">Configuration Files</a>
     <a href="migration.html" class="active">Migration Guide</a>
     <a href="placeholders.html">PlaceholderAPI</a>
@@ -90,7 +91,9 @@ StrikePractice plugin's own data folder. ShyamStrikeCore's <code>door-animation.
     <tr><td><strong>Kits</strong></td><td>Inventory, armor, effects, icons, build whitelists, match-start potion flags.</td></tr>
     <tr><td><strong>Arenas</strong></td><td>Corners, spawns, center, build mode, FFA flag, linked kits, world name.</td></tr>
     <tr><td><strong>Gates</strong></td><td>Complex door gate regions copied into <code>data/complex-door-data/</code>.</td></tr>
-    <tr><td><strong>Schematics</strong></td><td>Rollback/schematic files copied into ShyamDuels schematics folder where applicable.</td></tr>
+    <tr><td><strong>Schematics</strong></td><td>Re-saved per arena via FAWE (<code>FaweUtils.saveSchematic(arena)</code>) - not a raw file copy.</td></tr>
+    <tr><td><strong>FFA config</strong></td><td><code>ffa-reset-delay</code> (minutes) × 60 → <code>ffa.reset-interval-seconds</code>; <code>ffa-countdown</code> 0 → <code>ffa.skip-countdown: true</code>, else <code>ffa.countdown-seconds: [n..1]</code>; FFA kit names inferred by stripping a trailing <code>ffa</code>; <code>build=true</code> with empty whitelist → <code>OAK_PLANKS</code>.</td></tr>
+    <tr><td><strong>Gate sources</strong></td><td>Tri-path: bundled <code>complex-door-data</code> → live folder → <code>data/</code>; worlds must contain <code>level.dat</code> (Multiverse <code>worlds</code> searched). Gate/door keys: <code>door-animation.enabled/animation_ticks/fence_material/delay_seconds/gate.*</code>.</td></tr>
     <tr><td><strong>GUI order</strong></td><td>Kit/arena menu order written to <code>data/order.yml</code>.</td></tr>
   </tbody>
 </table>

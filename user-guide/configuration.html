@@ -46,6 +46,7 @@
     <a href="settings.html">Player Settings</a>
     <a href="practice-features.html">Practice Features</a>
     <a href="country.html">Country Flags</a>
+    <a href="advancements.html">Advancements</a>
     <a href="configuration.html" class="active">Configuration Files</a>
     <a href="migration.html">Migration Guide</a>
     <a href="placeholders.html">PlaceholderAPI</a>
@@ -110,6 +111,8 @@ modules:
   difficulty: HARD              # Applied to base + clone worlds (HARD for crystal/anchor damage)
   cloning: 0                  # Extra world copies for duel capacity (0 = off; FFA never cloned)
   reset-clones-on-startup: true # Delete and re-clone Arenas1/2/… from base world each boot
+  reset-on-startup: true    # Sanitize the base arena world and FAWE-reset template arenas on boot
+  build-height-limit-offset: 2 # Height allowance above the arena top where placing blocks is still allowed
   reset-queue:
     max-concurrent: 3         # Max simultaneous FAWE arena restorations
     ffa-one-at-a-time: true   # Only one FFA reset at a time (duel resets unaffected)
@@ -197,7 +200,7 @@ left untouched).</p>
 <h3>Queue and Duels</h3>
 <pre><span class="lang-badge">yaml</span><code>queue:
   multiple-kits: true         # Allow queuing multiple kits at once
-  max-multiple-kits: 3        # Max kits queued at once (0 = unlimited; needs multiple-kits)
+  max-multiple-kits: 3        # Max kits queued at once (minimum 1; values &lt;1 clamp to 1; needs multiple-kits)
   random-queue-enabled: true  # Random kit queue option
   override-conflicting-commands: true # Reroute /queue to ShyamDuels over other plugins
   modes:                      # Disable individual queue sizes
@@ -246,7 +249,27 @@ explanation.</p>
   enabled: true               # Master switch; false sends no arena borders at all
   padding: 0.0                # Extra blocks on every side (0.0 hugs the corner blocks exactly)
   warning-blocks: 0           # Red "approaching border" overlay distance in blocks (0 = off)
-  warning-time: 0             # Red warning overlay duration in seconds (0 = off)</code></pre>
+  warning-time: 0             # Red warning overlay duration in seconds (0 = off)
+
+world-border-shrink:
+  enabled: false              # Timed per-duel border shrink (PacketWorldBorderManager + MatchBorderShrinkSession)
+  kits: ["*"]                 # Kit filter ("*" = all kits)
+  interval: 1m                # Shrink step interval (ms/s/m/h/d/t units, bare number = seconds)
+  shrink:
+    blocks-per-interval: 10.0
+    duration: null             # Optional lerp duration (same units); null = instant step
+  minimum-distance-from-center: 5.0  # Minimum radius; minimum diameter = 2x this value
+  damage:
+    enabled: true
+    amount: 2.0
+    interval: 1s
+    buffer-blocks: 0.0</code></pre>
+
+<h3>Advancements</h3>
+<p>Challenge/achievement subsystem (<code>AdvancementManager</code>, 36 trigger types). Full key reference lives in <code>advancement.yml</code> - settings, defaults, per-category tabs, per-advancement triggers/conditions/rewards. See the <a href="advancements.html">Advancements</a> guide for every key, all trigger and condition types, and a step-by-step example. Key commands: <code>/advancements</code> (aliases <code>/adv</code>, <code>/achievements</code>, <code>/sdadv</code>), admin <code>grant</code>/<code>revoke</code>/<code>reset</code>/<code>resetall</code>/<code>reload</code> (<code>shyamduels.advancements.admin</code>). Event: <code>AdvancementGrantEvent</code> (see <a href="../api/events.html">Events Reference</a>). Persistence: <code>player_advancements</code> table.</p>
+
+<h3>GUI Mode (Normal vs Dialog)</h3>
+<p>Menu routing is controlled by <code>gui.mode</code> in <code>config.yml</code> (<code>NORMAL</code> = FastInv inventories, <code>DIALOG</code> = Paper 1.21.7+ dialogs from <code>dialog-menus/*.yml</code>, 57 files). Dialog clicks are debounced (150ms) with single-use 5-minute callbacks.</p>
 
 <h3>Friends</h3>
 <pre><span class="lang-badge">yaml</span><code>friends:
@@ -259,6 +282,8 @@ requests are read, so a request disappears once <code>request-expiry-seconds</co
 <h3>Party, FFA, and Match Start</h3>
 <pre><span class="lang-badge">yaml</span><code>party:
   default-max-size: 8
+  create-permission: shyamduels.party.create   # Permission required to run /party create
+  public-permission: shyamduels.party.public   # Permission required to switch a party to public
   min-member-limit: 2
   broadcast-cooldown:
     enabled: true
@@ -318,7 +343,7 @@ match-start:
 match-start-potions:
   enabled: true
   delay_seconds: 1
-  take-from-inventory: true
+  take-from-inventory: false
   blocked-effects: [poison, slowness, weakness, ...]</code></pre>
 <p>Configure match-start potion scanning per kit with <code>/kit matchstartpots</code>. When <code>take-from-inventory</code> is false, buffs are splashed without consuming items from player inventories (MMC/MCPVP style). See <a href="kit-setup.html">Kit Setup</a>.</p>
 
@@ -430,6 +455,8 @@ door-animation:
 
 bedfight:
   enabled: true
+  kits: [bedfight, bedwars]   # On enable these kits get their kits.db bedwars_enabled flag set
+  bed-break-commands: []      # Console commands run on bed break (%player%, %team%, %enemyTeam%)
   void-buffer: 5.0
   void-fallback-offset: 10
   void-fallback-y: 0
@@ -446,12 +473,30 @@ bedfight:
 
 bridge:
   enabled: true
-  void-buffer: 5.0
+  void-buffer: 2.0
   respawn-countdown-time: 3
   lock-to-spawn-during-countdown: true
   spawn-cage: true
-  instant-golden-apples: false
+  instant-golden-apples: false  # Reserved flag (no reader outside BridgeConfig; verify wiring before relying on it)
   bow-cooldown-seconds: 4.0
+  # Note: unlike bedfight, Bridge has no bridge.kits list. A duel becomes a Bridge
+  # duel only when the kit has Bridge mode enabled (Kit.bridgeEnabled).
+
+<h3>Shulker Lore Previews</h3>
+<p>Packet-based shulker-box content previews (sprite lore on hover). Requires PacketEvents, Minecraft 1.21.9+ (protocol 773+), and non-Bedrock clients. Players toggle it with <code>/shulkerlore</code> or the <code>SHULKER_LORE</code> setting in <code>/settings</code> (see <a href="settings.html">Player Settings</a>).</p>
+<pre><span class="lang-badge">yaml</span><code>shulker-lore:
+  enabled: true              # Master switch for the preview system
+  default-enabled: true      # Default per-player toggle state
+  line-format: "&lt;sprites&gt;"  # Line template (&lt;sprites&gt; is replaced by the item row)
+  separator: " "             # Separator between sprites on one line
+  max-sprites-per-line: 9    # Sprites per lore line (1-9, 27 slots total over 3 rows)
+  lore-position: BOTTOM      # BOTTOM or TOP (where preview lines are inserted)
+  header: ""                 # Optional line above the preview
+  footer: ""                 # Optional line below the preview
+  white-sprite: true         # Use white sprite variant
+  empty-slot: "&lt;dark_gray&gt;?&lt;/dark_gray&gt;"  # Placeholder for empty slots
+  sprite-overrides: {}       # Per-material sprite replacements
+  potion-colors: {}          # Per-potion color overrides (default water: #385DC6)</code></pre>
 
 custom-kits:
   enabled: true
@@ -500,6 +545,7 @@ kit-sharing:
 </ul>
 <p>Reload tab config with <code>/tab reload</code>. Players toggle tab/scoreboard visibility in <code>/settings</code>.</p>
 <p>In <code>tab/scoreboard.yml</code>, <code>scoreboard.async-placeholders: true</code> (default) resolves PlaceholderAPI off the main thread for performance. Set it to <code>false</code> only if a PlaceholderAPI expansion you use is not thread-safe and errors on the scoreboard.</p>
+<p>Other <code>tab/scoreboard.yml</code> keys: <code>scoreboard.update-time</code>, <code>scoreboard.lobby-update-time</code>, <code>scoreboard.max-updates-per-tick</code>, <code>scoreboard.title</code>, <code>scoreboard.disabled-worlds</code>, <code>scoreboard.teleport-update</code>, <code>scoreboard.party-addition</code>, <code>scoreboard.enderpearl-cooldown-*</code>. Add a <code>&lt;mode&gt;</code> section in <code>tab/scoreboard.yml</code> for custom scoreboard modes. Tab keys: <code>tablist.ping-source</code>, <code>tablist.player-sorting</code>, <code>sort-ranks.*</code>, <code>default-player-format</code>, <code>golden-head.item.id</code>, <code>titles.*</code> (title animations), <code>heads.*</code> (head cache).</p>
 <p><strong>Tab sort ranks</strong> in <code>tab/display.yml</code> use LuckPerms permissions for prefix priority: <code>group.owner</code>, <code>shyamduels.tab.admin</code>, <code>shyamduels.tab.staff</code>, <code>shyamduels.tab.vip</code>.</p>
 
 <h3>Nametags and Below-Name Health System</h3>
@@ -549,8 +595,8 @@ belowname-objective:
 <h3>GUI Menus and Item Configs</h3>
 <p>All player-facing menus live under <code>plugins/ShyamDuels/menus/</code>:</p>
 <ul>
-  <li><code>duel.yml</code>, <code>queue.yml</code>, <code>queue-kit.yml</code>, <code>ffa.yml</code>, <code>spectate.yml</code></li>
-  <li><code>profile.yml</code>, <code>profile-stats.yml</code>, <code>public-kits.yml</code>, <code>kit-preview.yml</code> (player profile &amp; kit sharing)</li>
+  <li><code>duel.yml</code>, <code>queue-kit.yml</code>, <code>ffa.yml</code>, <code>spectate.yml</code> (note: there is no <code>menus/queue.yml</code> - the <code>/queue</code> picker runs on <code>GuiConfigLoader</code> fallbacks; <code>queue.yml</code> only exists under <code>dialog-menus/</code>)</li>
+  <li><code>profile.yml</code>, <code>public-kits.yml</code>, <code>kit-preview.yml</code> (player profile &amp; kit sharing; note: there is no <code>menus/profile-stats.yml</code> - that file only exists under <code>dialog-menus/</code>)</li>
   <li><code>kiteditor.yml</code>, <code>kitroom.yml</code>, <code>kitroom_items.yml</code></li>
   <li><code>party-gui.yml</code>, <code>party-manage.yml</code>, <code>party-settings.yml</code>, <code>party-signgui.yml</code></li>
   <li><code>player-settings.yml</code></li>
@@ -703,7 +749,7 @@ performance:
     rematch: false
   starting-elo: 1000          # Base ELO rating for new players
   min-elo: 0                  # Floor a player's ELO can drop to
-  base-gain: 20               # ELO added on an even-matchup win (set equal to base-loss)
+  base-gain: 25               # ELO added on an even-matchup win (default 25 in EloSettings.java)
   base-loss: 20               # ELO deducted on an even-matchup loss
   kill-gain: 5                # Bonus ELO added per kill
 
@@ -900,9 +946,9 @@ rewards:
 </code></pre>
 
 <div class="page-navigation">
-  <a class="page-nav-link prev" href="practice-features.html">
+  <a class="page-nav-link prev" href="advancements.html">
     <span class="page-nav-label">Previous Page</span>
-    <span class="page-nav-title">Practice Features</span>
+    <span class="page-nav-title">Advancements</span>
   </a>
   <a class="page-nav-link next" href="migration.html">
     <span class="page-nav-label">Next Page</span>

@@ -46,6 +46,7 @@
     <a href="settings.html">Player Settings</a>
     <a href="practice-features.html">Practice Features</a>
     <a href="country.html">Country Flags</a>
+    <a href="advancements.html">Advancements</a>
     <a href="configuration.html">Configuration Files</a>
     <a href="migration.html">Migration Guide</a>
     <a href="placeholders.html" class="active">PlaceholderAPI</a>
@@ -226,9 +227,20 @@
     <tr><td><code>%shyamduels_players%</code></td><td>Integer</td><td>Total online players on the server.</td></tr>
     <tr><td><code>%shyamduels_queue_elapsed%</code></td><td>Integer</td><td>Seconds the player has been in queue.</td></tr>
     <tr><td><code>%shyamduels_queue_kits%</code></td><td>String</td><td>Comma-separated list of kits the player is queued for.</td></tr>
+    <tr><td><code>%shyamduels_queue_kit_colored%</code> / <code>%shyamduels_queue_kit_display%</code></td><td>String</td><td>Queued kit with colors / plain display name variants.</td></tr>
+    <tr><td><code>%shyamduels_queue_kits_colored%</code> / <code>%shyamduels_queue_kits_display%</code></td><td>String</td><td>Multi-queue kit list with colors / display-name variants.</td></tr>
+    <tr><td><code>%shyamduels_queue_primary_kit%</code> (+ <code>_colored</code> / <code>_display</code>)</td><td>String</td><td>Primary queued kit and its formatted variants.</td></tr>
+    <tr><td><code>%shyamduels_queue_type%</code></td><td>String</td><td>Queue type (<code>ranked</code> / <code>unranked</code>).</td></tr>
+    <tr><td><code>%shyamduels_queue_extra%</code></td><td>String</td><td>Extra queue context string.</td></tr>
     <tr><td><code>%shyamduels_is_queued%</code></td><td>boolean</td><td>Alias for whether the player is queued.</td></tr>
+    <tr><td><code>%shyamduels_health_merged%</code></td><td>String</td><td>Cached merged health hearts (see <code>placeholders.health-merged</code> in config; also usable in tab below-name).</td></tr>
+    <tr><td><code>%shyamduels_nametag%</code></td><td>String</td><td>TextDisplay nametag text for the player.</td></tr>
   </tbody>
 </table>
+</div>
+<div class="alert alert-note">
+  <div class="alert-title">Scoreboard/tab-native tags</div>
+  <p><code>%shyamduels_playing_players%</code>, <code>%shyamduels_total_playing%</code>, <code>%shyamduels_total_fighting%</code>, <code>%shyamduels_total_queued%</code>, <code>%shyamduels_all_ffa_players%</code> / <code>%shyamduels_total_ffa_players%</code> resolve in the built-in scoreboard/tab engine (<code>&lt;tag&gt;</code> form) but have no branch in the PlaceholderAPI expansion - third-party plugins reading them via PAPI will see them unresolved. Legacy <code>%strikepractice_%</code> prefix is aliased to <code>%shyamduels_%</code>. Use <code>%animation:name%</code> for tab animations and <code>&lt;head:BASE64&gt;</code> / <code>&lt;head:enemy&gt;</code> for head icons in scoreboard/tab lines.</p>
 </div>
 
 <h2>Player Preference Toggles</h2>
@@ -531,6 +543,11 @@
       <td><code>%rel_shyamduels_team%</code></td>
       <td>Color Codes</td>
       <td>Evaluates matches and assigns relationship color highlights.</td>
+    </tr>
+    <tr>
+      <td><code>%rel_shyamduels_color%</code></td>
+      <td>Color Codes</td>
+      <td>Alias for <code>relation</code>/<code>team</code> (handled by the same relational branch).</td>
     </tr>
   </tbody>
 </table>

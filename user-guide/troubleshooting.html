@@ -46,6 +46,7 @@
     <a href="settings.html">Player Settings</a>
     <a href="practice-features.html">Practice Features</a>
     <a href="country.html">Country Flags</a>
+    <a href="advancements.html">Advancements</a>
     <a href="configuration.html">Configuration Files</a>
     <a href="migration.html">Migration Guide</a>
     <a href="placeholders.html">PlaceholderAPI</a>
@@ -87,8 +88,17 @@
 /arena corner2 ArenaName</code></pre>
 
 <h3>The Arena is Marked as "UNAVAILABLE"</h3>
-<p>The plugin changes an arena state to UNAVAILABLE if FAWE pastes fail multiple times. Force an immediate block paste and reset the status using:</p>
+<p>The plugin changes an arena state to UNAVAILABLE if FAWE pastes fail multiple times (2 attempts, 60s duel / 180s FFA timeout). Auto-recovery is scheduled 60s later. Force an immediate block paste and reset the status using:</p>
 <pre><code>/arena reset ArenaName</code></pre>
+
+<h2>Queue / Tournament / Spectate / Shulker Checklist</h2>
+<ul>
+  <li><strong>Arenas not ready:</strong> commands are gated until <code>markArenasReady</code> - wait for enable to complete (<code>arenasReady</code> gate).</li>
+  <li><strong>Queue rejections:</strong> <code>different-mode-active</code>, <code>different-type-active</code>, <code>max-kits-reached</code> (minimum 1), <code>mode-disabled</code>, <code>random-disabled</code>.</li>
+  <li><strong>Tournament blocks:</strong> <code>block-queues</code> / <code>block-parties</code> / in-match participants cannot join queues or FFA.</li>
+  <li><strong>Spectate:</strong> <code>already-spectating</code>, <code>player-not-in-match</code>, arena boundary clamp (1.5s cooldown).</li>
+  <li><strong>Shulker lore invisible:</strong> requires PacketEvents + Minecraft 1.21.9+ (proto ≥ 773), non-Bedrock player, and <code>SHULKER_LORE</code> ON in <code>/settings</code> (or <code>/shulkerlore</code>).</li>
+</ul>
 
 <h2>No Arenas Available for a Kit</h2>
 <p>If players queue for a kit but get <strong>No arenas available for this kit</strong> while arenas appear free in <code>/arena list</code>, check build mode first:</p>

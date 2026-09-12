@@ -46,6 +46,7 @@
     <a href="../user-guide/settings.html">Player Settings</a>
     <a href="../user-guide/practice-features.html">Practice Features</a>
     <a href="../user-guide/country.html">Country Flags</a>
+    <a href="../user-guide/advancements.html">Advancements</a>
     <a href="../user-guide/configuration.html">Configuration Files</a>
     <a href="../user-guide/migration.html">Migration Guide</a>
     <a href="../user-guide/placeholders.html">PlaceholderAPI</a>
@@ -101,7 +102,7 @@ public class MatchListener implements Listener {
   </tbody>
 </table>
 </div>
-<p><code>TournamentPlayerJoinEvent</code> is <strong>cancellable</strong> — cancelling prevents the player from joining (message via <code>messages.yml</code>). All tournament events expose <code>getTournament()</code>; round/match events expose <code>getRound()</code>/<code>getMatch()</code> and match-end exposes <code>getWinner()</code>/<code>getLoser()</code>.</p>
+<p><code>TournamentPlayerJoinEvent</code> is <strong>cancellable</strong> - cancelling prevents the player from joining. Note: the manager silently returns <code>false</code> on cancel (no automatic message is sent).</p>
 
 <h3>PlayerCountryChangeEvent</h3>
 <p>Class path: <code>com.shyamstudio.shyamduels.api.country.event.PlayerCountryChangeEvent</code><br/>
@@ -123,14 +124,14 @@ Fired when a duel countdown begins, before PvP damage is enabled.</p>
 
 <h3>DuelStartEvent</h3>
 <p>Class path: <code>com.shyamstudio.shyamduels.duel.event.DuelStartEvent</code><br/>
-Fired when a 1v1 duel starts, immediately after the countdown finishes and PvP damage is enabled. (Team duels fire <code>PartyVsPartyStartEvent</code> instead.)</p>
+Fired when a 1v1 duel starts, immediately after the countdown finishes and PvP damage is enabled. (Team duels fire <code>PartyVsPartyStartEvent</code> instead - <code>DuelStartEvent</code> is not fired for team sizes &gt; 1.)</p>
 <ul>
   <li><code>getDuel()</code>: Returns the active <a href="models.html">Duel</a> model.</li>
 </ul>
 
 <h3>DuelEndEvent</h3>
 <p>Class path: <code>com.shyamstudio.shyamduels.duel.event.DuelEndEvent</code><br/>
-Fired when a duel match terminates (due to victory conditions, player forfeit, or admin termination commands).</p>
+Fired when a duel match terminates (due to victory conditions, player forfeit, or admin termination commands). Team matches additionally fire their party-end variant (<code>PartyVsPartyEndEvent</code>, <code>PartySplitEndEvent</code>, or <code>PartyFFAEndEvent</code>) from the same finish path.</p>
 <ul>
   <li><code>getDuel()</code>: Returns the concluded <a href="models.html">Duel</a> model. Use the model to check final state, winner teams, and ELO calculations.</li>
 </ul>
@@ -214,6 +215,14 @@ Fired immediately after a round concludes (a player or team dies), before player
   </tbody>
 </table>
 </div>
+
+<h3>AdvancementGrantEvent</h3>
+<p>Class path: <code>com.shyamstudio.shyamduels.advancement.event.AdvancementGrantEvent</code><br/>
+Fired on the main thread when a player completes an advancement. Informational and not cancellable.</p>
+<ul>
+  <li><code>getPlayer()</code>: Returns the player who earned the advancement.</li>
+  <li><code>getAdvancement()</code>: Returns the completed advancement definition.</li>
+</ul>
 
 <h2>Full Example: Tracking Match Results</h2>
 <p>A complete listener that registers in <code>onEnable</code> and reacts to several ShyamDuels events. It records a kill via the API on each fight death and announces the winner when a duel ends:</p>

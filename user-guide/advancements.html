@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Advancements: ShyamDuels</title>
+<link rel="stylesheet" href="../assets/style.css"/>
+</head>
+<body>
+<nav class="topnav">
+  <a class="logo-container" href="../index.html">
+    <img src="../shyam.webp" alt="ShyamDuels Logo" class="logo-img"/>
+    <span class="logo-text">ShyamDuels</span>
+  </a>
+  <span class="divider">/</span>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="getting-started.html" class="active">User Guide</a>
+    <a href="../api/overview.html">Developer API</a>
+  </div>
+  <span class="spacer"></span>
+  <a class="discord-btn" href="https://discord.gg/sMdsvZFqnX" target="_blank" rel="noopener">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037 12.9 12.9 0 0 0-.608 1.25 18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+    Discord
+  </a>
+  <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+  </button>
+</nav>
+<div id="overlay"></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">User Guide</span>
+    <a href="getting-started.html">Getting Started</a>
+    <a href="commands.html">Commands Reference</a>
+    <a href="permissions.html">Permissions</a>
+    <a href="arena-setup.html">Arena Setup</a>
+    <a href="gate-setup.html">Gate Setup</a>
+    <a href="kit-setup.html">Kit Setup</a>
+    <a href="kit-sharing.html">Kit Sharing &amp; Profiles</a>
+    <a href="tournaments.html">Tournament System</a>
+    <a href="party-system.html">Party System</a>
+    <a href="ffa.html">FFA Mode</a>
+    <a href="elo-ranks.html">ELO &amp; Ranks</a>
+    <a href="settings.html">Player Settings</a>
+    <a href="practice-features.html">Practice Features</a>
+    <a href="country.html">Country Flags</a>
+    <a href="advancements.html" class="active">Advancements</a>
+    <a href="configuration.html">Configuration Files</a>
+    <a href="migration.html">Migration Guide</a>
+    <a href="placeholders.html">PlaceholderAPI</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">Developer API</span>
+    <a href="../api/overview.html">Overview &amp; Setup</a>
+    <a href="../api/services.html">Services Reference</a>
+    <a href="../api/events.html">Events Reference</a>
+    <a href="../api/models.html">Data Models</a>
+    <a href="../api/examples.html">Code Examples</a>
+  </div>
+</aside>
+<main class="content">
+
+<div class="breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="getting-started.html">User Guide</a><span>›</span>Advancements</div>
+<h1>Advancements</h1>
+<p class="page-lead">Challenge and achievement system with 9 tabbed categories, 36 trigger types, tree-positioned GUIs, toasts, sounds, points, console rewards, and per-player progress stored in the database. Everything is defined in <code>advancement.yml</code>.</p>
+
+<h2>How Players Use It</h2>
+<ol class="steps">
+  <li>Open the GUI: <code>/advancements</code> (aliases: <code>/adv</code>, <code>/achievements</code>, <code>/sdadv</code>). Permission: <code>shyamduels.advancements.use</code>.</li>
+  <li>Pick a category tab (Duels, Ranked, Bed Fight, Bridge, FFA, Kits, Party, Challenges, Secrets) and click through the tree.</li>
+  <li>Play normally. Progress counters fill automatically (for example <code>Win 10 duels</code> shows <code>4/10</code>).</li>
+  <li>On completion the player gets a toast popup, a chat message, and a sound. Big milestones also broadcast server-wide.</li>
+</ol>
+
+<h2>How To Make An Advancement</h2>
+<p>Work in <code>plugins/ShyamDuels/advancement.yml</code>. The file is versioned (<code>config-version: 2</code>) and missing keys are merged from the built-in defaults on load, so editing never wipes your entries.</p>
+<ol class="steps">
+  <li><strong>Decide the category.</strong> Use one of the 9 shipped categories or add your own block under <code>categories:</code> (see the category table below). Note its key, for example <code>DUELS</code>.</li>
+  <li><strong>Add an entry</strong> under <code>advancements:</code> with a unique id, for example <code>my_first_win:</code>.</li>
+  <li><strong>Wire it into the tree</strong> with <code>category:</code> and <code>parent:</code>. Use <code>parent: null</code> for a root node, or the id of the previous advancement to chain it. The GUI position is computed automatically unless you set <code>coords.x</code> / <code>coords.y</code>.</li>
+  <li><strong>Describe it</strong> under <code>display:</code> (title, description lines, icon material, frame). See the display table below.</li>
+  <li><strong>Pick a difficulty</strong> (<code>EASY</code> to <code>SECRET</code>). It sets the label color and the default point value when <code>rewards.points</code> is omitted.</li>
+  <li><strong>Pick a trigger</strong> under <code>trigger:</code> with <code>type:</code> and <code>amount:</code> (how many times the event must fire). Full trigger list is in the trigger table below.</li>
+  <li><strong>Narrow it with conditions</strong> (optional) under <code>trigger.conditions:</code>, for example <code>ranked: true</code> or <code>kit: "nethpot"</code>. Full condition list is in the condition table below.</li>
+  <li><strong>Set rewards</strong> under <code>rewards:</code> (points, console commands, extra message lines). Override announcements per advancement under <code>announcements:</code> if needed.</li>
+  <li><strong>Reload and test:</strong> run <code>/advancements reload</code> (or <code>/shyamduels reload-advancements</code>), then <code>/advancements list</code> to confirm your id appears. Grant it to yourself with <code>/advancements grant &lt;player&gt; &lt;id&gt;</code> to preview the toast and rewards. Turn on <code>settings.debug: true</code> and reload if an entry does not show up; unknown trigger types log a warning and never complete.</li>
+</ol>
+
+<h2>Minimal Example (Copy And Edit)</h2>
+<pre><span class="lang-badge">yaml</span><code>advancements:
+  my_bridge_debut:
+    category: BRIDGE
+    parent: "bridge_root"
+    display:
+      title: "&lt;green&gt;My Bridge Debut"
+      description:
+        - "&lt;gray&gt;Score your first Bridge goal."
+      icon:
+        material: "END_PORTAL_FRAME"
+      frame: TASK
+    difficulty: EASY
+    trigger:
+      type: BRIDGE_GOAL
+      amount: 1
+    rewards:
+      points: 25
+      commands:
+        - "give %player% diamond 3"</code></pre>
+<p>Placeholders usable in messages, commands, and lore: <code>%player%</code>, <code>%uuid%</code>, <code>%advancement%</code>, <code>%advancement_id%</code>, <code>%category%</code>, <code>%difficulty%</code>, <code>%progress%</code>, <code>%required%</code>, <code>%percentage%</code>, <code>%rewards%</code>.</p>
+
+<h2>settings: (7 Keys)</h2>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Key</th><th>Default</th><th>What It Does</th></tr></thead>
+  <tbody>
+    <tr><td><code>settings.enabled</code></td><td><code>true</code></td><td>Master switch. When <code>false</code> the whole subsystem stays off.</td></tr>
+    <tr><td><code>settings.debug</code></td><td><code>false</code></td><td>Logs load counts and warnings (for example unknown trigger types) to console. Turn on while building advancements.</td></tr>
+    <tr><td><code>settings.disable-vanilla-advancements</code></td><td><code>false</code></td><td>Disables vanilla Minecraft advancements through the embedded advancement library.</td></tr>
+    <tr><td><code>settings.suppress-vanilla-in-arena</code></td><td><code>true</code></td><td>Cancels vanilla advancement toast packets while a player is inside an arena world.</td></tr>
+    <tr><td><code>settings.sound-volume</code></td><td><code>1.0</code></td><td>Fallback volume for completion sounds when an entry does not set its own.</td></tr>
+    <tr><td><code>settings.sound-pitch</code></td><td><code>1.0</code></td><td>Fallback pitch for completion sounds when an entry does not set its own.</td></tr>
+    <tr><td><code>settings.broadcast-prefix</code></td><td><code>[ACHIEVEMENT]</code> gradient</td><td>Prefix prepended to server-wide broadcast lines.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>defaults: (Global Fallbacks)</h2>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Key</th><th>Default</th><th>What It Does</th></tr></thead>
+  <tbody>
+    <tr><td><code>defaults.frame</code></td><td><code>TASK</code></td><td>Frame used when an advancement omits <code>display.frame</code>.</td></tr>
+    <tr><td><code>defaults.show_toast</code></td><td><code>true</code></td><td>Toast popup used when an entry omits <code>announcements.toast.enabled</code>.</td></tr>
+    <tr><td><code>defaults.progress.enabled</code></td><td><code>true</code></td><td>Shows <code>current/required</code> counters. Disable per entry with <code>progress.enabled: false</code>.</td></tr>
+    <tr><td><code>defaults.announcements.chat.enabled</code></td><td><code>true</code></td><td>Sends the private completion message to the earning player.</td></tr>
+    <tr><td><code>defaults.announcements.chat.message</code></td><td>checkmark line with <code>[%advancement%]</code></td><td>Default private message lines. Supports all placeholders above.</td></tr>
+    <tr><td><code>defaults.announcements.toast.enabled</code></td><td><code>true</code></td><td>Shows the vanilla-style toast popup.</td></tr>
+    <tr><td><code>defaults.announcements.sound.enabled</code> / <code>.type</code> / <code>.volume</code> / <code>.pitch</code></td><td><code>true</code> / <code>UI_TOAST_CHALLENGE_COMPLETE</code> / <code>1.0</code> / <code>1.0</code></td><td>Completion sound. Volume and pitch fall back to <code>settings.sound-volume</code> / <code>sound-pitch</code> when omitted here.</td></tr>
+    <tr><td><code>defaults.announcements.broadcast.enabled</code> / <code>.message</code></td><td><code>false</code> / <code>%player% unlocked [%advancement%]</code></td><td>Server-wide broadcast. Off by default; big milestones enable it per entry.</td></tr>
+    <tr><td><code>defaults.how_to_get.enabled</code> / <code>.header</code></td><td><code>true</code> / <code>How to unlock:</code></td><td>Shows the hint section in the GUI.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>categories: (9 Shipped Tabs)</h2>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Key</th><th>What It Does</th></tr></thead>
+  <tbody>
+    <tr><td><code>categories.&lt;ID&gt;.enabled</code></td><td>Shows or hides the whole tab.</td></tr>
+    <tr><td><code>categories.&lt;ID&gt;.title</code></td><td>Tab title (MiniMessage, gradients allowed).</td></tr>
+    <tr><td><code>categories.&lt;ID&gt;.description</code></td><td>String or list of lines shown on the tab icon.</td></tr>
+    <tr><td><code>categories.&lt;ID&gt;.icon.material</code> / <code>.amount</code></td><td>Tab icon item (any Bukkit material name, <code>MINECRAFT:</code> prefix optional; <code>EYE_OF_ENDER</code> is accepted as <code>ENDER_EYE</code>).</td></tr>
+    <tr><td><code>categories.&lt;ID&gt;.background</code></td><td>Vanilla texture path drawn behind the tree.</td></tr>
+    <tr><td><code>categories.&lt;ID&gt;.root</code></td><td>Advancement id used as the tree root. If missing, the first entry with <code>parent: null</code> is used.</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Shipped tabs and roots: <code>DUELS</code> (<code>duels_root</code>), <code>RANKED</code> (<code>ranked_root</code>), <code>BEDFIGHT</code> (<code>bedfight_root</code>), <code>BRIDGE</code> (<code>bridge_root</code>), <code>FFA</code> (<code>ffa_root</code>), <code>KITS</code> (<code>kits_root</code>), <code>PARTY</code> (<code>party_root</code>), <code>CHALLENGES</code> (<code>challenges_root</code>), <code>SECRETS</code> (<code>secrets_root</code>). Category keys are uppercased on load. An advancement whose category does not exist falls back to the first loaded category.</p>
+
+<h2>advancements: (Per-Entry Keys)</h2>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Key</th><th>What It Does</th></tr></thead>
+  <tbody>
+    <tr><td><code>enabled</code></td><td>Default <code>true</code>. Disabled entries are skipped entirely at load.</td></tr>
+    <tr><td><code>category</code></td><td>Category key (default <code>DUELS</code>). Case insensitive.</td></tr>
+    <tr><td><code>parent</code></td><td>Parent advancement id, or <code>null</code> for a root. Use quotes around ids. A missing parent still loads (positioned by the tree generator).</td></tr>
+    <tr><td><code>display.title</code></td><td>Name shown in the GUI (MiniMessage). Falls back to the entry id.</td></tr>
+    <tr><td><code>display.description</code></td><td>String or list of lore lines under the title.</td></tr>
+    <tr><td><code>display.lore</code></td><td>Extra lore lines appended after the description.</td></tr>
+    <tr><td><code>display.icon.material</code></td><td>Item material (default <code>DIAMOND_SWORD</code>). Also accepts legacy <code>icon.material</code> / <code>icon</code> paths.</td></tr>
+    <tr><td><code>display.icon.amount</code></td><td>Stack size 1-64 (default 1).</td></tr>
+    <tr><td><code>display.icon.skull.owner</code></td><td>Player name, <code>%player%</code>, or <code>{player}</code> for player-head icons.</td></tr>
+    <tr><td><code>display.icon.custom_model_data</code></td><td>CustomModelData int for resource-pack icons (optional).</td></tr>
+    <tr><td><code>display.frame</code></td><td><code>TASK</code>, <code>GOAL</code>, or <code>CHALLENGE</code> (default from <code>defaults.frame</code>).</td></tr>
+    <tr><td><code>display.background</code></td><td>Optional per-advancement background texture override.</td></tr>
+    <tr><td><code>display.hidden</code> (alias <code>hidden</code>)</td><td>Secret entry. Hidden nodes stay invisible until the player has progress on them, then appear. Used by the whole SECRETS tab.</td></tr>
+    <tr><td><code>difficulty</code></td><td><code>EASY</code>, <code>NORMAL</code>, <code>HARD</code>, <code>VERY_HARD</code>, <code>EXTREME</code>, <code>LEGENDARY</code>, <code>SECRET</code> (default <code>NORMAL</code>). Unknown values fall back to <code>NORMAL</code>.</td></tr>
+    <tr><td><code>trigger.type</code></td><td>One of the 36 trigger types below (default <code>DUEL_WIN</code>). Unknown values become <code>CUSTOM</code>, log a warning, and never complete, so check spelling.</td></tr>
+    <tr><td><code>trigger.amount</code> (aliases <code>required_amount</code>, <code>amount</code>)</td><td>How many matching events are needed (minimum 1). Progress accumulates across matches.</td></tr>
+    <tr><td><code>trigger.conditions</code> (alias <code>conditions</code>)</td><td>Map of extra requirements. See the condition table below. Supports <code>all:</code> / <code>any:</code> / <code>not:</code> groups and typed <code>type:</code> / <code>field:</code> / <code>value:</code> rules.</td></tr>
+    <tr><td><code>progress.enabled</code></td><td>Default from <code>defaults.progress.enabled</code>. Shows the counter on multi-step advancements.</td></tr>
+    <tr><td><code>coords.x</code> / <code>coords.y</code> (aliases <code>x</code>, <code>y</code>)</td><td>Optional fixed tree position. When omitted, the layout generator places the node (leaf-span with parent centering, normalized at zero or above).</td></tr>
+    <tr><td><code>display.how_to_get</code> / <code>how_to_get.lines</code> / <code>how_to_get</code></td><td>Hint lines. <code>how_to_get.enabled: false</code> hides them for that entry.</td></tr>
+    <tr><td><code>rewards.*</code> / <code>announcements.*</code></td><td>See the rewards table below. Per-entry <code>announcements.chat/toast/sound/broadcast</code> blocks override the global defaults.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Difficulty Tiers And Default Points</h2>
+<p>When <code>rewards.points</code> is omitted, the tier value is used.</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Difficulty</th><th>Default Points</th><th>Used For</th></tr></thead>
+  <tbody>
+    <tr><td><code>EASY</code></td><td>10</td><td>First steps (first duel, first kill, first goal).</td></tr>
+    <tr><td><code>NORMAL</code></td><td>25</td><td>Regular milestones (10 wins, first bed break).</td></tr>
+    <tr><td><code>HARD</code></td><td>50</td><td>Demanding goals (50 wins, 100 FFA kills).</td></tr>
+    <tr><td><code>VERY_HARD</code></td><td>100</td><td>Long grinds (100 wins, 500 FFA kills).</td></tr>
+    <tr><td><code>EXTREME</code></td><td>250</td><td>Elite feats (500 wins, flawless duels).</td></tr>
+    <tr><td><code>LEGENDARY</code></td><td>500</td><td>Legendary grinds (1,000 wins, 100 winstreak).</td></tr>
+    <tr><td><code>SECRET</code></td><td>1000</td><td>Hidden easter eggs (whole SECRETS tab).</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Trigger Types (All 36)</h2>
+<p><code>amount</code> counts matching events. Pair a counter trigger with a condition to scope it (for example <code>DUEL_WIN</code> plus <code>ranked: true</code>).</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Trigger</th><th>Fires When</th><th>Typical Amount</th></tr></thead>
+  <tbody>
+    <tr><td><code>DUEL_PLAY</code></td><td>A duel starts (any mode, add <code>ranked: true</code> or <code>kit:</code> to scope).</td><td>1+</td></tr>
+    <tr><td><code>DUEL_WIN</code></td><td>The player wins a duel.</td><td>1, 10, 50, 100, 500, 1000, 2000</td></tr>
+    <tr><td><code>DUEL_KILL</code></td><td>The player gets a duel kill (add weapon conditions below to scope).</td><td>1+</td></tr>
+    <tr><td><code>DUEL_DEATH</code></td><td>The player dies in a duel.</td><td>1+</td></tr>
+    <tr><td><code>WIN_STREAK</code></td><td>Winstreak reaches the amount (any mode unless <code>ranked: true</code>).</td><td>5, 10, 15, 25, 30, 50, 100</td></tr>
+    <tr><td><code>KILL_STREAK</code></td><td>Killstreak reaches the amount.</td><td>1+</td></tr>
+    <tr><td><code>RANK_TIER</code></td><td>Post-win Elo check passes <code>elo_min</code> (always <code>amount: 1</code>).</td><td>1</td></tr>
+    <tr><td><code>ELO_GAIN</code></td><td>Post-win Elo gain event (ranked wins only).</td><td>1+</td></tr>
+    <tr><td><code>BED_BREAK</code></td><td>An enemy bed is destroyed.</td><td>1, 10, 25, 50, 100</td></tr>
+    <tr><td><code>BEDFIGHT_VOID_SURVIVE</code></td><td>A Bed Fight void fall is survived.</td><td>1</td></tr>
+    <tr><td><code>BEDFIGHT_FIREBALL_LAUNCH</code></td><td>A Bed Fight fireball is launched.</td><td>1</td></tr>
+    <tr><td><code>BEDFIGHT_FIREBALL_KILL</code></td><td>A Bed Fight kill comes from fireball impact or knockback.</td><td>1</td></tr>
+    <tr><td><code>BEDFIGHT_TNT_JUMP</code></td><td>A Bed Fight TNT jump succeeds.</td><td>1</td></tr>
+    <tr><td><code>BEDFIGHT_FINAL_KILL</code></td><td>An opponent with no bed left is eliminated.</td><td>1</td></tr>
+    <tr><td><code>BRIDGE_GOAL</code></td><td>A Bridge goal is scored.</td><td>1, 10, 25, 50, 100</td></tr>
+    <tr><td><code>BRIDGE_SHUTOUT</code></td><td>A Bridge shutout or clean match completes.</td><td>1, 5</td></tr>
+    <tr><td><code>BRIDGE_PORTAL_JUMP</code></td><td>A Bridge portal jump or fast goal happens.</td><td>1</td></tr>
+    <tr><td><code>BRIDGE_BLOCK_CLUTCH</code></td><td>A Bridge block clutch is executed.</td><td>1</td></tr>
+    <tr><td><code>FFA_KILL</code></td><td>An FFA kill happens (add <code>bounty</code>, <code>multikill</code>, or <code>iron_man</code> to scope).</td><td>1, 25, 100, 250, 500, 1000</td></tr>
+    <tr><td><code>FFA_KILLSTREAK</code></td><td>FFA killstreak reaches the amount.</td><td>5, 10, 25, 50</td></tr>
+    <tr><td><code>FFA_SURVIVE</code></td><td>An FFA survival tick completes.</td><td>1+</td></tr>
+    <tr><td><code>BOXING_COMBO</code></td><td>Hit combo reaches the amount without taking a hit back (mace kits).</td><td>20, 50</td></tr>
+    <tr><td><code>SUMO_RINGOUT</code></td><td>A sumo-style ringout happens.</td><td>1</td></tr>
+    <tr><td><code>FLAWLESS_WIN</code></td><td>A duel is won with zero damage taken (pair with <code>flawless: true</code>).</td><td>1, 5</td></tr>
+    <tr><td><code>LOW_HEALTH_WIN</code></td><td>A duel is won at low health (pair with <code>health_max: 2.0</code> or <code>1.0</code>).</td><td>1</td></tr>
+    <tr><td><code>COMEBACK_WIN</code></td><td>A match is won after losing early rounds (pair with <code>comeback: true</code> or <code>clutch_win: true</code>).</td><td>1, 5</td></tr>
+    <tr><td><code>KIT_CUSTOMIZE</code></td><td>A kit layout is customized and saved in the Kit Editor.</td><td>1</td></tr>
+    <tr><td><code>KIT_SHARE</code></td><td>A customized kit layout is shared with another player.</td><td>1</td></tr>
+    <tr><td><code>PARTY_PLAY</code></td><td>A party match is played (add <code>fight_type</code>, <code>split_win</code>, <code>ffa_win</code>, or <code>pvp_win</code> to scope).</td><td>1, 10, 25, 50</td></tr>
+    <tr><td><code>PARTY_SIZE</code></td><td>A party session starts (pair with <code>party_size_min: 8</code> or <code>16</code>).</td><td>1</td></tr>
+    <tr><td><code>PLAYTIME</code></td><td>Fighting-time check passes <code>playtime_hours</code> (always <code>amount: 1</code>).</td><td>1</td></tr>
+    <tr><td><code>STAT_TOTAL_KILLS</code></td><td>Lifetime kills reach the amount.</td><td>1000</td></tr>
+    <tr><td><code>STAT_TOTAL_WINS</code></td><td>Lifetime wins reach the amount.</td><td>500, 1000</td></tr>
+    <tr><td><code>SECRET_TRIGGER</code></td><td>A secret interaction happens (pair with <code>secret_id</code>).</td><td>1, 25</td></tr>
+    <tr><td><code>CUSTOM</code></td><td>Never fired by gameplay. If you see this, the trigger name is misspelled. Fix the spelling.</td><td>-</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Conditions (Every Key)</h2>
+<p>Conditions live under <code>trigger.conditions:</code> (or <code>conditions:</code>). Flat keys combine with AND. Use <code>all:</code>, <code>any:</code>, and <code>not:</code> lists for logic, and typed rules (<code>type:</code> plus <code>field:</code> plus <code>value:</code>) for full control. Any other key falls back to generic payload matching: booleans must equal, numbers must be greater than or equal, text must equal ignoring case.</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Condition Key</th><th>Value</th><th>What It Checks</th></tr></thead>
+  <tbody>
+    <tr><td><code>kit</code> (alias <code>kit_name</code>)</td><td>kit name</td><td>Only this kit, for example <code>kit: "nethpot"</code>, <code>kit: "bedwars"</code>, <code>kit: "bridge"</code>, <code>kit: "Stickfight"</code>, <code>kit: "macepvp"</code>.</td></tr>
+    <tr><td><code>ranked</code></td><td><code>true</code> / <code>false</code></td><td>Ranked-only or unranked-only matches.</td></tr>
+    <tr><td><code>mode</code></td><td>mode name</td><td>Queue mode string from the match payload.</td></tr>
+    <tr><td><code>arena</code> (alias <code>arena_name</code>)</td><td>arena name</td><td>Only this arena.</td></tr>
+    <tr><td><code>flawless</code> (alias <code>no_damage_taken</code>)</td><td><code>true</code></td><td>No damage taken in the match.</td></tr>
+    <tr><td><code>combo</code> (alias <code>combo_hits_min</code>)</td><td>number</td><td>Minimum combo hits.</td></tr>
+    <tr><td><code>health_max</code> (alias <code>health_lte</code>)</td><td>health number</td><td>Health at or below the value (20.0 is full). Example: <code>health_max: 2.0</code> is 1 heart, <code>1.0</code> is half a heart.</td></tr>
+    <tr><td><code>health_min</code> (alias <code>health_gte</code>)</td><td>health number</td><td>Health at or above the value.</td></tr>
+    <tr><td><code>distance_min</code> (alias <code>distance_gte</code>)</td><td>blocks number</td><td>Kill distance at or above the value, for example <code>distance_min: 30.0</code> for longbow kills.</td></tr>
+    <tr><td><code>winstreak_min</code> (alias <code>min_winstreak</code>)</td><td>number</td><td>Minimum winstreak.</td></tr>
+    <tr><td><code>killstreak_min</code> (alias <code>min_killstreak</code>)</td><td>number</td><td>Minimum killstreak.</td></tr>
+    <tr><td><code>elo_min</code> (alias <code>min_elo</code>)</td><td>elo number</td><td>Elo at or above the value, for example <code>elo_min: 1050</code> up to <code>2200</code>.</td></tr>
+    <tr><td><code>duration_max_seconds</code> (alias <code>time_max_seconds</code>)</td><td>seconds</td><td>Match at or under this length, for example <code>10</code> for blitz wins or <code>60</code> for fast shutouts.</td></tr>
+    <tr><td><code>duration_min_seconds</code> (alias <code>time_min_seconds</code>)</td><td>seconds</td><td>Match at or over this length, for example <code>300</code> for 5-minute marathons.</td></tr>
+    <tr><td><code>mace</code></td><td><code>true</code></td><td>Mace-based combat payload.</td></tr>
+    <tr><td><code>shutout</code></td><td><code>true</code></td><td>Shutout payload (Bridge defense).</td></tr>
+    <tr><td><code>void_clutch</code></td><td><code>true</code></td><td>Void-clutch payload.</td></tr>
+    <tr><td><code>fireball_kill</code></td><td><code>true</code></td><td>Fireball-kill payload.</td></tr>
+    <tr><td><code>tnt_jump</code></td><td><code>true</code></td><td>TNT-jump payload.</td></tr>
+    <tr><td><code>comeback</code> (alias <code>reverse_sweep</code>)</td><td><code>true</code></td><td>Comeback-win payload.</td></tr>
+    <tr><td><code>party_size_min</code></td><td>number</td><td>Party at or above this size (<code>8</code>, <code>16</code>).</td></tr>
+    <tr><td><code>friends_min</code></td><td>number</td><td>Minimum friends count in the payload.</td></tr>
+    <tr><td><code>bow_kill</code></td><td><code>true</code></td><td>Lethal hit was a bow shot (generic match).</td></tr>
+    <tr><td><code>crossbow_kill</code></td><td><code>true</code></td><td>Lethal hit was a crossbow shot (generic match).</td></tr>
+    <tr><td><code>sword_kill</code> / <code>axe_kill</code></td><td><code>true</code></td><td>Lethal hit used a sword or an axe (generic match).</td></tr>
+    <tr><td><code>shield_broken</code></td><td><code>true</code></td><td>Enemy shield was disabled with an axe (generic match).</td></tr>
+    <tr><td><code>fist_only</code></td><td><code>true</code></td><td>Won with bare hands only (generic match).</td></tr>
+    <tr><td><code>wood_sword</code></td><td><code>true</code></td><td>Wooden-sword kill (generic match).</td></tr>
+    <tr><td><code>final_round</code></td><td><code>true</code></td><td>Kill happened in the final round (generic match).</td></tr>
+    <tr><td><code>rounds_won</code></td><td>number</td><td>Rounds won in the series, for example <code>2</code> for Best-of-3 or <code>3</code> for Best-of-5.</td></tr>
+    <tr><td><code>fight_type</code></td><td><code>PARTY_SPLIT</code> etc.</td><td>Party fight type, for example <code>fight_type: "PARTY_SPLIT"</code>.</td></tr>
+    <tr><td><code>split_win</code> / <code>ffa_win</code> / <code>pvp_win</code></td><td><code>true</code></td><td>Party split win, party FFA win, or party-vs-party win.</td></tr>
+    <tr><td><code>speed_demon</code></td><td><code>true</code></td><td>Fast bed break (within 15 seconds of match start).</td></tr>
+    <tr><td><code>clutch_win</code></td><td><code>true</code></td><td>Bed Fight win after your own bed was destroyed.</td></tr>
+    <tr><td><code>fast_goal</code></td><td><code>true</code></td><td>Bridge goal within 8 seconds of round start.</td></tr>
+    <tr><td><code>hat_trick</code></td><td><code>true</code></td><td>3 consecutive Bridge goals in one match.</td></tr>
+    <tr><td><code>bounty</code></td><td><code>true</code></td><td>Victim had a killstreak of 10 or higher (FFA).</td></tr>
+    <tr><td><code>multikill</code></td><td><code>true</code></td><td>2 kills within 4 seconds (FFA).</td></tr>
+    <tr><td><code>iron_man</code></td><td><code>true</code></td><td>Kill while below 2 hearts (FFA).</td></tr>
+    <tr><td><code>secret_id</code></td><td>id string</td><td>Secret interaction id, for example <code>secret_good_game</code> or <code>secret_about_command</code>.</td></tr>
+    <tr><td><code>playtime_hours</code></td><td>hours</td><td>Minimum fighting hours (<code>10</code>, <code>50</code>, <code>100</code>).</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Logic Groups And Typed Rules</h3>
+<pre><span class="lang-badge">yaml</span><code>trigger:
+  type: BOXING_COMBO
+  amount: 20
+  conditions:
+    any:                 # OR: macepvp kit OR mace kit OR mace payload
+      - kit: "macepvp"
+      - kit: "mace"
+      - mace: true</code></pre>
+<pre><span class="lang-badge">yaml</span><code>trigger:
+  type: DUEL_KILL
+  amount: 1
+  conditions:
+    all:                 # AND group
+      - bow_kill: true
+      - ranked: true
+    not:                 # NOT group
+      - kit: "bridge"</code></pre>
+<p>Typed rules use <code>type:</code> plus <code>field:</code> plus <code>value:</code>: <code>KIT_EQUALS</code> (kit name equals), <code>NUMERIC_GTE</code> (payload number greater than or equal), <code>NUMERIC_LTE</code> (payload number less than or equal), <code>BOOLEAN_IS</code> (payload flag equals), <code>STRING_EQUALS</code> (payload text equals ignoring case). Example: <code>{type: NUMERIC_GTE, field: elo, value: 2000}</code>.</p>
+
+<h2>rewards: (Every Key)</h2>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Key</th><th>Default</th><th>What It Does</th></tr></thead>
+  <tbody>
+    <tr><td><code>rewards.points</code></td><td>difficulty default (10 to 1000)</td><td>Point score for leaderboards and progress totals.</td></tr>
+    <tr><td><code>rewards.currency</code></td><td><code>0.0</code></td><td>Economy amount granted on completion.</td></tr>
+    <tr><td><code>rewards.commands</code></td><td>empty list</td><td>Console commands run on completion. Supports all placeholders above.</td></tr>
+    <tr><td><code>rewards.message.enabled</code></td><td><code>true</code></td><td>Sends the extra reward lines below.</td></tr>
+    <tr><td><code>rewards.message.lines</code> (aliases <code>rewards.message</code>)</td><td>empty</td><td>Extra private message lines about the reward.</td></tr>
+    <tr><td><code>announcements.sound.enabled</code> / <code>.type</code> / <code>.volume</code> / <code>.pitch</code> (aliases <code>sound.*</code>)</td><td>global defaults</td><td>Per-entry sound override.</td></tr>
+    <tr><td><code>announcements.toast.enabled</code> (alias <code>display.show_toast</code>)</td><td>global default</td><td>Per-entry toast override.</td></tr>
+    <tr><td><code>announcements.chat.enabled</code> / <code>.message</code></td><td>global defaults</td><td>Per-entry private message override.</td></tr>
+    <tr><td><code>announcements.broadcast.enabled</code> / <code>.message</code></td><td>global defaults (off)</td><td>Per-entry server broadcast override. Enable for legendary milestones.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Admin Commands And Permissions</h2>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Command</th><th>Permission</th><th>What It Does</th></tr></thead>
+  <tbody>
+    <tr><td><code>/advancements</code> (<code>/adv</code>, <code>/achievements</code>, <code>/sdadv</code>)</td><td><code>shyamduels.advancements.use</code></td><td>Opens the advancement GUI.</td></tr>
+    <tr><td><code>/advancements list</code></td><td><code>shyamduels.advancements.admin</code></td><td>Lists loaded advancement ids.</td></tr>
+    <tr><td><code>/advancements grant &lt;player&gt; &lt;id&gt;</code></td><td><code>shyamduels.advancements.admin</code></td><td>Grants an advancement (fires <code>AdvancementGrantEvent</code>, runs rewards).</td></tr>
+    <tr><td><code>/advancements revoke &lt;player&gt; &lt;id&gt;</code></td><td><code>shyamduels.advancements.admin</code></td><td>Revokes an advancement and its progress.</td></tr>
+    <tr><td><code>/advancements reset &lt;player&gt;</code></td><td><code>shyamduels.advancements.admin</code></td><td>Resets one player's progress.</td></tr>
+    <tr><td><code>/advancements resetall</code></td><td><code>shyamduels.advancements.admin</code></td><td>Resets progress for all players.</td></tr>
+    <tr><td><code>/advancements reload</code> (also <code>/shyamduels reload-advancements</code>)</td><td><code>shyamduels.admin</code></td><td>Reloads <code>advancement.yml</code> and rebuilds the registry and tree layout.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Behind The Scenes</h2>
+<ul>
+  <li><strong>Storage:</strong> progress lives in the <code>player_advancements</code> table (progression, completed flag, timestamp) with a 60-second completed-count cache. Join loads are async; gameplay triggers run on the main thread; saves go through a per-player ordered write queue.</li>
+  <li><strong>Events:</strong> completion fires <code>AdvancementGrantEvent</code> (player plus advancement, informational, not cancellable). See <a href="../api/events.html">Events Reference</a>.</li>
+  <li><strong>High-frequency guard:</strong> rapid triggers such as boxing combos are checked on a throttled path (every 5th event) to protect performance.</li>
+  <li><strong>Vanilla:</strong> the embedded advancement library renders tabs, nodes, progress bars, and toasts from its own SQLite file (<code>data/advancements.db</code>). <code>disable-vanilla-advancements</code> and <code>suppress-vanilla-in-arena</code> control vanilla behavior.</li>
+  <li><strong>Placeholders:</strong> <code>%shyamduels_advancements_completed%</code> and related <code>advancements_*</code> variables expose totals. See <a href="placeholders.html">PlaceholderAPI</a>.</li>
+</ul>
+
+<div class="alert alert-note">
+  <div class="alert-title">Troubleshooting new advancements</div>
+  <p>Entry missing from the GUI: check <code>enabled: true</code>, a valid <code>category</code>, and run <code>/advancements reload</code> with <code>settings.debug: true</code>. Advancement never completes: the trigger name is probably misspelled (it becomes <code>CUSTOM</code> and logs a warning). Progress not counting: the condition is too strict (for example a wrong kit name). Tree looks wrong: set explicit <code>coords.x</code> / <code>coords.y</code> or fix the <code>parent</code> chain and the category <code>root</code>.</p>
+</div>
+
+<div class="page-navigation">
+  <a class="page-nav-link prev" href="country.html">
+    <span class="page-nav-label">Previous Page</span>
+    <span class="page-nav-title">Country Flags</span>
+  </a>
+  <a class="page-nav-link next" href="configuration.html">
+    <span class="page-nav-label">Next Page</span>
+    <span class="page-nav-title">Configuration Files</span>
+  </a>
+</div>
+
+</main>
+</div>
+<script src="../assets/nav.js"></script>
+</body>
+</html>
