@@ -36,6 +36,7 @@
     <a href="commands.html">Commands Reference</a>
     <a href="permissions.html">Permissions</a>
     <a href="arena-setup.html">Arena Setup</a>
+    <a href="arena-instances.html">Arena Instances</a>
     <a href="gate-setup.html">Gate Setup</a>
     <a href="kit-setup.html">Kit Setup</a>
     <a href="kit-sharing.html">Kit Sharing &amp; Profiles</a>
@@ -48,6 +49,7 @@
     <a href="country.html">Country Flags</a>
     <a href="advancements.html">Advancements</a>
     <a href="configuration.html">Configuration Files</a>
+    <a href="world-isolation.html">World Isolation</a>
     <a href="migration.html">Migration Guide</a>
     <a href="placeholders.html">PlaceholderAPI</a>
     <a href="troubleshooting.html">Troubleshooting</a>
@@ -185,6 +187,33 @@ golden-head:
   <li><strong>Killstreaks:</strong> broadcast milestones at configured tiers (<code>killstreaks:</code> in <code>config.yml</code>, toggle <code>modules.killstreaks</code>).</li>
   <li><strong>Auto-GG:</strong> players can toggle automatic post-match GG messages in <code>/settings</code> (<code>auto-gg:</code> in config).</li>
 </ul>
+
+<h2 id="queue-win-streaks">Per-Kit Queue Win-Streak Lore</h2>
+<p>Optional current-streak leaderboards can appear below kit icons in the 1v1 queue picker and category submenus. Ranked and unranked streaks are tracked separately. The display is off by default, and older installations start these new separate counters at zero; existing combined stats and ELO are not replaced.</p>
+<p>Edit <code>menus/queue-kit.yml</code> under <code>queue-kit.win-streak</code> and <code>menus/queue-kit-unranked.yml</code> under <code>queue-kit-unranked.win-streak</code>. Enable each menu independently. Example for the ranked picker:</p>
+<pre><span class="lang-badge">yaml</span><code>queue-kit:
+  win-streak:
+    enabled: true
+    entries: 3
+    header: '&amp;#FFFA45&amp;lWIN STREAK &amp;r&amp;#AAAAAA[&lt;type&gt;]'
+    entry: '&amp;#FFFA45&lt;position&gt;. &amp;r&amp;#FFFFFF&lt;player&gt; &amp;#AAAAAA| &amp;#37F699&lt;streak&gt;'
+    empty: '&amp;#AAAAAANo active streaks yet.'
+    own: '&amp;#FFFFFFYour Streak: &amp;#FFFA45&lt;streak&gt;'</code></pre>
+<p>Merge the subsection into the existing menu. <code>entries</code> is limited to 1–10. The local text tokens are <code>&lt;type&gt;</code>, <code>&lt;position&gt;</code>, <code>&lt;player&gt;</code>, and <code>&lt;streak&gt;</code>; they are not new PlaceholderAPI identifiers. Top entries refresh from storage on a 15-second cache while viewed, so they are not an instant live ranking. Reload menu settings with <code>/sd reload-gui</code>.</p>
+<p>Only eligible normal 1v1 match results count, including supported direct duels as well as queues. Custom kits, bots, team/party formats, and other match types are excluded by the streak policy. This is a match result counter, not a per-round win counter.</p>
+
+<h2 id="xp-round-animation">XP Round-Win Animation</h2>
+<p>The optional cosmetic effect forms the round score from client-only XP orbs; the final win forms a skull. It does not spawn collectible XP in the world, change rewards, or replace the match result logic.</p>
+<pre><span class="lang-badge">yaml</span><code>duels:
+  xp-animation:
+    enabled: false
+  round:
+    next-round-delay: 5s
+    score-chat: true
+  match:
+    end-delay: 5s</code></pre>
+<p>Merge these settings into your existing <code>duels:</code> section. Set <code>xp-animation.enabled: true</code> to opt in; it requires both server and client Minecraft 1.21.11 or newer. Eligible nearby fighters and spectators can view it. Unsupported clients or exhausted cosmetic capacity skip the effect without delaying gameplay.</p>
+<p>The effect lasts up to <strong>3.8 seconds</strong>. Existing five-second pauses accommodate it, but shorter or instant transitions stop it early rather than extending the wait. Teleports, disconnects, and duel cleanup remove the view. There is no standalone preview command in the core plugin. Reload main settings with <code>/sd reload-config confirm</code>.</p>
 
 <h2>Right-Click Player Interaction</h2>
 <p>When <code>modules.practice-right-click-duel: true</code>, players can right-click another player in worlds listed under <code>enabled-worlds.right-click-duel</code>. The default action opens the <strong>Player Profile GUI</strong> (<code>right-click.action: profile</code>). Set <code>action: command</code> to restore legacy duel-invite behaviour via <code>right-click.commands</code>. See <a href="kit-sharing.html">Kit Sharing &amp; Profiles</a> and <a href="configuration.html">Configuration Files</a>.</p>

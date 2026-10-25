@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Arena Instances: ShyamDuels</title>
+<link rel="stylesheet" href="../assets/style.css"/>
+</head>
+<body>
+<nav class="topnav">
+  <a class="logo-container" href="../index.html">
+    <img src="../shyam.webp" alt="ShyamDuels Logo" class="logo-img"/>
+    <span class="logo-text">ShyamDuels</span>
+  </a>
+  <span class="divider">/</span>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="getting-started.html" class="active">User Guide</a>
+    <a href="../api/overview.html">Developer API</a>
+  </div>
+  <span class="spacer"></span>
+  <a class="discord-btn" href="https://discord.gg/sMdsvZFqnX" target="_blank" rel="noopener">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037 12.9 12.9 0 0 0-.608 1.25 18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+    Discord
+  </a>
+  <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+  </button>
+</nav>
+<div id="overlay"></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">User Guide</span>
+    <a href="getting-started.html">Getting Started</a>
+    <a href="commands.html">Commands Reference</a>
+    <a href="permissions.html">Permissions</a>
+    <a href="arena-setup.html">Arena Setup</a>
+    <a href="arena-instances.html" class="active">Arena Instances</a>
+    <a href="gate-setup.html">Gate Setup</a>
+    <a href="kit-setup.html">Kit Setup</a>
+    <a href="kit-sharing.html">Kit Sharing &amp; Profiles</a>
+    <a href="tournaments.html">Tournament System</a>
+    <a href="party-system.html">Party System</a>
+    <a href="ffa.html">FFA Mode</a>
+    <a href="elo-ranks.html">ELO &amp; Ranks</a>
+    <a href="settings.html">Player Settings</a>
+    <a href="practice-features.html">Practice Features</a>
+    <a href="country.html">Country Flags</a>
+    <a href="advancements.html">Advancements</a>
+    <a href="configuration.html">Configuration Files</a>
+    <a href="world-isolation.html">World Isolation</a>
+    <a href="migration.html">Migration Guide</a>
+    <a href="placeholders.html">PlaceholderAPI</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">Developer API</span>
+    <a href="../api/overview.html">Overview &amp; Setup</a>
+    <a href="../api/services.html">Services Reference</a>
+    <a href="../api/events.html">Events Reference</a>
+    <a href="../api/models.html">Data Models</a>
+    <a href="../api/examples.html">Code Examples</a>
+  </div>
+</aside>
+<main class="content">
+
+<div class="breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="getting-started.html">User Guide</a><span>›</span>Arena Instances</div>
+<h1>Arena Instances &amp; Automatic Capacity</h1>
+<p class="page-lead">Prepare individual copies of selected duel arenas in a separate void world, then optionally grow their capacity as players need it.</p>
+
+<div class="alert alert-note">
+  <div class="alert-title">Opt-in: updating the JAR does not activate this system</div>
+  Both <code>arenas.instances.enabled</code> and <code>arenas.instances.auto-expand.enabled</code> ship as <code>false</code>, with no selected templates. Existing arenas and whole-world cloning keep their current path while instances are disabled. This guide describes the implementation in this source tree; use a build that includes these settings.
+</div>
+
+<h2 id="how-it-works">How It Works</h2>
+<ol class="steps">
+  <li>Create a normal duel arena with corners, both spawns, a saved schematic, and linked kits. This original arena becomes its <strong>template</strong>.</li>
+  <li>Select that original arena by name in <code>arenas.instances.templates</code>.</li>
+  <li>At startup, ShyamDuels validates the source and prepares separate, spaced-out copies in the owned instance world. It copies spawn positions, center, kit links, build settings, and supported gate data.</li>
+  <li>A generated copy enters matchmaking only after its paste and required chunk/block checks succeed. Existing queue, direct duel, team, party, and tournament flows claim it through the normal arena manager.</li>
+  <li>Copies reset and become reusable after matches. Optional auto-expansion requests more copies when the configured ready reserve runs low, within both capacity limits.</li>
+</ol>
+<p><strong>Capacity means simultaneous matches, not players.</strong> Two ready copies of <code>Grass</code> provide two match slots. A team match still uses one slot.</p>
+<p>Once a template pool is successfully prepared, its original and legacy world-clone counterparts are excluded from matchmaking for that template. The original remains the editable source: do not count it as an extra slot. Unselected templates and FFA arenas continue using their existing path. If optional bootstrap fails, the plugin reports the failure and retains the existing arena path rather than treating incomplete copies as ready.</p>
+
+<h2 id="cloning-comparison">Instances vs. Existing Arena Cloning</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>System</th><th>What it copies</th><th>When to use it</th></tr></thead>
+  <tbody>
+    <tr><td>Manual arenas</td><td>Nothing automatically; each registered region is a slot.</td><td>Small servers or individually built maps.</td></tr>
+    <tr><td><code>arenas.cloning</code></td><td>The configured base arena world into numbered world copies.</td><td>Existing fixed-capacity deployments. This setting is not replaced or enabled by instances.</td></tr>
+    <tr><td><code>arenas.instances</code></td><td>Selected DUEL arena schematics into separate regions of one dedicated void world.</td><td>Per-template capacity and optional bounded expansion without a full world copy for every extra slot.</td></tr>
+  </tbody>
+</table></div>
+<p>The two automatic systems can coexist: successfully managed instance templates are skipped by legacy cloning, while unselected eligible templates can still use it. Do not change <code>arenas.cloning</code> merely because you update the JAR.</p>
+
+<h2 id="requirements">Template Requirements</h2>
+<ul>
+  <li>A valid <strong>original DUEL arena</strong>, not an FFA arena, legacy clone, or generated copy.</li>
+  <li>Both corners, valid spawn/center locations inside the selected bounds, linked kits, and a saved schematic whose dimensions match the selected region. Match the kit and arena build modes. Gate regions and eject points must also fit inside the template.</li>
+  <li>Use an arena name such as <code>Grass</code> in <code>templates</code>, <strong>not a kit name</strong> such as <code>Sword</code> unless that is also the actual arena name. Names are matched case-insensitively.</li>
+  <li>A new, unused destination world name, separate from lobby, base arena, and numbered clone worlds. Let ShyamDuels create it; do not pre-create an empty destination with another world manager.</li>
+  <li>Compatible FastAsyncWorldEdit and enough memory, disk, and CPU for the selected schematics and concurrent resets.</li>
+</ul>
+<p>Follow <a href="arena-setup.html#creating-a-standard-duel-arena">Arena Setup</a> first. After editing the physical source, run <code>/arena saveschem Grass</code> and wait for its save confirmation before refreshing the template.</p>
+
+<h2 id="defaults">Shipped Configuration</h2>
+<p>These settings belong inside the existing <code>arenas:</code> section of <code>plugins/ShyamDuels/config.yml</code>. Merge the subsection; do not add a second top-level <code>arenas:</code> key or replace unrelated settings.</p>
+<pre><span class="lang-badge">yaml</span><code>arenas:
+  instances:
+    enabled: false
+    world: ShyamDuelsInstances
+    templates: []
+    initial-copies: 2
+    max-copies-per-template: 8
+    max-total-copies: 128
+    spacing-blocks: 64
+    max-concurrent-preparations: 1
+    auto-expand:
+      enabled: false
+      minimum-ready: 1
+    overrides: {}</code></pre>
+<div class="table-wrap"><table>
+  <thead><tr><th>Key under <code>arenas.instances</code></th><th>Default</th><th>Meaning</th></tr></thead>
+  <tbody>
+    <tr><td><code>enabled</code></td><td><code>false</code></td><td>Master opt-in. Requires a restart when changed.</td></tr>
+    <tr><td><code>world</code></td><td><code>ShyamDuelsInstances</code></td><td>Dedicated generated-world name. Requires a restart when changed.</td></tr>
+    <tr><td><code>templates</code></td><td><code>[]</code></td><td>Original arena names. Empty means none, never all. Changing membership requires a restart.</td></tr>
+    <tr><td><code>initial-copies</code></td><td><code>2</code></td><td>Startup target per template, subject to caps and existing reservations. Not additional copies on every restart.</td></tr>
+    <tr><td><code>max-copies-per-template</code></td><td><code>8</code></td><td>Per-template ceiling on generated slot reservations.</td></tr>
+    <tr><td><code>max-total-copies</code></td><td><code>128</code></td><td>Global ceiling on generated slots, excluding manual arenas and legacy clones. Failed, retired, and otherwise reserved slots still count.</td></tr>
+    <tr><td><code>spacing-blocks</code></td><td><code>64</code></td><td>Minimum gap between copied regions; placement is chunk-aligned. Requires a restart and must agree with persisted layout.</td></tr>
+    <tr><td><code>max-concurrent-preparations</code></td><td><code>1</code></td><td>Preparation concurrency, also limited by the shared reset budget. Normal duel resets have priority.</td></tr>
+    <tr><td><code>auto-expand.enabled</code></td><td><code>false</code></td><td>Allow reserve-driven growth. Does not work unless the master switch and selected templates are active.</td></tr>
+    <tr><td><code>auto-expand.minimum-ready</code></td><td><code>1</code></td><td>Target spare supply per template. Queued, preparing, and resetting copies count as supply already on its way back.</td></tr>
+    <tr><td><code>overrides</code></td><td><code>{}</code></td><td>Optional limits keyed by a selected original arena name.</td></tr>
+  </tbody>
+</table></div>
+
+<h2 id="first-activation">First Activation: Start Small</h2>
+<ol class="steps">
+  <li>Back up the plugin data and relevant worlds with the server stopped. Keep the original arena/schematic files.</li>
+  <li>Check one template with <code>/arena info Grass</code> and test its current duel/reset behaviour.</li>
+  <li>Stop the server. Merge the example below into <code>config.yml</code>, replacing <code>Grass</code> with your original arena name. Use a destination name that has never been created.</li>
+  <li>Start the server normally. Read <code>[ArenaInstances]</code> startup warnings and run <code>/arena instances status Grass</code>. Do not assume a requested copy is ready.</li>
+  <li>Test a duel, round reset, final return, and any gates or special kit mechanics you use. Increase capacity only after observing preparation times and server load.</li>
+</ol>
+<p>This example is an <strong>opt-in fixed pool</strong>, not the shipped default:</p>
+<pre><span class="lang-badge">yaml</span><code>arenas:
+  instances:
+    enabled: true
+    world: ShyamDuelsInstances
+    templates:
+      - Grass
+    initial-copies: 2
+    max-copies-per-template: 4
+    max-total-copies: 8
+    spacing-blocks: 64
+    max-concurrent-preparations: 1
+    auto-expand:
+      enabled: false
+      minimum-ready: 1
+    overrides: {}</code></pre>
+<p>With auto-expansion off, normal demand does not grow this pool. Admins can still request copies with <code>/arena instances prepare Grass 1</code>, within the same caps.</p>
+
+<h2 id="automatic-expansion">Optional Automatic Expansion</h2>
+<p>After validating the fixed pool, change <code>auto-expand.enabled</code> to <code>true</code> and reload the main config with <code>/sd reload-config confirm</code>. Keep the rest of your instance section intact.</p>
+<pre><span class="lang-badge">yaml</span><code># Inside arenas.instances:
+auto-expand:
+  enabled: true
+  minimum-ready: 1</code></pre>
+<p>For example, if two copies exist and one is busy, the remaining ready copy satisfies a reserve of one. If both are busy, the manager can request a replacement reserve copy, provided neither ceiling is reached. It counts already queued/preparing/resetting supply to avoid requesting duplicate copies for the same shortage.</p>
+<div class="alert alert-warning">
+  <div class="alert-title">Expansion is bounded, not instant or unlimited</div>
+  Preparing a map takes time. Players can still encounter no free arena when all copies are busy, preparation/reset work is pending, validation fails, or caps are reached. This is not an automatic match-waitlist or a guarantee of unlimited capacity.
+</div>
+<p>Expanded copies are reused. The system does <strong>not</strong> automatically shrink the pool by deleting idle regions.</p>
+
+<h3 id="per-template-overrides">Per-Template Overrides</h3>
+<p>Replace <code>overrides: {}</code> with a mapping for selected arena names. These keys deliberately differ from the global <code>max-copies-per-template</code> key:</p>
+<pre><span class="lang-badge">yaml</span><code># Inside arenas.instances; Grass must also be listed in templates:
+overrides:
+  Grass:
+    initial-copies: 2
+    max-copies: 6
+    minimum-ready: 1</code></pre>
+
+<h2 id="commands">Operator Commands</h2>
+<p>All commands below use the existing <code>shyamduels.admin</code> permission and work from the server console or an authorised player. Slots are numeric IDs from the instance ledger; use the reported slot ID, not an arena name, for <code>slot</code> and <code>retry</code>.</p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Command</th><th>Purpose</th></tr></thead>
+  <tbody>
+    <tr><td><code>/arena instances status [template]</code></td><td>Summary, caps, per-template counts, and any pause reason. The default report shows at most 20 templates; name one to inspect it.</td></tr>
+    <tr><td><code>/arena instances slot &lt;slot&gt;</code></td><td>Inspect state, generated arena name, generation, physical/submitted work, preparation duration, and last error.</td></tr>
+    <tr><td><code>/arena instances prepare &lt;template&gt; [count]</code></td><td>Request copies within caps. Count defaults to 1; acceptance is not a ready-state confirmation.</td></tr>
+    <tr><td><code>/arena instances retry &lt;slot&gt;</code></td><td>Retry an eligible failed slot after resolving its cause. Reuses the reservation rather than allocating another region.</td></tr>
+    <tr><td><code>/arena instances refresh &lt;template&gt;</code></td><td>Validate the saved template revision and request updates for eligible idle copies. Does not capture unsaved physical changes.</td></tr>
+    <tr><td><code>/arena instances resume</code></td><td>Attempt to resume a safely recoverable paused manager. Does not bypass ownership, manifest durability, or active physical edits; some failures require a restart.</td></tr>
+  </tbody>
+</table></div>
+<p>The status header's <code>ready</code> boolean describes manager readiness, not an arena count. Per-template <code>ready</code> counts are the spare match slots. Preparation duration includes queueing, chunk work, and paste/verification; it is not isolated FAWE CPU time.</p>
+
+<h3 id="states">Instance States</h3>
+<div class="table-wrap"><table>
+  <thead><tr><th>State</th><th>Meaning</th></tr></thead>
+  <tbody>
+    <tr><td><code>QUEUED</code></td><td>A region is reserved; preparation is waiting for budget.</td></tr>
+    <tr><td><code>PREPARING</code></td><td>Chunk/paste/verification work is in progress. Not available to players.</td></tr>
+    <tr><td><code>READY</code></td><td>The generated arena is ready for a new match.</td></tr>
+    <tr><td><code>IN_USE</code></td><td>A match owns the slot.</td></tr>
+    <tr><td><code>RESETTING</code></td><td>The copy is being restored; a between-round reset can retain the same match ownership.</td></tr>
+    <tr><td><code>FAILED</code></td><td>Quarantined, not available. Diagnose before retrying.</td></tr>
+    <tr><td><code>RETIRED</code></td><td>Permanently removed from rotation, but the region remains reserved.</td></tr>
+  </tbody>
+</table></div>
+<p>These instance states are distinct from the regular <code>/arena list</code> arena lifecycle statuses. Use <code>/arena instances</code> commands for pool diagnostics.</p>
+
+<h2 id="editing">Editing Templates and Gates</h2>
+<ul>
+  <li>Edit the original arena, never the generated copy. Generated regions are reset from their accepted template revision.</li>
+  <li>Use <code>/arena saveschem &lt;original&gt;</code> after physical build changes. Metadata saves, completed schematic saves, gate changes/reloads, and config reloads also request coalesced source validation.</li>
+  <li>Active matches retain their accepted revision through their rounds. Eligible idle copies update first; busy copies adopt changes after their match releases them. Refresh does not rewrite a live fight.</li>
+  <li>Gate positions and eject points are translated with the copied arena. Follow <a href="gate-setup.html">Gate Setup</a> on the original template.</li>
+  <li>A resized template must still fit its persisted reserved cell and the world's height limits. A restart does not automatically enlarge an existing cell; a different layout may need a new, unused instance-world name.</li>
+  <li>An invalid new source is not permission to publish an incomplete map. Inspect the refresh error; an existing accepted revision may remain in use.</li>
+</ul>
+
+<h2 id="reload-and-upgrades">Reloads, Upgrades, and Disabling</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Change</th><th>Required action</th></tr></thead>
+  <tbody>
+    <tr><td>Install a newer JAR</td><td>Stop, back up, replace the JAR, and start. Missing config/message fields migrate additively. Existing explicit values are preserved; no config wipe is required.</td></tr>
+    <tr><td>Enable/disable instances, change world, selected templates, or spacing</td><td>Restart. A config reload retains the active structural settings and logs a restart-required warning.</td></tr>
+    <tr><td>Change capacity/reserve/concurrency or auto-expand switch only</td><td><code>/sd reload-config confirm</code>. Lower caps stop growth; they do not delete existing or busy copies. The initial target is a startup target, not an immediate reload allocation request.</td></tr>
+    <tr><td>Turn the feature off</td><td>Set <code>arenas.instances.enabled: false</code> and restart. Existing manual/legacy arena handling resumes. Instance-world files are left intact.</td></tr>
+  </tbody>
+</table></div>
+<p>The instance migration adds the section in main config version <code>22</code> and operator messages in messages version <code>15</code>. Let the plugin manage version fields; do not change them by hand to force or skip migrations.</p>
+
+<h2 id="storage-and-recovery">Storage, Backups, and Safe Recovery</h2>
+<p>Back up the original arena data and schematics, plus the <strong>entire generated instance world</strong> with its hidden files. World storage may be a traditional world folder or a modern dimension directory, depending on the server. Keep the world's data and ownership metadata together.</p>
+<ul>
+  <li><code>.shyamduels-instance-owner</code> identifies the owned world.</li>
+  <li><code>.shyamduels-instance-slots.properties</code> records slot/template ownership and stable geometry.</li>
+  <li>Private frozen revisions keep busy matches on their accepted schematic. They are managed internally, not editable template files.</li>
+</ul>
+<div class="alert alert-warning">
+  <div class="alert-title">Do not remove safety metadata to force startup</div>
+  A pre-existing unmarked folder is refused, even if empty. Ambiguous storage, changed identity, malformed manifests, and unsafe paths are also refused. Do not delete/edit ownership markers, manifests, lock files, or revision files to bypass an error. Stop and inspect the exact warning; restore a consistent backup or choose a genuinely new, unused destination name.
+</div>
+<p>After a restart, persisted regions are re-prepared rather than trusted as ready. A timeout does not mean an underlying paste has physically stopped: wait for outstanding work before retrying, deleting, or attempting recovery.</p>
+<p><code>/arena delete &lt;generated-name&gt;</code> safely retires an eligible idle generated copy. Busy, queued, or physically editing copies are refused. Retirement does not erase world blocks or free/reassign that reservation; it remains counted toward capacity. Remove a selected original from <code>templates</code> and restart before deleting the source.</p>
+
+<h2 id="performance">Sizing and Performance</h2>
+<ul>
+  <li>Start with one selected template, two initial copies, and one concurrent preparation. Raise limits based on real preparation duration, MSPT, memory, and disk behaviour.</li>
+  <li>Preparations share <code>arenas.reset-queue.max-concurrent</code> with duel resets; normal resets have priority. Raising the instance concurrency setting alone cannot override that shared limit.</li>
+  <li>Keep selections tight around the playable region. Large air volumes, block entities, and saved entities still have parsing, paste, chunk, and memory costs.</li>
+  <li>The parsed-schematic cache has a 64 MiB <em>accounting budget</em> and 128-entry ceiling. This is not an exact JVM heap cap. Oversized resources are used transiently instead of retained, so repeated use may require additional parsing.</li>
+  <li>The implementation bounds work and coalesces demand; it does not make FAWE, world creation, or chunk loading free. Check a stopped Spark profile during a representative busy period before expanding production capacity.</li>
+</ul>
+<h3>Validation Limits, Not Capacity Recommendations</h3>
+<p>The loader accepts 1–4096 total slots, 1–1024 per-template maximum, 0–1024 initial/reserve values (each no greater than its template maximum), preparation concurrency 1–4, and spacing 16–4096 blocks. A template is limited to 1024 blocks per dimension and 16,777,216 cells, must fit world height and its reserved cell, and must pass schematic input checks. Source files are limited to 64 MiB; the expanded-input limit is 256 MiB, with additional structural limits. Validating below these limits does not guarantee that a particular server can run that capacity.</p>
+
+<h2 id="troubleshooting">Troubleshooting Checklist</h2>
+<ol>
+  <li>Run <code>/arena instances status &lt;template&gt;</code>. Check that the manager is enabled and not paused, then distinguish ready, busy, queued, resetting, failed, and retired counts.</li>
+  <li>Inspect a reported numeric slot with <code>/arena instances slot &lt;slot&gt;</code> and capture the last error plus relevant <code>[ArenaInstances]</code> log lines.</li>
+  <li>Verify the template name, original DUEL type, corners, spawns, linked kit/build mode, saved schematic, capacity limits, and destination ownership.</li>
+  <li>If growth is expected, verify both switches and <code>minimum-ready</code>. Queued/preparing/resetting supply and failed/retired reservations explain why another allocation may not occur.</li>
+  <li>Correct the cause before <code>retry</code> or <code>resume</code>. Do not delete data or spam preparation commands while physical work remains active.</li>
+</ol>
+<p>See also <a href="troubleshooting.html#instance-capacity">Troubleshooting: Instance Capacity</a>, <a href="configuration.html#arena-instances">Configuration Files</a>, and the <a href="commands.html#arena-instance-commands">command reference</a>.</p>
+
+<div class="page-navigation">
+  <a class="page-nav-link prev" href="arena-setup.html"><span class="page-nav-label">Previous Page</span><span class="page-nav-title">Arena Setup</span></a>
+  <a class="page-nav-link next" href="gate-setup.html"><span class="page-nav-label">Next Page</span><span class="page-nav-title">Gate Setup</span></a>
+</div>
+
+</main>
+</div>
+<script src="../assets/nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>World Isolation: ShyamDuels</title>
+<link rel="stylesheet" href="../assets/style.css"/>
+</head>
+<body>
+<nav class="topnav">
+  <a class="logo-container" href="../index.html">
+    <img src="../shyam.webp" alt="ShyamDuels Logo" class="logo-img"/>
+    <span class="logo-text">ShyamDuels</span>
+  </a>
+  <span class="divider">/</span>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="getting-started.html" class="active">User Guide</a>
+    <a href="../api/overview.html">Developer API</a>
+  </div>
+  <span class="spacer"></span>
+  <a class="discord-btn" href="https://discord.gg/sMdsvZFqnX" target="_blank" rel="noopener">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037 12.9 12.9 0 0 0-.608 1.25 18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+    Discord
+  </a>
+  <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+  </button>
+</nav>
+<div id="overlay"></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">User Guide</span>
+    <a href="getting-started.html">Getting Started</a>
+    <a href="commands.html">Commands Reference</a>
+    <a href="permissions.html">Permissions</a>
+    <a href="arena-setup.html">Arena Setup</a>
+    <a href="arena-instances.html">Arena Instances</a>
+    <a href="gate-setup.html">Gate Setup</a>
+    <a href="kit-setup.html">Kit Setup</a>
+    <a href="kit-sharing.html">Kit Sharing &amp; Profiles</a>
+    <a href="tournaments.html">Tournament System</a>
+    <a href="party-system.html">Party System</a>
+    <a href="ffa.html">FFA Mode</a>
+    <a href="elo-ranks.html">ELO &amp; Ranks</a>
+    <a href="settings.html">Player Settings</a>
+    <a href="practice-features.html">Practice Features</a>
+    <a href="country.html">Country Flags</a>
+    <a href="advancements.html">Advancements</a>
+    <a href="configuration.html">Configuration Files</a>
+    <a href="world-isolation.html" class="active">World Isolation</a>
+    <a href="migration.html">Migration Guide</a>
+    <a href="placeholders.html">PlaceholderAPI</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">Developer API</span>
+    <a href="../api/overview.html">Overview &amp; Setup</a>
+    <a href="../api/services.html">Services Reference</a>
+    <a href="../api/events.html">Events Reference</a>
+    <a href="../api/models.html">Data Models</a>
+    <a href="../api/examples.html">Code Examples</a>
+  </div>
+</aside>
+<main class="content">
+
+<div class="breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="getting-started.html">User Guide</a><span>›</span>World Isolation</div>
+<h1>Optional Practice-World Isolation</h1>
+<p class="page-lead">Limit practice commands and gameplay/display handling to the selected practice worlds when sharing a server with another gamemode.</p>
+
+<div class="alert alert-note">
+  <div class="alert-title">Disabled by default</div>
+  Existing dedicated practice servers do not need this mode. Updating the JAR does not enable it. Keep <code>world-isolation.enabled: false</code> unless you intentionally run practice alongside other worlds and have tested that arrangement.
+</div>
+
+<h2 id="configuration">Configuration</h2>
+<p>Merge this section into <code>plugins/ShyamDuels/config.yml</code>. This example shows shipped defaults:</p>
+<pre><span class="lang-badge">yaml</span><code>world-isolation:
+  enabled: false
+  additional-worlds: []
+  blocked-message: '&lt;red&gt;ShyamDuels is only available in practice worlds.&lt;/red&gt;'</code></pre>
+<p>When enabled, the practice-world set includes:</p>
+<ul>
+  <li>Your configured lobby worlds.</li>
+  <li>The configured <code>arenas.world</code> and its recognised numbered clone worlds.</li>
+  <li>An ownership-verified instance world loaded by the <a href="arena-instances.html">arena-instance system</a>.</li>
+  <li>Exact names listed in <code>world-isolation.additional-worlds</code>.</li>
+</ul>
+<p>Additional names are case-insensitive, with no wildcard/prefix matching. An empty additional list does not exclude the lobby or arena worlds. If a manually registered arena is in a separate custom world, include that world explicitly.</p>
+<p>The older <code>enabled-worlds.kit-editor</code> and <code>enabled-worlds.right-click-duel</code> settings still apply to their respective features; they are not substitutes for whole-plugin world isolation.</p>
+
+<h2 id="behaviour">What Changes When Enabled?</h2>
+<ul>
+  <li>Player execution and completion of ShyamDuels-owned commands are blocked outside practice worlds, including aliases. Console administration remains available. Commands owned by unrelated plugins are not blanket-blocked.</li>
+  <li>Practice admission, item grants, owned GUIs, and display handling check the world policy. ShyamDuels removes its own scoreboard/tab/nametag views when a player leaves the allowed scope.</li>
+  <li>Player data loading, persistence, and disconnect cleanup still run; exclusion is not permission to skip saves.</li>
+  <li>Players must leave queues, matches, FFA, spectating, parties, tournaments, editors, kit rooms, and totem practice through their normal commands before teleporting to an unrelated world.</li>
+  <li>The embedded advancement integration does not install its server-wide vanilla-suppression hook when isolation mode is selected at startup.</li>
+</ul>
+<p>Normal practice-to-practice teleports, such as arena-to-lobby returns, remain allowed. This is not a sandbox against another plugin deliberately bypassing Bukkit events.</p>
+
+<h2 id="inventory-warning">Not a Per-World Inventory System</h2>
+<div class="alert alert-warning">
+  <div class="alert-title">Protect survival inventories separately</div>
+  ShyamDuels does not save and restore a separate survival inventory or game mode for each world. Entering the practice lobby can intentionally give practice items. Use and test a compatible per-world inventory/game-mode solution before enabling this on a mixed survival/practice server.
+</div>
+<p>The option also does not guess or undo gamerules previously changed by another plugin or an older configuration. Review the effective gamerules in your non-practice worlds and restore the values you intend.</p>
+
+<h2 id="activation">Safe Activation</h2>
+<ol class="steps">
+  <li>Back up the server and test the arrangement on a copy first.</li>
+  <li>Verify lobby/arena names and list any additional manual practice worlds.</li>
+  <li>Set <code>world-isolation.enabled: true</code> and restart. Changing this switch requires a restart for startup-only integrations to use the selected mode.</li>
+  <li>Test practice entry/exit with your inventory plugin: survival inventory, game mode, sleeping, vanilla advancements, command aliases, menus, tab, scoreboard, and normal duel returns.</li>
+  <li>Leave all practice activities before testing an external-world teleport. A rejection during an owned activity is intentional.</li>
+</ol>
+<p>While the enabled mode stays unchanged, world-list/message edits can use <code>/sd reload-config confirm</code>. Do not use the server-wide <code>/reload</code>. To disable isolation, set the switch to <code>false</code> and restart.</p>
+<p>See <a href="configuration.html#world-isolation">Configuration Files</a> and <a href="troubleshooting.html#world-isolation">the troubleshooting checklist</a>.</p>
+
+<div class="page-navigation">
+  <a class="page-nav-link prev" href="configuration.html"><span class="page-nav-label">Related Guide</span><span class="page-nav-title">Configuration Files</span></a>
+  <a class="page-nav-link next" href="migration.html"><span class="page-nav-label">Next Page</span><span class="page-nav-title">Migration Guide</span></a>
+</div>
+
+</main>
+</div>
+<script src="../assets/nav.js"></script>
+</body>
+</html>

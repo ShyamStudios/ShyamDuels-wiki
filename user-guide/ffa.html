@@ -36,6 +36,7 @@
     <a href="commands.html">Commands Reference</a>
     <a href="permissions.html">Permissions</a>
     <a href="arena-setup.html">Arena Setup</a>
+    <a href="arena-instances.html">Arena Instances</a>
     <a href="gate-setup.html">Gate Setup</a>
     <a href="kit-setup.html">Kit Setup</a>
     <a href="kit-sharing.html">Kit Sharing &amp; Profiles</a>
@@ -48,6 +49,7 @@
     <a href="country.html">Country Flags</a>
     <a href="advancements.html">Advancements</a>
     <a href="configuration.html">Configuration Files</a>
+    <a href="world-isolation.html">World Isolation</a>
     <a href="migration.html">Migration Guide</a>
     <a href="placeholders.html">PlaceholderAPI</a>
     <a href="troubleshooting.html">Troubleshooting</a>
@@ -139,8 +141,24 @@
 <p>Admins can trigger a manual reset at any time using:</p>
 <pre><code>/arena reset MyFFA</code></pre>
 
+<h2 id="death-drops">Death Drops and Kill Refill</h2>
+<p>Configure loot and kill refill independently in <code>config.yml</code>. This example enables FFA loot and disables FFA kill refill/regeneration, without enabling duel loot:</p>
+<pre><span class="lang-badge">yaml</span><code>combat:
+  death-drops:
+    ffa: true
+    duels: false
+    lifetime-seconds: 30
+
+kill-regen:
+  enabled: true
+  ffa: false</code></pre>
+<p>Both death-drop switches ship as <code>false</code>. Missing switches on older configurations migrate from the old <code>anti-death-drops</code> choice; once explicit mode switches exist, change those instead. Merge these fields into existing sections rather than replacing other kill-regen mode choices.</p>
+<p>Only ShyamDuels-owned death loot gets this 1–300 second lifetime. Arena/reset cleanup or normal despawn can remove it sooner; unrelated dropped items are not swept. Picked-up items become ordinary inventory items. XP remains disabled. Real deaths respect <code>keepInventory</code>, while virtual practice deaths transfer the practice loadout.</p>
+<p>Reload using <code>/sd reload-config confirm</code>; old loot keeps its original expiry. Item entities still have a cost. See <a href="configuration.html#combat-death-drops">Combat Death Drops and Kill Refill</a> for limits and migration details.</p>
+
 <h2>Running Multiple Arenas</h2>
 <p>You can run multiple FFA arenas concurrently, each with independent player counts, map schemas, and kits. Players pick their arena from the <code>/ffa</code> GUI.</p>
+<p>The optional <a href="arena-instances.html">instance-capacity system</a> selects DUEL templates only; it does not automatically clone or expand FFA maps.</p>
 
 <div class="alert alert-warning">
   <div class="alert-title">Performance Recommendation</div>

@@ -36,6 +36,7 @@
     <a href="commands.html">Commands Reference</a>
     <a href="permissions.html" class="active">Permissions</a>
     <a href="arena-setup.html">Arena Setup</a>
+    <a href="arena-instances.html">Arena Instances</a>
     <a href="gate-setup.html">Gate Setup</a>
     <a href="kit-setup.html">Kit Setup</a>
     <a href="kit-sharing.html">Kit Sharing &amp; Profiles</a>
@@ -48,6 +49,7 @@
     <a href="country.html">Country Flags</a>
     <a href="advancements.html">Advancements</a>
     <a href="configuration.html">Configuration Files</a>
+    <a href="world-isolation.html">World Isolation</a>
     <a href="migration.html">Migration Guide</a>
     <a href="placeholders.html">PlaceholderAPI</a>
     <a href="troubleshooting.html">Troubleshooting</a>
@@ -92,6 +94,11 @@
       <td><code>shyamduels.tournament.admin</code></td>
       <td><span class="badge badge-yellow">op</span></td>
       <td>Grants full control over tournaments (start, stop, forcestart, setkit, setmin/max, skipround, nextmatch, reload).</td>
+    </tr>
+    <tr>
+      <td><code>shyamduels.party.admin</code></td>
+      <td><span class="badge badge-yellow">op</span></td>
+      <td>Grants access to administrative party limit management commands (<code>/party forcelimit</code>, <code>/party forceresetlimit</code>, <code>/party defaultlimit</code>, and <code>/sd setpartylimit</code>).</td>
     </tr>
     <tr>
       <td><code>shyamduels.admin.bypass</code></td>
@@ -249,7 +256,7 @@
 </div>
 
 <h2>Party Capacity Restrictions</h2>
-<p>The base party capacity is the config value <code>party.default-max-size</code> (default 8) and requires no permission. It can be raised for the party leader by either numeric tier nodes (<code>&lt;prefix&gt;&lt;number&gt;</code>, prefix configurable via <code>party.size-permission-prefix</code>) or the alias nodes mapped in <code>party.size-permissions</code> (by default <code>shyamduels.vip</code> &rarr; 16 and <code>shyamduels.vipplus</code> &rarr; 32). The highest applicable limit wins.</p>
+<p>The base party capacity is the config value <code>party.default-max-size</code> (default 8) and requires no permission. It can be raised for the party leader by either arbitrary numeric tier nodes (<code>&lt;prefix&gt;&lt;number&gt;</code>, prefix configurable via <code>party.size-permission-prefix</code>, e.g. <code>shyamduels.party.size.50</code>), the unlimited capacity node, or the alias nodes mapped in <code>party.size-permissions</code> (by default <code>shyamduels.vip</code> &rarr; 16 and <code>shyamduels.vipplus</code> &rarr; 32). The highest applicable limit wins.</p>
 <div class="table-wrap">
 <table>
   <thead>
@@ -279,8 +286,33 @@
       <td>32 Members</td>
       <td>VIP+ tier party size constraint limit.</td>
     </tr>
+    <tr>
+      <td><code>shyamduels.party.size.&lt;N&gt;</code></td>
+      <td><span class="badge badge-red">false</span></td>
+      <td>&lt;N&gt; Members</td>
+      <td>Arbitrary numeric party capacity limit for specific users or ranks (e.g., <code>shyamduels.party.size.50</code>, <code>shyamduels.party.size.100</code>).</td>
+    </tr>
+    <tr>
+      <td><code>shyamduels.party.size.unlimited</code></td>
+      <td><span class="badge badge-red">false</span></td>
+      <td>Unlimited</td>
+      <td>Removes all party capacity limits, allowing the player to invite as many members as desired.</td>
+    </tr>
   </tbody>
 </table>
+</div>
+
+<div class="alert alert-note">
+  <div class="alert-title">Setting Limits for Specific Users</div>
+  <p>To grant a custom party size limit to a specific user or group in LuckPerms:</p>
+  <pre><code># Grant a specific member limit (e.g. 50 members) to a player:
+/lp user &lt;player&gt; permission set shyamduels.party.size.50 true
+
+# Grant unlimited party members to a player:
+/lp user &lt;player&gt; permission set shyamduels.party.size.unlimited true
+
+# Or use in-game admin command (no permission plugin needed):
+/party forcelimit &lt;player&gt; &lt;limit&gt;</code></pre>
 </div>
 
 <h2>Additional Utility Permissions</h2>

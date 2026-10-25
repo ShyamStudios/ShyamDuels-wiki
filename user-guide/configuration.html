@@ -36,6 +36,7 @@
     <a href="commands.html">Commands Reference</a>
     <a href="permissions.html">Permissions</a>
     <a href="arena-setup.html">Arena Setup</a>
+    <a href="arena-instances.html">Arena Instances</a>
     <a href="gate-setup.html">Gate Setup</a>
     <a href="kit-setup.html">Kit Setup</a>
     <a href="kit-sharing.html">Kit Sharing &amp; Profiles</a>
@@ -48,6 +49,7 @@
     <a href="country.html">Country Flags</a>
     <a href="advancements.html">Advancements</a>
     <a href="configuration.html" class="active">Configuration Files</a>
+    <a href="world-isolation.html">World Isolation</a>
     <a href="migration.html">Migration Guide</a>
     <a href="placeholders.html">PlaceholderAPI</a>
     <a href="troubleshooting.html">Troubleshooting</a>
@@ -112,7 +114,7 @@ modules:
   cloning: 0                  # Extra world copies for duel capacity (0 = off; FFA never cloned)
   reset-clones-on-startup: true # Delete and re-clone Arenas1/2/… from base world each boot
   reset-on-startup: true    # Sanitize the base arena world and FAWE-reset template arenas on boot
-  build-height-limit-offset: 2 # Height allowance above the arena top where placing blocks is still allowed
+  build-height-limit-offset: 2 # Blocks/liquids at or above maxY minus this offset are blocked
   reset-queue:
     max-concurrent: 3         # Max simultaneous FAWE arena restorations
     ffa-one-at-a-time: true   # Only one FFA reset at a time (duel resets unaffected)
@@ -123,7 +125,7 @@ modules:
     weather-cycle: false      # freeze the weather
     mob-spawning: false       # doMobSpawning (passive)
     monster-spawning: false   # hostile monsters
-    mob-griefing: false       # mobGriefing
+    mob-griefing: true        # Arena explosion handling filters damage; required for supported mob explosions
     show-advancement-messages: false
     locator-bar: false        # player locator HUD
     show-death-messages: false
@@ -136,6 +138,24 @@ modules:
     random-tick-speed: 0      # stop block/crop ticking
     fire-spread: 0            # no fire spread</code></pre>
 <p>See the <a href="arena-setup.html#arena-cloning">Arena Setup: Arena Cloning</a> guide for how cloning works. <strong>Build template arenas only in the base <code>Arenas</code> world</strong>, not in <code>Arenas1</code>, <code>Arenas2</code>, or other auto-generated clone worlds.</p>
+
+<h3 id="arena-instances">Arena Instances and Automatic Capacity</h3>
+<p>Optional individual copies of selected original DUEL arenas in a separate owned void world. Both switches are disabled by default; an update alone does not replace existing cloning or enable expansion. Add this subsection inside your existing <code>arenas:</code> section:</p>
+<pre><span class="lang-badge">yaml</span><code>arenas:
+  instances:
+    enabled: false
+    world: ShyamDuelsInstances
+    templates: []              # Original arena names, NOT kit names; empty means none
+    initial-copies: 2
+    max-copies-per-template: 8
+    max-total-copies: 128       # Generated reservations only; failed/retired slots also count
+    spacing-blocks: 64
+    max-concurrent-preparations: 1
+    auto-expand:
+      enabled: false
+      minimum-ready: 1
+    overrides: {}</code></pre>
+<p>Enabling/disabling, destination world, template membership, and spacing changes require a restart. Capacity/reserve/concurrency changes can use <code>/sd reload-config confirm</code>; lower caps do not delete copies. Read <a href="arena-instances.html">Arena Instances &amp; Automatic Capacity</a> for activation, per-template overrides, commands, backup/recovery rules, and sizing limits.</p>
 
 <h3>Lobby World Protection</h3>
 <p>The lobby location and optional world protection are configured under <code>lobby:</code>. When
@@ -159,7 +179,15 @@ left untouched).</p>
     show-death-messages: false
     random-tick-speed: 0      # stop block/crop ticking</code></pre>
 
-<h3>Enabled Worlds</h3>
+<h3 id="world-isolation">Optional Practice-World Isolation</h3>
+<p>For mixed-gamemode servers only. Default-off; dedicated practice servers do not need to enable it.</p>
+<pre><span class="lang-badge">yaml</span><code>world-isolation:
+  enabled: false
+  additional-worlds: []
+  blocked-message: '&lt;red&gt;ShyamDuels is only available in practice worlds.&lt;/red&gt;'</code></pre>
+<p>Configured lobby/base arena/numbered clone worlds and ownership-verified instance worlds are included automatically. List other manual practice worlds by exact name in <code>additional-worlds</code>. Changing the enabled mode requires a restart. This is <strong>not a per-world inventory store</strong>; use and test a separate inventory/game-mode solution before combining survival and practice. See <a href="world-isolation.html">World Isolation</a> for command scope, activity-exit rules, and limitations.</p>
+
+<h3>Per-Feature Enabled Worlds</h3>
 <p>Restrict certain features to specific lobby/world names:</p>
 <pre><span class="lang-badge">yaml</span><code>enabled-worlds:
   kit-editor:
@@ -233,12 +261,20 @@ duels:
   start-countdown: 5          # Countdown before round starts
   round-system: BEST_OF       # BEST_OF (majority of rounds) or FIRST_TO (exact win count)
   end-commands: []            # Console commands run when a duel ends
+  xp-animation:
+    enabled: false           # Client-only XP score/skull effect; server AND client 1.21.11+
+  round:
+    next-round-delay: 5s      # 0s is supported; shorter pauses stop the cosmetic effect early
+    score-chat: true
+  match:
+    end-delay: 5s             # Final celebration pause, independent of the next-round delay
 
 leavefight:
   delay: 1                      # Teleport delay in seconds after /leavefight (0 disables the delay)
 
 spawn:
   delay: 1                      # Teleport delay for /spawn (falls back to leavefight.delay)</code></pre>
+<p>The optional XP animation lasts up to 3.8 seconds and never extends these pauses. It shows the round score, then a skull on the final win; transitions/teleports clean it up early. See <a href="practice-features.html#xp-round-animation">XP Round-Win Animation</a>.</p>
 
 <h3>Arena World Borders</h3>
 <p>Per-player, client-side red borders drawn around arenas during duels, FFA, and spectating. They
@@ -259,11 +295,17 @@ world-border-shrink:
     blocks-per-interval: 10.0
     duration: null             # Optional lerp duration (same units); null = instant step
   minimum-distance-from-center: 5.0  # Minimum radius; minimum diameter = 2x this value
+  sound:
+    enabled: false            # One warning per actual shrink step, active fighters only
+    sound: minecraft:block.note_block.pling
+    volume: 1.0               # 0-4
+    pitch: 1.0                # 0.5-2
   damage:
     enabled: true
     amount: 2.0
     interval: 1s
     buffer-blocks: 0.0</code></pre>
+<p>Both border switches and the kit filter must allow shrinking; enabling audio alone does not start it. Use namespaced sound keys, not Bukkit enum names. Each actual size reduction warns active fighters once, including the final clamped step, but not spectators/lobby players. Invalid sound settings disable only audio. Reload with <code>/sd reload-config confirm</code>; existing shrink sessions are not restarted. See <a href="arena-setup.html#border-shrinking">Border Shrinking</a>.</p>
 
 <h3>Advancements</h3>
 <p>Challenge/achievement subsystem (<code>AdvancementManager</code>, 36 trigger types). Full key reference lives in <code>advancement.yml</code> - settings, defaults, per-category tabs, per-advancement triggers/conditions/rewards. See the <a href="advancements.html">Advancements</a> guide for every key, all trigger and condition types, and a step-by-step example. Key commands: <code>/advancements</code> (aliases <code>/adv</code>, <code>/achievements</code>, <code>/sdadv</code>), admin <code>grant</code>/<code>revoke</code>/<code>reset</code>/<code>resetall</code>/<code>reload</code> (<code>shyamduels.advancements.admin</code>). Event: <code>AdvancementGrantEvent</code> (see <a href="../api/events.html">Events Reference</a>). Persistence: <code>player_advancements</code> table.</p>
@@ -378,7 +420,11 @@ auto-gg:
   default-enabled: true       # Default Auto GG state before a player changes it
 
 combat:
-  anti-death-drops: true      # Prevent item drops on death inside matches
+  anti-death-drops: true      # Legacy fallback; use the explicit mode switches below
+  death-drops:
+    ffa: false
+    duels: false             # Includes team/party, BedFight, and Bridge deaths
+    lifetime-seconds: 30     # 1-300; only ShyamDuels-owned death loot
 
 cosmetics:
   strip-without-permission:
@@ -481,6 +527,13 @@ bridge:
   bow-cooldown-seconds: 4.0
   # Note: unlike bedfight, Bridge has no bridge.kits list. A duel becomes a Bridge
   # duel only when the kit has Bridge mode enabled (Kit.bridgeEnabled).
+</code></pre>
+
+<h3 id="combat-death-drops">Combat Death Drops and Kill Refill</h3>
+<p><code>combat.death-drops.ffa</code> and <code>combat.death-drops.duels</code> are independent. Enable only the mode where you want loot. Real deaths honour <code>keepInventory</code>; virtual practice deaths transfer the practice loadout. XP drops remain disabled. Bridge portal returns are not loot-producing deaths.</p>
+<p>Death loot expires after its configured lifetime, or earlier on round/reset cleanup or normal despawn. This does not clear unrelated ground items or run a full-world scan every tick. Picked-up items become normal inventory items. There is a 10,000 active/pending death-drop safety cap; excess is discarded with a warning. Real item entities still cost resources, so test representative load before enabling broadly.</p>
+<p>Older configurations migrate missing mode switches from the inverse of <code>combat.anti-death-drops</code>, preserving an existing loot choice. Once mode switches exist, edit those instead of the legacy key. Reload affects new loot only; existing deadlines remain.</p>
+<p><code>kill-regen</code> is separate from loot: use <code>kill-regen.ffa: false</code> to disable FFA kill refill/regeneration without changing duel settings, or the master <code>enabled: false</code> to disable it globally. This is the existing combined refill/regeneration option, not separate health-only and inventory-only controls. See <a href="ffa.html#death-drops">FFA Death Drops and Kill Refill</a>.</p>
 
 <h3>Shulker Lore Previews</h3>
 <p>Packet-based shulker-box content previews (sprite lore on hover). Requires PacketEvents, Minecraft 1.21.9+ (protocol 773+), and non-Bedrock clients. Players toggle it with <code>/shulkerlore</code> or the <code>SHULKER_LORE</code> setting in <code>/settings</code> (see <a href="settings.html">Player Settings</a>).</p>
@@ -498,7 +551,7 @@ bridge:
   sprite-overrides: {}       # Per-material sprite replacements
   potion-colors: {}          # Per-potion color overrides (default water: #385DC6)</code></pre>
 
-custom-kits:
+<pre><span class="lang-badge">yaml</span><code>custom-kits:
   enabled: true
   base-kit-name: custom
   default-unlocked-kits: 3
@@ -679,6 +732,7 @@ logs <code>Nexo hook: enabled</code> when the integration is active.</p>
   <li><code>data/customkits/</code> - Saved player custom kit profiles</li>
   <li><code>data/playerdata/</code> - Per-player custom kit slot unlock data</li>
   <li><code>schematics/&lt;ArenaName&gt;.schem</code> - FAWE arena snapshots</li>
+  <li>Owned instance-world storage - stable slot manifest, ownership marker, and private schematic revisions. Back up the world and its hidden files together; see <a href="arena-instances.html#storage-and-recovery">Instance Storage and Recovery</a>.</li>
 </ul>
 
 <h3>Messages (lang/messages.yml)</h3>
@@ -803,7 +857,7 @@ Mojang refresh:</p>
   positive-ttl-ms: 2592000000 # Successful lookups cached for ~30 days
   failure-ttl-ms: 900000      # Failed lookups retried after ~15 minutes
   max-entries: 20000          # In-memory cache ceiling
-  disk-save-debounce-ms: 5000 # Debounce for flushing the disk cache</code></pre>
+  disk-save-debounce-ms: 15000 # Debounce for flushing the disk cache</code></pre>
 
 <h2>External Plugin Compatibility</h2>
 <p>Settings for compatibility with third-party external plugins (such as cosmetic or kill effects plugins):</p>
@@ -950,9 +1004,9 @@ rewards:
     <span class="page-nav-label">Previous Page</span>
     <span class="page-nav-title">Advancements</span>
   </a>
-  <a class="page-nav-link next" href="migration.html">
+  <a class="page-nav-link next" href="world-isolation.html">
     <span class="page-nav-label">Next Page</span>
-    <span class="page-nav-title">Migration Guide</span>
+    <span class="page-nav-title">World Isolation</span>
   </a>
 </div>
 

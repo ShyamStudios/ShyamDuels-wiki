@@ -36,6 +36,7 @@
     <a href="commands.html">Commands Reference</a>
     <a href="permissions.html">Permissions</a>
     <a href="arena-setup.html">Arena Setup</a>
+    <a href="arena-instances.html">Arena Instances</a>
     <a href="gate-setup.html">Gate Setup</a>
     <a href="kit-setup.html">Kit Setup</a>
     <a href="kit-sharing.html">Kit Sharing &amp; Profiles</a>
@@ -48,6 +49,7 @@
     <a href="country.html">Country Flags</a>
     <a href="advancements.html">Advancements</a>
     <a href="configuration.html">Configuration Files</a>
+    <a href="world-isolation.html">World Isolation</a>
     <a href="migration.html">Migration Guide</a>
     <a href="placeholders.html">PlaceholderAPI</a>
     <a href="troubleshooting.html" class="active">Troubleshooting</a>
@@ -108,6 +110,25 @@
   <li>Fix mismatches with matching pairs: <code>/kit build &lt;kit&gt; true</code> + <code>/arena build &lt;arena&gt; true</code>, or both <code>false</code>.</li>
 </ul>
 <p>Matchmaking only claims arenas whose build mode matches the kit. An arena with build enabled will not be used for a non-build kit, and vice versa.</p>
+
+<h2 id="instance-capacity">Instance Capacity, Preparation, or Ownership Errors</h2>
+<p>The instance system is opt-in. Updating the JAR alone does not enable it; both switches and original arena selection matter. Use:</p>
+<pre><code>/arena instances status
+/arena instances status Grass
+/arena instances slot 0</code></pre>
+<p>Replace <code>Grass</code> and slot <code>0</code> with values from your own configuration/report. Check pause reasons, queued/preparing/resetting/failed counts, and global/per-template caps. The status header's readiness boolean is not the number of available arenas.</p>
+<ul>
+  <li><strong>No free copies:</strong> busy copies use capacity; preparation/resetting supply is not immediately playable. Auto-expansion is capped and does not guarantee immediate matches.</li>
+  <li><strong>Invalid template:</strong> select an original DUEL arena, not a kit or FFA/clone name. Check corners, spawns, kit/build links, and saved schematic dimensions.</li>
+  <li><strong>Restart required:</strong> enabled/world/template/spacing edits do not take effect through a live reload. Capacity changes do not move existing regions.</li>
+  <li><strong>Ownership/manifest failure:</strong> do not delete hidden files, adopt an unmarked world, or delete live world folders. Preserve the error and a consistent backup; investigate or select a genuinely unused world name.</li>
+  <li><strong>Failed slot:</strong> fix the reported cause before <code>/arena instances retry &lt;slot&gt;</code>. A timed-out caller does not prove a paste has stopped; outstanding physical edits still own their budget.</li>
+  <li><strong>Retired slot:</strong> it stays reserved and counted. Deleting idle generated entries is not a pool-compaction mechanism.</li>
+</ul>
+<p>See <a href="arena-instances.html#storage-and-recovery">Instance Storage and Recovery</a> before any manual recovery.</p>
+
+<h2 id="world-isolation">Commands or Teleports Blocked Outside Practice</h2>
+<p>If <code>world-isolation.enabled</code> is on, verify the configured lobby/arena worlds and exact <code>additional-worlds</code> entries. Leave practice activities before entering an unrelated world. This mode does not provide per-world inventories or restore older gamerule values. Follow the <a href="world-isolation.html">World Isolation guide</a> and test with your own inventory plugin.</p>
 
 <h2>Paper / Leaf 26.2+ Dimension Storage &amp; World Migration</h2>
 <p>On Paper 26.x, Leaf 26.2, and Paper 1.20.6+/1.21+, custom worlds and arena clones are stored in vanilla dimension folders (e.g., <code>&lt;level-name&gt;/dimensions/minecraft/arenas1</code>) instead of legacy root folders.</p>

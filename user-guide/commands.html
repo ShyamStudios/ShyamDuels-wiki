@@ -36,6 +36,7 @@
     <a href="commands.html" class="active">Commands Reference</a>
     <a href="permissions.html">Permissions</a>
     <a href="arena-setup.html">Arena Setup</a>
+    <a href="arena-instances.html">Arena Instances</a>
     <a href="gate-setup.html">Gate Setup</a>
     <a href="kit-setup.html">Kit Setup</a>
     <a href="kit-sharing.html">Kit Sharing &amp; Profiles</a>
@@ -48,6 +49,7 @@
     <a href="country.html">Country Flags</a>
     <a href="advancements.html">Advancements</a>
     <a href="configuration.html">Configuration Files</a>
+    <a href="world-isolation.html">World Isolation</a>
     <a href="migration.html">Migration Guide</a>
     <a href="placeholders.html">PlaceholderAPI</a>
     <a href="troubleshooting.html">Troubleshooting</a>
@@ -506,15 +508,33 @@
     </tr>
     <tr>
       <td><code>limit</code></td>
-      <td>-</td>
+      <td><code>[limit]</code></td>
       <td>Yes</td>
-      <td>Opens a sign interface to configure a custom maximum capacity for the party.</td>
+      <td>Sets a custom maximum capacity limit for the party members. Opens sign interface if limit argument is omitted.</td>
     </tr>
     <tr>
       <td><code>resetlimit</code></td>
       <td>-</td>
       <td>Yes</td>
       <td>Removes custom capacity limits, returning to default capacity sizes.</td>
+    </tr>
+    <tr>
+      <td><code>forcelimit</code></td>
+      <td><code>&lt;player&gt; &lt;limit&gt;</code></td>
+      <td>Admin</td>
+      <td>Forces any arbitrary party member limit for a specific player (no upper cap). Alias: <code>setlimit</code>. Requires <code>shyamduels.party.admin</code>.</td>
+    </tr>
+    <tr>
+      <td><code>forceresetlimit</code></td>
+      <td><code>&lt;player&gt;</code></td>
+      <td>Admin</td>
+      <td>Resets the specified player's party limit back to default/permissions. Alias: <code>resetlimit &lt;player&gt;</code>. Requires <code>shyamduels.party.admin</code>.</td>
+    </tr>
+    <tr>
+      <td><code>defaultlimit</code></td>
+      <td><code>&lt;limit&gt;</code></td>
+      <td>Admin</td>
+      <td>Updates the global default party size (<code>party.default-max-size</code>) in <code>config.yml</code>. Requires <code>shyamduels.party.admin</code>.</td>
     </tr>
     <tr>
       <td><code>refresh</code></td>
@@ -611,7 +631,7 @@
     <tr>
       <td><code>delete</code></td>
       <td><code>&lt;name&gt;</code></td>
-      <td>Deletes the specified arena data and deletes the associated schematic file.</td>
+      <td>Deletes a normal arena record and its schematic. Generated instances instead use guarded retirement, and selected source templates cannot be deleted until removed from instance selection and restarted; see below.</td>
     </tr>
     <tr>
       <td><code>list</code></td>
@@ -721,6 +741,21 @@
   </tbody>
 </table>
 </div>
+
+<h3 id="arena-instance-commands">Optional Arena Instance Administration</h3>
+<p>Requires the same <code>shyamduels.admin</code> permission. Available to console and authorised players; no separate root command or permission is added. Both instance switches ship disabled. Read <a href="arena-instances.html">Arena Instances &amp; Automatic Capacity</a> before activation.</p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Command</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>/arena instances status [template]</code></td><td>Manager readiness, counts, limits, and pause reason; at most 20 template rows by default.</td></tr>
+    <tr><td><code>/arena instances slot &lt;slot&gt;</code></td><td>Inspect a numeric slot ID, generation, current work, preparation duration, and last error.</td></tr>
+    <tr><td><code>/arena instances prepare &lt;template&gt; [count]</code></td><td>Request more copies within caps; count defaults to 1. A request is not immediate readiness.</td></tr>
+    <tr><td><code>/arena instances retry &lt;slot&gt;</code></td><td>Retry an eligible failed reservation after fixing its cause.</td></tr>
+    <tr><td><code>/arena instances refresh &lt;template&gt;</code></td><td>Validate saved source changes; busy matches retain their accepted revision until release.</td></tr>
+    <tr><td><code>/arena instances resume</code></td><td>Attempt safe resumption; cannot bypass ownership/durability checks or outstanding physical work.</td></tr>
+  </tbody>
+</table></div>
+<p><code>/arena delete &lt;generated-name&gt;</code> retires an eligible idle instance, without deleting its blocks or freeing its permanent slot reservation. Busy/preparing/resetting copies are refused. Selected source templates must be removed from the instance selection and the server restarted before source deletion.</p>
 
 <h2>Kit Admin Commands</h2>
 <p>Kit commands are accessed under <code>/kit &lt;subcommand&gt;</code> (aliases: <code>/kits</code>, <code>/shyamkits</code>). Run <code>/kit help</code> in-game for a quick reference. Modifying commands require <code>shyamduels.admin</code>.</p>
@@ -1121,6 +1156,12 @@
       <td>-</td>
       <td><code>shyamduels.admin</code></td>
       <td>Views or toggles global settings at runtime.</td>
+    </tr>
+    <tr>
+      <td><code>setpartylimit</code></td>
+      <td><code>&lt;limit&gt;</code></td>
+      <td><code>shyamduels.party.admin</code></td>
+      <td>Updates the global default party member limit (<code>party.default-max-size</code>) in <code>config.yml</code>.</td>
     </tr>
     <tr>
       <td><code>reload-sounds</code></td>

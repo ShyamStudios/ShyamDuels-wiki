@@ -36,6 +36,7 @@
     <a href="commands.html">Commands Reference</a>
     <a href="permissions.html">Permissions</a>
     <a href="arena-setup.html">Arena Setup</a>
+    <a href="arena-instances.html">Arena Instances</a>
     <a href="gate-setup.html">Gate Setup</a>
     <a href="kit-setup.html">Kit Setup</a>
     <a href="kit-sharing.html">Kit Sharing &amp; Profiles</a>
@@ -48,6 +49,7 @@
     <a href="country.html">Country Flags</a>
     <a href="advancements.html">Advancements</a>
     <a href="configuration.html">Configuration Files</a>
+    <a href="world-isolation.html">World Isolation</a>
     <a href="migration.html">Migration Guide</a>
     <a href="placeholders.html">PlaceholderAPI</a>
     <a href="troubleshooting.html">Troubleshooting</a>
@@ -111,15 +113,59 @@
 </table>
 </div>
 
-<h2>Party Member Sizes</h2>
-<p>The base capacity is the config value <code>party.default-max-size</code> (default 8 members) and requires no permission. The party leader's permissions can raise the limit:</p>
+<h2>Party Member Sizes &amp; Limits</h2>
+<p>By default, party size is controlled by the config value <code>party.default-max-size</code> (default 8 members) and requires no special permissions. Server administrators can configure limits dynamically, assign higher limits to specific users or ranks, or allow leaders to manage their own party size.</p>
+
+<h3>Party Capacity Tiers</h3>
 <ul>
-  <li>Default Base Limit: up to 8 members (from <code>party.default-max-size</code>, no permission required).</li>
-  <li>VIP Limit Upgrade: up to 16 members (granted by <code>shyamduels.vip</code> via the <code>party.size-permissions</code> alias map, or a numeric node such as <code>shyamduels.party.size.16</code>).</li>
-  <li>VIP+ Limit Upgrade: up to 32 members (granted by <code>shyamduels.vipplus</code>, or a numeric node such as <code>shyamduels.party.size.32</code>).</li>
+  <li><strong>Default Base Limit:</strong> 8 members (from <code>party.default-max-size</code>, no permission required). Can be updated in-game via <code>/party defaultlimit &lt;limit&gt;</code> or <code>/sd setpartylimit &lt;limit&gt;</code>.</li>
+  <li><strong>Rank Aliases:</strong> Default aliases mapped in <code>party.size-permissions</code> (e.g., <code>shyamduels.vip</code> &rarr; 16 members, <code>shyamduels.vipplus</code> &rarr; 32 members).</li>
+  <li><strong>Custom Numeric Permissions:</strong> Any custom node in the format <code>shyamduels.party.size.&lt;number&gt;</code> (e.g., <code>shyamduels.party.size.50</code>, <code>shyamduels.party.size.100</code>).</li>
+  <li><strong>Unlimited Capacity:</strong> The permission <code>shyamduels.party.size.unlimited</code> removes all party capacity caps entirely for the player.</li>
 </ul>
-<p>The highest applicable limit wins.</p>
-<p>Leaders can impose a custom member capacity limit using <code>/party limit</code> (launches sign text input) or return to max limits using <code>/party resetlimit</code>.</p>
+<p>The highest applicable limit evaluated from permissions and custom overrides always wins.</p>
+
+<h3>How to Set Limit for a Specific User</h3>
+<p>There are two primary ways to set or raise the party limit for a specific user:</p>
+
+<div class="alert alert-note">
+  <div class="alert-title">Method 1: In-Game Admin Command (Immediate &amp; Dynamic)</div>
+  <p>Admins with <code>shyamduels.admin</code> or <code>shyamduels.party.admin</code> can directly force-set the party limit for any player to <strong>any number</strong> (with no upper ceiling) right from in-game chat or console:</p>
+  <pre><code>/party forcelimit &lt;player&gt; &lt;limit&gt;
+# Alias:
+/party setlimit &lt;player&gt; &lt;limit&gt;
+
+# Example (setting Notch's party limit to 50):
+/party forcelimit Notch 50
+
+# To reset back to the player's normal default limit:
+/party forceresetlimit Notch</code></pre>
+  <p>If the target player already has an active party, its limit is updated instantly in real time.</p>
+</div>
+
+<div class="alert alert-note">
+  <div class="alert-title">Method 2: Permission Nodes via LuckPerms (Permanent / Rank-Based)</div>
+  <p>You can grant arbitrary size permissions to a specific player or group using your permissions manager (e.g., LuckPerms):</p>
+  <pre><code># Grant a specific limit (e.g., 50 or 100 members) to a user:
+/lp user &lt;player&gt; permission set shyamduels.party.size.50 true
+
+# Grant completely unlimited party size to a user:
+/lp user &lt;player&gt; permission set shyamduels.party.size.unlimited true
+
+# Grant to a permission group (e.g., MVP):
+/lp group mvp permission set shyamduels.party.size.64 true</code></pre>
+</div>
+
+<h3>Party Leader Controls</h3>
+<p>Party leaders who have a higher maximum capacity can set a lower or custom member limit for their party using:</p>
+<pre><code># Specify the limit directly:
+/party limit 12
+
+# Or run without arguments to open the interactive sign text editor:
+/party limit
+
+# Revert back to the leader's maximum allowed limit:
+/party resetlimit</code></pre>
 
 <h2>Play Modes</h2>
 <p>Leaders configure the active mode via <code>/party mode &lt;mode&gt;</code>. These modes dictate matchmaking behaviors:</p>
@@ -231,13 +277,28 @@
     </tr>
     <tr>
       <td><code>/party limit</code></td>
-      <td><code>/party limit</code></td>
-      <td>Sets a custom maximum capacity limit for the party members.</td>
+      <td><code>/party limit [limit]</code></td>
+      <td>Sets a custom maximum capacity limit for the party members (opens sign prompt if limit argument is omitted).</td>
     </tr>
     <tr>
       <td><code>/party resetlimit</code></td>
       <td>-</td>
       <td>Resets custom party limits back to your default permissions maximum.</td>
+    </tr>
+    <tr>
+      <td><code>/party forcelimit</code></td>
+      <td><code>/party forcelimit &lt;player&gt; &lt;limit&gt;</code></td>
+      <td>Admin command to force-set any party limit for a specific player (no upper cap). Alias: <code>/party setlimit</code>. Requires <code>shyamduels.party.admin</code>.</td>
+    </tr>
+    <tr>
+      <td><code>/party forceresetlimit</code></td>
+      <td><code>/party forceresetlimit &lt;player&gt;</code></td>
+      <td>Admin command to reset a player's party limit back to default/permissions. Alias: <code>/party resetlimit &lt;player&gt;</code>. Requires <code>shyamduels.party.admin</code>.</td>
+    </tr>
+    <tr>
+      <td><code>/party defaultlimit</code></td>
+      <td><code>/party defaultlimit &lt;limit&gt;</code></td>
+      <td>Admin command to set the global base party limit in <code>config.yml</code> (<code>party.default-max-size</code>). Requires <code>shyamduels.party.admin</code>.</td>
     </tr>
     <tr>
       <td><code>/party promote</code></td>
