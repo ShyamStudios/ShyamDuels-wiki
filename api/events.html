@@ -44,6 +44,9 @@
     <a href="../user-guide/party-system.html">Party System</a>
     <a href="../user-guide/ffa.html">FFA Mode</a>
     <a href="../user-guide/elo-ranks.html">ELO &amp; Ranks</a>
+    <a href="../user-guide/tiers.html">Tiers</a>
+    <a href="../user-guide/match-history.html">Match History</a>
+    <a href="../user-guide/menus.html">Dialog Menus</a>
     <a href="../user-guide/settings.html">Player Settings</a>
     <a href="../user-guide/practice-features.html">Practice Features</a>
     <a href="../user-guide/country.html">Country Flags</a>
@@ -158,6 +161,42 @@ Fired when a player experiences virtual death (e.g. during a duel match where da
   <li><code>getDamageCause()</code>: Returns the Bukkit <code>DamageCause</code> that triggered the death (returns null if unknown).</li>
   <li><code>getDuel()</code>: Returns the active <a href="models.html">Duel</a> model in which the player died (returns null if not in a duel).</li>
 </ul>
+
+<h3>MatchRecordedEvent</h3>
+<p>Class path: <code>com.shyamstudio.shyamduels.api.event.history.MatchRecordedEvent</code> (API 2.1)<br/>
+Fired on the main thread when a finished match has been recorded, just before it is written to the database. Use it to push results to a website or Discord without polling.</p>
+<ul>
+  <li><code>getRecord()</code>: The <code>MatchRecord</code>, including every player's saved inventory.</li>
+</ul>
+
+<h3 id="tier-events">Tier Events</h3>
+<p>Package <code>com.shyamstudio.shyamduels.api.event.tier</code>. All fire on the main thread and only while tiers are enabled.</p>
+<ul>
+  <li><strong><code>TierChangeEvent</code></strong>: a player's tier in a kit changed. <code>getPlayerId()</code>, <code>getKit()</code>, <code>getPreviousTier()</code>, <code>getNewTier()</code> (tier index, -1 = unranked), <code>getNewTierName()</code>, <code>isPromotion()</code> and <code>getReason()</code>: <code>TEST_PASSED</code>, <code>TEST_PLACED</code> (a lost test that still raised the tier through skill placement), <code>ADMIN</code>, <code>INACTIVITY</code>, <code>LOSSES</code>, <code>RESET</code>.</li>
+  <li><strong><code>TierTestStartEvent</code></strong>: a tier test match started. <code>getDuelId()</code>, <code>getKit()</code>, <code>getChallengers()</code> (one or two players testing) and <code>getTester()</code> (staff tester, or <code>null</code>).</li>
+  <li><strong><code>TierTestEndEvent</code></strong>: fired once per challenger when a test ends. <code>getDuelId()</code>, <code>getPlayerId()</code>, <code>getKit()</code>, <code>isPassed()</code> and <code>getTier()</code> (the tier after the test).</li>
+</ul>
+
+<h3 id="lifecycle-events">Lifecycle Events (API 2.1)</h3>
+<p>Queue, party, FFA and Elo events. All fire on the main thread. Events marked <em>cancellable</em> fire before the change; when you cancel them the plugin sends no message, so tell the player why.</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Event</th><th>When</th><th>Main getters</th></tr></thead>
+  <tbody>
+    <tr><td><code>event.queue.QueueJoinEvent</code> (cancellable)</td><td>Before a player joins a queue (solo, party member or tier test)</td><td><code>getPlayer()</code>, <code>getKitName()</code>, <code>getMode()</code>, <code>getQueueType()</code>, <code>isTierTest()</code>, <code>getPartyId()</code></td></tr>
+    <tr><td><code>event.queue.QueueLeaveEvent</code></td><td>For each queue a player leaves</td><td><code>getPlayerId()</code>, <code>getPlayer()</code>, <code>getKitName()</code>, <code>getReason()</code>: <code>LEFT</code>, <code>MATCH_FOUND</code>, <code>DISCONNECT</code>, <code>RESET</code></td></tr>
+    <tr><td><code>event.party.PartyCreateEvent</code> (cancellable)</td><td>Before a party is created</td><td><code>getOwner()</code></td></tr>
+    <tr><td><code>event.party.PartyJoinEvent</code> (cancellable)</td><td>Before a player joins a party</td><td><code>getPlayer()</code>, <code>getPartyId()</code>, <code>getOwnerId()</code>, <code>getCause()</code>: <code>INVITE</code>, <code>PUBLIC</code>, <code>REQUEST</code></td></tr>
+    <tr><td><code>event.party.PartyLeaveEvent</code></td><td>After a player left a party</td><td><code>getPlayerId()</code>, <code>getPartyId()</code>, <code>getReason()</code>: <code>LEFT</code>, <code>KICKED</code>, <code>DISCONNECT</code></td></tr>
+    <tr><td><code>event.party.PartyDisbandEvent</code></td><td>When a party is disbanded or left empty</td><td><code>getPartyId()</code>, <code>getOwnerId()</code>, <code>getMembers()</code></td></tr>
+    <tr><td><code>event.ffa.FFAJoinEvent</code> (cancellable)</td><td>Before a player enters an FFA arena</td><td><code>getPlayer()</code>, <code>getArenaName()</code>, <code>getKitName()</code></td></tr>
+    <tr><td><code>event.ffa.FFALeaveEvent</code></td><td>After a player left FFA</td><td><code>getPlayerId()</code>, <code>getArenaName()</code>, <code>isDisconnect()</code></td></tr>
+    <tr><td><code>event.ffa.FFAKillEvent</code></td><td>A kill in FFA, after it was counted</td><td><code>getKiller()</code>, <code>getVictim()</code>, <code>getArenaName()</code>, <code>getKillerStreak()</code>, <code>getVictimStreak()</code></td></tr>
+    <tr><td><code>event.stats.EloChangeEvent</code></td><td>After a ranked match changed a player's Elo</td><td><code>getPlayerId()</code>, <code>getKitName()</code>, <code>isWon()</code>, <code>getOldElo()</code>, <code>getNewElo()</code>, <code>getChange()</code>, <code>getKitChange()</code></td></tr>
+  </tbody>
+</table>
+</div>
+<p>All classes are in <code>com.shyamstudio.shyamduels.api.event</code>. Check <code>api.metadata().supports("lifecycle-events")</code> before relying on them.</p>
 
 <h3>RoundStartEvent</h3>
 <p>Class path: <code>com.shyamstudio.shyamduels.duel.event.RoundStartEvent</code><br/>

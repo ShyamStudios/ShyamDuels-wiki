@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Tiers: ShyamDuels</title>
+<link rel="stylesheet" href="../assets/style.css"/>
+</head>
+<body>
+<nav class="topnav">
+  <a class="logo-container" href="../index.html">
+    <img src="../shyam.webp" alt="ShyamDuels Logo" class="logo-img"/>
+    <span class="logo-text">ShyamDuels</span>
+  </a>
+  <span class="divider">/</span>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="getting-started.html" class="active">User Guide</a>
+    <a href="../api/overview.html">Developer API</a>
+  </div>
+  <span class="spacer"></span>
+  <a class="discord-btn" href="https://discord.gg/sMdsvZFqnX" target="_blank" rel="noopener">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037 12.9 12.9 0 0 0-.608 1.25 18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+    Discord
+  </a>
+  <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+  </button>
+</nav>
+<div id="overlay"></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">User Guide</span>
+    <a href="getting-started.html">Getting Started</a>
+    <a href="commands.html">Commands Reference</a>
+    <a href="permissions.html">Permissions</a>
+    <a href="arena-setup.html">Arena Setup</a>
+    <a href="arena-instances.html">Arena Instances</a>
+    <a href="gate-setup.html">Gate Setup</a>
+    <a href="kit-setup.html">Kit Setup</a>
+    <a href="kit-sharing.html">Kit Sharing &amp; Profiles</a>
+    <a href="tournaments.html">Tournament System</a>
+    <a href="party-system.html">Party System</a>
+    <a href="ffa.html">FFA Mode</a>
+    <a href="elo-ranks.html">ELO &amp; Ranks</a>
+    <a href="tiers.html" class="active">Tiers</a>
+    <a href="match-history.html">Match History</a>
+    <a href="menus.html">Dialog Menus</a>
+    <a href="settings.html">Player Settings</a>
+    <a href="practice-features.html">Practice Features</a>
+    <a href="country.html">Country Flags</a>
+    <a href="advancements.html">Advancements</a>
+    <a href="configuration.html">Configuration Files</a>
+    <a href="world-isolation.html">World Isolation</a>
+    <a href="migration.html">Migration Guide</a>
+    <a href="placeholders.html">PlaceholderAPI</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">Developer API</span>
+    <a href="../api/overview.html">Overview &amp; Setup</a>
+    <a href="../api/services.html">Services Reference</a>
+    <a href="../api/events.html">Events Reference</a>
+    <a href="../api/models.html">Data Models</a>
+    <a href="../api/examples.html">Code Examples</a>
+  </div>
+</aside>
+<main class="content">
+
+<div class="breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="getting-started.html">User Guide</a><span>›</span>Tiers</div>
+<h1>Tiers</h1>
+<p class="page-lead">Per-kit skill tiers (LT5 to HT1) earned through tier tests, with readiness bars, a tier leaderboard and dialog menus. Every part can be switched on or off in <code>tiers.yml</code>.</p>
+
+<h2>Overview</h2>
+<p>Tiers run next to the existing ELO ranks. Each tracked kit has its own hidden rating, five readiness bars and a tier. When every required bar is full (by default: enough matches against enough different players), the player can take a <strong>tier test</strong>: a first-to-3 match against another player testing for the same tier, or against a staff tester. A win gives one tier above the tier your rating shows; a loss gives the tier your rating shows, never lower than your current tier. Every test gives a tier, so the first test also places new players.</p>
+<p>Tiers are <strong>off by default</strong>. Updating ShyamDuels changes nothing for your players until you enable them in <code>tiers.yml</code>.</p>
+
+<h2>Enabling tiers on an existing server</h2>
+<ol>
+  <li>Update the plugin and start the server once. It creates <code>plugins/ShyamDuels/tiers.yml</code> and adds the new messages to <code>lang/messages.yml</code> (your edits are kept).</li>
+  <li>Open <code>tiers.yml</code> and set <code>enabled: true</code>.</li>
+  <li>Pick what menus, chat, tab, nametags and scoreboards show with <code>display-mode</code>:
+    <ul>
+      <li><code>DIVISIONS</code>: keep the ELO division ranks (default).</li>
+      <li><code>BOTH</code>: show the tier in front of the division rank. Good for a transition period.</li>
+      <li><code>TIERS</code>: show tiers only.</li>
+    </ul>
+    The existing <code>&lt;rank&gt;</code> and <code>&lt;rank_colored&gt;</code> scoreboard/tab tokens and the above-name kit rank follow this setting, so you do not have to edit your templates.</li>
+  <li>Optional: choose the kits under <code>kits.include</code> / <code>kits.exclude</code>. With an empty include list every kit that has ranked queue enabled gets tiers.</li>
+  <li>Optional: set <code>rating.seed-from-elo.enabled: true</code> so experienced players start from a rating based on their current kit ELO instead of 1500. Tiers themselves are only earned by tests.</li>
+  <li>Run <code>/shyamduels reload-tiers</code> (or restart).</li>
+</ol>
+<p>Players' ELO, divisions and stats are not touched. You can turn tiers off again at any time; tier data stays stored.</p>
+
+<h2>The tier ladder</h2>
+<p>Lowest to highest. <em>Rating</em> is the kit rating that reaches that tier: with skill placement a tier test places the player at the highest tier their rating reaches. <em>Points</em> are leaderboard points for holding the tier in one kit. All values are editable in <code>tiers.yml</code>.</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Tier</th><th>Colour</th><th>Rating</th><th>Points</th></tr></thead>
+  <tbody>
+    <tr><td>LT5</td><td><code>#2C4A78</code></td><td>1600</td><td>3</td></tr>
+    <tr><td>MT5</td><td><code>#385C94</code></td><td>1650</td><td>3.5</td></tr>
+    <tr><td>HT5</td><td><code>#4A72B0</code></td><td>1700</td><td>4</td></tr>
+    <tr><td>LT4</td><td><code>#739F58</code></td><td>1750</td><td>5</td></tr>
+    <tr><td>MT4</td><td><code>#89BD68</code></td><td>1800</td><td>6</td></tr>
+    <tr><td>HT4</td><td><code>#9FD27F</code></td><td>1850</td><td>7.5</td></tr>
+    <tr><td>LT3</td><td><code>#BD6B2B</code></td><td>1900</td><td>10</td></tr>
+    <tr><td>MT3</td><td><code>#D47D32</code></td><td>1950</td><td>12.5</td></tr>
+    <tr><td>HT3</td><td><code>#EB9138</code></td><td>2000</td><td>15</td></tr>
+    <tr><td>LT2</td><td><code>#858D9C</code></td><td>2050</td><td>20</td></tr>
+    <tr><td>MT2</td><td><code>#91A0B7</code></td><td>2100</td><td>25</td></tr>
+    <tr><td>HT2</td><td><code>#9EB3D1</code></td><td>2150</td><td>30</td></tr>
+    <tr><td>LT1</td><td><code>#C4A34B</code></td><td>2200</td><td>45</td></tr>
+    <tr><td>MT1</td><td><code>#E8BE3C</code></td><td>2250</td><td>52.5</td></tr>
+    <tr><td>HT1</td><td><code>#FFDA55</code></td><td>2300</td><td>60</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Players without a tier show <code>UNRANKED</code> in <code>#383838</code>.</p>
+
+<h2>Rating and placement</h2>
+<p>Every tracked kit has a rating that starts at 1500. After a counted 1v1 match the winner gains and the loser drops by <code>K × (1 − expected score)</code>, where the expected score is <code>1 / (1 + 10^((opponent − self) / 400))</code>. K is 32, or 48 during the first 5 matches in a kit (shown as "Unplaced").</p>
+<p>Which matches count is set under <code>counted-matches</code>: ranked queue, normal <code>/duel</code> fights and rematches count by default, unranked queue does not, tier tests do. Party, FFA, tournament, bot and custom-kit matches never count. <code>rating.same-opponent-daily-limit</code> (default 10) stops two players farming rating against each other.</p>
+
+<h2>Readiness bars</h2>
+<p>Shown in <code>/tiers</code> on each kit page. A tier test opens when every <em>required</em> bar is full.</p>
+<p>Hover a section to see how to raise it; click it for a page explaining what it shows, how to raise it and why it matters. <code>/tierinfo</code> opens the same menu as <code>/tiers</code>.</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Bar</th><th>Measures</th><th>Full at</th><th>Required</th></tr></thead>
+  <tbody>
+    <tr><td>Skill</td><td>Kit rating</td><td>The rating of the tier above the one it reaches</td><td>No: it decides the tier a test gives</td></tr>
+    <tr><td>Confidence</td><td>Counted matches played</td><td>15</td><td>Yes</td></tr>
+    <tr><td>Competition</td><td>Average strength of opponents faced</td><td>60%</td><td>No</td></tr>
+    <tr><td>Variety</td><td>Different opponents (the last 64 are remembered)</td><td>10</td><td>Yes</td></tr>
+    <tr><td>Challenge</td><td>Win rate against equal or higher rated opponents</td><td>50%</td><td>No</td></tr>
+  </tbody>
+</table>
+</div>
+<p><code>readiness.confidence.count</code> decides what fills the confidence bar: <code>MATCHES</code> (default) or <code>WINS</code>, for an unlock rule like "3/5 wins to unlock tier test". The texts switch to their <code>-wins</code> versions and the action bar to <code>tiers.progress-bar-unlock-wins</code>.</p>
+<p>Bar colours go red, yellow, light green, green as they fill. Targets, starting values and which bars are required are set under <code>readiness</code>. For the older ladder where a test only opens once the rating reaches the next tier, set <code>skill.required</code> and <code>challenge.required</code> to <code>true</code> and <code>tier-test.skill-placement</code> to <code>false</code>.</p>
+
+<h2 id="tier-tests">Tier tests</h2>
+<ul>
+  <li>An eligible player who queues a ranked 1v1 kit gets a <strong>Tier Test Ready</strong> page that says what a win and a loss give: <em>Accept Challenge</em> or <em>Reject Challenge</em> (back without queueing). Set <code>tier-test.prompt-normal-queue: true</code> to show <em>Queue Normally</em> instead, which joins the normal queue and skips the prompt for 15 minutes. They can also use the <strong>⚔ Tier Test</strong> button in the queue menu, <code>/tiers test &lt;kit&gt;</code> or the button on the kit page.</li>
+  <li>Each counted match ends with one chat line: the rating change and the next step, for example <em>Sword: 1970 rating (-30). Next tier test after 2 more ranked matches.</em></li>
+  <li>Tests are first-to-<code>tier-test.first-to</code> (default 3), independent of your normal round settings. When a test starts, the challenger gets <em>Tier test for HT3 started: first to 3.</em> and a staff tester is told who they are testing (<code>tiers.test-started</code>, <code>tiers.test-started-tester</code>).</li>
+  <li><code>tier-test.opponents</code> decides who a challenger meets: <code>CHALLENGERS</code> (another eligible player testing for the same tier), <code>TESTERS</code> (staff only) or <code>BOTH</code> (whoever is available first, default). Testers never meet each other.</li>
+  <li>Staff with <code>shyamduels.tiers.tester</code> wait as testers with <code>/tiers tester &lt;kit&gt;</code> (several kits at once are allowed). By default a tester's own rating does not change in test matches (<code>tester-rating-changes</code>).</li>
+  <li>With <code>tier-test.skill-placement: true</code> (default) a win gives one tier above the rating's tier and a loss the rating's tier (at least the lowest tier). With <code>false</code> a win is the next tier and a loss keeps the tier.</li>
+  <li>After any test the player plays <code>matches-between-tests</code> (default 3) ranked matches before the next one. <code>retry-cooldown-minutes</code> (default 0) can add a wait after a lost test; when both apply, menus and chat show them in one line.</li>
+  <li>In a test, and in any match that needs two or more round wins, a player one round win from the match sees a <strong>Match Point!</strong> title instead of FIGHT at the start of the round. When both sides are at match point, both see it. Texts: <code>duel.title.match-point</code> in <code>messages.yml</code>; switch and timing (ticks): <code>duels.round.match-point</code> in <code>config.yml</code>.</li>
+  <li>Eligibility is checked again right before the match starts, so admin changes in between cancel the test cleanly.</li>
+</ul>
+
+<h2>Ranked match chat</h2>
+<p>While tiers are on, <code>match-chat</code> in <code>tiers.yml</code> decides what ranked matches in tier kits print. Other kits and servers with tiers off keep the division Elo lines.</p>
+<ul>
+  <li><code>division-elo-on-start</code> (false): the opponent's division Elo and rank on the <em>Ranked Match</em> card.</li>
+  <li><code>tier-on-start</code> (true): the opponent's tier and tier rating on that card (<code>tiers.prematch-tier</code> in <code>messages.yml</code>).</li>
+  <li><code>division-elo-in-summary</code> (false): the <em>ELO: 1359 [-32]</em> line in the match summary.</li>
+  <li><code>tier-result</code> (true): the tier rating line after each counted match, with the next step towards a test.</li>
+  <li><code>progress-bar</code> (true) and <code>progress-bar-seconds</code> (4): an action bar after each counted match with a bar that moves from the old to the new value: gained progress shows green, lost progress red while it shrinks. It appears in the arena the moment the match is won and glides to its new value. With <code>progress-bar-shows: AUTO</code> (default) it shows the next step while no tier test is open (<em>3/5 PLACEMENT MATCHES</em>, <em>8/15 MATCHES TO UNLOCK TIER TEST</em>, <em>1/3 MATCHES TO NEXT TIER TEST</em>) and otherwise the tier your rating reaches with how far you are toward the next one (<em>LT4 92% MT4</em>). <code>RATING</code> always shows the rating bar; <code>READINESS</code> shows progress toward a tier test. <code>progress-bar-move-ticks</code> (30) sets how long it glides and <code>progress-bar-colors</code> the gained, lost and empty colours. The bar is drawn with tinted block sprites (<code>progress-bar-sprite</code>, <code>progress-bar-segments</code>, default 40), so it looks solid on Java 1.21.9+; Bedrock players get a text bar. Text: <code>tiers.progress-bar</code> in <code>messages.yml</code>.</li>
+</ul>
+
+<h2>Configuring tiers</h2>
+<p>Each part of the tier system is its own setting in <code>tiers.yml</code>, so a server can mix and match. The right column is a McPvP-style setup.</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Setting</th><th>What it does</th><th>McPvP-style</th></tr></thead>
+  <tbody>
+  <tr><td><code>display-mode</code></td><td>Tiers, divisions or both in chat, tab, nametags and scoreboards</td><td><code>TIERS</code></td></tr>
+  <tr><td><code>readiness.&lt;bar&gt;.required</code>, <code>to</code></td><td>Which bars must be full for a test, and their targets</td><td>confidence and variety required</td></tr>
+  <tr><td><code>tier-test.skill-placement</code></td><td>Loss gives the tier the rating shows, win one above (on), or win = next tier, loss = keep (off)</td><td><code>true</code></td></tr>
+  <tr><td><code>tier-test.prompt-normal-queue</code></td><td>Second prompt button: Reject (off) or Queue Normally (on)</td><td><code>false</code></td></tr>
+  <tr><td><code>tier-test.matches-between-tests</code></td><td>Ranked matches after a test before the next one</td><td>1 or more</td></tr>
+  <tr><td><code>tier-test.retry-cooldown-minutes</code></td><td>Extra wait after a lost test</td><td><code>0</code></td></tr>
+  <tr><td><code>tier-test.first-to</code>, <code>opponents</code></td><td>Test length and who tests (players, staff, both)</td><td><code>3</code>, <code>BOTH</code></td></tr>
+  <tr><td><code>match-chat.*</code></td><td>Division Elo or tier lines in ranked match chat</td><td>division Elo off, tier lines on</td></tr>
+  <tr><td><code>readiness.confidence.count</code></td><td>Unlock the test by matches played or by wins</td><td><code>WINS</code></td></tr>
+  <tr><td><code>match-chat.progress-bar*</code></td><td>Action bar after a match: mode, speed, colours, size, look</td><td><code>AUTO</code></td></tr>
+  <tr><td><code>duels.round.match-point</code> (config.yml)</td><td>"Match Point!" title on or off and its timing</td><td>on</td></tr>
+  <tr><td><code>demotion.*</code></td><td>Tier drops after inactivity or losses</td><td>off</td></tr>
+  <tr><td><code>matchmaking.*</code></td><td>Pair ranked queues by tier rating</td><td>on</td></tr>
+  <tr><td><code>leaderboard.best-kits-per-category</code></td><td>Kits per category counted for overall points</td><td><code>3</code></td></tr>
+  <tr><td><code>counted-matches.*</code></td><td>Which match types change tier rating</td><td>ranked queue and tier tests</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Tier drops (optional)</h2>
+<p>Off by default, like the reference servers: once earned, a tier stays.</p>
+<ul>
+  <li><code>demotion.inactivity</code>: drop <code>tiers</code> tiers for every <code>days</code> without a counted match in that kit. Never below the lowest tier.</li>
+  <li><code>demotion.losses</code>: after a counted loss, drop one tier when the rating is more than <code>rating-margin</code> below the current tier's rating.</li>
+</ul>
+
+<h2>Ranked queue pairing</h2>
+<p>While tiers are on, ranked 1v1 queues of tracked kits pair players by tier rating. The allowed gap starts at <code>matchmaking.start-range</code> (150) and grows by <code>range-step</code> (25) every <code>step-seconds</code> (5) of waiting, so nobody waits forever. Set <code>matchmaking.enabled: false</code> to keep plain first-come pairing.</p>
+
+<h2>Leaderboards</h2>
+<p>A background job rebuilds the tier boards every <code>leaderboard.refresh-seconds</code> (60) and skips the rebuild when nothing changed. Menus and placeholders only read the result, so they never wait for the database.</p>
+<ul>
+  <li><strong>Kit boards</strong>: sorted by tier, then rating. <code>size-per-kit</code> entries (500).</li>
+  <li><strong>Overall board</strong>: each kit's tier gives points; a player's score adds their best <code>best-kits-per-category</code> (3) kits in each kit category. The score maps to an overall tier: LT5 at 1 point up to HT1 at 500. The top <code>size-overall</code> (10,000) players are kept.</li>
+  <li><code>/tiers top</code> opens the board with kit tabs, pages, a search box and filters for country and client (Java / Bedrock).</li>
+</ul>
+
+<h2>Menus</h2>
+<p>Tier menus use Paper dialogs (1.21.7+). Bedrock players get a chat summary for <code>/tiers</code>. Text and layout are in <code>dialog-menus/tiers.yml</code>.</p>
+<ul>
+  <li><strong>Statistics</strong>: <code>/stats</code> shows a card with Elo (and progress to the next rank), win rate and K/D bars, streaks, and links to per-kit stats and tiers. Per-kit stats list every kit with Elo, record and K/D; hover a row for the full numbers. Text is in <code>dialog-menus/stats.yml</code> and <code>kit-stats.yml</code>.</li>
+  <li><strong>/tiers [player]</strong>: overall tier, points and rank, and one button per kit. A kit page shows tier, peak, rating, rank, record, test history and the five bars.</li>
+  <li><strong>Queue menu</strong> (dialog mode): tabs for All, Favourites and your kit categories, live queued/in-game counts, a tier test progress bar per kit, <em>Queue All</em> / <em>Leave All</em>, <em>Keep Queuing</em> (rejoin your queues after each match) and <em>Edit Favourites</em>. Text is in <code>dialog-menus/queue.yml</code>.</li>
+  <li><strong>Duel menus</strong> (dialog mode): <code>/duel</code> without a name opens a player search with up to 9 online suggestions. After picking a kit, an options menu shows both players' tier or rank and a rounds slider. A confirmation appears after sending, with a "Don't show again" button. Text is in <code>dialog-menus/duel-flow.yml</code>.</li>
+</ul>
+<p>Favourites, Keep Queuing and "Don't show again" are stored per player in the database table <code>player_preferences</code>.</p>
+
+<h2>Commands</h2>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Command</th><th>Description</th><th>Permission</th></tr></thead>
+  <tbody>
+    <tr><td><code>/tiers [player]</code></td><td>Open the tier menu</td><td>none</td></tr>
+    <tr><td><code>/tiers top</code></td><td>Open the tier leaderboard</td><td>none</td></tr>
+    <tr><td><code>/leaderboard</code>, <code>/lb</code></td><td>Optional shortcut to the tier leaderboard. Off by default; set <code>leaderboard.command.enabled: true</code> in <code>tiers.yml</code>. Turning it off and running <code>/shyamduels reload-tiers</code> removes the command again.</td><td>none</td></tr>
+    <tr><td><code>/tiers test &lt;kit&gt;</code></td><td>Join or leave the tier test queue</td><td>none</td></tr>
+    <tr><td><code>/tiers tester &lt;kit&gt;</code></td><td>Wait as a tester in a kit</td><td><code>shyamduels.tiers.tester</code></td></tr>
+    <tr><td><code>/tieradmin set &lt;player&gt; &lt;kit&gt; &lt;tier|none&gt;</code></td><td>Set a tier</td><td><code>shyamduels.tiers.admin</code></td></tr>
+    <tr><td><code>/tieradmin rating &lt;player&gt; &lt;kit&gt; &lt;value&gt;</code></td><td>Set a kit rating</td><td><code>shyamduels.tiers.admin</code></td></tr>
+    <tr><td><code>/tieradmin reset &lt;player&gt; [kit]</code></td><td>Delete tier data (one kit or all)</td><td><code>shyamduels.tiers.admin</code></td></tr>
+    <tr><td><code>/tieradmin refresh</code></td><td>Rebuild the leaderboards now</td><td><code>shyamduels.tiers.admin</code></td></tr>
+    <tr><td><code>/tieradmin status</code></td><td>Loaded players, board sizes and last build time</td><td><code>shyamduels.tiers.admin</code></td></tr>
+    <tr><td><code>/shyamduels reload-tiers</code></td><td>Reload <code>tiers.yml</code></td><td>admin</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Admin commands work for offline players too. <code>shyamduels.admin</code> includes <code>shyamduels.tiers.admin</code>.</p>
+<p>While tiers are off, <code>/tiers</code>, <code>/tier</code>, <code>/tierinfo</code>, <code>/tieradmin</code> and <code>/leaderboard</code> are removed from the command list and suggestions. <code>/shyamduels reload-tiers</code> adds or removes them without a restart.</p>
+
+<h2>Placeholders</h2>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Placeholder</th><th>Value</th></tr></thead>
+  <tbody>
+    <tr><td><code>%shyamduels_tier_&lt;kit&gt;%</code></td><td>Tier name in a kit</td></tr>
+    <tr><td><code>%shyamduels_tier_color_&lt;kit&gt;%</code></td><td>Tier colour (hex)</td></tr>
+    <tr><td><code>%shyamduels_tier_tag_&lt;kit&gt;%</code></td><td>Coloured tier (MiniMessage)</td></tr>
+    <tr><td><code>%shyamduels_tier_rating_&lt;kit&gt;%</code></td><td>Kit rating</td></tr>
+    <tr><td><code>%shyamduels_tier_rank_&lt;kit&gt;%</code></td><td>Position on the kit board</td></tr>
+    <tr><td><code>%shyamduels_tier_progress_&lt;kit&gt;%</code></td><td>Percent ready for the next test</td></tr>
+    <tr><td><code>%shyamduels_tier_best%</code>, <code>_best_color</code>, <code>_best_tag</code></td><td>Highest tier across kits</td></tr>
+    <tr><td><code>%shyamduels_tier_overall%</code>, <code>_overall_color</code>, <code>_overall_tag</code></td><td>Overall tier</td></tr>
+    <tr><td><code>%shyamduels_tier_overall_rank%</code></td><td>Position on the overall board</td></tr>
+    <tr><td><code>%shyamduels_tier_points%</code></td><td>Overall points</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Scoreboard and tab templates can also use the tokens <code>&lt;tier&gt;</code>, <code>&lt;tier_color&gt;</code>, <code>&lt;tier_tag&gt;</code>, <code>&lt;tier_points&gt;</code>, <code>&lt;tier_overall&gt;</code>, <code>&lt;tier_overall_tag&gt;</code> and <code>&lt;tier_overall_rank&gt;</code>. Above-name formats can use <code>%kit_tier%</code> and <code>%kit_tier_colored%</code>.</p>
+
+<h2>Storage and performance</h2>
+<ul>
+  <li>Tier data is stored in the table <code>tier_profiles</code> (one row per player and kit) in the stats database, on SQLite or MySQL. Nothing is kept in per-player files.</li>
+  <li>Online players are kept in memory and saved in the background every <code>storage.autosave-seconds</code> (60), right after every tier test and admin change, and on quit and shutdown.</li>
+  <li>In our tests a leaderboard rebuild over 100,000 players (200,000 rows) took about 0.8 seconds on a background thread. With 40 players online, tick times were the same with tiers on and off.</li>
+</ul>
+
+<h2>Developer events</h2>
+<p><code>TierChangeEvent</code> (reasons <code>TEST_PASSED</code>, <code>TEST_PLACED</code> for a lost test that still raised the tier, <code>ADMIN</code>, <code>INACTIVITY</code>, <code>LOSSES</code>, <code>RESET</code>), <code>TierTestStartEvent</code> and <code>TierTestEndEvent</code> in <code>com.shyamstudio.shyamduels.api.event.tier</code>. All fire on the main thread. Read tiers and boards with <code>ShyamDuelsAPI.tiers()</code>; see <a href="../api/services.html">Services</a> and <a href="../api/events.html#tier-events">Events</a>.</p>
+
+<div class="page-navigation">
+  <a class="page-nav-link prev" href="elo-ranks.html">
+    <span class="page-nav-label">Previous Page</span>
+    <span class="page-nav-title">ELO &amp; Ranks</span>
+  </a>
+  <a class="page-nav-link next" href="match-history.html">
+    <span class="page-nav-label">Next Page</span>
+    <span class="page-nav-title">Match History</span>
+  </a>
+</div>
+
+</main>
+</div>
+<script src="../assets/nav.js"></script>
+</body>
+</html>

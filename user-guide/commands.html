@@ -44,6 +44,9 @@
     <a href="party-system.html">Party System</a>
     <a href="ffa.html">FFA Mode</a>
     <a href="elo-ranks.html">ELO &amp; Ranks</a>
+    <a href="tiers.html">Tiers</a>
+    <a href="match-history.html">Match History</a>
+    <a href="menus.html">Dialog Menus</a>
     <a href="settings.html">Player Settings</a>
     <a href="practice-features.html">Practice Features</a>
     <a href="country.html">Country Flags</a>
@@ -292,26 +295,26 @@
       <td>Opens the profile GUI for another <strong>online</strong> player (reads live cached stats and rank).</td>
     </tr>
     <tr>
-      <td><code>/stats</code> / <code>/stats help</code></td>
+      <td><code>/stats</code></td>
       <td><code>/stat</code></td>
       <td><code>shyamduels.use</code></td>
-      <td>Opens the stats GUI for yourself (wins, losses, ELO, rank, killstreaks, winstreaks, and playtime).</td>
+      <td>Opens your stats (wins, losses, ELO, rank, killstreaks, winstreaks, and playtime).</td>
     </tr>
     <tr>
-      <td><code>/stats view</code></td>
+      <td><code>/stats &lt;player&gt;</code></td>
       <td>-</td>
       <td><code>shyamduels.use</code></td>
-      <td>Opens the stats GUI for yourself when no player is given.</td>
+      <td>Opens another player's stats. Tab completes player names; offline players work too.</td>
     </tr>
     <tr>
-      <td><code>/stats view &lt;player&gt;</code></td>
-      <td>-</td>
+      <td><code>/matchhistory [player]</code></td>
+      <td><code>/match-history</code>, <code>/mh</code>, <code>/matches</code></td>
       <td><code>shyamduels.use</code></td>
-      <td>Opens the stats GUI for the specified player (supports offline targets).</td>
+      <td>Recent matches with result, opponent, kit and rating change. Opens on Unranked; click a match for both players' health, totems, stats and final inventory.</td>
     </tr>
     <tr>
-      <td><code>/stats delete &lt;player&gt;</code></td>
-      <td>-</td>
+      <td><code>/shyamduels resetstats &lt;player&gt;</code></td>
+      <td><code>/shyamduels stats delete</code></td>
       <td><code>shyamduels.admin</code></td>
       <td>Wipes all statistics for the specified player (supports offline targets).</td>
     </tr>
@@ -1494,6 +1497,27 @@
 <h2>Custom Toggle Commands</h2>
 <p>When <code>custom-toggles.enabled: true</code> in <code>menus/player-settings.yml</code>, each entry under <code>custom-toggles.toggles</code> becomes a standalone <code>/&lt;key&gt;</code> command (e.g. <code>/autogg</code>, <code>/fastcrystal</code> if configured). Syntax: <code>/&lt;toggle&gt; [on|off]</code> toggles the player's preference. Tab completion suggests <code>on</code>/<code>off</code>. Each definition may specify a <code>permission</code> and on/off console/player commands run via <code>GuiCommandExecutor</code>.</p>
 
+<h2>Tier commands</h2>
+<p>Only registered while tiers are enabled in <code>tiers.yml</code>. With tiers off they are removed from the command list and suggestions; <code>/shyamduels reload-tiers</code> adds or removes them without a restart. See <a href="tiers.html">Tiers</a> for how tier tests work.</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Command</th><th>Aliases</th><th>Permission</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>/tiers [player]</code></td><td><code>/tier</code>, <code>/tierinfo</code></td><td>none</td><td>Tier menu: overall tier, points, rank and a page per kit with the readiness bars.</td></tr>
+    <tr><td><code>/tiers top</code></td><td><code>/tiers leaderboard</code>, <code>/tiers lb</code></td><td>none</td><td>Tier leaderboard with kit tabs, search and country and client filters.</td></tr>
+    <tr><td><code>/tiers test &lt;kit&gt;</code></td><td>-</td><td>none</td><td>Join or leave the tier test queue of a kit.</td></tr>
+    <tr><td><code>/tiers tester &lt;kit&gt;</code></td><td>-</td><td><code>shyamduels.tiers.tester</code></td><td>Wait as a tester in a kit (several kits at once are allowed).</td></tr>
+    <tr><td><code>/leaderboard</code></td><td><code>/lb</code></td><td>none</td><td>Optional shortcut to the tier leaderboard. Off by default (<code>leaderboard.command</code> in <code>tiers.yml</code>).</td></tr>
+    <tr><td><code>/tieradmin set &lt;player&gt; &lt;kit&gt; &lt;tier|none&gt;</code></td><td>-</td><td><code>shyamduels.tiers.admin</code></td><td>Set a player's tier in a kit.</td></tr>
+    <tr><td><code>/tieradmin rating &lt;player&gt; &lt;kit&gt; &lt;value&gt;</code></td><td>-</td><td><code>shyamduels.tiers.admin</code></td><td>Set a player's kit rating.</td></tr>
+    <tr><td><code>/tieradmin reset &lt;player&gt; [kit]</code></td><td>-</td><td><code>shyamduels.tiers.admin</code></td><td>Delete tier data for one kit or all kits.</td></tr>
+    <tr><td><code>/tieradmin refresh</code></td><td>-</td><td><code>shyamduels.tiers.admin</code></td><td>Rebuild the tier leaderboards now.</td></tr>
+    <tr><td><code>/tieradmin status</code></td><td>-</td><td><code>shyamduels.tiers.admin</code></td><td>Loaded players, board sizes and last build time.</td></tr>
+    <tr><td><code>/shyamduels reload-tiers</code></td><td>-</td><td><code>shyamduels.admin</code></td><td>Reload <code>tiers.yml</code>.</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Admin commands work for offline players too. <code>shyamduels.admin</code> includes <code>shyamduels.tiers.admin</code>.</p>
 <div class="page-navigation">
   <a class="page-nav-link prev" href="getting-started.html">
     <span class="page-nav-label">Previous Page</span>

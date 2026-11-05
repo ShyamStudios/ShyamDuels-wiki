@@ -44,6 +44,9 @@
     <a href="../user-guide/party-system.html">Party System</a>
     <a href="../user-guide/ffa.html">FFA Mode</a>
     <a href="../user-guide/elo-ranks.html">ELO &amp; Ranks</a>
+    <a href="../user-guide/tiers.html">Tiers</a>
+    <a href="../user-guide/match-history.html">Match History</a>
+    <a href="../user-guide/menus.html">Dialog Menus</a>
     <a href="../user-guide/settings.html">Player Settings</a>
     <a href="../user-guide/practice-features.html">Practice Features</a>
     <a href="../user-guide/country.html">Country Flags</a>
@@ -74,6 +77,9 @@
 <pre><span class="lang-badge">java</span><code>ShyamDuelsAPI api = ShyamDuelsProvider.require();
 DuelService duelService = api.duels();
 StatsService statsService = api.stats();</code></pre>
+<p><strong>Threading.</strong> Call services from the server main thread unless a method says otherwise. Methods that return a <code>CompletableFuture</code> complete off the main thread; switch back with the Bukkit scheduler before touching players or worlds.</p>
+<p><strong>Live objects and views.</strong> Methods returning <code>Duel</code>, <code>Kit</code>, <code>Party</code>, <code>Arena</code> or stats objects give the plugin's live objects: read them on the main thread and do not change them. For a copy you can keep or read from any thread, use the <code>...View</code> methods (<code>getDuelView</code>, <code>getKitView</code>, <code>getStatsView</code>, <code>getPartyView</code>, <code>getArenaView</code>), see <a href="models.html#views">Read-only Views</a>.</p>
+<p><strong>In your IDE.</strong> Every service method has Javadoc. Attach <code>shyamduels-2.0-api-sources.jar</code> next to the API jar to see it as tooltips.</p>
 
 <h2>DuelService</h2>
 <p>Interface: <code>com.shyamstudio.shyamduels.api.duel.DuelService</code><br/>
@@ -92,7 +98,10 @@ Manages active duel instances, invitations, and match structures:</p>
     <tr><td><code>isParticipatingInDuel(Player)</code></td><td>boolean</td><td>True if the player is in a duel (including between rounds).</td></tr>
     <tr><td><code>getDuel(Player)</code></td><td>Duel</td><td>Current duel for the player, or null.</td></tr>
     <tr><td><code>getDuelById(UUID)</code></td><td>Duel</td><td>Lookup a duel by its UUID.</td></tr>
-    <tr><td><code>getEndingDuel(Player)</code></td><td>Duel</td><td>Duel currently ending for the player (post-match cleanup), or null.</td></tr>
+    <tr><td><code>getEndingDuel(Player)</code></td><td>Duel</td><td>Duel currently ending for the player (results showing), or null. Read only.</td></tr>
+    <tr><td><code>getDuelView(Player)</code></td><td>DuelView</td><td>Read-only copy of the player's duel, or null. API 2.1.</td></tr>
+    <tr><td><code>getDuelView(UUID)</code></td><td>DuelView</td><td>Read-only copy of a running duel by id, or null. API 2.1.</td></tr>
+    <tr><td><code>getActiveDuelViews()</code></td><td>List&lt;DuelView&gt;</td><td>Read-only copies of every running duel. API 2.1.</td></tr>
     <tr><td><code>getOpponent(Player)</code></td><td>Player</td><td>1v1 opponent, or null.</td></tr>
     <tr><td><code>getDuelRespawnLocation(Player)</code></td><td>Location</td><td>Respawn point for the player in the current duel round.</td></tr>
     <tr><td><code>getActiveDuels()</code></td><td>List&lt;Duel&gt;</td><td>All currently active duel instances.</td></tr>
@@ -127,6 +136,8 @@ Fetches and updates player ELO ratings, kills, deaths, winstreaks, and ranks:</p
     </tr>
   </thead>
   <tbody>
+    <tr><td><code>getStatsView(UUID)</code></td><td>StatsView</td><td>Read-only copy of overall stats. API 2.1.</td></tr>
+    <tr><td><code>getKitStatsView(UUID, String)</code></td><td>KitStatsView</td><td>Read-only copy of stats in one kit. API 2.1.</td></tr>
     <tr>
       <td><code>getStats(Player player)</code></td>
       <td>PlayerStats</td>
@@ -289,6 +300,8 @@ Coordinates FAWE reset states and lists active arena environments:</p>
     </tr>
   </thead>
   <tbody>
+    <tr><td><code>getArenaView(String)</code></td><td>ArenaView</td><td>Read-only copy of an arena, or null. API 2.1.</td></tr>
+    <tr><td><code>getArenaViews()</code></td><td>List&lt;ArenaView&gt;</td><td>Read-only copies of every arena. API 2.1.</td></tr>
     <tr>
       <td><code>getArena(String name)</code></td>
       <td>Arena</td>
@@ -376,6 +389,8 @@ Manages kit configuration templates, per-player edited kits, and their share met
     </tr>
   </thead>
   <tbody>
+    <tr><td><code>getKitView(String)</code></td><td>KitView</td><td>Read-only copy of a kit with item copies, or null. API 2.1.</td></tr>
+    <tr><td><code>getPublicKitViews()</code></td><td>List&lt;KitView&gt;</td><td>Read-only copies of the public kits. API 2.1.</td></tr>
     <tr>
       <td><code>getKit(String name)</code></td>
       <td>Kit</td>
@@ -564,6 +579,8 @@ Tracks active parties, member indices, and team divisions:</p>
     </tr>
   </thead>
   <tbody>
+    <tr><td><code>getPartyView(UUID)</code></td><td>PartyView</td><td>Read-only copy of a member's party, or null. API 2.1.</td></tr>
+    <tr><td><code>getPartyViews()</code></td><td>List&lt;PartyView&gt;</td><td>Read-only copies of every party. API 2.1.</td></tr>
     <tr><td><code>createParty(Player)</code></td><td>Party</td><td>Creates a party with the player as owner.</td></tr>
     <tr><td><code>disbandParty(Party)</code></td><td>void</td><td>Disbands a party.</td></tr>
     <tr><td><code>invitePlayer(sender, target)</code></td><td>void</td><td>Sends a party invite.</td></tr>
@@ -950,6 +967,52 @@ Manage tournament registrations, active bracket duels, and player memberships:</
   </tbody>
 </table>
 </div>
+
+<h2 id="match-history">MatchHistoryService</h2>
+<p>Interface: <code>com.shyamstudio.shyamduels.api.history.MatchHistoryService</code> (API 2.1)<br/>
+Saved matches with each player's final inventory, health and combat counters. Resolve via <code>api.matchHistory()</code>. Every query runs on a background thread and completes off the main thread; switch back to the main thread before touching players or worlds.</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Method Signature</th><th>Returns</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>isEnabled()</code></td><td>boolean</td><td>Whether <code>match-history.enabled</code> is on. Queries still work when off.</td></tr>
+    <tr><td><code>getMatches(UUID player, MatchHistoryFilter filter, int page, int pageSize)</code></td><td>CompletableFuture&lt;MatchPage&gt;</td><td>A page of the player's matches, newest first, without inventories. Page is 0-based, size 1-100.</td></tr>
+    <tr><td><code>getMatch(UUID matchId)</code></td><td>CompletableFuture&lt;Optional&lt;MatchRecord&gt;&gt;</td><td>One match with every player's saved inventory.</td></tr>
+    <tr><td><code>getRecentMatches(MatchHistoryFilter filter, int limit)</code></td><td>CompletableFuture&lt;List&lt;MatchRecord&gt;&gt;</td><td>Newest matches on the server (1-100), without inventories.</td></tr>
+    <tr><td><code>getMatchesSince(long sinceMillis, int limit)</code></td><td>CompletableFuture&lt;List&lt;MatchRecord&gt;&gt;</td><td>Matches that ended at or after a time, oldest first (1-500). Use the last <code>endedAt</code> as the next cursor to sync a website.</td></tr>
+    <tr><td><code>countMatches(UUID player, MatchHistoryFilter filter)</code></td><td>CompletableFuture&lt;Integer&gt;</td><td>How many saved matches the player has.</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Models: <code>MatchRecord(matchId, startedAt, endedAt, kit, arena, matchType, ranked, fightType, team1Score, team2Score, winnerTeam, players)</code> with <code>durationMillis()</code>, <code>player(UUID)</code>, <code>opponentsOf(UUID)</code>; <code>MatchPlayerRecord(playerId, name, team, outcome, eloChanged, eloBefore, eloAfter, tierTracked, tierRatingBefore, tierRatingAfter, tierBefore, tierAfter, kills, deaths, hits, damageDealt, damageTaken, totemsUsed, goldenApples, enderPearls, potionsUsed, health, maxHealth, absorption, food, inventoryData)</code> with <code>inventory()</code> (41 items: 0-35 storage, 36-39 boots to helmet, 40 off hand), <code>inventoryBase64()</code>, <code>eloChange()</code>; <code>MatchOutcome(WIN, LOSS, DRAW)</code>; <code>MatchHistoryFilter(ALL, RANKED, UNRANKED)</code>; <code>MatchPage(matches, page, pageSize, hasNext)</code>. Health and damage are in health points (2 = one heart).</p>
+<pre><code>api.matchHistory().getMatches(player.getUniqueId(), MatchHistoryFilter.RANKED, 0, 10)
+    .thenAccept(page -&gt; page.matches().forEach(match -&gt; {
+        MatchPlayerRecord me = match.player(player.getUniqueId()).orElseThrow();
+        getLogger().info(match.kit() + " " + me.outcome() + " " + me.eloChange());
+    }));</code></pre>
+
+<h2 id="tiers">TiersService</h2>
+<p>Interface: <code>com.shyamstudio.shyamduels.api.tier.TiersService</code> (API 2.1)<br/>
+The tier ladder, player tiers and tier leaderboards. Resolve via <code>api.tiers()</code>. Leaderboard methods read the latest in-memory board (rebuilt in the background), so they are cheap and safe from any thread.</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Method Signature</th><th>Returns</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>isEnabled()</code></td><td>boolean</td><td>Whether tiers are on in <code>tiers.yml</code>.</td></tr>
+    <tr><td><code>tiers()</code></td><td>List&lt;TierDefinition&gt;</td><td>Configured tiers, lowest first: index, id, name, color, rating, points.</td></tr>
+    <tr><td><code>trackedKits()</code></td><td>List&lt;String&gt;</td><td>Kits that have tiers.</td></tr>
+    <tr><td><code>tierName(int tier)</code></td><td>String</td><td>Display name of a tier index (the unranked name for -1).</td></tr>
+    <tr><td><code>getTier(UUID, String kit)</code></td><td>PlayerTier</td><td>Tier in one kit from memory (online players).</td></tr>
+    <tr><td><code>getTiers(UUID)</code></td><td>CompletableFuture&lt;Map&lt;String, PlayerTier&gt;&gt;</td><td>Every kit a player has played, loaded from storage when offline.</td></tr>
+    <tr><td><code>getKitLeaderboard(String kit, int offset, int limit)</code></td><td>List&lt;KitRanking&gt;</td><td>Kit board rows, best first (limit 1-500).</td></tr>
+    <tr><td><code>getOverallLeaderboard(int offset, int limit)</code></td><td>List&lt;OverallRanking&gt;</td><td>Overall board rows with points and tier per kit.</td></tr>
+    <tr><td><code>getKitLeaderboardSize(String kit)</code> / <code>getOverallLeaderboardSize()</code></td><td>int</td><td>Rows on a board, for paging.</td></tr>
+    <tr><td><code>getKitRanking(UUID, String kit)</code> / <code>getOverallRanking(UUID)</code></td><td>Optional</td><td>A player's row and position.</td></tr>
+    <tr><td><code>leaderboardBuiltAt()</code></td><td>long</td><td>When the boards were last rebuilt (epoch millis).</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Models: <code>PlayerTier(playerId, kit, tier, tierName, peakTier, rating, wins, losses, testWins, testLosses, testEligible, lastMatchAt)</code>, <code>KitRanking(position, playerId, name, kit, tier, tierName, rating, wins, losses, country)</code>, <code>OverallRanking(position, playerId, name, points, overallTier, overallTierName, kitTiers, country)</code>, <code>TierDefinition(index, id, name, color, rating, points)</code>.</p>
 
 <h2>PlayerService</h2>
 <p>Interface: <code>com.shyamstudio.shyamduels.api.player.PlayerService</code><br/>

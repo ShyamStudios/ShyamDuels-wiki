@@ -30,6 +30,9 @@ Open [`index.html`](index.html) in a browser to view the full documentation offl
 - [Tournament System](user-guide/tournaments.html)
 - [Advancements](user-guide/advancements.html)
 - [Configuration Files](user-guide/configuration.html)
+- [Tiers](user-guide/tiers.html)
+- [Match History](user-guide/match-history.html)
+- [Dialog Menus](user-guide/menus.html)
 - [PlaceholderAPI](user-guide/placeholders.html)
 - [Migration Guide](user-guide/migration.html)
 
@@ -42,6 +45,12 @@ Open [`index.html`](index.html) in a browser to view the full documentation offl
 - Practice features: optional client-only XP score/skull animation and separate
   ranked/unranked 1v1 streak lore (menu-local tokens, not new PAPI placeholders).
 - Upgrades & migration: additive defaults, backups, opt-in switches, and restart requirements.
+- Tiers: per-kit tiers with tier tests, skill placement, readiness bars, leaderboards, ranked
+  match chat options and a McPvP-style setup table (`tiers.yml`, off by default).
+- Match history: `/matchhistory`, saved inventories and combat counters, config and storage.
+- Dialog menus: every dialog menu, Back navigation, kit descriptions, player preferences.
+- Developer API 2.1: `matchHistory()`, `tiers()`, history and tier models, `MatchRecordedEvent`
+  and the tier events, with examples.
 
 Examples describe the implementation in this source tree. Check that the installed build
 contains the feature before enabling it; this documentation change does not publish a JAR.

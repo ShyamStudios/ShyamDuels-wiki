@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Match History: ShyamDuels</title>
+<link rel="stylesheet" href="../assets/style.css"/>
+</head>
+<body>
+<nav class="topnav">
+  <a class="logo-container" href="../index.html">
+    <img src="../shyam.webp" alt="ShyamDuels Logo" class="logo-img"/>
+    <span class="logo-text">ShyamDuels</span>
+  </a>
+  <span class="divider">/</span>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="getting-started.html" class="active">User Guide</a>
+    <a href="../api/overview.html">Developer API</a>
+  </div>
+  <span class="spacer"></span>
+  <a class="discord-btn" href="https://discord.gg/sMdsvZFqnX" target="_blank" rel="noopener">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037 12.9 12.9 0 0 0-.608 1.25 18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+    Discord
+  </a>
+  <button class="hamburger" id="hamburger" aria-label="Toggle sidebar">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+  </button>
+</nav>
+<div id="overlay"></div>
+<div class="layout">
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">User Guide</span>
+    <a href="getting-started.html">Getting Started</a>
+    <a href="commands.html">Commands Reference</a>
+    <a href="permissions.html">Permissions</a>
+    <a href="arena-setup.html">Arena Setup</a>
+    <a href="arena-instances.html">Arena Instances</a>
+    <a href="gate-setup.html">Gate Setup</a>
+    <a href="kit-setup.html">Kit Setup</a>
+    <a href="kit-sharing.html">Kit Sharing &amp; Profiles</a>
+    <a href="tournaments.html">Tournament System</a>
+    <a href="party-system.html">Party System</a>
+    <a href="ffa.html">FFA Mode</a>
+    <a href="elo-ranks.html">ELO &amp; Ranks</a>
+    <a href="tiers.html">Tiers</a>
+    <a href="match-history.html" class="active">Match History</a>
+    <a href="menus.html">Dialog Menus</a>
+    <a href="settings.html">Player Settings</a>
+    <a href="practice-features.html">Practice Features</a>
+    <a href="country.html">Country Flags</a>
+    <a href="advancements.html">Advancements</a>
+    <a href="configuration.html">Configuration Files</a>
+    <a href="world-isolation.html">World Isolation</a>
+    <a href="migration.html">Migration Guide</a>
+    <a href="placeholders.html">PlaceholderAPI</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+  </div>
+  <div class="sidebar-group">
+    <span class="sidebar-group-label">Developer API</span>
+    <a href="../api/overview.html">Overview &amp; Setup</a>
+    <a href="../api/services.html">Services Reference</a>
+    <a href="../api/events.html">Events Reference</a>
+    <a href="../api/models.html">Data Models</a>
+    <a href="../api/examples.html">Code Examples</a>
+  </div>
+</aside>
+<main class="content">
+<div class="breadcrumb"><a href="../index.html">Home</a><span>›</span><a href="getting-started.html">User Guide</a><span>›</span>Match History</div>
+<h1>Match History</h1>
+<p class="page-lead">Every finished duel is saved with each player's result, rating changes, combat counters, final health and final inventory. Players browse it in game; plugins and websites read it through the API.</p>
+
+<h2>Overview</h2>
+<ul>
+  <li>On by default. Duels, queue matches, rematches, party matches and tier tests are saved. Bot matches are skipped.</li>
+  <li><strong>Ranked</strong> means ranked queue matches and tier tests. Everything else lists under <strong>Unranked</strong>.</li>
+  <li>Old matches are deleted after <code>keep-days</code> (30), on startup and every 6 hours.</li>
+  <li>All database work runs on a background thread, so saving and browsing never block the server.</li>
+</ul>
+
+<h2>Opening it</h2>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Command</th><th>Description</th><th>Permission</th></tr></thead>
+  <tbody>
+    <tr><td><code>/matchhistory [player]</code></td><td>Your matches, or another player's (online or offline)</td><td>none</td></tr>
+    <tr><td><code>/match-history</code>, <code>/mh</code>, <code>/matches</code></td><td>Aliases</td><td>none</td></tr>
+  </tbody>
+</table>
+</div>
+<p>The menu always opens on <strong>Unranked</strong>, with a <strong>Ranked</strong> tab and pages of matches, newest first (<code>page-size</code>, default 7, in the dialog file). With <code>gui.mode: DIALOG</code> it is a dialog; otherwise a chest menu with a filter button and page arrows.</p>
+
+<h2>What a match shows</h2>
+<p>Clicking a match opens its page: kit, arena, match type, duration, score and when it ended, then one block per player.</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Per player</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Result</td><td>Win, loss or draw</td></tr>
+    <tr><td>Elo change</td><td>Only when the match changed Elo (ranked)</td></tr>
+    <tr><td>Tier rating and tier change</td><td>Only when <a href="tiers.html">tiers</a> are on and the match counted</td></tr>
+    <tr><td>Kills, deaths, hits</td><td>Hits are melee and projectile hits on other match players</td></tr>
+    <tr><td>Damage dealt and taken</td><td>In hearts</td></tr>
+    <tr><td>Totems, golden apples, ender pearls, potions</td><td>Used during the match</td></tr>
+    <tr><td>Health, absorption, hunger</td><td>When the player was eliminated or when the match ended</td></tr>
+    <tr><td>Final inventory</td><td>Click to open a read-only view: storage, armour and off hand</td></tr>
+  </tbody>
+</table>
+</div>
+<p>The inventory view shows copies of the saved items. Every click and drag is cancelled, including shift-click, hotbar keys and creative mode, so nothing can be taken out.</p>
+
+<h2>Configuration</h2>
+<p>In <code>config.yml</code>. Changes apply on <code>/shyamduels reload-config confirm</code>.</p>
+<pre><code>match-history:
+  enabled: true
+  # Days before a match is deleted. 0 keeps matches forever.
+  keep-days: 30
+  # Save each player's final inventory (about 1-4 KB per player per match).
+  save-inventories: true</code></pre>
+<p>Texts: <code>dialog-menus/match-history.yml</code> (dialog mode), <code>menus/match-history.yml</code> (chest mode) and the <code>match-history</code> section of <code>lang/messages.yml</code>.</p>
+
+<h2>Storage</h2>
+<ul>
+  <li>Tables <code>match_history</code> (one row per match) and <code>match_history_players</code> (one row per player) in the stats database, on SQLite or MySQL.</li>
+  <li>Inventories are stored in Paper's item byte format. If a player's items cannot be saved, the match is still saved without them.</li>
+  <li>Writes go through one ordered background queue; a server stop waits for queued writes.</li>
+</ul>
+
+<h2>Developer API</h2>
+<p><code>ShyamDuelsAPI.matchHistory()</code> returns the <code>MatchHistoryService</code> (API 2.1): pages of a player's matches, one match with inventories, recent matches and matches since a time, all as <code>CompletableFuture</code>s. <code>MatchRecordedEvent</code> fires on the main thread when a match is saved. See <a href="../api/services.html">Services</a>, <a href="../api/models.html#match-history">Data Models</a> and <a href="../api/events.html">Events</a>.</p>
+
+<div class="page-navigation">
+  <a class="page-nav-link prev" href="tiers.html">
+    <span class="page-nav-label">Previous Page</span>
+    <span class="page-nav-title">Tiers</span>
+  </a>
+  <a class="page-nav-link next" href="menus.html">
+    <span class="page-nav-label">Next Page</span>
+    <span class="page-nav-title">Dialog Menus</span>
+  </a>
+</div>
+
+</main>
+</div>
+<script src="../assets/nav.js"></script>
+</body>
+</html>

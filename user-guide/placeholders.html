@@ -44,6 +44,9 @@
     <a href="party-system.html">Party System</a>
     <a href="ffa.html">FFA Mode</a>
     <a href="elo-ranks.html">ELO &amp; Ranks</a>
+    <a href="tiers.html">Tiers</a>
+    <a href="match-history.html">Match History</a>
+    <a href="menus.html">Dialog Menus</a>
     <a href="settings.html">Player Settings</a>
     <a href="practice-features.html">Practice Features</a>
     <a href="country.html">Country Flags</a>
@@ -557,6 +560,101 @@
 </table>
 </div>
 
+<h2 id="leaderboards">Leaderboards</h2>
+<p><code>n</code> is the place, from 1 to <code>placeholders.leaderboard-size</code>. Boards load in the background and refresh every <code>placeholders.leaderboard-refresh-seconds</code>, so a new board shows <code>placeholders.empty</code> for a moment the first time it is used.</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Placeholder</th><th>Type</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>%shyamduels_top_&lt;stat&gt;_&lt;n&gt;_name%</code></td><td>String</td><td>Player at place <code>n</code> on an overall board.</td></tr>
+    <tr><td><code>%shyamduels_top_&lt;stat&gt;_&lt;n&gt;_value%</code></td><td>Integer</td><td>Their value. <code>stat</code>: <code>kills</code>, <code>deaths</code>, <code>wins</code>, <code>losses</code>, <code>elo</code>, <code>best_killstreak</code>, <code>best_winstreak</code>, <code>playtime</code> (hours).</td></tr>
+    <tr><td><code>%shyamduels_top_&lt;kit&gt;_&lt;stat&gt;_&lt;n&gt;_name%</code></td><td>String</td><td>Player at place <code>n</code> on a kit board.</td></tr>
+    <tr><td><code>%shyamduels_top_&lt;kit&gt;_&lt;stat&gt;_&lt;n&gt;_value%</code></td><td>Integer</td><td>Their value. Same stats as above without <code>playtime</code>, plus <code>killstreak</code> and <code>winstreak</code>.</td></tr>
+  </tbody>
+</table>
+</div>
+<h2 id="recent-matches">Recent matches</h2>
+<p>Read from match history, so <code>match-history.enabled</code> must be on. Values update as soon as a match ends.</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Placeholder</th><th>Type</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>%shyamduels_last_match_result%</code></td><td>String</td><td>Win, Loss or Draw of the last match (texts from <code>placeholders.result-*</code>).</td></tr>
+    <tr><td><code>%shyamduels_last_match_opponent%</code></td><td>String</td><td>Opponent in the last match.</td></tr>
+    <tr><td><code>%shyamduels_last_match_kit%</code></td><td>String</td><td>Kit of the last match.</td></tr>
+    <tr><td><code>%shyamduels_last_match_score%</code></td><td>String</td><td>Round score of the last match, own score first.</td></tr>
+    <tr><td><code>%shyamduels_last_match_type%</code></td><td>String</td><td>Ranked or Unranked.</td></tr>
+    <tr><td><code>%shyamduels_last_match_elo_change%</code></td><td>Integer</td><td>Elo change of the last match, e.g. <code>+12</code>.</td></tr>
+    <tr><td><code>%shyamduels_recent_form%</code></td><td>String</td><td>Last matches as letters, newest first, e.g. <code>WWLWD</code>. Length and letters from <code>placeholders.form-*</code>.</td></tr>
+  </tbody>
+</table>
+</div>
+<h2 id="live">Live match, queue and server counts</h2>
+<p>Text values show <code>placeholders.none</code> when there is nothing to show.</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Placeholder</th><th>Type</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>%shyamduels_duel_score%</code></td><td>String</td><td>Round score of the current duel, own score first.</td></tr>
+    <tr><td><code>%shyamduels_duel_type%</code></td><td>String</td><td>Ranked or Unranked for the current duel.</td></tr>
+    <tr><td><code>%shyamduels_duel_ranked%</code></td><td>boolean</td><td>True when the current duel is ranked.</td></tr>
+    <tr><td><code>%shyamduels_duel_tier_test%</code></td><td>boolean</td><td>True when the current duel is a tier test.</td></tr>
+    <tr><td><code>%shyamduels_opponent_health%</code></td><td>Decimal</td><td>Opponent health in hearts.</td></tr>
+    <tr><td><code>%shyamduels_opponent_max_health%</code></td><td>Decimal</td><td>Opponent max health in hearts.</td></tr>
+    <tr><td><code>%shyamduels_queued_&lt;kit&gt;%</code></td><td>Integer</td><td>Players queued for a kit (all modes and types).</td></tr>
+    <tr><td><code>%shyamduels_playing_&lt;kit&gt;%</code></td><td>Integer</td><td>Players in matches of a kit.</td></tr>
+    <tr><td><code>%shyamduels_active_duels%</code></td><td>Integer</td><td>Duels running now.</td></tr>
+    <tr><td><code>%shyamduels_free_arenas%</code></td><td>Integer</td><td>Duel arenas free now.</td></tr>
+    <tr><td><code>%shyamduels_ffa_arena%</code></td><td>String</td><td>FFA arena the player is in.</td></tr>
+    <tr><td><code>%shyamduels_spectating%</code></td><td>boolean</td><td>True while spectating.</td></tr>
+    <tr><td><code>%shyamduels_spectating_players%</code></td><td>String</td><td>Players in the spectated duel.</td></tr>
+    <tr><td><code>%shyamduels_party_leader%</code></td><td>String</td><td>Leader of the player's party.</td></tr>
+  </tbody>
+</table>
+</div>
+<h2 id="placeholder-config">Placeholder settings</h2>
+<p>The <code>placeholders</code> section of <code>config.yml</code>:</p>
+<pre><code>placeholders:
+  leaderboard-size: 10
+  leaderboard-refresh-seconds: 60
+  empty: "---"
+  none: "None"
+  form-length: 5
+  form-win: "&amp;aW"
+  form-loss: "&amp;cL"
+  form-draw: "&amp;7D"
+  result-win: "Win"
+  result-loss: "Loss"
+  result-draw: "Draw"
+  ranked: "Ranked"
+  unranked: "Unranked"</code></pre>
+
+<h2>Tier placeholders</h2>
+<p>All return an empty value while tiers are off. <code>&lt;kit&gt;</code> is the kit name in lowercase.</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Placeholder</th><th>Type</th><th>Description</th></tr></thead>
+  <tbody>
+    <tr><td><code>%shyamduels_tier_&lt;kit&gt;%</code></td><td>String</td><td>Tier name in a kit, e.g. <code>HT3</code>.</td></tr>
+    <tr><td><code>%shyamduels_tier_color_&lt;kit&gt;%</code></td><td>Color Codes</td><td>Tier colour as hex.</td></tr>
+    <tr><td><code>%shyamduels_tier_tag_&lt;kit&gt;%</code></td><td>MiniMessage</td><td>Coloured tier name.</td></tr>
+    <tr><td><code>%shyamduels_tier_rating_&lt;kit&gt;%</code></td><td>Integer</td><td>Kit tier rating.</td></tr>
+    <tr><td><code>%shyamduels_tier_rank_&lt;kit&gt;%</code></td><td>Integer</td><td>Position on the kit board.</td></tr>
+    <tr><td><code>%shyamduels_tier_progress_&lt;kit&gt;%</code></td><td>Integer</td><td>Percent ready for the next tier test.</td></tr>
+    <tr><td><code>%shyamduels_tier_best%</code>, <code>%shyamduels_tier_best_color%</code>, <code>%shyamduels_tier_best_tag%</code></td><td>String</td><td>Highest tier across all kits.</td></tr>
+    <tr><td><code>%shyamduels_tier_overall%</code>, <code>%shyamduels_tier_overall_color%</code>, <code>%shyamduels_tier_overall_tag%</code></td><td>String</td><td>Overall tier from leaderboard points.</td></tr>
+    <tr><td><code>%shyamduels_tier_overall_rank%</code></td><td>Integer</td><td>Position on the overall board.</td></tr>
+    <tr><td><code>%shyamduels_tier_points%</code></td><td>Decimal</td><td>Overall points.</td></tr>
+    <tr><td><code>%shyamduels_tier_peak_&lt;kit&gt;%</code></td><td>String</td><td>Highest tier ever reached in a kit.</td></tr>
+    <tr><td><code>%shyamduels_tier_next_&lt;kit&gt;%</code></td><td>String</td><td>Tier the next test is for.</td></tr>
+    <tr><td><code>%shyamduels_tier_ready_&lt;kit&gt;%</code></td><td>boolean</td><td>True when the player can take a tier test.</td></tr>
+    <tr><td><code>%shyamduels_tier_skill_&lt;kit&gt;%</code></td><td>String</td><td>Tier the current rating points to.</td></tr>
+    <tr><td><code>%shyamduels_tier_top_&lt;kit&gt;_&lt;n&gt;_name%</code></td><td>String</td><td>Player at place <code>n</code> on a kit tier board. Also <code>_tier</code> and <code>_rating</code>.</td></tr>
+    <tr><td><code>%shyamduels_tier_top_overall_&lt;n&gt;_name%</code></td><td>String</td><td>Player at place <code>n</code> on the overall tier board. Also <code>_tier</code> and <code>_points</code>.</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Scoreboard and tab templates can also use <code>&lt;tier&gt;</code>, <code>&lt;tier_color&gt;</code>, <code>&lt;tier_tag&gt;</code>, <code>&lt;tier_points&gt;</code>, <code>&lt;tier_overall&gt;</code>, <code>&lt;tier_overall_tag&gt;</code> and <code>&lt;tier_overall_rank&gt;</code>. Above-name formats can use <code>%kit_tier%</code> and <code>%kit_tier_colored%</code>. With <code>display-mode: TIERS</code> or <code>BOTH</code> the existing <code>&lt;rank&gt;</code> tokens show tiers too.</p>
 <div class="page-navigation">
   <a class="page-nav-link prev" href="migration.html">
     <span class="page-nav-label">Previous Page</span>

@@ -44,6 +44,9 @@
     <a href="../user-guide/party-system.html">Party System</a>
     <a href="../user-guide/ffa.html">FFA Mode</a>
     <a href="../user-guide/elo-ranks.html">ELO &amp; Ranks</a>
+    <a href="../user-guide/tiers.html">Tiers</a>
+    <a href="../user-guide/match-history.html">Match History</a>
+    <a href="../user-guide/menus.html">Dialog Menus</a>
     <a href="../user-guide/settings.html">Player Settings</a>
     <a href="../user-guide/practice-features.html">Practice Features</a>
     <a href="../user-guide/country.html">Country Flags</a>
@@ -75,6 +78,7 @@
 <pre><span class="lang-badge">gradle</span><code>dependencies {
     compileOnly files("libs/shyamduels-2.0-api.jar")
 }</code></pre>
+<p><code>./gradlew apiJar</code> also builds <code>shyamduels-2.0-api-sources.jar</code>. Attach it in your IDE to see the Javadoc of every service, event and model.</p>
 
 <p>For Maven repositories, publish the API artifact under the following coordinates and keep the dependency scope <code>provided</code>:</p>
 
@@ -156,6 +160,8 @@ public class IntegrationPlugin extends JavaPlugin {
     <tr><td><code>placeholders()</code></td><td>PlaceholderService</td><td>Internal placeholder resolution</td></tr>
     <tr><td><code>tournaments()</code></td><td>TournamentService</td><td>Tournament registration and bracket control</td></tr>
     <tr><td><code>country()</code></td><td>CountryService</td><td>GeoIP detection, flag display and 224-entry registry</td></tr>
+    <tr><td><code>matchHistory()</code></td><td>MatchHistoryService</td><td>Saved matches with final inventories, health and combat counters (API 2.1)</td></tr>
+    <tr><td><code>tiers()</code></td><td>TiersService</td><td>Tier ladder, player tiers and tier leaderboards (API 2.1)</td></tr>
     <tr><td><code>practice()</code></td><td>PracticeService</td><td>Optional: practice module features</td></tr>
     <tr><td><code>customKits()</code></td><td>CustomKitsService</td><td>Optional: player-built custom kits</td></tr>
     <tr><td><code>kitEditor()</code></td><td>KitEditorService</td><td>Optional: kit editor / kit room</td></tr>

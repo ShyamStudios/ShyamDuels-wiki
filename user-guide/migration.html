@@ -44,6 +44,9 @@
     <a href="party-system.html">Party System</a>
     <a href="ffa.html">FFA Mode</a>
     <a href="elo-ranks.html">ELO &amp; Ranks</a>
+    <a href="tiers.html">Tiers</a>
+    <a href="match-history.html">Match History</a>
+    <a href="menus.html">Dialog Menus</a>
     <a href="settings.html">Player Settings</a>
     <a href="practice-features.html">Practice Features</a>
     <a href="country.html">Country Flags</a>
@@ -85,6 +88,15 @@
     <tr><td><a href="configuration.html#combat-death-drops">Combat loot</a></td><td>Missing FFA/duel switches inherit the inverse of the legacy <code>anti-death-drops</code> choice. Existing explicit switches are preserved. New default lifetime is 30 seconds for owned death loot.</td></tr>
     <tr><td><a href="arena-setup.html#border-shrinking">Shrink warning sounds</a></td><td>Off by default; existing border timing, damage, and kit choices are unchanged.</td></tr>
     <tr><td><a href="practice-features.html#xp-round-animation">XP round animation</a></td><td>Off by default; never extends a configured round/match pause.</td></tr>
+    <tr><td><a href="tiers.html">Tiers</a></td><td>New <code>tiers.yml</code> with <code>enabled: false</code>. Nothing changes for players until you enable it; Elo, divisions and stats are never touched. Tier data goes into the new <code>tier_profiles</code> table.</td></tr>
+    <tr><td><a href="match-history.html">Match history</a></td><td>Main config 23 adds <code>match-history</code> (on, 30 days, inventories saved). Matches are recorded from the first duel after the update; older matches are not available.</td></tr>
+    <tr><td><a href="configuration.html#pause-links">Pause menu links</a></td><td>Main config 23 adds <code>pause-links</code>, enabled for new and upgraded servers. Set <code>enabled: false</code> to hide them.</td></tr>
+    <tr><td><a href="menus.html#menu-texts">Menu texts</a></td><td>New <code>dialog-menus/menu-texts.yml</code> is created on start with today's wording for the older dialogs. Messages 16 adds the advancement, kit info and set-Elo command texts; config 23 adds <code>duels.round.match-point</code>.</td></tr>
+    <tr><td><a href="configuration.html#portals">Portals</a></td><td>Main config 23 adds <code>portals</code> with all three blocks on: portal use stops for players in ShyamDuels lobby and arena worlds. Other worlds are unchanged. Set a value to false to allow that portal again.</td></tr>
+    <tr><td><a href="configuration.html#queue-types">Queue types</a></td><td>Main config 23 adds <code>queue.types</code> with ranked and unranked both on, so queues work as before.</td></tr>
+    <tr><td><a href="placeholders.html#leaderboards">Placeholders</a></td><td>Main config 23 adds the new keys to the existing <code>placeholders</code> section (leaderboard size and refresh, empty and none texts, form letters). <code>health-merged</code> is kept as it is.</td></tr>
+    <tr><td><a href="configuration.html">Own nametag</a></td><td><code>tab/display.yml</code> version 3 adds <code>nametags.self-visible: false</code>. Nothing changes until you turn it on.</td></tr>
+    <tr><td><a href="menus.html">Dialog menus</a></td><td>Messages 16 adds tier, queue and match history texts without replacing your edits. New <code>dialog-menus/*.yml</code> files are created; missing keys in older files use the built-in defaults.</td></tr>
     <tr><td><a href="practice-features.html#queue-win-streaks">Queue streak lore</a></td><td>Menu version 9 adds default-off lore fields without replacing existing names/slots/lore. Separate counters start at zero; existing combined stats remain.</td></tr>
   </tbody>
 </table></div>

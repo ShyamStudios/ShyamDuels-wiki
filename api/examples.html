@@ -44,6 +44,9 @@
     <a href="../user-guide/party-system.html">Party System</a>
     <a href="../user-guide/ffa.html">FFA Mode</a>
     <a href="../user-guide/elo-ranks.html">ELO &amp; Ranks</a>
+    <a href="../user-guide/tiers.html">Tiers</a>
+    <a href="../user-guide/match-history.html">Match History</a>
+    <a href="../user-guide/menus.html">Dialog Menus</a>
     <a href="../user-guide/settings.html">Player Settings</a>
     <a href="../user-guide/practice-features.html">Practice Features</a>
     <a href="../user-guide/country.html">Country Flags</a>
@@ -480,6 +483,93 @@ ExtensionRegistration registration = ShyamDuelsProvider.require().extensions().r
 Optional&lt;RatingProvider&gt; provider = ShyamDuelsProvider.require()
         .extensions().find(key, RatingProvider.class);
 </code></pre>
+
+<h2>Example 15: Sending Finished Matches to a Website</h2>
+<p><code>MatchRecordedEvent</code> fires on the main thread when a match is saved. Strip the inventories and post the record from a background thread:</p>
+<pre><span class="lang-badge">java</span><code>import com.shyamstudio.shyamduels.api.event.history.MatchRecordedEvent;
+import com.shyamstudio.shyamduels.api.history.MatchPlayerRecord;
+import com.shyamstudio.shyamduels.api.history.MatchRecord;
+import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+
+public class MatchExporter implements Listener {
+
+    @EventHandler
+    public void onMatch(MatchRecordedEvent event) {
+        MatchRecord match = event.getRecord().withoutInventories();
+        Bukkit.getAsyncScheduler().runNow(plugin, task -&gt; {
+            for (MatchPlayerRecord player : match.players()) {
+                // e.g. name, outcome, Elo change, totems used, final health
+                upload(match.matchId(), player.name(), player.outcome(),
+                        player.eloChange(), player.totemsUsed(), player.health());
+            }
+        });
+    }
+}
+</code></pre>
+
+<h2>Example 16: Reading a Player's Match History</h2>
+<p>Queries complete off the main thread. Switch back before touching the player:</p>
+<pre><span class="lang-badge">java</span><code>ShyamDuelsAPI api = ShyamDuelsProvider.require();
+api.matchHistory().getMatches(player.getUniqueId(), MatchHistoryFilter.RANKED, 0, 10)
+        .thenAccept(page -&gt; player.getScheduler().run(plugin, task -&gt; {
+            for (MatchRecord match : page.matches()) {
+                match.player(player.getUniqueId()).ifPresent(self -&gt;
+                        player.sendMessage(match.kit() + ": " + self.outcome()
+                                + " (" + match.team1Score() + "-" + match.team2Score() + ")"));
+            }
+        }, null));
+</code></pre>
+
+<h2>Example 17: Tiers and Tier Leaderboards</h2>
+<p>Tier reads are in memory and safe from any thread. Listen to <code>TierChangeEvent</code> for promotions:</p>
+<pre><span class="lang-badge">java</span><code>TiersService tiers = ShyamDuelsProvider.require().tiers();
+if (tiers.isEnabled()) {
+    PlayerTier sword = tiers.getTier(player.getUniqueId(), "sword");
+    player.sendMessage("Sword: " + sword.tierName() + " (" + Math.round(sword.rating()) + ")");
+
+    for (KitRanking row : tiers.getKitLeaderboard("sword", 0, 10)) {
+        // row.position(), row.name(), row.tierName(), row.rating()
+    }
+}
+
+@EventHandler
+public void onTierChange(TierChangeEvent event) {
+    if (event.isPromotion()) {
+        announce(event.getPlayerId(), event.getKit(), event.getNewTierName(), event.getReason());
+    }
+}
+</code></pre>
+
+<h2>Example 18: Blocking Queue Joins</h2>
+<p>Cancellable events fire before the change. The plugin sends no message when you cancel, so tell the player why:</p>
+<pre><span class="lang-badge">java</span><code>@EventHandler
+public void onQueue(QueueJoinEvent event) {
+    if (event.getQueueType() == QueueType.RANKED &amp;&amp; !isVerified(event.getPlayer())) {
+        event.setCancelled(true);
+        event.getPlayer().sendMessage("Verify your account to play ranked.");
+    }
+}
+
+@EventHandler
+public void onLeave(QueueLeaveEvent event) {
+    if (event.getReason() == QueueLeaveEvent.Reason.MATCH_FOUND) {
+        // the player was matched; their duel starts in a moment
+    }
+}</code></pre>
+
+<h2>Example 19: Read-only Views Off the Main Thread</h2>
+<p>Take views on the main thread, then hand them to async work. They never change and cannot change the plugin:</p>
+<pre><span class="lang-badge">java</span><code>ShyamDuelsAPI api = ShyamDuelsProvider.require();
+List&lt;DuelView&gt; duels = api.duels().getActiveDuelViews();
+StatsView stats = api.stats().getStatsView(player.getUniqueId());
+Bukkit.getAsyncScheduler().runNow(plugin, task -&gt; {
+    for (DuelView duel : duels) {
+        publish(duel.duelId(), duel.kitName(), duel.team1Wins() + "-" + duel.team2Wins(), duel.players());
+    }
+    publishStats(stats.playerId(), stats.elo(), stats.winRate());
+});</code></pre>
 
 <div class="page-navigation">
   <a class="page-nav-link prev" href="models.html">

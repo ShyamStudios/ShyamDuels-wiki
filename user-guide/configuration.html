@@ -44,6 +44,9 @@
     <a href="party-system.html">Party System</a>
     <a href="ffa.html">FFA Mode</a>
     <a href="elo-ranks.html">ELO &amp; Ranks</a>
+    <a href="tiers.html">Tiers</a>
+    <a href="match-history.html">Match History</a>
+    <a href="menus.html">Dialog Menus</a>
     <a href="settings.html">Player Settings</a>
     <a href="practice-features.html">Practice Features</a>
     <a href="country.html">Country Flags</a>
@@ -179,6 +182,17 @@ left untouched).</p>
     show-death-messages: false
     random-tick-speed: 0      # stop block/crop ticking</code></pre>
 
+<h3 id="portals">Portals</h3>
+<p>Vanilla settings such as <code>allow-nether=false</code> or the portal gamerule apply per world and do not cover every setup
+(for example lobby or arena worlds made by a world manager). ShyamDuels blocks portals itself for players in its lobby
+worlds, arena worlds, duels, FFA or spectating. Players in other worlds (survival and so on) are not affected, and
+<code>shyamduels.admin.bypass</code> ignores the block. The message is <code>general.portal-blocked</code> in
+<code>lang/messages.yml</code> (empty for none); it is sent at most once every 3 seconds.</p>
+<pre><span class="lang-badge">yaml</span><code>portals:
+  block-nether: true
+  block-end: true
+  block-end-gateway: true</code></pre>
+
 <h3 id="world-isolation">Optional Practice-World Isolation</h3>
 <p>For mixed-gamemode servers only. Default-off; dedicated practice servers do not need to enable it.</p>
 <pre><span class="lang-badge">yaml</span><code>world-isolation:
@@ -236,6 +250,9 @@ left untouched).</p>
     2v2: true
     3v3: true
     4v4: true
+  types:                      # Queue types players may join
+    ranked: true
+    unranked: true
   match-found-animation:
     enabled: true
     blindness: true           # Apply blindness for the duration of the match-found animation
@@ -275,6 +292,11 @@ leavefight:
 spawn:
   delay: 1                      # Teleport delay for /spawn (falls back to leavefight.delay)</code></pre>
 <p>The optional XP animation lasts up to 3.8 seconds and never extends these pauses. It shows the round score, then a skull on the final win; transitions/teleports clean it up early. See <a href="practice-features.html#xp-round-animation">XP Round-Win Animation</a>.</p>
+<p id="queue-types"><code>queue.types</code> turns ranked or unranked queues off for the whole server, for example a
+ranked-only server. The turned-off type disappears from the queue menu (the Ranked/Unranked switch only shows when both
+are on), and <code>/ranked</code> or <code>/unranked</code> with a kit tell the player it is off
+(<code>queue.type-disabled</code>). Party queues follow the same rule. Direct <code>/duel</code> requests are not queues and
+are not affected. If both are set to false, unranked stays on and a warning is logged.</p>
 
 <h3>Arena World Borders</h3>
 <p>Per-player, client-side red borders drawn around arenas during duels, FFA, and spectating. They
@@ -311,7 +333,27 @@ world-border-shrink:
 <p>Challenge/achievement subsystem (<code>AdvancementManager</code>, 36 trigger types). Full key reference lives in <code>advancement.yml</code> - settings, defaults, per-category tabs, per-advancement triggers/conditions/rewards. See the <a href="advancements.html">Advancements</a> guide for every key, all trigger and condition types, and a step-by-step example. Key commands: <code>/advancements</code> (aliases <code>/adv</code>, <code>/achievements</code>, <code>/sdadv</code>), admin <code>grant</code>/<code>revoke</code>/<code>reset</code>/<code>resetall</code>/<code>reload</code> (<code>shyamduels.advancements.admin</code>). Event: <code>AdvancementGrantEvent</code> (see <a href="../api/events.html">Events Reference</a>). Persistence: <code>player_advancements</code> table.</p>
 
 <h3>GUI Mode (Normal vs Dialog)</h3>
-<p>Menu routing is controlled by <code>gui.mode</code> in <code>config.yml</code> (<code>NORMAL</code> = FastInv inventories, <code>DIALOG</code> = Paper 1.21.7+ dialogs from <code>dialog-menus/*.yml</code>, 57 files). Dialog clicks are debounced (150ms) with single-use 5-minute callbacks.</p>
+<p>Menu routing is controlled by <code>gui.mode</code> in <code>config.yml</code> (<code>NORMAL</code> = FastInv inventories, <code>DIALOG</code> = Paper 1.21.7+ dialogs from <code>dialog-menus/*.yml</code>, 63 files). Dialog clicks are debounced (150ms) with single-use 5-minute callbacks. Every dialog menu, the Back button and the kit descriptions are described on <a href="menus.html">Dialog Menus</a>. Small texts of the older dialogs (titles, tooltips, shared buttons) are in <code>dialog-menus/menu-texts.yml</code>, see <a href="menus.html#menu-texts">Texts of the other menus</a>.</p>
+<p>The dialog queue menu (<code>dialog-menus/queue.yml</code>) opens on Unranked for players who have never switched, then remembers their last choice. Ranked is 1v1 only, so the 1v1-4v4 row shows under Unranked only. Custom kits stay out of Ranked unless <code>dialog-queue-menu.custom-kits-in-ranked: true</code>.</p>
+<p>Hover texts in the queue and tier dialogs: kit and category descriptions come from <code>dialog-menus/kit-info.yml</code>. A kit or category left out there uses the lore already set on its icon item, so most servers need no setup. The kit icon shows the player's tier, points and queue size; the progress bar under a ranked kit tells the player the next step towards a tier test.</p>
+
+<h3 id="pause-links">Pause Menu Links</h3>
+<p><code>pause-links</code> adds buttons to the client's pause menu under Server Links. Each entry has a MiniMessage <code>name</code> and an <code>http</code>/<code>https</code> <code>url</code>. New installs and upgraded servers get the ShyamStudio Discord and BuiltByBit links enabled; set <code>enabled: false</code> to hide them. Changes apply on <code>/shyamduels reload-config confirm</code>, and links added by the server or other plugins are left alone.</p>
+<pre><code>pause-links:
+  enabled: true
+  links:
+    - name: "&lt;#5865F2&gt;Discord"
+      url: "https://discord.gg/r6XJyfzhdT"
+    - name: "&lt;#FFAA00&gt;BuiltByBit"
+      url: "https://builtbybit.com/shyamstudio"</code></pre>
+
+<h3 id="match-history">Match History</h3>
+<p>Every finished duel is saved with each player's result, Elo and tier rating change, combat counters, final health and final inventory, and can be browsed with <code>/matchhistory [player]</code>. Full guide: <a href="match-history.html">Match History</a>.</p>
+<pre><code>match-history:
+  enabled: true
+  keep-days: 30          # 0 keeps matches forever
+  save-inventories: true # about 1-4 KB per player per match</code></pre>
+<p>Texts: <code>dialog-menus/match-history.yml</code> (dialog mode) and <code>menus/match-history.yml</code> (inventory mode).</p>
 
 <h3>Friends</h3>
 <pre><span class="lang-badge">yaml</span><code>friends:
@@ -621,6 +663,8 @@ nametags:
   height-offset: 0.25
   # Whether nametag is visible through solid blocks
   see-through: false
+  # Show players their own nametag (third-person view). Off by default.
+  self-visible: false
 
   # Text before player name above head
   tagprefix: '%luckperms_prefix%'
@@ -783,6 +827,17 @@ performance:
   threads available. The <code>performance</code> block lives in <code>database.yml</code> and is read under the
   <code>database.</code> prefix internally. When <code>auto-detect-threads</code> is true, thread counts are derived from detected cores.
 </div>
+
+<h3>Tier, match history and preference tables</h3>
+<p>Created automatically on SQLite and MySQL in the stats database:</p>
+<ul>
+  <li><code>tier_profiles</code>: one row per player and kit with tier rating, bars, tier and test history (<a href="tiers.html">Tiers</a>).</li>
+  <li><code>match_history</code> and <code>match_history_players</code>: saved matches and each player's side, including the inventory (<a href="match-history.html">Match History</a>).</li>
+  <li><code>player_preferences</code>: per-player menu choices such as queue favourites and Keep Queuing (<a href="menus.html#player-preferences">Dialog Menus</a>).</li>
+</ul>
+
+<h2 id="tiers-yml">Tiers (tiers.yml)</h2>
+<p>The per-kit tier system: ladder, rating, readiness bars, tier tests, ranked match chat, drops, matchmaking and leaderboards. Off by default (<code>enabled: false</code>); reload with <code>/shyamduels reload-tiers</code>. Every setting and a McPvP-style setup are on the <a href="tiers.html">Tiers</a> page.</p>
 
 <h2>ELO and Ranks Database (ranks.yml)</h2>
 <p>Manages matchmaking ranges and calculations:</p>

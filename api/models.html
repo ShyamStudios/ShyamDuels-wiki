@@ -44,6 +44,9 @@
     <a href="../user-guide/party-system.html">Party System</a>
     <a href="../user-guide/ffa.html">FFA Mode</a>
     <a href="../user-guide/elo-ranks.html">ELO &amp; Ranks</a>
+    <a href="../user-guide/tiers.html">Tiers</a>
+    <a href="../user-guide/match-history.html">Match History</a>
+    <a href="../user-guide/menus.html">Dialog Menus</a>
     <a href="../user-guide/settings.html">Player Settings</a>
     <a href="../user-guide/practice-features.html">Practice Features</a>
     <a href="../user-guide/country.html">Country Flags</a>
@@ -256,11 +259,40 @@ A resolved reference to a shared kit, returned by <code>KitShareService.resolve(
   <li><code>PlayerActivity</code>: <code>LOADING, LOBBY, PARTY, KIT_EDITOR, TOURNAMENT, QUEUED, FFA, DUEL, SPECTATING</code></li>
 </ul>
 
+<h2 id="views">Read-only Views (API 2.1)</h2>
+<p>Immutable copies taken when you ask for them. Unlike the live objects (<code>Duel</code>, <code>Kit</code>, <code>Party</code>, <code>Arena</code>, <code>PlayerStats</code>), they are safe to keep, to read from any thread and to pass to other plugins, and changing them cannot affect the plugin. Take a new one for fresh values.</p>
+<ul>
+  <li><code>api.duel.DuelView(duelId, kitName, arenaName, fightType, state, ranked, tierTest, botMatch, currentRound, maxRounds, requiredWins, team1Wins, team2Wins, team1, team2, startedAt)</code> with <code>teamOf(uuid)</code>, <code>opponentsOf(uuid)</code>, <code>players()</code>. <code>fightType</code>: <code>ONE_V_ONE</code>, <code>PARTY_VS_PARTY</code>, <code>PARTY_SPLIT</code>, <code>PARTY_FFA</code>; <code>state</code>: <code>STARTING</code>, <code>FIGHTING</code>, <code>ENDING</code>, <code>ENDED</code>.</li>
+  <li><code>api.kit.KitView(name, displayName, icon, inventory, armor, offhand, categoryId, rankedQueueEnabled, buildEnabled, craftingEnabled, queueRounds)</code>. Items are copies.</li>
+  <li><code>api.stats.StatsView(playerId, kills, deaths, wins, losses, killstreak, bestKillstreak, winstreak, bestWinstreak, elo, rankId, playtimeSeconds)</code> and <code>api.stats.KitStatsView(playerId, kitName, ...)</code>, both with <code>games()</code>, <code>kd()</code>, <code>winRate()</code>.</li>
+  <li><code>api.party.PartyView(partyId, ownerId, members, mode, playMode, state, open, memberLimit)</code> with <code>size()</code>.</li>
+  <li><code>api.arena.ArenaView(name, type, status, worldName, allowedKits, buildEnabled, copy, templateName)</code>. <code>status</code>: <code>AVAILABLE</code>, <code>IN_USE</code>, <code>REGENERATING</code>, <code>UNAVAILABLE</code>, <code>DISABLED</code>.</li>
+</ul>
+
+<h2 id="match-history">Match History Models</h2>
+<p>Package <code>com.shyamstudio.shyamduels.api.history</code> (API 2.1). Immutable records returned by <code>MatchHistoryService</code>.</p>
+<ul>
+  <li><code>MatchRecord(matchId, startedAt, endedAt, kit, arena, matchType, ranked, fightType, team1Score, team2Score, winnerTeam, players)</code>: one finished match. <code>matchType</code> is <code>queue</code> (ranked), <code>unranked-queue</code>, <code>duel</code>, <code>unranked-duel</code>, <code>rematch</code>, <code>party-split</code>, <code>party-ffa</code> and others; <code>ranked</code> is true for ranked queue matches and tier tests; <code>winnerTeam</code> is 1, 2 or 0 (draw or party free-for-all). Helpers: <code>durationMillis()</code>, <code>player(uuid)</code>, <code>opponentsOf(uuid)</code>, <code>withoutInventories()</code>.</li>
+  <li><code>MatchPlayerRecord</code>: one player's side. Identity (<code>playerId</code>, <code>name</code>, <code>team</code>, <code>outcome</code>), Elo (<code>eloChanged</code>, <code>eloBefore</code>, <code>eloAfter</code>, <code>eloChange()</code>), tiers (<code>tierTracked</code>, <code>tierRatingBefore</code>/<code>After</code>, <code>tierBefore</code>/<code>After</code>, <code>tierRatingChange()</code>), combat (<code>kills</code>, <code>deaths</code>, <code>hits</code>, <code>damageDealt</code>, <code>damageTaken</code> in half-hearts), items used (<code>totemsUsed</code>, <code>goldenApples</code>, <code>enderPearls</code>, <code>potionsUsed</code>), final state (<code>health</code>, <code>maxHealth</code>, <code>absorption</code>, <code>food</code>) and the inventory (<code>hasInventory()</code>, <code>inventoryData</code> in Paper item bytes, Base64 helper).</li>
+  <li><code>MatchPage(matches, page, pageSize, hasNext)</code>: one page of a player's matches, newest first.</li>
+  <li><code>MatchOutcome</code>: <code>WIN</code>, <code>LOSS</code>, <code>DRAW</code>.</li>
+  <li><code>MatchHistoryFilter</code>: <code>ALL</code>, <code>RANKED</code>, <code>UNRANKED</code>.</li>
+</ul>
+
+<h2 id="tiers">Tier Models</h2>
+<p>Package <code>com.shyamstudio.shyamduels.api.tier</code> (API 2.1). Immutable records returned by <code>TiersService</code>. Tier indexes go from 0 (lowest, LT5) up; -1 means unranked.</p>
+<ul>
+  <li><code>TierDefinition(index, id, name, color, rating, points)</code>: one configured tier.</li>
+  <li><code>PlayerTier</code>: a player's state in one kit: <code>tier</code>, <code>tierName</code>, <code>peakTier</code>, <code>rating</code>, <code>wins</code>, <code>losses</code>, <code>testWins</code>, <code>testLosses</code>, <code>testEligible</code>, <code>lastMatchAt</code>; helpers <code>matches()</code> and <code>isRanked()</code>.</li>
+  <li><code>KitRanking</code>: a kit board row: <code>position</code>, <code>playerId</code>, <code>name</code>, <code>kit</code>, <code>tier</code>, <code>tierName</code>, <code>rating</code>, <code>wins</code>, <code>losses</code> and more.</li>
+  <li><code>OverallRanking</code>: an overall board row: <code>position</code>, <code>playerId</code>, <code>name</code>, <code>points</code>, <code>overallTier</code>, <code>overallTierName</code> and the counted kits.</li>
+</ul>
+
 <h2>Extensions &amp; API Metadata</h2>
 <ul>
   <li><code>ExtensionDescriptor(key, ownerPlugin, contractType, registeredAt)</code> - see <code>ExtensionService.registeredExtensions()</code>.</li>
   <li><code>ExtensionRegistration</code> - <code>key/owner/contract/isRegistered/unregister/close</code> (AutoCloseable).</li>
-  <li><code>ApiMetadata(apiVersion, pluginVersion, capabilities)</code> + <code>supports(cap)</code>; <code>ApiVersion.CURRENT = 2.0.0</code>; capabilities: <code>bukkit-services, player-snapshots, extension-registry, duel-events, tournament-events, async-stats, country-flags, practice, custom-kits, kit-editor</code>.</li>
+  <li><code>ApiMetadata(apiVersion, pluginVersion, capabilities)</code> + <code>supports(cap)</code>; <code>ApiVersion.CURRENT = 2.1.0</code>; capabilities: <code>bukkit-services, player-snapshots, extension-registry, duel-events, tournament-events, async-stats, country-flags, match-history, lifecycle-events, read-only-views</code>, plus <code>tiers</code>, <code>practice</code>, <code>custom-kits</code> and <code>kit-editor</code> while those features are on.</li>
 </ul>
 
 <h2>Country Flag Data</h2>
