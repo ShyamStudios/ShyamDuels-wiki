@@ -79,6 +79,7 @@
 /prefs</code></pre>
 <p>This command opens a GUI menu where players can click to toggle settings. Changes apply immediately and are persisted in the database.</p>
 <p>Set <code>gui.settings-mode: DIALOG</code> in <code>config.yml</code> to use the dialog version instead. It opens on a page of category buttons (Gameplay, Chat, Social, Display, World) with a search box. Each category, and each search, opens a page of checkboxes and option pickers; changes save when the player presses Back or Done (closing with Esc discards them). Text lives in <code>dialog-menus/settings.yml</code> under <code>dialog-settings-menu</code>.</p>
+<p>To hide or remove specific options from the dialog menu (e.g. <code>country-flag</code>), add their keys to <code>disabled: [...]</code> in <code>dialog-menus/settings.yml</code>, or set <code>enabled: false</code> on the individual setting under <code>settings:</code>. Entire categories can be hidden via <code>disabled-categories: [...]</code>. Settings tied to disabled features (such as Country Flags when GeoIP is disabled in <code>config.yml</code>) are hidden automatically.</p>
 
 <h2>Toggleable Settings Reference</h2>
 <p>The options below are configured per player profile:</p>

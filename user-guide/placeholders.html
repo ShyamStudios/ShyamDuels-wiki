@@ -596,6 +596,9 @@
   <thead><tr><th>Placeholder</th><th>Type</th><th>Description</th></tr></thead>
   <tbody>
     <tr><td><code>%shyamduels_duel_score%</code></td><td>String</td><td>Round score of the current duel, own score first.</td></tr>
+    <tr><td><code>%shyamduels_progress_tier%</code></td><td>String</td><td>Configurable match score for DeluxeMenus / scoreboards (e.g. <code>1 - 0</code>). Also available as <code>%progress_tier%</code>. Formatted by <code>placeholders.progress-tier-format</code>.</td></tr>
+    <tr><td><code>%shyamduels_win_self%</code></td><td>Integer</td><td>Round wins of the player in the current duel. Also available as <code>%win_self%</code> or <code>%shyamduels_win_player%</code>.</td></tr>
+    <tr><td><code>%shyamduels_lose_self%</code></td><td>Integer</td><td>Round losses (opponent's wins) in the current duel. Also available as <code>%lose_self%</code> or <code>%shyamduels_win_opponent%</code>.</td></tr>
     <tr><td><code>%shyamduels_duel_type%</code></td><td>String</td><td>Ranked or Unranked for the current duel.</td></tr>
     <tr><td><code>%shyamduels_duel_ranked%</code></td><td>boolean</td><td>True when the current duel is ranked.</td></tr>
     <tr><td><code>%shyamduels_duel_tier_test%</code></td><td>boolean</td><td>True when the current duel is a tier test.</td></tr>
@@ -627,7 +630,8 @@
   result-loss: "Loss"
   result-draw: "Draw"
   ranked: "Ranked"
-  unranked: "Unranked"</code></pre>
+  unranked: "Unranked"
+  progress-tier-format: "{win_self} - {lose_self}"</code></pre>
 
 <h2>Tier placeholders</h2>
 <p>All return an empty value while tiers are off. <code>&lt;kit&gt;</code> is the kit name in lowercase.</p>
@@ -641,8 +645,20 @@
     <tr><td><code>%shyamduels_tier_rating_&lt;kit&gt;%</code></td><td>Integer</td><td>Kit tier rating.</td></tr>
     <tr><td><code>%shyamduels_tier_rank_&lt;kit&gt;%</code></td><td>Integer</td><td>Position on the kit board.</td></tr>
     <tr><td><code>%shyamduels_tier_progress_&lt;kit&gt;%</code></td><td>Integer</td><td>Percent ready for the next tier test.</td></tr>
-    <tr><td><code>%shyamduels_tier_best%</code>, <code>%shyamduels_tier_best_color%</code>, <code>%shyamduels_tier_best_tag%</code></td><td>String</td><td>Highest tier across all kits.</td></tr>
+    <tr><td><code>%shyamduels_tier_best%</code>, <code>%shyamduels_tier_best_color%</code>, <code>%shyamduels_tier_best_tag%</code></td><td>String</td><td>Highest tier across all kits (includes icon).</td></tr>
+    <tr><td><code>%shyamduels_tier_best_icon%</code></td><td>String</td><td>Display icon or MiniMessage sprite of the highest tier.</td></tr>
+    <tr><td><code>%shyamduels_tier_best_name%</code></td><td>String</td><td>Raw name of highest tier (without icon).</td></tr>
+    <tr><td><code>%shyamduels_tier_current%</code>, <code>%shyamduels_tier_current_tag%</code></td><td>String</td><td>Current kit tier (in duel arena or while queued) or best tier (in lobby).</td></tr>
+    <tr><td><code>%shyamduels_tier_current_icon%</code></td><td>String</td><td>Display icon or sprite of current tier.</td></tr>
+    <tr><td><code>%shyamduels_tier_current_name%</code></td><td>String</td><td>Raw name of current tier.</td></tr>
+    <tr><td><code>%shyamduels_tier_icon_&lt;kit&gt;%</code></td><td>String</td><td>Tier icon or sprite for a specific kit.</td></tr>
+    <tr><td><code>%shyamduels_tier_name_&lt;kit&gt;%</code></td><td>String</td><td>Raw tier name in a kit.</td></tr>
+    <tr><td><code>%shyamduels_tier_test_available%</code></td><td>boolean</td><td>True when the player is eligible for any tier test.</td></tr>
+    <tr><td><code>%shyamduels_tier_test_participating%</code></td><td>boolean</td><td>True when the player is waiting in a tier test queue.</td></tr>
+    <tr><td><code>%shyamduels_tier_test_kit%</code></td><td>String</td><td>Kit name for which a tier test is available or active.</td></tr>
+    <tr><td><code>%shyamduels_tier_test_status%</code></td><td>String</td><td>Status text (e.g. In Test Queue, Ready, Inactive).</td></tr>
     <tr><td><code>%shyamduels_tier_overall%</code>, <code>%shyamduels_tier_overall_color%</code>, <code>%shyamduels_tier_overall_tag%</code></td><td>String</td><td>Overall tier from leaderboard points.</td></tr>
+    <tr><td><code>%shyamduels_tier_overall_icon%</code></td><td>String</td><td>Display icon or sprite for the overall tier.</td></tr>
     <tr><td><code>%shyamduels_tier_overall_rank%</code></td><td>Integer</td><td>Position on the overall board.</td></tr>
     <tr><td><code>%shyamduels_tier_points%</code></td><td>Decimal</td><td>Overall points.</td></tr>
     <tr><td><code>%shyamduels_tier_peak_&lt;kit&gt;%</code></td><td>String</td><td>Highest tier ever reached in a kit.</td></tr>
@@ -654,7 +670,7 @@
   </tbody>
 </table>
 </div>
-<p>Scoreboard and tab templates can also use <code>&lt;tier&gt;</code>, <code>&lt;tier_color&gt;</code>, <code>&lt;tier_tag&gt;</code>, <code>&lt;tier_points&gt;</code>, <code>&lt;tier_overall&gt;</code>, <code>&lt;tier_overall_tag&gt;</code> and <code>&lt;tier_overall_rank&gt;</code>. Above-name formats can use <code>%kit_tier%</code> and <code>%kit_tier_colored%</code>. With <code>display-mode: TIERS</code> or <code>BOTH</code> the existing <code>&lt;rank&gt;</code> tokens show tiers too.</p>
+<p>Scoreboard and tab templates can also use <code>&lt;tier&gt;</code>, <code>&lt;tier_color&gt;</code>, <code>&lt;tier_tag&gt;</code>, <code>&lt;tier_best_icon&gt;</code>, <code>&lt;tier_current&gt;</code>, <code>&lt;tier_current_icon&gt;</code>, <code>&lt;tier_points&gt;</code>, <code>&lt;tier_overall&gt;</code>, <code>&lt;tier_overall_tag&gt;</code>, <code>&lt;tier_overall_rank&gt;</code>, <code>&lt;queue_required&gt;</code>, and <code>&lt;queue_progress&gt;</code>. Above-name formats can use <code>%kit_tier%</code>, <code>%kit_tier_colored%</code>, and <code>%kit_tier_icon%</code>. With <code>display-mode: TIERS</code> or <code>BOTH</code> the existing <code>&lt;rank&gt;</code> tokens show tiers too.</p>
 <div class="page-navigation">
   <a class="page-nav-link prev" href="migration.html">
     <span class="page-nav-label">Previous Page</span>

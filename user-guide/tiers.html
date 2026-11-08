@@ -95,29 +95,30 @@
 
 <h2>The tier ladder</h2>
 <p>Lowest to highest. <em>Rating</em> is the kit rating that reaches that tier: with skill placement a tier test places the player at the highest tier their rating reaches. <em>Points</em> are leaderboard points for holding the tier in one kit. All values are editable in <code>tiers.yml</code>.</p>
+<p>Each tier can have an optional display icon (defaults to <code>⚔</code>). You can customize it with any Unicode symbol or a custom MiniMessage sprite tag (such as <code>&lt;font:duels:icons&gt;\uE001&lt;/font&gt;</code> or <code>&lt;sprite:tier_ht1&gt;</code>). If you don't want an icon, set <code>icon: ""</code> or <code>icon: "none"</code> on individual tiers to remove it completely, or set <code>show-icons: false</code> in <code>tiers.yml</code> to disable tier icons server-wide.</p>
 <div class="table-wrap">
 <table>
-  <thead><tr><th>Tier</th><th>Colour</th><th>Rating</th><th>Points</th></tr></thead>
+  <thead><tr><th>Tier</th><th>Colour</th><th>Icon</th><th>Rating</th><th>Points</th></tr></thead>
   <tbody>
-    <tr><td>LT5</td><td><code>#2C4A78</code></td><td>1600</td><td>3</td></tr>
-    <tr><td>MT5</td><td><code>#385C94</code></td><td>1650</td><td>3.5</td></tr>
-    <tr><td>HT5</td><td><code>#4A72B0</code></td><td>1700</td><td>4</td></tr>
-    <tr><td>LT4</td><td><code>#739F58</code></td><td>1750</td><td>5</td></tr>
-    <tr><td>MT4</td><td><code>#89BD68</code></td><td>1800</td><td>6</td></tr>
-    <tr><td>HT4</td><td><code>#9FD27F</code></td><td>1850</td><td>7.5</td></tr>
-    <tr><td>LT3</td><td><code>#BD6B2B</code></td><td>1900</td><td>10</td></tr>
-    <tr><td>MT3</td><td><code>#D47D32</code></td><td>1950</td><td>12.5</td></tr>
-    <tr><td>HT3</td><td><code>#EB9138</code></td><td>2000</td><td>15</td></tr>
-    <tr><td>LT2</td><td><code>#858D9C</code></td><td>2050</td><td>20</td></tr>
-    <tr><td>MT2</td><td><code>#91A0B7</code></td><td>2100</td><td>25</td></tr>
-    <tr><td>HT2</td><td><code>#9EB3D1</code></td><td>2150</td><td>30</td></tr>
-    <tr><td>LT1</td><td><code>#C4A34B</code></td><td>2200</td><td>45</td></tr>
-    <tr><td>MT1</td><td><code>#E8BE3C</code></td><td>2250</td><td>52.5</td></tr>
-    <tr><td>HT1</td><td><code>#FFDA55</code></td><td>2300</td><td>60</td></tr>
+    <tr><td>LT5</td><td><code>#2C4A78</code></td><td>⚔</td><td>1600</td><td>3</td></tr>
+    <tr><td>MT5</td><td><code>#385C94</code></td><td>⚔</td><td>1650</td><td>3.5</td></tr>
+    <tr><td>HT5</td><td><code>#4A72B0</code></td><td>⚔</td><td>1700</td><td>4</td></tr>
+    <tr><td>LT4</td><td><code>#739F58</code></td><td>⚔</td><td>1750</td><td>5</td></tr>
+    <tr><td>MT4</td><td><code>#89BD68</code></td><td>⚔</td><td>1800</td><td>6</td></tr>
+    <tr><td>HT4</td><td><code>#9FD27F</code></td><td>⚔</td><td>1850</td><td>7.5</td></tr>
+    <tr><td>LT3</td><td><code>#BD6B2B</code></td><td>⚔</td><td>1900</td><td>10</td></tr>
+    <tr><td>MT3</td><td><code>#D47D32</code></td><td>⚔</td><td>1950</td><td>12.5</td></tr>
+    <tr><td>HT3</td><td><code>#EB9138</code></td><td>⚔</td><td>2000</td><td>15</td></tr>
+    <tr><td>LT2</td><td><code>#858D9C</code></td><td>⚔</td><td>2050</td><td>20</td></tr>
+    <tr><td>MT2</td><td><code>#91A0B7</code></td><td>⚔</td><td>2100</td><td>25</td></tr>
+    <tr><td>HT2</td><td><code>#9EB3D1</code></td><td>⚔</td><td>2150</td><td>30</td></tr>
+    <tr><td>LT1</td><td><code>#C4A34B</code></td><td>⚔</td><td>2200</td><td>45</td></tr>
+    <tr><td>MT1</td><td><code>#E8BE3C</code></td><td>⚔</td><td>2250</td><td>52.5</td></tr>
+    <tr><td>HT1</td><td><code>#FFDA55</code></td><td>⚔</td><td>2300</td><td>60</td></tr>
   </tbody>
 </table>
 </div>
-<p>Players without a tier show <code>UNRANKED</code> in <code>#383838</code>.</p>
+<p>Players without a tier show <code>UNRANKED</code> in <code>#383838</code> (icon is empty by default).</p>
 
 <h2>Rating and placement</h2>
 <p>Every tracked kit has a rating that starts at 1500. After a counted 1v1 match the winner gains and the loser drops by <code>K × (1 − expected score)</code>, where the expected score is <code>1 / (1 + 10^((opponent − self) / 400))</code>. K is 32, or 48 during the first 5 matches in a kit (shown as "Unplaced").</p>
@@ -143,10 +144,10 @@
 
 <h2 id="tier-tests">Tier tests</h2>
 <ul>
-  <li>An eligible player who queues a ranked 1v1 kit gets a <strong>Tier Test Ready</strong> page that says what a win and a loss give: <em>Accept Challenge</em> or <em>Reject Challenge</em> (back without queueing). Set <code>tier-test.prompt-normal-queue: true</code> to show <em>Queue Normally</em> instead, which joins the normal queue and skips the prompt for 15 minutes. They can also use the <strong>⚔ Tier Test</strong> button in the queue menu, <code>/tiers test &lt;kit&gt;</code> or the button on the kit page.</li>
+  <li>An eligible player who queues a ranked 1v1 kit gets a <strong>Tier Test Ready</strong> page that says what a win and a loss give: <em>Accept Challenge</em> or <em>Reject Challenge</em> (back without queueing). Set <code>tier-test.prompt-normal-queue: true</code> to show <em>Queue Normally</em> instead, which joins the normal queue and prompts again after completing <code>tier-test.prompt-normal-queue-matches</code> (default: 3) normal ranked matches. They can also use the <strong>⚔ Tier Test</strong> button directly inside the queue menu, <code>/tiers test &lt;kit&gt;</code> or the button on the kit page.</li>
   <li>Each counted match ends with one chat line: the rating change and the next step, for example <em>Sword: 1970 rating (-30). Next tier test after 2 more ranked matches.</em></li>
   <li>Tests are first-to-<code>tier-test.first-to</code> (default 3), independent of your normal round settings. When a test starts, the challenger gets <em>Tier test for HT3 started: first to 3.</em> and a staff tester is told who they are testing (<code>tiers.test-started</code>, <code>tiers.test-started-tester</code>).</li>
-  <li><code>tier-test.opponents</code> decides who a challenger meets: <code>CHALLENGERS</code> (another eligible player testing for the same tier), <code>TESTERS</code> (staff only) or <code>BOTH</code> (whoever is available first, default). Testers never meet each other.</li>
+  <li><code>tier-test.opponents</code> decides who a challenger meets: <code>CHALLENGERS</code> (another eligible player testing for a tier), <code>TESTERS</code> (staff only) or <code>BOTH</code> (whoever is available first, default). When no test opponent is in the tier test queue, matchmaking automatically searches opponents waiting in the kit's normal ranked or unranked queue so players don't wait indefinitely. Testers never meet each other.</li>
   <li>Staff with <code>shyamduels.tiers.tester</code> wait as testers with <code>/tiers tester &lt;kit&gt;</code> (several kits at once are allowed). By default a tester's own rating does not change in test matches (<code>tester-rating-changes</code>).</li>
   <li>With <code>tier-test.skill-placement: true</code> (default) a win gives one tier above the rating's tier and a loss the rating's tier (at least the lowest tier). With <code>false</code> a win is the next tier and a loss keeps the tier.</li>
   <li>After any test the player plays <code>matches-between-tests</code> (default 3) ranked matches before the next one. <code>retry-cooldown-minutes</code> (default 0) can add a wait after a lost test; when both apply, menus and chat show them in one line.</li>
@@ -250,14 +251,15 @@
     <tr><td><code>%shyamduels_tier_rating_&lt;kit&gt;%</code></td><td>Kit rating</td></tr>
     <tr><td><code>%shyamduels_tier_rank_&lt;kit&gt;%</code></td><td>Position on the kit board</td></tr>
     <tr><td><code>%shyamduels_tier_progress_&lt;kit&gt;%</code></td><td>Percent ready for the next test</td></tr>
-    <tr><td><code>%shyamduels_tier_best%</code>, <code>_best_color</code>, <code>_best_tag</code></td><td>Highest tier across kits</td></tr>
+    <tr><td><code>%shyamduels_tier_best%</code>, <code>_best_color</code>, <code>_best_tag</code>, <code>_best_icon</code></td><td>Highest tier across kits</td></tr>
+    <tr><td><code>%shyamduels_tier_current%</code>, <code>_current_icon</code>, <code>_current_tag</code></td><td>Active gamemode tier (in duel arena or active queue) falling back to best tier in lobby</td></tr>
     <tr><td><code>%shyamduels_tier_overall%</code>, <code>_overall_color</code>, <code>_overall_tag</code></td><td>Overall tier</td></tr>
     <tr><td><code>%shyamduels_tier_overall_rank%</code></td><td>Position on the overall board</td></tr>
     <tr><td><code>%shyamduels_tier_points%</code></td><td>Overall points</td></tr>
   </tbody>
 </table>
 </div>
-<p>Scoreboard and tab templates can also use the tokens <code>&lt;tier&gt;</code>, <code>&lt;tier_color&gt;</code>, <code>&lt;tier_tag&gt;</code>, <code>&lt;tier_points&gt;</code>, <code>&lt;tier_overall&gt;</code>, <code>&lt;tier_overall_tag&gt;</code> and <code>&lt;tier_overall_rank&gt;</code>. Above-name formats can use <code>%kit_tier%</code> and <code>%kit_tier_colored%</code>.</p>
+<p>Scoreboard and tab templates can also use the tokens <code>&lt;tier&gt;</code>, <code>&lt;tier_color&gt;</code>, <code>&lt;tier_tag&gt;</code>, <code>&lt;tier_icon&gt;</code>, <code>&lt;tier_current&gt;</code>, <code>&lt;tier_points&gt;</code>, <code>&lt;tier_overall&gt;</code>, <code>&lt;tier_overall_tag&gt;</code> and <code>&lt;tier_overall_rank&gt;</code>. In arena duels and active queues, <code>&lt;tier&gt;</code>, <code>&lt;tier_current&gt;</code>, and 3D above-name nametags automatically resolve to the active gamemode (e.g. Spear, Mace, Sword) and display its kit sprite and tier/rank. Above-name formats can use <code>%kit_tier%</code>, <code>%kit_tier_colored%</code>, and <code>%kit_tier_icon%</code>.</p>
 
 <h2>Storage and performance</h2>
 <ul>
